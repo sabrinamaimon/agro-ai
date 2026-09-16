@@ -8,8 +8,8 @@ export default function AdvisoryPanel({ language, diagnosis, weather }) {
         <h3>{language === 'bn' ? 'মাল্টিমোডাল এগ্রোনোমিক ইঞ্জিন (LLM Reasoning)' : 'Multimodal Agronomic Engine'}</h3>
         <p className="text-gray">
           {language === 'bn' 
-            ? 'পরামর্শ পেতে প্রথমে রোগ শনাক্তকরণ (Task 2) সম্পন্ন করুন।' 
-            : 'Complete crop diagnosis in Task 2 to generate tailored weather & treatment advice.'}
+            ? 'পরামর্শ পেতে প্রথমে রোগ শনাক্তকরণ সম্পন্ন করুন।' 
+            : 'Complete crop diagnosis to generate tailored weather & treatment advice.'}
         </p>
       </div>
     );
