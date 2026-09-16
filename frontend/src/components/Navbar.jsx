@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText } from 'lucide-react';
+import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator } from 'lucide-react';
 
 export default function Navbar({ language, setLanguage, activeTab, setActiveTab }) {
   const navItems = [
@@ -8,6 +8,7 @@ export default function Navbar({ language, setLanguage, activeTab, setActiveTab 
     { id: 'task2', labelBn: 'রোগ নির্ণয়', labelEn: 'Leaf Scanner', icon: Camera },
     { id: 'task3', labelBn: 'আবহাওয়া ও স্প্রে', labelEn: 'Weather & Spray', icon: CloudRain },
     { id: 'task4', labelBn: '৳ বাজার দর', labelEn: '৳ Price Checker', icon: TrendingUp },
+    { id: 'fertilizer', labelBn: 'সার ক্যালকুলেটর', labelEn: 'Fertilizer Calc', icon: Calculator },
     { id: 'task5', labelBn: 'ডিজিটাল পাসপোর্ট', labelEn: 'Crop Passport', icon: FileText }
   ];
 

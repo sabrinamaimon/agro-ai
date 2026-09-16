@@ -5,6 +5,7 @@ import VoiceIntake from './components/VoiceIntake';
 import LeafScanner from './components/LeafScanner';
 import AdvisoryPanel from './components/AdvisoryPanel';
 import PriceChecker from './components/PriceChecker';
+import FertilizerCalculator from './components/FertilizerCalculator';
 import CropPassport from './components/CropPassport';
 import './App.css';
 
@@ -62,6 +63,13 @@ export default function App() {
             language={language} 
             cropType={diagnosisData?.cropType || intakeData?.crop_type} 
             onPriceCheckComplete={(data) => setPriceData(data)} 
+          />
+        )}
+
+        {/* Fertilizer Calculator Tab */}
+        {activeTab === 'fertilizer' && (
+          <FertilizerCalculator 
+            language={language} 
           />
         )}
 

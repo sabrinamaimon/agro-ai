@@ -577,6 +577,21 @@ body {
   gap: 0.75rem;
 }
 
+.passport-qr-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.passport-qr-code {
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+  padding: 2px;
+  background: #FFFFFF;
+}
+
 .passport-id {
   font-size: 0.8rem;
   font-weight: 700;

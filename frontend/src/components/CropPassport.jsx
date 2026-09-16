@@ -112,7 +112,14 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
               <p className="text-xs">Smart Agricultural Field Intelligence Document</p>
             </div>
           </div>
-          <span className="passport-id">ID: #AGRO-{Math.floor(100000 + Math.random() * 900000)}</span>
+          <div className="passport-qr-wrapper">
+            <img 
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(`AgroAI-Report-${activeDiagnosis.name}-${activeDiagnosis.severity}`)}`} 
+              alt="Scan Report QR Code" 
+              className="passport-qr-code" 
+            />
+            <span className="passport-id">ID: #AGRO-{Math.floor(100000 + Math.random() * 900000)}</span>
+          </div>
         </div>
 
         <div className="passport-grid mt-3">
