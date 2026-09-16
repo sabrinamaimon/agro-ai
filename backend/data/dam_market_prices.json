@@ -1,0 +1,84 @@
+{
+  "crops": {
+    "potato": {
+      "name_en": "Potato",
+      "name_bn": "আলু",
+      "unit": "BDT/kg",
+      "average_benchmark": 28.0,
+      "min_price": 25.0,
+      "max_price": 32.0,
+      "volatility_std": 2.4,
+      "historical_samples": [26.0, 27.5, 29.0, 28.0, 31.0, 28.5, 27.0, 28.2, 29.5, 30.0, 27.8, 28.0]
+    },
+    "rice": {
+      "name_en": "Rice (Paddy)",
+      "name_bn": "ধান",
+      "unit": "BDT/kg",
+      "average_benchmark": 34.0,
+      "min_price": 31.0,
+      "max_price": 37.0,
+      "volatility_std": 1.8,
+      "historical_samples": [33.0, 34.5, 35.0, 34.0, 32.5, 36.0, 34.2, 33.8, 35.5, 34.0, 33.0, 34.5]
+    },
+    "tomato": {
+      "name_en": "Tomato",
+      "name_bn": "টমেটো",
+      "unit": "BDT/kg",
+      "average_benchmark": 45.0,
+      "min_price": 38.0,
+      "max_price": 55.0,
+      "volatility_std": 5.2,
+      "historical_samples": [40.0, 42.0, 48.0, 45.0, 52.0, 46.0, 39.0, 44.0, 50.0, 43.0, 47.0, 45.5]
+    },
+    "wheat": {
+      "name_en": "Wheat",
+      "name_bn": "গম",
+      "unit": "BDT/kg",
+      "average_benchmark": 38.0,
+      "min_price": 35.0,
+      "max_price": 42.0,
+      "volatility_std": 2.1,
+      "historical_samples": [37.0, 38.0, 39.0, 37.5, 40.0, 38.5, 36.5, 38.0, 39.5, 38.0, 37.0, 38.2]
+    },
+    "onion": {
+      "name_en": "Onion",
+      "name_bn": "পেঁয়াজ",
+      "unit": "BDT/kg",
+      "average_benchmark": 65.0,
+      "min_price": 55.0,
+      "max_price": 80.0,
+      "volatility_std": 8.5,
+      "historical_samples": [58.0, 62.0, 70.0, 65.0, 75.0, 68.0, 60.0, 64.0, 72.0, 63.0, 67.0, 66.0]
+    },
+    "brinjal": {
+      "name_en": "Brinjal",
+      "name_bn": "বেগুন",
+      "unit": "BDT/kg",
+      "average_benchmark": 42.0,
+      "min_price": 35.0,
+      "max_price": 50.0,
+      "volatility_std": 4.6,
+      "historical_samples": [38.0, 40.0, 45.0, 42.0, 48.0, 41.0, 37.0, 43.0, 46.0, 44.0, 39.0, 42.5]
+    },
+    "jute": {
+      "name_en": "Raw Jute",
+      "name_bn": "পাট",
+      "unit": "BDT/kg",
+      "average_benchmark": 78.0,
+      "min_price": 70.0,
+      "max_price": 88.0,
+      "volatility_std": 5.8,
+      "historical_samples": [72.0, 75.0, 80.0, 78.0, 84.0, 79.0, 74.0, 77.0, 82.0, 76.0, 81.0, 78.5]
+    },
+    "maize": {
+      "name_en": "Maize (Corn)",
+      "name_bn": "ভুট্টা",
+      "unit": "BDT/kg",
+      "average_benchmark": 26.0,
+      "min_price": 23.0,
+      "max_price": 29.0,
+      "volatility_std": 1.7,
+      "historical_samples": [25.0, 26.0, 27.5, 26.0, 28.0, 25.5, 24.5, 26.2, 27.0, 26.0, 25.0, 26.4]
+    }
+  }
+}

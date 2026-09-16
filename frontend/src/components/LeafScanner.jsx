@@ -86,10 +86,14 @@ export default function LeafScanner({ language, onDiagnosisComplete }) {
         <label htmlFor="leaf-upload" className="upload-label">
           {previewUrl ? (
             <div className="image-preview-wrapper">
-              <img src={previewUrl} alt="Infected leaf" className="leaf-preview-img" />
+              <img src={diagnosisResult?.annotated_image || previewUrl} alt="Infected leaf" className="leaf-preview-img" />
               <div className="overlay-tag">
                 <Camera size={16} />
-                <span>{language === 'bn' ? 'নতুন ছবি চয়ন করুন' : 'Change Image'}</span>
+                <span>
+                  {diagnosisResult?.annotated_image 
+                    ? (language === 'bn' ? 'ক্ষত চিহ্নিত ওভারলে (Bounding Box)' : 'Lesion Bounding Overlays') 
+                    : (language === 'bn' ? 'নতুন ছবি চয়ন করুন' : 'Change Image')}
+                </span>
               </div>
             </div>
           ) : (

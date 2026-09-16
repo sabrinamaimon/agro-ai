@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Volume2, Download, Share2, FileText, CheckCircle, AlertOctagon, Sparkles } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
+import { requestAudioTTS } from '../services/api';
 
 export default function CropPassport({ language, intake, diagnosis, price }) {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const audioRef = useRef(null);
 
   const activeDiagnosis = diagnosis || {
     name: 'Potato Late Blight (আলুর লেট ব্লাইট)',
@@ -17,31 +19,58 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
     market: price || { offeredPrice: 20, benchmarkPrice: 28, isUndercut: true }
   };
 
-  const playBengaliAudio = () => {
+  const fallbackSpeech = (textToSpeak) => {
     if (!('speechSynthesis' in window)) {
       alert(language === 'bn' ? 'ব্রাউজার অডিও ভয়েস সমর্থিত নয়।' : 'Speech synthesis not supported in browser.');
+      setIsPlayingAudio(false);
       return;
     }
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = language === 'bn' ? 'bn-BD' : 'en-US';
+    utterance.rate = 0.9;
+    utterance.onend = () => setIsPlayingAudio(false);
+    utterance.onerror = () => setIsPlayingAudio(false);
+    window.speechSynthesis.speak(utterance);
+  };
 
+  const playBengaliAudio = async () => {
     if (isPlayingAudio) {
-      window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
       setIsPlayingAudio(false);
       return;
     }
 
     const textToSpeak = language === 'bn'
-      ? `জরুরী কৃষি পরামর্শ: আপনার ${activeDiagnosis.cropType} খেতে ${activeDiagnosis.name} শনাক্ত হয়েছে। ${activeDiagnosis.sprayAdvice} পানির সাথে ম্যানকোজেব স্প্রে করুন। ফসল কাটার ১৪ দিন আগে স্প্রে বন্ধ রাখুন।`
+      ? `জরুরী কৃষি পরামর্শ: আপনার ${activeDiagnosis.cropType} খেতে ${activeDiagnosis.name} শনাক্ত হয়েছে। ${activeDiagnosis.sprayAdvice} পানির সাথে ম্যানকোজেব স্প্রে করুন। ফসল কাটার ${activeDiagnosis.phiDays} দিন আগে স্প্রে বন্ধ রাখুন।`
       : `Critical Advisory: Detected ${activeDiagnosis.name} in your ${activeDiagnosis.cropType}. ${activeDiagnosis.sprayAdvice}`;
 
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.lang = language === 'bn' ? 'bn-BD' : 'en-US';
-    utterance.rate = 0.9;
-
-    utterance.onend = () => setIsPlayingAudio(false);
-    utterance.onerror = () => setIsPlayingAudio(false);
-
     setIsPlayingAudio(true);
-    window.speechSynthesis.speak(utterance);
+
+    try {
+      const ttsResult = await requestAudioTTS(textToSpeak, language);
+      if (ttsResult && ttsResult.audio_url) {
+        const audioUrl = ttsResult.audio_url.startsWith('http') 
+          ? ttsResult.audio_url 
+          : `http://localhost:8000${ttsResult.audio_url}`;
+        const audio = new Audio(audioUrl);
+        audioRef.current = audio;
+        audio.onended = () => setIsPlayingAudio(false);
+        audio.onerror = () => {
+          fallbackSpeech(textToSpeak);
+        };
+        await audio.play();
+        return;
+      }
+    } catch (e) {
+      console.warn("Falling back to browser speech synthesis", e);
+    }
+
+    fallbackSpeech(textToSpeak);
   };
 
   const downloadPDF = () => {
@@ -143,6 +172,17 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
             <span className="p-val success">{activeDiagnosis.phiDays} Days Mandatory PHI</span>
           </div>
         </div>
+
+        {activeDiagnosis?.annotated_image && (
+          <div className="passport-image-preview mt-3" style={{ textAlign: 'center' }}>
+            <img 
+              src={activeDiagnosis.annotated_image} 
+              alt="Lesion Bounding Overlays" 
+              style={{ maxHeight: '160px', borderRadius: '8px', border: '1px solid #10B981', display: 'inline-block' }} 
+            />
+            <p className="text-xs text-gray mt-1">Computer Vision Lesion Bounding Overlay</p>
+          </div>
+        )}
 
         <div className="passport-box mt-3">
           <h5>DOSAGE & WEATHER SPRAY SCHEDULE</h5>
