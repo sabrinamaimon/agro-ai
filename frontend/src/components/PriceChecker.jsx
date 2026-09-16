@@ -61,7 +61,7 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
               placeholder="e.g. 20"
             />
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              <DollarSign size={18} />
+              <TrendingUp size={18} />
               <span>{language === 'bn' ? 'যাচাই করুন' : 'Analyze Rate'}</span>
             </button>
           </div>
