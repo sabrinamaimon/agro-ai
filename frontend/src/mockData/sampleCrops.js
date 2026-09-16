@@ -11,7 +11,7 @@ export const SAMPLE_CROPS = [
     union: 'Rangpur Sadar',
     plantingDate: '2026-02-10',
     description: 'White fungal growth with dark brown water-soaked lesions on leaves.',
-    image: 'https://images.unsplash.com/photo-1592417817098-8f3d6eb19655?auto=format&fit=crop&w=600&q=80',
+    image: '/samples/potato_late_blight.jpg',
     weather: {
       temperature: 24,
       humidity: 88,
@@ -41,7 +41,7 @@ export const SAMPLE_CROPS = [
     union: 'Dinajpur Sadar',
     plantingDate: '2026-01-20',
     description: 'Spindle-shaped lesions with gray centers and reddish-brown margins on rice leaves.',
-    image: 'https://images.unsplash.com/photo-1536657464919-892534f60d6e?auto=format&fit=crop&w=600&q=80',
+    image: '/samples/rice_blast.jpg',
     weather: {
       temperature: 28,
       humidity: 75,

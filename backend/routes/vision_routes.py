@@ -9,7 +9,7 @@ from backend.services.vision_engine import analyze_leaf_image
 from backend.services.weather_service import fetch_weather
 from backend.services.agronomic_reasoning import generate_agronomic_advisory
 from backend.services.anomaly_detector import analyze_price_anomaly
-from backend.config import UPLOADS_DIR
+from backend.config import UPLOADS_DIR, DATA_DIR
 
 router = APIRouter(prefix="/api", tags=["Task 2: Visual CV Disease Detection"])
 
@@ -31,17 +31,27 @@ async def diagnose_leaf_image_endpoint(
         saved_file = UPLOADS_DIR / filename
         with open(saved_file, "wb") as f:
             f.write(image_bytes)
+    elif sampleId and "rice" in str(sampleId).lower():
+        filename = "rice_blast.jpg"
+        sample_path = DATA_DIR / "samples" / filename
+        if sample_path.exists():
+            with open(sample_path, "rb") as f:
+                image_bytes = f.read()
     else:
-        # Fallback synthesized sample leaf
-        import numpy as np, cv2
-        blank_leaf = np.zeros((400, 400, 3), dtype=np.uint8)
-        # Draw green leaf polygon
-        cv2.ellipse(blank_leaf, (200, 200), (120, 180), 30, 0, 360, (34, 139, 34), -1)
-        # Draw brown lesions
-        cv2.circle(blank_leaf, (170, 160), 35, (19, 69, 139), -1)
-        cv2.circle(blank_leaf, (220, 230), 25, (19, 69, 139), -1)
-        _, buffer = cv2.imencode('.jpg', blank_leaf)
-        image_bytes = buffer.tobytes()
+        filename = "potato_late_blight.jpg"
+        sample_path = DATA_DIR / "samples" / filename
+        if sample_path.exists():
+            with open(sample_path, "rb") as f:
+                image_bytes = f.read()
+        else:
+            # Fallback synthesized sample leaf
+            import numpy as np, cv2
+            blank_leaf = np.zeros((400, 400, 3), dtype=np.uint8)
+            cv2.ellipse(blank_leaf, (200, 200), (120, 180), 30, 0, 360, (34, 139, 34), -1)
+            cv2.circle(blank_leaf, (170, 160), 35, (19, 69, 139), -1)
+            cv2.circle(blank_leaf, (220, 230), 25, (19, 69, 139), -1)
+            _, buffer = cv2.imencode('.jpg', blank_leaf)
+            image_bytes = buffer.tobytes()
 
     # 1. Run Computer Vision Pipeline
     cv_result = analyze_leaf_image(image_bytes, filename=filename)
