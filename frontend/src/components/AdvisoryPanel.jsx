@@ -5,7 +5,6 @@ export default function AdvisoryPanel({ language, diagnosis, weather }) {
   if (!diagnosis) {
     return (
       <div className="card task-card placeholder-card">
-        <span className="task-badge">Task 3</span>
         <h3>{language === 'bn' ? 'মাল্টিমোডাল এগ্রোনোমিক ইঞ্জিন (LLM Reasoning)' : 'Multimodal Agronomic Engine'}</h3>
         <p className="text-gray">
           {language === 'bn' 
@@ -21,7 +20,6 @@ export default function AdvisoryPanel({ language, diagnosis, weather }) {
   return (
     <div className="card task-card">
       <div className="card-header">
-        <span className="task-badge">Task 3</span>
         <h2>{language === 'bn' ? 'মাল্টিমোডাল এগ্রোনোমিক সিদ্ধান্ত ও প্রতিকার' : 'Multimodal Agronomic Reasoning Engine'}</h2>
       </div>
 

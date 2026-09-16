@@ -49,7 +49,6 @@ export default function LeafScanner({ language, onDiagnosisComplete }) {
   return (
     <div className="card task-card">
       <div className="card-header">
-        <span className="task-badge">Task 2</span>
         <h2>{language === 'bn' ? 'দৃশ্যমান রোগ শনাক্তকরণ ও ক্ষতির মাত্রা (Visual CV Scanner)' : 'Visual Crop Disease Detection'}</h2>
       </div>
 

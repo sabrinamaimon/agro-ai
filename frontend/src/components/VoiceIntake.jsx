@@ -54,7 +54,6 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
   return (
     <div className="card task-card">
       <div className="card-header">
-        <span className="task-badge">Task 1</span>
         <h2>{language === 'bn' ? 'ভয়েস অনুসন্ধান ও তথ্য নির্যাস (Intake & Intent)' : 'Voice Query Intake & Intent Extraction'}</h2>
       </div>
 

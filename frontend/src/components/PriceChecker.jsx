@@ -27,7 +27,6 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
   return (
     <div className="card task-card">
       <div className="card-header">
-        <span className="task-badge">Task 4</span>
         <h2>{language === 'bn' ? 'বাজার মূল্য বৈষম্য ও বিক্রি উইন্ডো' : 'Market Price Anomaly Detection'}</h2>
       </div>
 

@@ -67,7 +67,6 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
   return (
     <div className="card task-card">
       <div className="card-header">
-        <span className="task-badge">Task 5</span>
         <h2>{language === 'bn' ? 'বাংলা অডিও ব্রিফিং ও ডিজিটাল ক্রপ পাসপোর্ট' : 'Bengali Audio Advisory & Digital Crop Passport'}</h2>
       </div>
 
