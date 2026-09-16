@@ -1,35 +1,47 @@
 import React, { useState, useRef } from 'react';
-import { Volume2, Download, Share2, FileText, CheckCircle, AlertOctagon, Sparkles } from 'lucide-react';
+import { Volume2, Download, Share2, FileText, CheckCircle, AlertOctagon, Sparkles, ArrowRight } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import { requestAudioTTS } from '../services/api';
 
-export default function CropPassport({ language, intake, diagnosis, price }) {
+export default function CropPassport({ language, intake, diagnosis, price, setActiveTab }) {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const audioRef = useRef(null);
 
-  const activeDiagnosis = diagnosis || {
-    name: 'Potato Late Blight (আলুর লেট ব্লাইট)',
-    cropType: 'Potato (আলু)',
-    severity: 'Severe',
-    damagePercentage: 38,
-    union: intake?.geographic_union || 'Rangpur Sadar',
-    chemicalRemedy: 'Apply Mancozeb 75% WP @ 2.5g/liter of water.',
-    sprayAdvice: 'DO NOT spray today due to rain in 4 hours. Spray tomorrow at 7:00 AM after foliage dries.',
-    phiDays: 14,
-    market: price || { offeredPrice: 20, benchmarkPrice: 28, isUndercut: true }
-  };
+  if (!diagnosis) {
+    return (
+      <div className="card task-card placeholder-card">
+        <FileText size={48} color="#059669" />
+        <h3 className="mt-2">{language === 'bn' ? 'ডিজিটাল ক্রপ পাসপোর্ট (Digital Field Passport)' : 'Digital Crop Passport'}</h3>
+        <p className="text-gray mt-1">
+          {language === 'bn' 
+            ? 'ডিজিটাল ক্রপ পাসপোর্ট ও বাংলা অডিও ব্রিফিং পেতে প্রথমে রোগ শনাক্তকরণ (Task 2) সম্পন্ন করুন।'
+            : 'Please run Task 2 (Visual Crop Disease Detection) to generate your verified digital field passport.'}
+        </p>
+        {setActiveTab && (
+          <button className="btn btn-primary mt-3" onClick={() => setActiveTab('task2')}>
+            <span>{language === 'bn' ? 'রোগ নির্ণয় করতে যান (Go to Scanner)' : 'Go to Leaf Scanner'}</span>
+            <ArrowRight size={16} />
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  const activeDiagnosis = diagnosis;
 
   const fallbackSpeech = (textToSpeak) => {
     if (!('speechSynthesis' in window)) {
       alert(language === 'bn' ? 'ব্রাউজার অডিও ভয়েস সমর্থিত নয়।' : 'Speech synthesis not supported in browser.');
       setIsPlayingAudio(false);
+      setIsGeneratingAudio(false);
       return;
     }
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
     utterance.lang = language === 'bn' ? 'bn-BD' : 'en-US';
     utterance.rate = 0.9;
-    utterance.onend = () => setIsPlayingAudio(false);
-    utterance.onerror = () => setIsPlayingAudio(false);
+    utterance.onend = () => { setIsPlayingAudio(false); setIsGeneratingAudio(false); };
+    utterance.onerror = () => { setIsPlayingAudio(false); setIsGeneratingAudio(false); };
     window.speechSynthesis.speak(utterance);
   };
 
@@ -46,19 +58,21 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
     }
 
     const textToSpeak = language === 'bn'
-      ? `জরুরী কৃষি পরামর্শ: আপনার ${activeDiagnosis.cropType} খেতে ${activeDiagnosis.name} শনাক্ত হয়েছে। ${activeDiagnosis.sprayAdvice} পানির সাথে ম্যানকোজেব স্প্রে করুন। ফসল কাটার ${activeDiagnosis.phiDays} দিন আগে স্প্রে বন্ধ রাখুন।`
-      : `Critical Advisory: Detected ${activeDiagnosis.name} in your ${activeDiagnosis.cropType}. ${activeDiagnosis.sprayAdvice}`;
+      ? `জরুরী কৃষি পরামর্শ: আপনার ${activeDiagnosis.cropType} খেতে ${activeDiagnosis.name} শনাক্ত হয়েছে। পাতার ক্ষতির পরিমাণ শতকরা ${activeDiagnosis.damagePercentage} ভাগ। প্রস্তাবিত প্রতিকার: ${activeDiagnosis.chemicalRemedy}। স্প্রে পরামর্শ: ${activeDiagnosis.sprayAdvice}। ফসল কাটার পূর্বে ন্যূনতম ${activeDiagnosis.phiDays} দিন স্প্রে বন্ধ রাখুন।`
+      : `Critical Advisory: Diagnosed ${activeDiagnosis.name} on ${activeDiagnosis.cropType} with ${activeDiagnosis.damagePercentage}% surface damage. Recommended chemical treatment: ${activeDiagnosis.chemicalRemedy}. ${activeDiagnosis.sprayAdvice}. Maintain mandatory ${activeDiagnosis.phiDays} days pre-harvest interval.`;
 
-    setIsPlayingAudio(true);
+    setIsGeneratingAudio(true);
 
     try {
       const ttsResult = await requestAudioTTS(textToSpeak, language);
+      setIsGeneratingAudio(false);
       if (ttsResult && ttsResult.audio_url) {
         const audioUrl = ttsResult.audio_url.startsWith('http') 
           ? ttsResult.audio_url 
           : `http://localhost:8000${ttsResult.audio_url}`;
         const audio = new Audio(audioUrl);
         audioRef.current = audio;
+        setIsPlayingAudio(true);
         audio.onended = () => setIsPlayingAudio(false);
         audio.onerror = () => {
           fallbackSpeech(textToSpeak);
@@ -67,9 +81,11 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
         return;
       }
     } catch (e) {
-      console.warn("Falling back to browser speech synthesis", e);
+      console.warn("Edge-TTS unavailable, falling back to browser speech", e);
+      setIsGeneratingAudio(false);
     }
 
+    setIsPlayingAudio(true);
     fallbackSpeech(textToSpeak);
   };
 
@@ -89,7 +105,7 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
   };
 
   const shareViaWhatsApp = () => {
-    const text = `*Agro-AI Field Health Card*%0A🌾 Crop: ${activeDiagnosis.cropType}%0A🦠 Pathology: ${activeDiagnosis.name}%0A⚠️ Severity: ${activeDiagnosis.severity}%0A💊 Remedy: ${activeDiagnosis.chemicalRemedy}`;
+    const text = `*Agro-AI Field Health Card*%0A🌾 Crop: ${activeDiagnosis.cropType}%0A🦠 Pathology: ${activeDiagnosis.name}%0A⚠️ Damage: ${activeDiagnosis.damagePercentage}%%0A💊 Chemical: ${activeDiagnosis.chemicalRemedy}%0A🕒 Spray: ${activeDiagnosis.sprayAdvice}`;
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   };
 
@@ -101,8 +117,8 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
 
       <p className="card-desc">
         {language === 'bn'
-          ? 'বাংলা অডিও বিবরণ শুনুন এবং প্রিন্ট/ডাউনলোড যোগ্য ডিজিটাল ফিল্ড কার্ড গ্রহণ করুন।'
-          : 'Listen to spoken Bengali voice briefing and download shareable Crop Passport PDF.'}
+          ? 'বাংলা প্রাকৃতিক কণ্ঠে অডিও পরামর্শ শুনুন এবং মাঠে ব্যবহারের জন্য ডিজিটাল ফিল্ড কার্ড ডাউনলোড বা শেয়ার করুন।'
+          : 'Listen to natural Bengali audio briefing and download or share your verified Digital Field Health Card.'}
       </p>
 
       {/* Audio Briefing Player Widget */}
@@ -110,12 +126,19 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
         <button 
           className={`btn ${isPlayingAudio ? 'btn-danger' : 'btn-success'}`}
           onClick={playBengaliAudio}
+          disabled={isGeneratingAudio}
         >
-          <Volume2 size={20} className={isPlayingAudio ? 'pulse' : ''} />
+          {isGeneratingAudio ? (
+            <Sparkles className="spin" size={20} />
+          ) : (
+            <Volume2 size={20} className={isPlayingAudio ? 'pulse' : ''} />
+          )}
           <span>
-            {isPlayingAudio 
-              ? (language === 'bn' ? 'অডিও থামান (Stop Voice)' : 'Stop Audio') 
-              : (language === 'bn' ? 'বাংলা ভয়েস ব্রিফিং শুনুন (Listen Bengali Audio)' : 'Play Spoken Bengali Audio')}
+            {isGeneratingAudio 
+              ? (language === 'bn' ? 'অডিও তৈরি হচ্ছে...' : 'Generating Voice...')
+              : isPlayingAudio 
+                ? (language === 'bn' ? 'অডিও থামান (Stop Voice)' : 'Stop Audio') 
+                : (language === 'bn' ? 'বাংলা ভয়েস ব্রিফিং শুনুন (Listen Bengali Audio)' : 'Play Spoken Bengali Audio')}
           </span>
         </button>
 
@@ -154,7 +177,7 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
         <div className="passport-grid mt-3">
           <div className="p-item">
             <span className="p-label">FARMER / LOCATION</span>
-            <span className="p-val">{intake?.geographic_union || 'Rangpur Sadar, Bangladesh'}</span>
+            <span className="p-val">{intake?.geographic_union || activeDiagnosis.union || 'Rangpur Sadar, Bangladesh'}</span>
           </div>
 
           <div className="p-item">
@@ -180,7 +203,7 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
               alt="Lesion Bounding Overlays" 
               style={{ maxHeight: '160px', borderRadius: '8px', border: '1px solid #10B981', display: 'inline-block' }} 
             />
-            <p className="text-xs text-gray mt-1">Computer Vision Lesion Bounding Overlay</p>
+            <p className="text-xs text-gray mt-1">OpenCV Physical Lesion Bounding Overlay</p>
           </div>
         )}
 
@@ -192,7 +215,7 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
 
         <div className="passport-footer mt-3">
           <span>Official AI Field Diagnostic Certificate</span>
-          <span>Powered by Agro-AI System</span>
+          <span>Verified by Agro-AI System</span>
         </div>
       </div>
     </div>
