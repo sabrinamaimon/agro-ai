@@ -1,0 +1,15 @@
+.env
+.env.local
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+backend/static/uploads/*
+!backend/static/uploads/.gitkeep
+backend/static/annotated/*
+!backend/static/annotated/.gitkeep
+backend/static/audio/*
+!backend/static/audio/.gitkeep
+.DS_Store
