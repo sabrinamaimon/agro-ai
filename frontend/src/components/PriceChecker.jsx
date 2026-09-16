@@ -51,7 +51,7 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
         </div>
 
         <div className="form-group">
-          <label className="input-label">{language === 'bn' ? 'আড়তদারের অফার দাম (টাকা/কেজি)' : 'Middleman Offered Price (BDT/kg)'}</label>
+          <label className="input-label">{language === 'bn' ? 'আড়তদারের অফার দাম (৳/কেজি)' : 'Middleman Offered Price (৳/kg)'}</label>
           <div className="price-input-row">
             <input 
               type="number" 
@@ -87,14 +87,14 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'আড়তদারের অফার' : 'Offered Rate'}</span>
               <span className={`data-value ${priceAnalysis.isUndercut ? 'danger' : 'success'}`}>
-                {priceAnalysis.offeredPrice} BDT/kg
+                ৳{priceAnalysis.offeredPrice} / {language === 'bn' ? 'কেজি' : 'kg'}
               </span>
             </div>
 
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'পাইকারি বেঞ্চমার্ক গাণিতিক গড়' : 'Wholesale Benchmark Rate'}</span>
               <span className="data-value highlight">
-                {priceAnalysis.benchmarkPrice} BDT/kg
+                ৳{priceAnalysis.benchmarkPrice} / {language === 'bn' ? 'কেজি' : 'kg'}
               </span>
             </div>
 

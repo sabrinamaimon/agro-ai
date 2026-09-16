@@ -73,8 +73,8 @@ export const MOCK_WEATHER_DEFAULT = {
 };
 
 export const MOCK_PRICE_BENCHMARKS = [
-  { crop: 'Potato (আলু)', averagePrice: 28, minPrice: 25, maxPrice: 31, unit: 'BDT/kg' },
-  { crop: 'Rice (ধান)', averagePrice: 34, minPrice: 31, maxPrice: 36, unit: 'BDT/kg' },
-  { crop: 'Tomato (টমেটো)', averagePrice: 45, minPrice: 38, maxPrice: 52, unit: 'BDT/kg' },
-  { crop: 'Wheat (গম)', averagePrice: 38, minPrice: 35, maxPrice: 41, unit: 'BDT/kg' }
+  { crop: 'Potato (আলু)', averagePrice: 28, minPrice: 25, maxPrice: 31, unit: '৳/কেজি' },
+  { crop: 'Rice (ধান)', averagePrice: 34, minPrice: 31, maxPrice: 36, unit: '৳/কেজি' },
+  { crop: 'Tomato (টমেটো)', averagePrice: 45, minPrice: 38, maxPrice: 52, unit: '৳/কেজি' },
+  { crop: 'Wheat (গম)', averagePrice: 38, minPrice: 35, maxPrice: 41, unit: '৳/কেজি' }
 ];
