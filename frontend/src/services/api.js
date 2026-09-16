@@ -55,3 +55,8 @@ export const requestAudioTTS = async (text, language = 'bn') => {
   const response = await api.post('/api/tts', { text, language });
   return response.data;
 };
+
+export const sendAgroChatPrompt = async (prompt, language = 'bn') => {
+  const response = await api.post('/api/agro-chat', { prompt, language });
+  return response.data;
+};

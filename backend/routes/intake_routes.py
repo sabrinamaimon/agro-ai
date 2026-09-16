@@ -7,9 +7,9 @@ from backend.database import get_db
 from backend.models.schema import IntakeLog
 from backend.schemas.pydantic_models import VoiceIntakeResponse
 from backend.services.nlp_intake import extract_intent_nlp, transcribe_audio_with_groq
-from backend.config import UPLOADS_DIR
+from backend.config import UPLOADS_DIR, GROQ_API_KEY, GROQ_LLM_MODEL
 
-router = APIRouter(prefix="/api", tags=["Task 1: Voice & NLP Intake"])
+router = APIRouter(prefix="/api", tags=["Task 1: Voice & NLP Intake & AI Chat"])
 
 @router.post("/intake-voice", response_model=VoiceIntakeResponse)
 async def intake_voice_or_text(
@@ -66,3 +66,36 @@ async def intake_voice_or_text(
         geographic_union=extracted.get("geographic_union", "Rangpur Sadar"),
         raw_transcript=transcript
     )
+
+@router.post("/agro-chat")
+async def agro_chat_endpoint(request: Request):
+    """Real AI Agro Chatbot powered by Groq 120B parameter model."""
+    data = await request.json()
+    prompt = data.get("prompt", "")
+    lang = data.get("language", "bn")
+    if not prompt:
+        return {"response": "অনুগ্রহ করে আপনার প্রশ্ন বা প্রম্পট লিখুন।"}
+
+    if GROQ_API_KEY:
+        try:
+            from groq import Groq
+            client = Groq(api_key=GROQ_API_KEY)
+            system_prompt = (
+                "You are Agro-AI, an expert Agricultural AI Assistant for farmers, SAAOs, and agronomists in Bangladesh. "
+                "Answer the user's prompt directly, practically, and scientifically in clear language. "
+                "Recommend organic biological methods, exact chemical dosages with commercial brands available in Bangladesh (e.g. Indofil M-45, Ridomil Gold, Nativo 75 WG, Tilt 250 EC, Confidor, Virtako), fertilizer schedules, irrigation guidance, or soil management. "
+                f"Respond naturally in {'Bengali (বাংলা)' if lang == 'bn' else 'English'}."
+            )
+            chat_completion = client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": prompt}
+                ],
+                model=GROQ_LLM_MODEL,
+                temperature=0.3
+            )
+            return {"response": chat_completion.choices[0].message.content}
+        except Exception as e:
+            return {"response": f"AI প্রতিক্রিয়া পেতে সমস্যা হয়েছে: {str(e)}"}
+
+    return {"response": "GROQ API Key কনফিগার করা নেই।"}
