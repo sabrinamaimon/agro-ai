@@ -7,7 +7,7 @@ export default function Navbar({ language, setLanguage, activeTab, setActiveTab 
     { id: 'task1', labelBn: 'ভয়েস ইনপুট', labelEn: 'Voice Input', icon: Mic },
     { id: 'task2', labelBn: 'রোগ নির্ণয়', labelEn: 'Leaf Scanner', icon: Camera },
     { id: 'task3', labelBn: 'আবহাওয়া ও স্প্রে', labelEn: 'Weather & Spray', icon: CloudRain },
-    { id: 'task4', labelBn: 'বাজার দর', labelEn: 'Price Checker', icon: DollarSign },
+    { id: 'task4', labelBn: '৳ বাজার দর', labelEn: '৳ Price Checker', icon: DollarSign },
     { id: 'task5', labelBn: 'ডিজিটাল পাসপোর্ট', labelEn: 'Crop Passport', icon: FileText }
   ];
 
