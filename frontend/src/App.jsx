@@ -6,6 +6,7 @@ import LeafScanner from './components/LeafScanner';
 import AdvisoryPanel from './components/AdvisoryPanel';
 import PriceChecker from './components/PriceChecker';
 import FertilizerCalculator from './components/FertilizerCalculator';
+import AIChatPrompt from './components/AIChatPrompt';
 import CropPassport from './components/CropPassport';
 import './App.css';
 
@@ -31,6 +32,13 @@ export default function App() {
         {/* Home Landing Page Hub */}
         {activeTab === 'home' && (
           <Hero language={language} setActiveTab={setActiveTab} />
+        )}
+
+        {/* AI Agro Prompt Chat Tab */}
+        {activeTab === 'aichat' && (
+          <AIChatPrompt 
+            language={language} 
+          />
         )}
 
         {/* Task 1: Voice Intake Tab */}

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator } from 'lucide-react';
+import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare } from 'lucide-react';
 
 export default function Navbar({ language, setLanguage, activeTab, setActiveTab }) {
   const navItems = [
     { id: 'home', labelBn: 'হোম', labelEn: 'Home', icon: Home },
+    { id: 'aichat', labelBn: 'এআই চ্যাট', labelEn: 'AI Chat Prompt', icon: MessageSquare },
     { id: 'task1', labelBn: 'ভয়েস ইনপুট', labelEn: 'Voice Input', icon: Mic },
     { id: 'task2', labelBn: 'রোগ নির্ণয়', labelEn: 'Leaf Scanner', icon: Camera },
     { id: 'task3', labelBn: 'আবহাওয়া ও স্প্রে', labelEn: 'Weather & Spray', icon: CloudRain },
