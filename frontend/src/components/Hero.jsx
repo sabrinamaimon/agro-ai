@@ -33,19 +33,6 @@ export default function Hero({ language, setActiveTab }) {
               ? 'কৃষি কর্মকর্তা ও প্রান্তিক কৃষকদের জন্য এআই চালিত রোগ নির্ণয়, জলবায়ু পূর্বাভাস এবং শস্যের ন্যায্য বাজার দর সেবা।'
               : 'Empowering smallholder farmers and extension officers with instant AI plant diagnostics, climate resilience, and market price intelligence.'}
           </p>
-
-          <div className="hero-actions">
-            <button className="btn btn-primary btn-lg" onClick={() => setActiveTab('task2')}>
-              <Camera size={20} />
-              <span>{language === 'bn' ? 'রোগ নির্ণয় করুন (Scan Leaf)' : 'Diagnose Crop Disease'}</span>
-              <ArrowRight size={18} />
-            </button>
-
-            <button className="btn btn-outline btn-lg" onClick={() => setActiveTab('task1')}>
-              <Mic size={20} />
-              <span>{language === 'bn' ? 'মুখে বলুন (Voice Input)' : 'Voice Dictation'}</span>
-            </button>
-          </div>
         </div>
       </div>
 
