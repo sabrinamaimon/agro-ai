@@ -27,22 +27,9 @@ export default function App() {
 
       {/* Main Content Body */}
       <main className="main-layout">
-        {/* Home / Landing Page */}
+        {/* Home Landing Page Hub */}
         {activeTab === 'home' && (
-          <>
-            <Hero language={language} setActiveTab={setActiveTab} />
-
-            {/* Quick Access Task Cards on Landing Page */}
-            <VoiceIntake 
-              language={language} 
-              onIntakeComplete={(data) => setIntakeData(data)} 
-            />
-
-            <LeafScanner 
-              language={language} 
-              onDiagnosisComplete={(data) => setDiagnosisData(data)} 
-            />
-          </>
+          <Hero language={language} setActiveTab={setActiveTab} />
         )}
 
         {/* Task 1: Voice Intake Tab */}

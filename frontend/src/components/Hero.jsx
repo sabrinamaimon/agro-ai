@@ -1,66 +1,112 @@
 import React from 'react';
-import { Sprout, Mic, Camera, TrendingUp, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Sprout, Mic, Camera, TrendingUp, ShieldCheck, ArrowRight, Sun, CloudRain, Award, Activity } from 'lucide-react';
+import { MOCK_PRICE_BENCHMARKS } from '../mockData/sampleCrops';
 
 export default function Hero({ language, setActiveTab }) {
+  const cropsList = [
+    { nameBn: 'আলু (Potato)', nameEn: 'Potato', disease: 'Late Blight', img: 'https://images.unsplash.com/photo-1592417817098-8f3d6eb19655?auto=format&fit=crop&w=400&q=80' },
+    { nameBn: 'ধান (Rice)', nameEn: 'Rice', disease: 'Rice Blast', img: 'https://images.unsplash.com/photo-1536657464919-892534f60d6e?auto=format&fit=crop&w=400&q=80' },
+    { nameBn: 'টমেটো (Tomato)', nameEn: 'Tomato', disease: 'Leaf Curl Virus', img: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?auto=format&fit=crop&w=400&q=80' },
+    { nameBn: 'গম (Wheat)', nameEn: 'Wheat', disease: 'Wheat Rust', img: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=400&q=80' }
+  ];
+
   return (
-    <div className="hero-section">
-      <div className="hero-content">
-        <div className="hero-badge">
-          <Sprout size={16} color="#059669" />
-          <span>{language === 'bn' ? 'স্মার্ট এআই কৃষি সহকারী' : 'Smart AI Agricultural Assistant'}</span>
+    <div className="home-hub">
+      {/* Main Hero Banner */}
+      <div className="hero-section">
+        <div className="hero-content">
+          <div className="hero-badge">
+            <Sprout size={16} color="#059669" />
+            <span>{language === 'bn' ? 'স্মার্ট এআই কৃষি সহকারী' : 'AI-Driven Smart Agriculture Platform'}</span>
+          </div>
+
+          <h1 className="hero-title">
+            {language === 'bn' ? (
+              <>কৃষকের বিশ্বস্ত বন্ধু <span className="text-green">Agro-AI</span></>
+            ) : (
+              <>Empowering Agriculture with <span className="text-green">Agro-AI</span></>
+            )}
+          </h1>
+
+          <p className="hero-subtitle">
+            {language === 'bn'
+              ? 'কৃষি কর্মকর্তা ও প্রান্তিক কৃষকদের জন্য এআই চালিত রোগ নির্ণয়, জলবায়ু পূর্বাভাস এবং শস্যের ন্যায্য বাজার দর সেবা।'
+              : 'Empowering smallholder farmers and extension officers with instant AI plant diagnostics, climate resilience, and market price intelligence.'}
+          </p>
+
+          <div className="hero-actions">
+            <button className="btn btn-primary btn-lg" onClick={() => setActiveTab('task2')}>
+              <Camera size={20} />
+              <span>{language === 'bn' ? 'রোগ নির্ণয় করুন (Scan Leaf)' : 'Diagnose Crop Disease'}</span>
+              <ArrowRight size={18} />
+            </button>
+
+            <button className="btn btn-outline btn-lg" onClick={() => setActiveTab('task1')}>
+              <Mic size={20} />
+              <span>{language === 'bn' ? 'মুখে বলুন (Voice Input)' : 'Voice Dictation'}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Impact & Agriculture Statistics Bar */}
+      <div className="stats-bar grid-4 mt-4">
+        <div className="stat-card">
+          <div className="stat-icon emerald"><Sprout size={24} /></div>
+          <div>
+            <h3>৪০%+</h3>
+            <p>{language === 'bn' ? 'জাতীয় শ্রমশক্তি কৃষি নির্ভর' : 'National Workforce in Farming'}</p>
+          </div>
         </div>
 
-        <h1 className="hero-title">
-          {language === 'bn' ? (
-            <>কৃষকের বিশ্বস্ত বন্ধু <span className="text-green">Agro-AI</span></>
-          ) : (
-            <>Empowering Farmers with <span className="text-green">Agro-AI</span></>
-          )}
-        </h1>
+        <div className="stat-card">
+          <div className="stat-icon amber"><Activity size={24} /></div>
+          <div>
+            <h3>৩০%</h3>
+            <p>{language === 'bn' ? 'ফসল অপচয় রোধ' : 'Yield Loss Prevention'}</p>
+          </div>
+        </div>
 
-        <p className="hero-subtitle">
+        <div className="stat-card">
+          <div className="stat-icon blue"><CloudRain size={24} /></div>
+          <div>
+            <h3>২৪/৭</h3>
+            <p>{language === 'bn' ? 'জলবায়ু ভিত্তিক স্প্রে অ্যালার্ট' : 'Climate Spray Advisory'}</p>
+          </div>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-icon green"><Award size={24} /></div>
+          <div>
+            <h3>১০০%</h3>
+            <p>{language === 'bn' ? 'ফ্রি ডিজিটাল পাসপোর্টিং' : 'Free Digital Field Passports'}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Supported Crops Showcase */}
+      <div className="card mt-4">
+        <div className="card-header">
+          <Sprout color="#059669" size={24} />
+          <h2>{language === 'bn' ? 'সমর্থিত প্রধান শস্যসমূহ (Supported Crops)' : 'Supported Crops & Common Pathology'}</h2>
+        </div>
+
+        <p className="card-desc">
           {language === 'bn'
-            ? 'বাংলা ভয়েস নির্দেশনায় শস্যের রোগ নির্ণয়, আবহাওয়ার আগাম সতর্কবার্তা, আর সঠিক বাজার দর জানুন মুহূর্তেই।'
-            : 'Instant crop disease diagnosis, climate-resilient farming advice, and fair market price insights tailored for Bangladesh.'}
+            ? 'আমাদের এআই ভিশন মডেল বাংলাদেশের প্রধান প্রধান শস্যের রোগ নিখুঁতভাবে শনাক্ত করতে পারে।'
+            : 'Our Computer Vision AI recognizes pathogen damage across major Bangladeshi field crops.'}
         </p>
 
-        <div className="hero-actions">
-          <button className="btn btn-primary btn-lg" onClick={() => setActiveTab('task2')}>
-            <Camera size={20} />
-            <span>{language === 'bn' ? 'রোগ নির্ণয় করুন (Scan Leaf)' : 'Diagnose Crop Leaf'}</span>
-            <ArrowRight size={18} />
-          </button>
-
-          <button className="btn btn-outline btn-lg" onClick={() => setActiveTab('task1')}>
-            <Mic size={20} />
-            <span>{language === 'bn' ? 'মুখে বলুন (Voice Input)' : 'Voice Dictation'}</span>
-          </button>
-        </div>
-
-        <div className="hero-features">
-          <div className="feature-item">
-            <Mic size={20} className="feature-icon" />
-            <div>
-              <h4>{language === 'bn' ? 'বাংলা ভয়েস ইনপুট' : 'Voice Dictation'}</h4>
-              <p>{language === 'bn' ? 'মুখে বললেই তথ্য গ্রহণ' : 'Bengali Speech-to-Text'}</p>
+        <div className="crops-grid">
+          {cropsList.map((crop, idx) => (
+            <div className="crop-card" key={idx}>
+              <img src={crop.img} alt={crop.nameEn} className="crop-img" />
+              <div className="crop-info">
+                <h4>{language === 'bn' ? crop.nameBn : crop.nameEn}</h4>
+                <span className="text-xs text-muted">Pathology: {crop.disease}</span>
+              </div>
             </div>
-          </div>
-
-          <div className="feature-item">
-            <Camera size={20} className="feature-icon" />
-            <div>
-              <h4>{language === 'bn' ? 'কম্পিউটার ভিশন' : 'AI Leaf Scanner'}</h4>
-              <p>{language === 'bn' ? 'মুহূর্তে রোগ ও ক্ষতির মাত্রা' : 'Pathogen & Severity %'}</p>
-            </div>
-          </div>
-
-          <div className="feature-item">
-            <TrendingUp size={20} className="feature-icon" />
-            <div>
-              <h4>{language === 'bn' ? 'বাজার দর যাচাই' : 'Market Price Check'}</h4>
-              <p>{language === 'bn' ? 'ফড়িয়া দাম ও বিক্রির উইন্ডো' : 'Undercut Price Alerts'}</p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
