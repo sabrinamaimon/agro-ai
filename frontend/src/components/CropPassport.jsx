@@ -107,10 +107,10 @@ export default function CropPassport({ language, intake, diagnosis, price }) {
       <div id="field-health-card" className="crop-passport-card mt-4">
         <div className="passport-header">
           <div className="passport-brand">
-            <FileText size={24} color="#10B981" />
+            <FileText size={24} color="#059669" />
             <div>
               <h3>Agro-AI Digital Crop Passport (ফিল্ড হেলথ কার্ড)</h3>
-              <p className="text-xs">BUP CSE FEST 2026 Hackathon Field Intelligence Document</p>
+              <p className="text-xs">Smart Agricultural Field Intelligence Document</p>
             </div>
           </div>
           <span className="passport-id">ID: #AGRO-{Math.floor(100000 + Math.random() * 900000)}</span>
