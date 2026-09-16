@@ -29,12 +29,20 @@ body {
   color: var(--text-main);
   min-height: 100vh;
   padding-bottom: 3rem;
+  overflow-x: hidden;
 }
 
 .app-container {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 1.5rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 1.25rem 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0.75rem 0.85rem;
+  }
 }
 
 /* Navbar & Header */
@@ -666,3 +674,53 @@ body {
 .text-sm { font-size: 0.85rem; }
 .text-xs { font-size: 0.75rem; }
 .text-gray { color: var(--text-muted); }
+
+/* Comprehensive Responsive Breakpoints */
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  .grid-2, .passport-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+  .navbar-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .lang-toggle-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .text-entry-row {
+    flex-direction: column;
+  }
+  .passport-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .passport-qr-wrapper {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .action-row {
+    flex-direction: column;
+  }
+  .action-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
