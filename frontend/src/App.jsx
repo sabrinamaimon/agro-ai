@@ -12,7 +12,7 @@ import './App.css';
 
 export default function App() {
   const [language, setLanguage] = useState('bn'); // Default: Bengali ('bn' or 'en')
-  const [selectedFont, setSelectedFont] = useState('jakarta'); // Default: 'jakarta' (Plus Jakarta Sans + Hind Siliguri)
+  const [selectedFont, setSelectedFont] = useState('poppins'); // Default: 'poppins' (Poppins + Anek Bangla)
   const [activeTab, setActiveTab] = useState('home'); // Default: 'home'
   const [intakeData, setIntakeData] = useState(null);
   const [diagnosisData, setDiagnosisData] = useState(null);
