@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation } from 'lucide-react';
 
 export default function Navbar({
   language,
@@ -13,6 +15,8 @@ export default function Navbar({
 
   const navItems = [
     { id: 'home', labelBn: 'হোম', labelEn: 'Home', icon: Home },
+    { id: 'aichat', labelBn: 'এআই চ্যাট', labelEn: 'AI Chat Prompt', icon: MessageSquare },
+    { id: 'task1', labelBn: 'ভয়েস ইনপুট', labelEn: 'Voice Input', icon: Mic },
     { id: 'aichat', labelBn: 'এআই চ্যাট', labelEn: 'AI Chat Prompt', icon: MessageSquare },
     { id: 'task1', labelBn: 'ভয়েস ইনপুট', labelEn: 'Voice Input', icon: Mic },
     { id: 'task2', labelBn: 'রোগ নির্ণয়', labelEn: 'Leaf Scanner', icon: Camera },
@@ -31,9 +35,22 @@ export default function Navbar({
     ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(3)}°N, ${gpsLocation.lon?.toFixed(3)}°E (GPS)`)
     : (language === 'bn' ? 'মাঠের জিপিএস চালু করুন' : 'Enable Field GPS');
 
+  const handleNavClick = (id) => {
+    setActiveTab(id);
+    setMenuOpen(false);
+  };
+
+  const locationDisplay = gpsLocation
+    ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(3)}°N, ${gpsLocation.lon?.toFixed(3)}°E (GPS)`)
+    : (language === 'bn' ? 'মাঠের জিপিএস চালু করুন' : 'Enable Field GPS');
+
   return (
     <header className="navbar">
       <div className="navbar-top">
+        <button className="menu-toggle-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu">
+          <Menu size={24} />
+        </button>
+
         <button className="menu-toggle-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu">
           <Menu size={24} />
         </button>
