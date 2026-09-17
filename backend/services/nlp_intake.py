@@ -7,107 +7,110 @@ from backend.config import GROQ_API_KEY, GROQ_LLM_MODEL, GROQ_WHISPER_MODEL
 
 logger = logging.getLogger(__name__)
 
-CROPS_MAP = {
-    # Fruits
-    "banana": "Banana (কলা)",
-    "কলা": "Banana (কলা)",
-    "কলার": "Banana (কলা)",
-    "kola": "Banana (কলা)",
-    "kolar": "Banana (কলা)",
-    "mango": "Mango (আম)",
-    "আম": "Mango (আম)",
-    "আমের": "Mango (আম)",
-    "am": "Mango (আম)",
-    "guava": "Guava (পেয়ারা)",
-    "পেয়ারা": "Guava (পেয়ারা)",
-    "পেয়ারার": "Guava (পেয়ারা)",
-    "papaya": "Papaya (পেঁপে)",
-    "পেঁপে": "Papaya (পেঁপে)",
-    "পেঁপের": "Papaya (পেঁপে)",
-    "pepe": "Papaya (পেঁপে)",
-    "lemon": "Lemon (লেবু)",
-    "লেবু": "Lemon (লেবু)",
-    "লেবুর": "Lemon (লেবু)",
-    "lebu": "Lemon (লেবু)",
-    "jackfruit": "Jackfruit (কাঁঠাল)",
-    "কাঁঠাল": "Jackfruit (কাঁঠাল)",
-    "কাঁঠালের": "Jackfruit (কাঁঠাল)",
-    "litchi": "Litchi (লিচু)",
-    "লিচু": "Litchi (লিচু)",
-
-    # Cereals & Cash crops
-    "potato": "Potato (আলু)",
-    "আলু": "Potato (আলু)",
-    "আলুর": "Potato (আলু)",
-    "alu": "Potato (আলু)",
-    "aloor": "Potato (আলু)",
-    "rice": "Rice (ধান)",
-    "ধান": "Rice (ধান)",
-    "ধানের": "Rice (ধান)",
-    "dhan": "Rice (ধান)",
-    "paddy": "Rice (ধান)",
-    "wheat": "Wheat (গম)",
-    "গম": "Wheat (গম)",
-    "গমের": "Wheat (গম)",
-    "gom": "Wheat (গম)",
-    "corn": "Maize (ভুট্টা)",
-    "maize": "Maize (ভুট্টা)",
-    "ভুট্টা": "Maize (ভুট্টা)",
-    "ভুট্টার": "Maize (ভুট্টা)",
-    "vutta": "Maize (ভুট্টা)",
-    "jute": "Jute (পাট)",
-    "পাট": "Jute (পাট)",
-    "পাটের": "Jute (পাট)",
-    "pat": "Jute (পাট)",
-    "mustard": "Mustard (সরিষা)",
-    "সরিষা": "Mustard (সরিষা)",
-    "সরিষার": "Mustard (সরিষা)",
-    "sorisha": "Mustard (সরিষা)",
-
-    # Vegetables & Spices
-    "tomato": "Tomato (টমেটো)",
-    "টমেটো": "Tomato (টমেটো)",
-    "টমেটোর": "Tomato (টমেটো)",
-    "tometo": "Tomato (টমেটো)",
-    "brinjal": "Brinjal (বেগুন)",
-    "eggplant": "Brinjal (বেগুন)",
-    "বেগুন": "Brinjal (বেগুন)",
-    "বেগুনের": "Brinjal (বেগুন)",
-    "begun": "Brinjal (বেগুন)",
-    "chilli": "Chilli (মরিচ)",
-    "chili": "Chilli (মরিচ)",
-    "pepper": "Chilli (মরিচ)",
-    "মরিচ": "Chilli (মরিচ)",
-    "মরিচের": "Chilli (মরিচ)",
-    "morich": "Chilli (মরিচ)",
-    "onion": "Onion (পেঁয়াজ)",
-    "পেঁয়াজ": "Onion (পেঁয়াজ)",
-    "পেঁয়াজের": "Onion (পেঁয়াজ)",
-    "peyaj": "Onion (পেঁয়াজ)",
-    "garlic": "Garlic (রসুন)",
-    "রসুন": "Garlic (রসুন)",
-    "রসুনের": "Garlic (রসুন)",
-    "ginger": "Ginger (আদা)",
-    "আদা": "Ginger (আদা)",
-    "আদার": "Ginger (আদা)",
-    "cucumber": "Cucumber (শসা)",
-    "শসা": "Cucumber (শসা)",
-    "শসার": "Cucumber (শসা)",
-    "gourd": "Bottle Gourd (লাউ)",
-    "লাউ": "Bottle Gourd (লাউ)",
-    "লাউয়ের": "Bottle Gourd (লাউ)",
-    "pumpkin": "Pumpkin (মিষ্টি কুমড়া)",
-    "কুমড়া": "Pumpkin (মিষ্টি কুমড়া)",
-    "cabbage": "Cabbage (বাঁধাকপি)",
-    "বাঁধাকপি": "Cabbage (বাঁধাকপি)",
-    "cauliflower": "Cauliflower (ফুলকপি)",
-    "ফুলকপি": "Cauliflower (ফুলকপি)",
-    "bean": "Beans (শিম)",
-    "শিম": "Beans (শিম)",
-    "চা": "Tea (চা)",
-    "tea": "Tea (চা)",
-    "পান": "Betel Leaf (পান)"
+# Comprehensive Agricultural Crop Dictionary for Bangladesh Farming
+CROP_DICTIONARY = {
+    "Brinjal (বেগুন)": [
+        "বেগুন", "বেগুনের", "বেগুনগাছ", "বেগুনগাছে", "বেগুনগাছের", "বেগুনক্ষেত", "বেগুনখেত",
+        "brinjal", "brinjals", "eggplant", "eggplants", "aubergine", "begun", "beguner"
+    ],
+    "Banana (কলা)": [
+        "কলা", "কলার", "কলাগাছ", "কলাগাছে", "কলাগাছের", "কলাবাগান",
+        "banana", "bananas", "kola", "kolar"
+    ],
+    "Potato (আলু)": [
+        "আলু", "আলুর", "আলুগাছ", "আলুরক্ষেত", "আলুরখেত", "আলুক্ষেত", "আলুখেত",
+        "potato", "potatoes", "alu", "aloor"
+    ],
+    "Rice (ধান)": [
+        "ধান", "ধানের", "ধানগাছ", "ধানক্ষেত", "ধানখেত", "বোরো", "আমন", "আউশ",
+        "rice", "paddy", "dhan", "dhaner"
+    ],
+    "Wheat (গম)": [
+        "গম", "গমের", "গমগাছ", "গমক্ষেত", "গমখেত",
+        "wheat", "gom", "gomer"
+    ],
+    "Maize (ভুট্টা)": [
+        "ভুট্টা", "ভুট্টার", "ভুট্টাগাছ", "ভুট্টাক্ষেত", "ভুট্টাখেত",
+        "maize", "corn", "vutta", "vuttar", "bhutta"
+    ],
+    "Tomato (টমেটো)": [
+        "টমেটো", "টমেটোর", "টমেটোগাছ", "টমেটোরখেত", "টমেটোরক্ষেত",
+        "tomato", "tomatoes", "tometo"
+    ],
+    "Chilli (মরিচ)": [
+        "মরিচ", "মরিচের", "মরিচগাছ", "কাঁচামরিচ", "কাঁচা মরিচ",
+        "chilli", "chili", "pepper", "peppers", "morich", "moricher"
+    ],
+    "Onion (পেঁয়াজ)": [
+        "পেঁয়াজ", "পেঁয়াজের", "পিয়াজ", "পিয়াজের", "পেয়াজ", "পেয়াজের",
+        "onion", "onions", "peyaj", "peyajer"
+    ],
+    "Garlic (রসুন)": [
+        "রসুন", "রসুনের", "garlic", "roshun", "roshuner"
+    ],
+    "Ginger (আদা)": [
+        "আদা", "আদার", "ginger", "ada", "adar"
+    ],
+    "Cucumber (শসা)": [
+        "শসা", "শসার", "শশাগাছ", "cucumber", "cucumbers", "shosha"
+    ],
+    "Bottle Gourd (লাউ)": [
+        "লাউ", "লাউয়ের", "লাউগাছ", "gourd", "bottle gourd", "lau"
+    ],
+    "Pumpkin (মিষ্টি কুমড়া)": [
+        "মিষ্টি কুমড়া", "মিষ্টি কুমড়ার", "মিষ্টিকুমড়া", "মিষ্টিকুমড়ার", "কুমড়া", "কুমড়ার",
+        "pumpkin", "pumpkins", "kumra"
+    ],
+    "Cabbage (বাঁধাকপি)": [
+        "বাঁধাকপি", "বাঁধাকপির", "cabbage", "badhakopi"
+    ],
+    "Cauliflower (ফুলকপি)": [
+        "ফুলকপি", "ফুলকপির", "cauliflower", "phulkopi"
+    ],
+    "Beans (শিম)": [
+        "শিম", "শিমের", "শিমগাছ", "bean", "beans", "shim"
+    ],
+    "Jute (পাট)": [
+        "পাট", "পাটের", "পাটগাছ", "পাটক্ষেত", "পাটখেত", "jute", "pat"
+    ],
+    "Mustard (সরিষা)": [
+        "সরিষা", "সরিষার", "সরিষাখেত", "সরিষাক্ষেত", "সরষে", "mustard", "sorisha"
+    ],
+    "Mango (আম)": [
+        "আম", "আমের", "আমগাছ", "আমগাছে", "আমগাছের", "আমবাগান",
+        "mango", "mangoes", "mangos", "am", "amer"
+    ],
+    "Guava (পেয়ারা)": [
+        "পেয়ারা", "পেয়ারার", "পেয়ারা", "পেয়ারার", "guava", "peyara"
+    ],
+    "Papaya (পেঁপে)": [
+        "পেঁপে", "পেঁপের", "পেপে", "পেপের", "papaya", "pepe"
+    ],
+    "Lemon (লেবু)": [
+        "লেবু", "লেবুর", "লেবুগাছ", "lemon", "lime", "lebu"
+    ],
+    "Jackfruit (কাঁঠাল)": [
+        "কাঁঠাল", "কাঁঠালের", "কাঁঠালগাছ", "jackfruit", "kathal"
+    ],
+    "Litchi (লিচু)": [
+        "লিচু", "লিচুর", "লিচুগাছ", "litchi", "lychee", "lichu"
+    ],
+    "Watermelon (তরমুজ)": [
+        "তরমুজ", "তরমুজের", "watermelon", "tormuj"
+    ],
+    "Betel Leaf (পান)": [
+        "পান", "পানের", "পানগাছ", "পানবরজ", "পানপাতা", "betel", "betel leaf", "pan"
+    ],
+    "Tea (চা)": [
+        "চা", "চায়ের", "চায়ের", "চাবাগান", "চা-বাগান", "tea"
+    ]
 }
+
+# Legacy flat map for backward compatibility
+CROPS_MAP = {}
+for crop_name, tokens in CROP_DICTIONARY.items():
+    for token in tokens:
+        CROPS_MAP[token] = crop_name
 
 UNIONS_MAP = {
     "rangpur": "Rangpur Sadar",
@@ -137,19 +140,50 @@ UNIONS_MAP = {
     "চট্টগ্রাম": "Chattogram Sadar"
 }
 
+def detect_crop_from_text(text: str, desc: str = "", llm_crop: Optional[str] = None) -> Optional[str]:
+    """
+    Robust word-boundary and token-aware agricultural crop detection.
+    Prevents false substring matches (e.g. prevents 'আমার' matching 'আম', or 'পানি' matching 'পান').
+    """
+    # 1. If LLM suggested a crop, check if it maps to any known crop in dictionary
+    if llm_crop and "unspecified" not in llm_crop.lower() and "অনির্দিষ্ট" not in llm_crop:
+        llm_crop_lower = llm_crop.lower().strip()
+        for crop_name, tokens in CROP_DICTIONARY.items():
+            if crop_name.lower() == llm_crop_lower or any(tok.lower() == llm_crop_lower for tok in tokens):
+                return crop_name
+            if any(tok.lower() in llm_crop_lower for tok in tokens):
+                return crop_name
+        if "(" in llm_crop and ")" in llm_crop:
+            return llm_crop
+
+    # 2. Check input query and symptoms description
+    combined = f"{text} {desc}".strip().lower()
+    if not combined:
+        return None
+
+    # Tokenize into words to respect word boundaries in Bengali and English
+    words = set(re.findall(r"[\w\u0980-\u09FF]+", combined))
+
+    # A. Multi-word phrases first (e.g. "মিষ্টি কুমড়া", "কাঁচা মরিচ", "bottle gourd", "betel leaf")
+    for crop_name, tokens in CROP_DICTIONARY.items():
+        for token in tokens:
+            if " " in token and token.lower() in combined:
+                return crop_name
+
+    # B. Single-word token match against word tokens
+    for crop_name, tokens in CROP_DICTIONARY.items():
+        for token in tokens:
+            if " " not in token and token.lower() in words:
+                return crop_name
+
+    return None
+
 def parse_transcript_rules(transcript: str, language: str = "bn", gps_location: Optional[str] = None) -> Dict[str, Any]:
     """Fallback rule-based NLP extraction when Groq API is not provided or fails."""
     text_lower = transcript.lower()
     
     # Accurate Crop extraction
-    detected_crop = None
-    for key, val in CROPS_MAP.items():
-        if key in text_lower or key in transcript:
-            detected_crop = val
-            break
-            
-    if not detected_crop:
-        detected_crop = "অনির্দিষ্ট ফসল" if language == "bn" else "Unspecified Crop"
+    detected_crop = detect_crop_from_text(transcript) or ("অনির্দিষ্ট ফসল" if language == "bn" else "Unspecified Crop")
 
     # Union extraction: only set if explicitly found in query, otherwise use GPS location
     detected_union = None
@@ -213,7 +247,7 @@ async def transcribe_audio_with_groq(audio_file_path: str, language: str = "bn")
         return "কলার পাতায় কালো দাগ দেখা যাচ্ছে।"
 
 async def extract_intent_nlp(transcript: str, language: str = "bn", gps_location: Optional[str] = None) -> Dict[str, Any]:
-    """Parse raw transcript into structured JSON schema using Groq LLM (or rule fallback)."""
+    """Parse raw transcript into structured JSON schema using Groq LLM with deterministic crop dictionary."""
     if not GROQ_API_KEY:
         return parse_transcript_rules(transcript, language, gps_location)
 
@@ -222,14 +256,30 @@ async def extract_intent_nlp(transcript: str, language: str = "bn", gps_location
         client = Groq(api_key=GROQ_API_KEY)
         
         system_prompt = (
-            "You are an agricultural NLP entity extraction pipeline for Bangladesh farming queries. "
-            "Given a farmer's spoken query (in Bengali or English), extract the structured information into valid JSON: "
-            "1. 'crop_type': The specific crop name in English and Bengali, e.g., 'Banana (কলা)', 'Potato (আলু)', 'Rice (ধান)', 'Tomato (টমেটো)', 'Mango (আম)', 'Chilli (মরিচ)'. "
-            "   If the user mentions কলা, extract 'Banana (কলা)'. If no crop is mentioned, return 'Unspecified Crop (অনির্দিষ্ট ফসল)'. NEVER default to Potato when another crop is spoken! "
-            "2. 'estimated_planting_date': Duration or date since planting (e.g. '15 দিন আগে' or '15 days ago'). If not mentioned in query, return 'উল্লেখ নেই' or 'Not mentioned'. DO NOT return null. "
-            "3. 'observed_damage_description': Concise description of symptoms or anomalies observed in the query. "
-            f"4. 'geographic_union': If user explicitly mentions a district/union in their query, extract it. Otherwise use the farmer's GPS location: '{gps_location or 'মাঠের লোকেশন সনাক্ত হয়নি'}'. NEVER default to 'Rangpur Sadar' unless explicitly stated! "
-            "Output ONLY valid JSON."
+            f"You are an agricultural NLP entity extraction pipeline for Bangladesh farming queries.\n"
+            f"Given a farmer's spoken or written query in {'Bengali (বাংলা)' if language == 'bn' else 'English'}, extract the structured information into valid JSON:\n"
+            f"1. 'crop_type': The specific crop name in 'English (বাংলা)' format, e.g.:\n"
+            f"   - বেগুন / বেগুনের -> 'Brinjal (বেগুন)'\n"
+            f"   - কলা / কলার -> 'Banana (কলা)'\n"
+            f"   - আলু / আলুর -> 'Potato (আলু)'\n"
+            f"   - ধান / ধানের -> 'Rice (ধান)'\n"
+            f"   - টমেটো / টমেটোর -> 'Tomato (টমেটো)'\n"
+            f"   - মরিচ / মরিচের -> 'Chilli (মরিচ)'\n"
+            f"   - আম / আমের -> 'Mango (আম)'\n"
+            f"   - পেঁয়াজ / পেঁয়াজের -> 'Onion (পেঁয়াজ)'\n"
+            f"   - রসুন / রসুনের -> 'Garlic (রসুন)'\n"
+            f"   - গম / গমের -> 'Wheat (গম)'\n"
+            f"   - ভুট্টা / ভুট্টার -> 'Maize (ভুট্টা)'\n"
+            f"   - পেঁপে / পেঁপের -> 'Papaya (পেঁপে)'\n"
+            f"   - পেয়ারা / পেয়ারার -> 'Guava (পেয়ারা)'\n"
+            f"   - সরিষা / সরিষার -> 'Mustard (সরিষা)'\n"
+            f"   - লাউ / লাউয়ের -> 'Bottle Gourd (লাউ)'\n"
+            f"   - শসা / শসার -> 'Cucumber (শসা)'\n"
+            f"   If NO crop is mentioned at all, return 'Unspecified Crop (অনির্দিষ্ট ফসল)'. NEVER leave blank or null.\n"
+            f"2. 'estimated_planting_date': Duration or date since planting (e.g. '১৫ দিন আগে' or '15 days ago'). If not mentioned in query, return 'উল্লেখ নেই'. DO NOT return null.\n"
+            f"3. 'observed_damage_description': Concise description of symptoms or anomalies observed in the query in {'Bengali (বাংলা)' if language == 'bn' else 'English'}. E.g. 'বেগুনের গায়ে পোকার আক্রমণ' or 'পাতায় কালো দাগ'.\n"
+            f"4. 'geographic_union': If user explicitly mentions a district/union in their query, extract it. Otherwise use the farmer's GPS location: '{gps_location or ('মাঠের লোকেশন সনাক্ত হয়নি' if language == 'bn' else 'Location not set')}'. NEVER default to 'Rangpur Sadar' unless explicitly stated!\n"
+            f"Output ONLY valid JSON."
         )
 
         chat_completion = client.chat.completions.create(
@@ -245,14 +295,26 @@ async def extract_intent_nlp(transcript: str, language: str = "bn", gps_location
         response_content = chat_completion.choices[0].message.content
         parsed = json.loads(response_content)
         
-        # Ensure all required strings are non-null
-        if not parsed.get("crop_type"):
-            parsed["crop_type"] = "Banana (কলা)" if "কলা" in transcript else ("অনির্দিষ্ট ফসল" if language == "bn" else "Unspecified Crop")
+        # Deterministically resolve crop name using CROP_DICTIONARY + LLM output
+        llm_crop = parsed.get("crop_type")
+        llm_desc = parsed.get("observed_damage_description", "")
+        detected_crop = detect_crop_from_text(transcript, desc=llm_desc, llm_crop=llm_crop)
+
+        if detected_crop:
+            parsed["crop_type"] = detected_crop
+        elif llm_crop and "unspecified" not in llm_crop.lower() and "অনির্দিষ্ট" not in llm_crop:
+            parsed["crop_type"] = llm_crop
+        else:
+            parsed["crop_type"] = "Unspecified Crop (অনির্দিষ্ট ফসল)" if language == "en" else "অনির্দিষ্ট ফসল"
+
+        # Ensure all required strings are non-null and properly localized
         if not parsed.get("estimated_planting_date"):
             parsed["estimated_planting_date"] = "উল্লেখ নেই" if language == "bn" else "Not mentioned"
+            
         if not parsed.get("observed_damage_description"):
             parsed["observed_damage_description"] = transcript
-        if not parsed.get("geographic_union") or parsed.get("geographic_union") == "Rangpur Sadar" and "রংপুর" not in transcript and "rangpur" not in transcript.lower():
+            
+        if not parsed.get("geographic_union") or (parsed.get("geographic_union") == "Rangpur Sadar" and "রংপুর" not in transcript and "rangpur" not in transcript.lower()):
             parsed["geographic_union"] = gps_location or ("মাঠের লোকেশন সনাক্ত হয়নি" if language == "bn" else "Location not set")
 
         parsed["raw_transcript"] = transcript

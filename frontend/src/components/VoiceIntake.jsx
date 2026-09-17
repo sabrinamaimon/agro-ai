@@ -10,6 +10,7 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
   const [extractedSchema, setExtractedSchema] = useState(null);
 
   const sampleQueries = [
+    { bn: 'বেগুনের গায়ে পোকা ও ডগা ছিদ্রকারী পোকার আক্রমণ', en: 'Eggplant pest and shoot borer attack' },
     { bn: 'আমার কলা গাছের পাতায় কালো দাগ পড়েছে ও পাতা পুড়ে যাচ্ছে', en: 'My banana plant leaves have black spots and are drying up' },
     { bn: 'আমার আলু খেতের পাতায় কালো বাদামী দাগ পড়েছে ও গাছ নেতিয়ে পড়ছে', en: 'My potato crop leaves have blackish brown spots and plants are wilting' },
     { bn: 'ধানের পাতায় হলুদ লালচে ছোপ ছোপ দাগ ও ডগা মরা রোগ দেখা দিয়েছে', en: 'Rice crop leaves have yellow reddish spots and tip dieback disease' },
