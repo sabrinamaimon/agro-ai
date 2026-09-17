@@ -28,11 +28,12 @@ export default function App() {
     }
   });
 
-  // Prompt GPS modal on initial visit if no GPS coordinates have been saved
+  // Prompt GPS modal on initial visit if no GPS coordinates have been saved and not dismissed in this session
   const [showGpsModal, setShowGpsModal] = useState(() => {
     try {
       const saved = localStorage.getItem('agro_gps_location');
-      return !saved;
+      const dismissed = sessionStorage.getItem('agro_gps_dismissed');
+      return !saved && !dismissed;
     } catch (e) {
       return true;
     }
@@ -40,10 +41,20 @@ export default function App() {
 
   const handleGpsDetected = (detected) => {
     setGpsLocation(detected);
+    setShowGpsModal(false);
     try {
       localStorage.setItem('agro_gps_location', JSON.stringify(detected));
     } catch (e) {
       console.warn('LocalStorage save error:', e);
+    }
+  };
+
+  const handleCloseGpsModal = () => {
+    setShowGpsModal(false);
+    try {
+      sessionStorage.setItem('agro_gps_dismissed', 'true');
+    } catch (e) {
+      console.warn('SessionStorage error:', e);
     }
   };
 
@@ -133,7 +144,7 @@ export default function App() {
       {/* Hyperlocal GPS Activation & Calibration Modal */}
       <GpsModal
         isOpen={showGpsModal}
-        onClose={() => setShowGpsModal(false)}
+        onClose={handleCloseGpsModal}
         currentGps={gpsLocation}
         onGpsDetected={handleGpsDetected}
         language={language}

@@ -34,11 +34,16 @@ export default function AdvisoryPanel({
   const [fetchError, setFetchError] = useState(null);
 
   const loadWeather = async () => {
+    if (!gpsLocation?.lat || !gpsLocation?.lon) {
+      setWeatherData(null);
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     setFetchError(null);
     try {
-      const lat = gpsLocation?.lat;
-      const lon = gpsLocation?.lon;
+      const lat = gpsLocation.lat;
+      const lon = gpsLocation.lon;
       const data = await fetchWeatherAdvisory('GPS', language, lat, lon);
       setWeatherData(data);
     } catch (err) {
@@ -50,12 +55,17 @@ export default function AdvisoryPanel({
   };
 
   useEffect(() => {
-    loadWeather();
+    if (gpsLocation?.lat && gpsLocation?.lon) {
+      loadWeather();
+    } else {
+      setWeatherData(null);
+      setIsLoading(false);
+    }
   }, [gpsLocation, language]);
 
   const locationDisplay = gpsLocation?.areaName 
     ? gpsLocation.areaName
-    : (weatherData?.city || (gpsLocation ? `${gpsLocation.lat?.toFixed(4)}° N, ${gpsLocation.lon?.toFixed(4)}° E` : (language === 'bn' ? 'মাঠের জিপিএস চালু করুন' : 'Enable Field GPS')));
+    : (weatherData?.city || (gpsLocation ? `${gpsLocation.lat?.toFixed(4)}° N, ${gpsLocation.lon?.toFixed(4)}° E` : (language === 'bn' ? 'জিপিএস বন্ধ রয়েছে' : 'GPS Disabled')));
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -131,36 +141,64 @@ export default function AdvisoryPanel({
             </span>
           </button>
 
-          <button 
-            type="button" 
-            className="refresh-btn" 
-            onClick={loadWeather} 
-            disabled={isLoading}
-            title={language === 'bn' ? 'রিফ্রেশ করুন' : 'Refresh Weather'}
-          >
-            <RefreshCw size={16} className={isLoading ? 'spin' : ''} />
-          </button>
+          {gpsLocation && (
+            <button 
+              type="button" 
+              className="refresh-btn" 
+              onClick={loadWeather} 
+              disabled={isLoading}
+              title={language === 'bn' ? 'রিফ্রেশ করুন' : 'Refresh Weather'}
+            >
+              <RefreshCw size={16} className={isLoading ? 'spin' : ''} />
+            </button>
+          )}
         </div>
       </div>
 
-      {/* GPS Notice Banner if GPS is not yet enabled */}
+      {/* When GPS is not enabled: Show clear, friendly GPS gate card */}
       {!gpsLocation && (
-        <div className="gps-notice-banner mt-3" onClick={onOpenGpsModal}>
-          <div className="notice-left">
-            <Navigation size={22} className="text-emerald animate-pulse" />
-            <div className="notice-text">
-              <strong>{language === 'bn' ? 'তাৎক্ষণিক আবহাওয়ার আপডেট জানতে আপনার জিপিএস চালু করুন' : 'Enable GPS for real-time weather updates'}</strong>
-              <p>
-                {language === 'bn' 
-                  ? 'আপনার এলাকার সঠিক তাপমাত্রা, বৃষ্টিপাত ও স্প্রে করার উপযুক্ত সময় জানতে জিপিএস চালু করুন।' 
-                  : 'Get accurate local rainfall, temperature, and spray advisory for your field.'}
-              </p>
-            </div>
+        <div className="weather-gps-gate-card mt-4 animate-scale-up">
+          <div className="gate-icon-circle animate-pulse">
+            <Navigation size={36} />
           </div>
-          <button type="button" className="btn-activate-gps">
-            <Navigation size={15} />
+          <h3>
+            {language === 'bn' 
+              ? 'আবহাওয়া ও পূর্বাভাস পেতে জিপিএস চালু করুন' 
+              : 'Turn on GPS to view field weather updates'}
+          </h3>
+          <p>
+            {language === 'bn' 
+              ? 'আপনার ফসলের মাঠের সঠিক তাপমাত্রা, বৃষ্টিপাতের সম্ভাবনা ও জরুরি স্প্রে পরামর্শ জানতে ডিভাইসের জিপিএস চালু করুন।' 
+              : 'To view accurate field temperature, rainfall forecasts, and safe spraying advisory, please enable your device GPS.'}
+          </p>
+
+          <button 
+            type="button" 
+            className="btn-gps-primary gate-cta-btn" 
+            onClick={onOpenGpsModal}
+          >
+            <Navigation size={18} />
             <span>{language === 'bn' ? 'জিপিএস চালু করুন' : 'Enable GPS'}</span>
           </button>
+
+          <div className="gate-features-grid mt-4">
+            <div className="gate-feature-item">
+              <CloudRain size={18} className="text-blue" />
+              <span>{language === 'bn' ? 'মাঠের বৃষ্টিপাত পূর্বাভাস' : 'Field-level rain forecast'}</span>
+            </div>
+            <div className="gate-feature-item">
+              <FlaskConical size={18} className="text-emerald" />
+              <span>{language === 'bn' ? 'বালাইনাশক স্প্রে করার নিরাপদ সময়' : 'Safe spraying window'}</span>
+            </div>
+            <div className="gate-feature-item">
+              <Waves size={18} className="text-cyan" />
+              <span>{language === 'bn' ? 'মাটিতে সেচ প্রয়োগের পরামর্শ' : 'Soil irrigation advisory'}</span>
+            </div>
+            <div className="gate-feature-item">
+              <Sun size={18} className="text-amber" />
+              <span>{language === 'bn' ? 'ফসল কর্তন ও রোদে শুকানোর সুবিধা' : 'Harvesting & drying window'}</span>
+            </div>
+          </div>
         </div>
       )}
 

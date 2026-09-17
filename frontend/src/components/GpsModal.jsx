@@ -102,7 +102,7 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
   const activeGps = detectedData || currentGps;
 
   return (
-    <div className="location-modal-backdrop animate-fade-in" onClick={activeGps ? onClose : undefined}>
+    <div className="location-modal-backdrop animate-fade-in" onClick={onClose}>
       <div className="gps-modal-card animate-scale-up" onClick={(e) => e.stopPropagation()}>
         
         {/* Header */}
@@ -120,11 +120,9 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
                 : 'Enable GPS to receive instant weather updates, rain alerts, and precise spraying guidance for your location.'}
             </p>
           </div>
-          {activeGps && (
-            <button type="button" className="modal-close-btn" onClick={onClose} aria-label="Close">
-              <X size={18} />
-            </button>
-          )}
+          <button type="button" className="modal-close-btn" onClick={onClose} aria-label="Close">
+            <X size={18} />
+          </button>
         </div>
 
         {/* Radar Visual */}
@@ -199,6 +197,16 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
             </span>
           </button>
           
+          {!activeGps && (
+            <button
+              type="button"
+              className="btn-gps-secondary mt-2"
+              onClick={onClose}
+            >
+              {language === 'bn' ? 'এখন নয় / পরে চালু করব' : 'Not Now / Skip'}
+            </button>
+          )}
+
           <div className="gps-privacy-note mt-2">
             <ShieldCheck size={14} className="text-emerald" />
             <span>
