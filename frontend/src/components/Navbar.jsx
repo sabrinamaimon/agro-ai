@@ -1,16 +1,7 @@
 import React from 'react';
-import { Sprout, Globe, Type, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare } from 'lucide-react';
+import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare } from 'lucide-react';
 
-export default function Navbar({ language, setLanguage, activeTab, setActiveTab, selectedFont, setSelectedFont }) {
-  const fontOptions = [
-    { id: 'jakarta', name: 'Plus Jakarta + Hind Siliguri (Modern Tech)' },
-    { id: 'poppins', name: 'Poppins + Anek Bangla (Friendly & Bold)' },
-    { id: 'outfit', name: 'Outfit + Noto Sans BN (Futuristic AI)' },
-    { id: 'sora', name: 'Sora + Siliguri (Sleek Rounded)' },
-    { id: 'space', name: 'Space Grotesk + Noto Sans (Ultra Tech)' },
-    { id: 'inter', name: 'Inter + Noto Sans (Classic Minimal)' }
-  ];
-
+export default function Navbar({ language, setLanguage, activeTab, setActiveTab }) {
   const navItems = [
     { id: 'home', labelBn: 'হোম', labelEn: 'Home', icon: Home },
     { id: 'aichat', labelBn: 'এআই চ্যাট', labelEn: 'AI Chat Prompt', icon: MessageSquare },
@@ -37,25 +28,13 @@ export default function Navbar({ language, setLanguage, activeTab, setActiveTab,
           </div>
         </div>
 
-        <div className="navbar-actions">
-          {/* Font Selector Demo Tool */}
-          <div className="font-select-box" title="Change Font Demo Live">
-            <Type size={16} color="#059669" />
-            <select value={selectedFont} onChange={(e) => setSelectedFont(e.target.value)}>
-              {fontOptions.map(font => (
-                <option key={font.id} value={font.id}>{font.name}</option>
-              ))}
-            </select>
-          </div>
-
-          <button 
-            className="lang-toggle-btn"
-            onClick={() => setLanguage(language === 'bn' ? 'en' : 'bn')}
-          >
-            <Globe size={18} />
-            <span>{language === 'bn' ? 'English (EN)' : 'বাংলা (BN)'}</span>
-          </button>
-        </div>
+        <button 
+          className="lang-toggle-btn"
+          onClick={() => setLanguage(language === 'bn' ? 'en' : 'bn')}
+        >
+          <Globe size={18} />
+          <span>{language === 'bn' ? 'English (EN)' : 'বাংলা (BN)'}</span>
+        </button>
       </div>
 
       {/* Navigation Tabs */}
