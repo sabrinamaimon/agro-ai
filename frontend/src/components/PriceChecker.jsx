@@ -5,6 +5,15 @@ import { checkMarketAnomaly, fetchMarketBenchmarks } from '../services/api';
 export default function PriceChecker({ language, cropType, onPriceCheckComplete }) {
   const [benchmarks, setBenchmarks] = useState([]);
   const [selectedCrop, setSelectedCrop] = useState(cropType || 'Potato (আলু)');
+  const getCropDisplayName = (fullName) => {
+    const match = fullName.match(/^(.*)\s\(([^()]+)\)$/);
+    if (!match) return fullName;
+    return language === 'bn' ? match[2] : match[1];
+  };
+  const toBengaliDigits = (num) => {
+    const bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return String(num).replace(/[0-9]/g, (d) => bn[d]);
+  };
   const [offeredPrice, setOfferedPrice] = useState('20');
   const [loading, setLoading] = useState(false);
   const [loadingBenchmarks, setLoadingBenchmarks] = useState(true);
@@ -57,29 +66,29 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
   return (
     <div className="card task-card">
       <div className="card-header">
-        <h2>{language === 'bn' ? 'বাজার মূল্য বৈষম্য ও বিক্রি উইন্ডো (DAM Live Data)' : 'Market Price Anomaly & Selling Window'}</h2>
+        <h2>{language === 'bn' ? 'সঠিক দাম যাচাই করুন' : 'Check the fair price'}</h2>
       </div>
 
       <p className="card-desc">
         {language === 'bn'
-          ? 'কৃষি বিপণন অধিদপ্তর (DAM) এর পাইকারি বেঞ্চমার্ক হারের সাথে আড়তদারের দাম যাচাই করুন এবং মেশিন লার্নিং দ্বারা কম দামের ঝুঁকি শনাক্ত করুন।'
-          : 'Detect middleman price undercuts using live Department of Agricultural Marketing (DAM) benchmarks and ML Isolation Forest.'}
+          ? 'সরকারি বাজারদরের সাথে আপনার পাওয়া দাম মিলিয়ে দেখুন। কেউ যদি আপনাকে কম দাম দিতে চায়, আমরা সাথে সাথে আপনাকে জানিয়ে দেব।'
+          : 'Check the price you were offered against the official market rate. If anyone tries to give you a lower price, we will let you know right away.'}
       </p>
 
       {/* Live Market Rates Strip */}
       <div className="dam-strip mb-4">
         <span className="text-xs text-muted font-bold">
-          {language === 'bn' ? 'সরকারি পাইকারি বাজারদর (DAM Live Benchmarks):' : 'Government Wholesale Benchmarks (DAM):'}
+          {language === 'bn' ? 'সরকারি পাইকারি বাজারদর :' : 'Government Wholesale Benchmarks :'}
         </span>
         <div className="dam-badge-row mt-1">
           {benchmarks.map(b => (
-            <span 
-              key={b.id} 
+            <span
+              key={b.id}
               className={`badge-crop ${selectedCrop === b.crop ? 'active' : ''}`}
               onClick={() => setSelectedCrop(b.crop)}
               style={{ cursor: 'pointer' }}
             >
-              {b.crop}: <strong>৳{b.averagePrice}</strong>
+              {getCropDisplayName(b.crop)}: <strong>৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}</strong>
             </span>
           ))}
         </div>
@@ -88,14 +97,14 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
       <form onSubmit={handleCheckAnomaly} className="price-form">
         <div className="form-group">
           <label className="input-label">{language === 'bn' ? 'ফসলের নাম' : 'Select Crop'}</label>
-          <select 
+          <select
             className="input-field"
             value={selectedCrop}
             onChange={(e) => setSelectedCrop(e.target.value)}
             disabled={loadingBenchmarks}
           >
             {benchmarks.map((b) => (
-              <option key={b.id} value={b.crop}>{b.crop} (গড়: ৳{b.averagePrice}/{b.unit || 'কেজি'})</option>
+              <option key={b.id} value={b.crop}>{getCropDisplayName(b.crop)} (গড়: ৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}/{b.unit || 'কেজি'})</option>
             ))}
           </select>
         </div>
@@ -103,8 +112,8 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
         <div className="form-group">
           <label className="input-label">{language === 'bn' ? 'আড়তদার/ফড়িয়ার অফার দাম (৳/কেজি)' : 'Middleman Offered Price (৳/kg)'}</label>
           <div className="price-input-row">
-            <input 
-              type="number" 
+            <input
+              type="number"
               step="0.5"
               className="input-field"
               value={offeredPrice}
@@ -129,8 +138,8 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
               <ShieldCheck color="#10B981" size={22} />
             )}
             <h4>
-              {priceAnalysis.isUndercut 
-                ? (language === 'bn' ? 'কম দামের ঝুঁকি শনাক্ত (Price Undercut Detected!)' : 'Predatory Pricing Undercut Alert!') 
+              {priceAnalysis.isUndercut
+                ? (language === 'bn' ? 'কম দামের ঝুঁকি শনাক্ত (Price Undercut Detected!)' : 'Predatory Pricing Undercut Alert!')
                 : (language === 'bn' ? 'ন্যায্য বাজার মূল্য (Fair Market Offer)' : 'Fair Market Offer')}
             </h4>
           </div>
@@ -139,14 +148,14 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'আড়তদারের অফার' : 'Offered Rate'}</span>
               <span className={`data-value ${priceAnalysis.isUndercut ? 'danger' : 'success'}`}>
-                ৳{priceAnalysis.offeredPrice} / {language === 'bn' ? 'কেজি' : 'kg'}
+                ৳{language === 'bn' ? toBengaliDigits(priceAnalysis.offeredPrice) : priceAnalysis.offeredPrice} / {language === 'bn' ? 'কেজি' : 'kg'}
               </span>
             </div>
 
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'পাইকারি বেঞ্চমার্ক গাণিতিক গড়' : 'Wholesale Benchmark Rate'}</span>
               <span className="data-value highlight">
-                ৳{priceAnalysis.benchmarkPrice} / {language === 'bn' ? 'কেজি' : 'kg'}
+                ৳{language === 'bn' ? toBengaliDigits(priceAnalysis.benchmarkPrice) : priceAnalysis.benchmarkPrice} / {language === 'bn' ? 'কেজি' : 'kg'}
               </span>
             </div>
 
@@ -154,7 +163,7 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
               <div className="data-item">
                 <span className="data-label">{language === 'bn' ? 'মূল্য বৈষম্যের হার' : 'Undercut Percentage'}</span>
                 <span className="data-value danger">
-                  {priceAnalysis.undercutPercentage}% কম দাম
+                  {language === 'bn' ? toBengaliDigits(priceAnalysis.undercutPercentage) : priceAnalysis.undercutPercentage}% কম দাম
                 </span>
               </div>
             )}
