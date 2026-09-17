@@ -53,6 +53,7 @@ class VisionDiagnosisResponse(BaseModel):
 class PriceAnomalyRequest(BaseModel):
     crop: str
     offeredPrice: float
+    language: Optional[str] = "bn"
 
 class PriceAnomalyResponse(BaseModel):
     crop: str
