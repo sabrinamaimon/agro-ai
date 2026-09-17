@@ -34,29 +34,81 @@ def get_wmo_info(code: int, language: str = "bn") -> Dict[str, str]:
         "icon": info["icon"]
     }
 
+_REVERSE_GEO_CACHE: Dict[str, Dict[str, str]] = {}
+
+def get_hyperlocal_address(lat: float, lon: float, language: str = "bn") -> Dict[str, str]:
+    """
+    Resolve exact micro-location (Union / Village / Upazila / District) from GPS coordinates
+    using Nominatim reverse geocoding with in-memory caching.
+    """
+    cache_key = f"{round(lat, 3)}_{round(lon, 3)}_{language}"
+    if cache_key in _REVERSE_GEO_CACHE:
+        return _REVERSE_GEO_CACHE[cache_key]
+
+    headers = {"User-Agent": "AgroAI-Hyperlocal-Platform/1.0 (contact@agroai.bd)"}
+    try:
+        url = f"https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={lon}&format=json&accept-language={language}"
+        res = requests.get(url, headers=headers, timeout=3)
+        if res.status_code == 200:
+            data = res.json()
+            addr = data.get("address", {})
+            local_unit = (
+                addr.get("village") or 
+                addr.get("suburb") or 
+                addr.get("neighbourhood") or 
+                addr.get("city_district") or 
+                addr.get("city") or 
+                addr.get("town") or 
+                ""
+            )
+            upazila = addr.get("county") or ""
+            district = addr.get("state_district") or addr.get("state") or ""
+
+            parts = [p for p in [local_unit, upazila, district] if p]
+            if parts:
+                name = ", ".join(parts)
+                res_obj = {
+                    "name": name, 
+                    "nameEn": name,
+                    "union": local_unit,
+                    "upazila": upazila,
+                    "district": district
+                }
+                _REVERSE_GEO_CACHE[cache_key] = res_obj
+                return res_obj
+    except Exception as e:
+        logger.warning(f"Reverse geocoding error: {e}")
+
+    coord_str = f"{round(lat, 4)}° N, {round(lon, 4)}° E"
+    fallback_name = f"মাঠ জিপিএস ({coord_str})" if language == "bn" else f"Field GPS ({coord_str})"
+    fallback_obj = {"name": fallback_name, "nameEn": f"Field GPS ({coord_str})", "union": "", "upazila": "", "district": ""}
+    return fallback_obj
+
 def get_location_coords(
     union_name: str = "Rangpur Sadar", 
     lat: Optional[float] = None, 
-    lon: Optional[float] = None
+    lon: Optional[float] = None,
+    language: str = "bn"
 ) -> Dict[str, Any]:
     if lat is not None and lon is not None:
-        # Find nearest known Bangladesh district or use custom GPS
-        best_match = None
-        min_dist = float("inf")
-        for loc in BANGLADESH_LOCATIONS.values():
-            dist = (loc["lat"] - lat) ** 2 + (loc["lon"] - lon) ** 2
-            if dist < min_dist:
-                min_dist = dist
-                best_match = loc
-        if min_dist < 0.15 and best_match:
-            return {"lat": lat, "lon": lon, "name": best_match["name"], "nameEn": best_match["nameEn"]}
-        return {"lat": lat, "lon": lon, "name": "আপনার বর্তমান অবস্থান (GPS)", "nameEn": "Current GPS Location"}
+        # Preserve exact GPS coordinates for hyper-local microclimate forecast
+        geo = get_hyperlocal_address(lat, lon, language)
+        return {
+            "lat": lat, 
+            "lon": lon, 
+            "name": geo["name"], 
+            "nameEn": geo["nameEn"],
+            "union": geo.get("union", ""),
+            "upazila": geo.get("upazila", ""),
+            "district": geo.get("district", ""),
+            "isGps": True
+        }
 
     cleaned = union_name.lower().strip()
     for key, loc in BANGLADESH_LOCATIONS.items():
         if key in cleaned:
-            return loc
-    return DEFAULT_LOCATION
+            return {**loc, "isGps": False}
+    return {**DEFAULT_LOCATION, "isGps": False}
 
 def fetch_weather(
     union_name: str = "Rangpur Sadar", 
@@ -69,7 +121,7 @@ def fetch_weather(
     Provides live current conditions, 24-hour hourly forecast, 5-day agro forecast,
     and tailored agronomic advisories (Spraying, Irrigation, Harvest, Disease risk).
     """
-    loc = get_location_coords(union_name, lat, lon)
+    loc = get_location_coords(union_name, lat, lon, language)
     latitude, longitude = loc["lat"], loc["lon"]
 
     url = (
@@ -273,6 +325,10 @@ def fetch_weather(
                 "cityEn": loc.get("nameEn", loc["name"]),
                 "lat": latitude,
                 "lon": longitude,
+                "isGps": loc.get("isGps", False),
+                "union": loc.get("union", ""),
+                "upazila": loc.get("upazila", ""),
+                "district": loc.get("district", ""),
                 "temperature": round(temp, 1),
                 "feelsLike": round(feels_like, 1),
                 "humidity": round(humidity, 1),
@@ -320,6 +376,10 @@ def fetch_weather(
         "cityEn": loc.get("nameEn", loc["name"]),
         "lat": latitude,
         "lon": longitude,
+        "isGps": loc.get("isGps", False),
+        "union": loc.get("union", ""),
+        "upazila": loc.get("upazila", ""),
+        "district": loc.get("district", ""),
         "temperature": 28.5,
         "feelsLike": 32.0,
         "humidity": 82.0,
