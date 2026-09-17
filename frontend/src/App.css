@@ -3406,12 +3406,274 @@ select.input-field {
   margin: 0;
 }
 
-.agro-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
+/* ==========================================================================
+   Agro Intelligence Advisories (Premium Vertical Stack)
+   ========================================================================== */
+.section-header-advisory {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
+.section-advisory-count {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #059669;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+.agro-cards-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Backward compatibility alias */
+.agro-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.advisory-card-premium {
+  border-radius: 18px;
+  border: 1.5px solid #E2E8F0;
+  background: #FFFFFF;
+  padding: 1.35rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.advisory-card-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+/* Status specific side border & ambient tint */
+.advisory-card-premium.status-danger,
+.advisory-card-premium.status-pause,
+.advisory-card-premium.status-high {
+  border-color: #FECDD3;
+  border-left: 5px solid #EF4444;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF8F8 100%);
+}
+
+.advisory-card-premium.status-warning,
+.advisory-card-premium.status-caution,
+.advisory-card-premium.status-irrigate,
+.advisory-card-premium.status-medium {
+  border-color: #FDE68A;
+  border-left: 5px solid #F59E0B;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF5 100%);
+}
+
+.advisory-card-premium.status-safe,
+.advisory-card-premium.status-favorable,
+.advisory-card-premium.status-normal {
+  border-color: #A7F3D0;
+  border-left: 5px solid #10B981;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5FDF8 100%);
+}
+
+.advisory-card-body {
+  display: flex;
+  gap: 1.35rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Premium Squircle Icon */
+.advisory-icon-squircle {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.advisory-card-premium:hover .advisory-icon-squircle {
+  transform: scale(1.05);
+}
+
+.advisory-icon-squircle.spray-squircle.status-danger,
+.advisory-icon-squircle.spray-squircle.status-pause,
+.advisory-icon-squircle.spray-squircle.status-high {
+  background: linear-gradient(135deg, #FFE4E6 0%, #FECDD3 100%);
+  color: #E11D48;
+  border: 1.5px solid #FDA4AF;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.18);
+}
+
+.advisory-icon-squircle.spray-squircle.status-warning,
+.advisory-icon-squircle.spray-squircle.status-caution {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  color: #D97706;
+  border: 1.5px solid #FCD34D;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.18);
+}
+
+.advisory-icon-squircle.spray-squircle {
+  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+  color: #059669;
+  border: 1.5px solid #6EE7B7;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.18);
+}
+
+.advisory-icon-squircle.irrigation-squircle {
+  background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+  color: #0284C7;
+  border: 1.5px solid #7DD3FC;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.18);
+}
+
+.advisory-icon-squircle.harvest-squircle {
+  background: linear-gradient(135deg, #FEF9C3 0%, #FEF08A 100%);
+  color: #CA8A04;
+  border: 1.5px solid #FDE047;
+  box-shadow: 0 4px 14px rgba(202, 138, 4, 0.18);
+}
+
+.advisory-icon-squircle.disease-squircle.status-danger,
+.advisory-icon-squircle.disease-squircle.status-pause,
+.advisory-icon-squircle.disease-squircle.status-high {
+  background: linear-gradient(135deg, #FCE7F3 0%, #FBCFE8 100%);
+  color: #DB2777;
+  border: 1.5px solid #F472B6;
+  box-shadow: 0 4px 14px rgba(219, 39, 119, 0.18);
+}
+
+.advisory-icon-squircle.disease-squircle {
+  background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%);
+  color: #7C3AED;
+  border: 1.5px solid #C4B5FD;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.18);
+}
+
+/* Content Wrap */
+.advisory-content-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.advisory-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+}
+
+.advisory-title-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.advisory-category-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.advisory-title {
+  font-size: 1.08rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* Status Pill with Pulsing Dot */
+.status-pill-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1.5px solid transparent;
+  flex-shrink: 0;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.status-dot-pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse-advisory-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-advisory-dot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.6;
+  }
+}
+
+.advisory-desc-premium {
+  font-size: 0.94rem;
+  color: #334155;
+  line-height: 1.6;
+  margin: 0.65rem 0 0.85rem;
+}
+
+/* Metrics Row */
+.advisory-metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #E2E8F0;
+}
+
+.metric-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.metric-chip:hover {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+  color: #1E293B;
+}
+
+/* Legacy class fallback */
 .advisory-card {
   border-radius: 16px;
   border: 1.5px solid #E2E8F0;
@@ -3421,95 +3683,6 @@ select.input-field {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.advisory-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-}
-
-.advisory-card.status-danger,
-.advisory-card.status-pause,
-.advisory-card.status-high {
-  border-left: 5px solid #EF4444;
-}
-
-.advisory-card.status-warning,
-.advisory-card.status-caution,
-.advisory-card.status-irrigate,
-.advisory-card.status-medium {
-  border-left: 5px solid #F59E0B;
-}
-
-.advisory-card.status-safe,
-.advisory-card.status-favorable,
-.advisory-card.status-normal {
-  border-left: 5px solid #10B981;
-}
-
-.card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-.advisory-title-group {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.advisory-title-group h4 {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #0F172A;
-  margin: 0;
-}
-
-.card-icon {
-  color: #059669;
-}
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.74rem;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 9999px;
-  border: 1px solid transparent;
-  flex-shrink: 0;
-}
-
-.advisory-desc {
-  font-size: 0.88rem;
-  color: #475569;
-  line-height: 1.5;
-  margin: 0.85rem 0;
-  flex: 1;
-}
-
-.advisory-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  border-top: 1px solid #F1F5F9;
-  padding-top: 0.75rem;
-}
-
-.footer-tag {
-  font-size: 0.74rem;
-  color: #64748B;
-  background: #F8FAFC;
-  padding: 3px 8px;
-  border-radius: 6px;
-  border: 1px solid #E2E8F0;
-  font-weight: 500;
 }
 
 /* 24-Hour Hourly Weather Strip */
@@ -3884,8 +4057,10 @@ select.input-field {
     font-size: 0.72rem;
   }
 
+  .agro-cards-stack,
   .agro-cards-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 0.85rem;
   }
 
@@ -4060,28 +4235,61 @@ select.input-field {
     font-size: 1.05rem;
   }
 
+  .agro-cards-stack,
   .agro-cards-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 0.75rem;
+  }
+
+  .advisory-card-premium {
+    padding: 1rem 1.1rem;
+    border-radius: 14px;
+  }
+
+  .advisory-card-body {
+    gap: 0.85rem;
+  }
+
+  .advisory-icon-squircle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .advisory-icon-squircle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .advisory-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+  }
+
+  .advisory-title {
+    font-size: 0.98rem;
+  }
+
+  .status-pill-premium {
+    font-size: 0.74rem;
+    padding: 0.22rem 0.65rem;
+  }
+
+  .advisory-desc-premium {
+    font-size: 0.86rem;
+    margin: 0.5rem 0 0.7rem;
+  }
+
+  .metric-chip {
+    font-size: 0.74rem;
+    padding: 0.25rem 0.6rem;
   }
 
   .advisory-card {
     padding: 0.95rem;
     border-radius: 14px;
-  }
-
-  .advisory-title-group h4 {
-    font-size: 0.9rem;
-  }
-
-  .advisory-desc {
-    font-size: 0.82rem;
-    margin: 0.6rem 0;
-  }
-
-  .footer-tag {
-    font-size: 0.7rem;
-    padding: 2px 6px;
   }
 
   /* Hourly Forecast Strip */

@@ -75,6 +75,7 @@ export default function AdvisoryPanel({
           bg: '#ECFDF5',
           border: '#A7F3D0',
           text: '#065F46',
+          dot: '#10B981',
           label: language === 'bn' ? 'অনুকূল ও নিরাপদ' : 'Favorable / Safe',
           icon: CheckCircle
         };
@@ -86,6 +87,7 @@ export default function AdvisoryPanel({
           bg: '#FFFBEB',
           border: '#FDE68A',
           text: '#92400E',
+          dot: '#F59E0B',
           label: language === 'bn' ? 'সতর্কতা প্রয়োজন' : 'Caution Advised',
           icon: AlertTriangle
         };
@@ -96,14 +98,16 @@ export default function AdvisoryPanel({
           bg: '#FEF2F2',
           border: '#FECACA',
           text: '#991B1B',
+          dot: '#EF4444',
           label: language === 'bn' ? 'উচ্চ ঝুঁকি / স্থগিত রাখুন' : 'High Risk / Hold Off',
           icon: ShieldAlert
         };
       default:
         return {
-          bg: '#F3F4F6',
-          border: '#E5E7EB',
+          bg: '#F8FAFC',
+          border: '#E2E8F0',
           text: '#374151',
+          dot: '#64748B',
           label: language === 'bn' ? 'স্বাভাবিক' : 'Normal',
           icon: CheckCircle
         };
@@ -296,43 +300,62 @@ export default function AdvisoryPanel({
 
           {/* 4 Agricultural Intelligence Advisories */}
           <div className="agro-advisories-section mt-4">
-            <h3 className="section-title">
-              <Sparkles size={20} className="text-emerald" />
-              <span>{language === 'bn' ? 'জরুরি মাঠ পর্যায়ের কৃষি নির্দেশনা' : 'Critical Field Agronomic Advisories'}</span>
-            </h3>
+            <div className="section-header-advisory mb-3">
+              <h3 className="section-title">
+                <Sparkles size={20} className="text-emerald" />
+                <span>{language === 'bn' ? 'জরুরি মাঠ পর্যায়ের কৃষি নির্দেশনা' : 'Critical Field Agronomic Advisories'}</span>
+              </h3>
+              <span className="section-advisory-count">
+                {language === 'bn' ? '৪টি গুরুত্বপূর্ণ সূচক' : '4 Critical Indicators'}
+              </span>
+            </div>
 
-            <div className="agro-cards-grid mt-3">
+            <div className="agro-cards-stack">
               {/* 1. Spray Safety Advisory */}
               {weatherData.advisories?.spray && (() => {
                 const spray = weatherData.advisories.spray;
                 const badge = getStatusBadge(spray.status);
                 const BadgeIcon = badge.icon;
                 return (
-                  <div key="spray" className={`advisory-card status-${spray.status}`}>
-                    <div className="card-top">
-                      <div className="advisory-title-group">
-                        <CloudRain size={20} className="card-icon" />
-                        <h4>{spray.title}</h4>
+                  <div key="spray" className={`advisory-card-premium status-${spray.status}`}>
+                    <div className="advisory-card-body">
+                      <div className={`advisory-icon-squircle spray-squircle status-${spray.status}`}>
+                        <FlaskConical size={24} />
                       </div>
-                      <span 
-                        className="status-pill"
-                        style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
-                      >
-                        <BadgeIcon size={13} />
-                        {badge.label}
-                      </span>
-                    </div>
-                    <p className="advisory-desc">{spray.desc}</p>
-                    <div className="advisory-footer">
-                      <span className="footer-tag">
-                        {language === 'bn' ? 'বাতাস: ' : 'Wind: '}{weatherData.windSpeed} কিমি/ঘণ্টা
-                      </span>
-                      <span className="footer-tag">
-                        {language === 'bn' ? 'বৃষ্টির ঝুঁকি: ' : 'Rain Risk: '}
-                        {weatherData.rainInHours > 0 && weatherData.rainInHours <= 6 
-                          ? (language === 'bn' ? `${weatherData.rainInHours} ঘণ্টার মধ্যে` : `In ${weatherData.rainInHours} hrs`)
-                          : (language === 'bn' ? 'নেই' : 'Low')}
-                      </span>
+                      <div className="advisory-content-wrap">
+                        <div className="advisory-header-row">
+                          <div className="advisory-title-box">
+                            <span className="advisory-category-label">
+                              {language === 'bn' ? 'কীটনাশক ও স্প্রে ব্যবস্থাপনা' : 'Crop Protection & Spraying'}
+                            </span>
+                            <h4 className="advisory-title">{spray.title}</h4>
+                          </div>
+                          <span 
+                            className="status-pill-premium"
+                            style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
+                          >
+                            <span className="status-dot-pulse" style={{ backgroundColor: badge.dot }} />
+                            <BadgeIcon size={14} />
+                            <span>{badge.label}</span>
+                          </span>
+                        </div>
+                        <p className="advisory-desc-premium">{spray.desc}</p>
+                        <div className="advisory-metrics-row">
+                          <span className="metric-chip">
+                            <Wind size={14} className="text-teal" />
+                            <span>{language === 'bn' ? 'বাতাস: ' : 'Wind: '}{weatherData.windSpeed} কিমি/ঘণ্টা</span>
+                          </span>
+                          <span className="metric-chip">
+                            <CloudRain size={14} className="text-rose" />
+                            <span>
+                              {language === 'bn' ? 'বৃষ্টির ঝুঁকি: ' : 'Rain Risk: '}
+                              {weatherData.rainInHours > 0 && weatherData.rainInHours <= 6 
+                                ? (language === 'bn' ? `${weatherData.rainInHours} ঘণ্টার মধ্যে` : `In ${weatherData.rainInHours} hrs`)
+                                : (language === 'bn' ? 'নেই' : 'Low')}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
@@ -344,28 +367,40 @@ export default function AdvisoryPanel({
                 const badge = getStatusBadge(irr.status);
                 const BadgeIcon = badge.icon;
                 return (
-                  <div key="irrigation" className={`advisory-card status-${irr.status}`}>
-                    <div className="card-top">
-                      <div className="advisory-title-group">
-                        <Waves size={20} className="card-icon" />
-                        <h4>{irr.title}</h4>
+                  <div key="irrigation" className={`advisory-card-premium status-${irr.status}`}>
+                    <div className="advisory-card-body">
+                      <div className="advisory-icon-squircle irrigation-squircle">
+                        <Droplets size={24} />
                       </div>
-                      <span 
-                        className="status-pill"
-                        style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
-                      >
-                        <BadgeIcon size={13} />
-                        {badge.label}
-                      </span>
-                    </div>
-                    <p className="advisory-desc">{irr.desc}</p>
-                    <div className="advisory-footer">
-                      <span className="footer-tag">
-                        {language === 'bn' ? 'মাটির আর্দ্রতা চাহিদা' : 'Moisture Need'}
-                      </span>
-                      <span className="footer-tag">
-                        {language === 'bn' ? '৪৮ ঘণ্টার বৃষ্টিপাত পর্যবেক্ষণ' : '48h Rain Radar'}
-                      </span>
+                      <div className="advisory-content-wrap">
+                        <div className="advisory-header-row">
+                          <div className="advisory-title-box">
+                            <span className="advisory-category-label">
+                              {language === 'bn' ? 'মাটির আর্দ্রতা ও সেচ ব্যবস্থাপনা' : 'Soil Moisture & Irrigation'}
+                            </span>
+                            <h4 className="advisory-title">{irr.title}</h4>
+                          </div>
+                          <span 
+                            className="status-pill-premium"
+                            style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
+                          >
+                            <span className="status-dot-pulse" style={{ backgroundColor: badge.dot }} />
+                            <BadgeIcon size={14} />
+                            <span>{badge.label}</span>
+                          </span>
+                        </div>
+                        <p className="advisory-desc-premium">{irr.desc}</p>
+                        <div className="advisory-metrics-row">
+                          <span className="metric-chip">
+                            <Droplets size={14} className="text-cyan" />
+                            <span>{language === 'bn' ? 'মাটির আর্দ্রতা পর্যবেক্ষণ' : 'Moisture Need'}</span>
+                          </span>
+                          <span className="metric-chip">
+                            <Waves size={14} className="text-blue" />
+                            <span>{language === 'bn' ? '৪৮ ঘণ্টার বৃষ্টিপাত পর্যবেক্ষণ' : '48h Rain Radar'}</span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
@@ -377,28 +412,40 @@ export default function AdvisoryPanel({
                 const badge = getStatusBadge(hrv.status);
                 const BadgeIcon = badge.icon;
                 return (
-                  <div key="harvest" className={`advisory-card status-${hrv.status}`}>
-                    <div className="card-top">
-                      <div className="advisory-title-group">
-                        <Sun size={20} className="card-icon" />
-                        <h4>{hrv.title}</h4>
+                  <div key="harvest" className={`advisory-card-premium status-${hrv.status}`}>
+                    <div className="advisory-card-body">
+                      <div className="advisory-icon-squircle harvest-squircle">
+                        <Sun size={24} />
                       </div>
-                      <span 
-                        className="status-pill"
-                        style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
-                      >
-                        <BadgeIcon size={13} />
-                        {badge.label}
-                      </span>
-                    </div>
-                    <p className="advisory-desc">{hrv.desc}</p>
-                    <div className="advisory-footer">
-                      <span className="footer-tag">
-                        {language === 'bn' ? 'রোদে শুকানোর সুযোগ' : 'Sun Drying Viability'}
-                      </span>
-                      <span className="footer-tag">
-                        {language === 'bn' ? 'মাড়াই ও গুদামজাতকরণ' : 'Threshing & Storage'}
-                      </span>
+                      <div className="advisory-content-wrap">
+                        <div className="advisory-header-row">
+                          <div className="advisory-title-box">
+                            <span className="advisory-category-label">
+                              {language === 'bn' ? 'ফসল কর্তন ও মাড়াই সূচী' : 'Harvesting & Post-Harvest'}
+                            </span>
+                            <h4 className="advisory-title">{hrv.title}</h4>
+                          </div>
+                          <span 
+                            className="status-pill-premium"
+                            style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
+                          >
+                            <span className="status-dot-pulse" style={{ backgroundColor: badge.dot }} />
+                            <BadgeIcon size={14} />
+                            <span>{badge.label}</span>
+                          </span>
+                        </div>
+                        <p className="advisory-desc-premium">{hrv.desc}</p>
+                        <div className="advisory-metrics-row">
+                          <span className="metric-chip">
+                            <Sun size={14} className="text-amber" />
+                            <span>{language === 'bn' ? 'রোদে শুকানোর সুযোগ' : 'Sun Drying Viability'}</span>
+                          </span>
+                          <span className="metric-chip">
+                            <Leaf size={14} className="text-emerald" />
+                            <span>{language === 'bn' ? 'মাড়াই ও গুদামজাতকরণ' : 'Threshing & Storage'}</span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
@@ -410,28 +457,40 @@ export default function AdvisoryPanel({
                 const badge = getStatusBadge(dis.status);
                 const BadgeIcon = badge.icon;
                 return (
-                  <div key="diseaseRisk" className={`advisory-card status-${dis.status}`}>
-                    <div className="card-top">
-                      <div className="advisory-title-group">
-                        <ShieldAlert size={20} className="card-icon" />
-                        <h4>{dis.title}</h4>
+                  <div key="diseaseRisk" className={`advisory-card-premium status-${dis.status}`}>
+                    <div className="advisory-card-body">
+                      <div className={`advisory-icon-squircle disease-squircle status-${dis.status}`}>
+                        <ShieldAlert size={24} />
                       </div>
-                      <span 
-                        className="status-pill"
-                        style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
-                      >
-                        <BadgeIcon size={13} />
-                        {badge.label}
-                      </span>
-                    </div>
-                    <p className="advisory-desc">{dis.desc}</p>
-                    <div className="advisory-footer">
-                      <span className="footer-tag">
-                        {language === 'bn' ? 'আর্দ্রতা: ' : 'RH: '}{weatherData.humidity}%
-                      </span>
-                      <span className="footer-tag">
-                        {language === 'bn' ? 'ছত্রাক স্পোর বিস্তার অনুকূল' : 'Fungal Proliferation'}
-                      </span>
+                      <div className="advisory-content-wrap">
+                        <div className="advisory-header-row">
+                          <div className="advisory-title-box">
+                            <span className="advisory-category-label">
+                              {language === 'bn' ? 'ছত্রাক ও রোগবালাই পূর্বাভাস' : 'Fungal & Disease Risk'}
+                            </span>
+                            <h4 className="advisory-title">{dis.title}</h4>
+                          </div>
+                          <span 
+                            className="status-pill-premium"
+                            style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
+                          >
+                            <span className="status-dot-pulse" style={{ backgroundColor: badge.dot }} />
+                            <BadgeIcon size={14} />
+                            <span>{badge.label}</span>
+                          </span>
+                        </div>
+                        <p className="advisory-desc-premium">{dis.desc}</p>
+                        <div className="advisory-metrics-row">
+                          <span className="metric-chip">
+                            <Droplets size={14} className="text-blue" />
+                            <span>{language === 'bn' ? 'আর্দ্রতা: ' : 'RH: '}{weatherData.humidity}%</span>
+                          </span>
+                          <span className="metric-chip">
+                            <ShieldAlert size={14} className="text-rose" />
+                            <span>{language === 'bn' ? 'ছত্রাক স্পোর বিস্তার অনুকূল' : 'Fungal Proliferation'}</span>
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
