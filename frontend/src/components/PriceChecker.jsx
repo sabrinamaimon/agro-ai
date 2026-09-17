@@ -5,11 +5,7 @@ import { checkMarketAnomaly, fetchMarketBenchmarks } from '../services/api';
 export default function PriceChecker({ language, cropType, onPriceCheckComplete }) {
   const [benchmarks, setBenchmarks] = useState([]);
   const [selectedCrop, setSelectedCrop] = useState(cropType || 'Potato (আলু)');
-  const getCropDisplayName = (fullName) => {
-    const match = fullName.match(/^(.*)\s\(([^()]+)\)$/);
-    if (!match) return fullName;
-    return language === 'bn' ? match[2] : match[1];
-  };
+  
   const toBengaliDigits = (num) => {
     const bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
     return String(num).replace(/[0-9]/g, (d) => bn[d]);
@@ -129,7 +125,7 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
               onClick={() => setSelectedCrop(b.crop)}
               style={{ cursor: 'pointer' }}
             >
-              {getCropDisplayName(b.crop)}: <strong>৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}</strong>
+              {b.crop}: <strong>৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}</strong>
             </span>
           ))}
         </div>
@@ -145,7 +141,7 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
             disabled={loadingBenchmarks}
           >
             {benchmarks.map((b) => (
-              <option key={b.id} value={b.crop}>{getCropDisplayName(b.crop)} (গড়: ৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}/{b.unit || 'কেজি'})</option>
+              <option key={b.id} value={b.crop}>{b.crop} (গড়: ৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}/{b.unit || 'কেজি'})</option>
             ))}
           </select>
         </div>

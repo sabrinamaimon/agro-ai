@@ -21,7 +21,7 @@ export default function Hero({ language, setActiveTab }) {
 
           <h1 className="hero-title">
             {language === 'bn' ? (
-              <>কৃষকের বিশ্বস্ত বন্ধু <span className="text-green">Agro-AI</span></>
+              <>কৃষকের বিশ্বস্ত বন্ধু<br /><span className="text-green">Agro-AI</span></>
             ) : (
               <>Empowering Agriculture with <span className="text-green">Agro-AI</span></>
             )}
