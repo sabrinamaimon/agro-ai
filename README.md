@@ -1,89 +1,74 @@
-# Agro-AI — Smart Agricultural Advisory & Field Intelligence Platform
+Agro-AI — Smart Agricultural Advisory & Field Intelligence Platform
 
-> Developed for **BUP CSE FEST 2026 Hackathon** (In association with Poridhi)
 
----
 
-## Project Overview
-**Agro-AI** is an AI-powered field intelligence platform designed to empower Bangladeshi farmers with real-time crop disease diagnosis, voice-assisted symptom intake, localized weather & spray advisory, middleman market price anomaly detection, and printable Digital Crop Passports.
+Project Overview
+Agro-AI is an AI-powered field intelligence platform designed to empower Bangladeshi farmers with real-time crop disease diagnosis, voice-assisted symptom intake, localized weather & spray advisory, middleman market price anomaly detection, and printable Digital Crop Passports.
 
-### Live Deployments
-- **Frontend (Web Application)**: https://agro-ai-sooty.vercel.app
-- **Backend (API Service)**: https://agro-ai-backend-5uto.onrender.com
-- **Source Code**: https://github.com/sabrinamaimon/agro-ai
+Live Deployments
+Frontend (Web Application): https://agro-ai-sooty.vercel.app
+Backend (API Service): https://agro-ai-backend-5uto.onrender.com
+Source Code: https://github.com/sabrinamaimon/agro-ai
 
----
 
-## Key Features & Hackathon Tasks
+Key Features & Hackathon Tasks
 
-### Task 1: Voice Query Intake & Intent Extraction
+Voice Query Intake & Intent Extraction:
 - Dictate crop symptoms in spoken Bengali (`bn-BD`) or English using Web Speech API.
 - Extracts structured intent JSON (Crop Type, Planting Date, Observed Damage, Geographic Location).
 - Pre-built 1-click sample query chips for rapid demo.
 
-### Task 2: Visual Leaf Pathology Scanner
+Visual Leaf Pathology Scanner:
 - Upload leaf images or select sample diseased leaves (Potato Late Blight, Rice Leaf Blast, Tomato Yellow Curl Virus, Wheat Leaf Rust).
 - Calculates disease severity percentage (%) and assigns 4-level risk badges (Low, Moderate, High, Severe).
 - Plant part selector (Leaf, Stem, Fruit, Flower, Root) with bounding box damage visualization.
 
-### Task 3: Multimodal Weather & Remedy Advisory
+Multimodal Weather & Remedy Advisory:
 - Live weather status (Temperature, Humidity, Rain Probability, Wind Speed).
 - Dynamic Spray Safety window calculation (Safe / Caution / Risky).
 - 4-Tier treatment regimen: Chemical remedies with PHI, Organic alternatives, Long-term cultural prevention, and Fertilizer adjustments.
 
-### Task 4: Market Price Anomaly Checker
+Market Price Anomaly Checker:
 - Middleman price undercut detector across Bangladesh districts in Taka (BDT/kg).
 - Compares Official Government Fair Rate vs Local Syndicate Rate with interactive price gain calculator.
 - Yield risk and revenue impact calculation based on disease damage severity.
 
-### Task 5: Spoken Audio Briefing & Digital Crop Passport
+Spoken Audio Briefing & Digital Crop Passport:
 - Spoken Bengali audio briefing (`bn-BD` speech synthesis engine).
 - Instant downloadable PDF Crop Passport with scannable QR Code validation.
 - Field report with farmer metadata, GPS coordinates, and diagnostic summary.
 
-### Additional Modules
-- **AI Agro Prompt Chat**: Interactive agricultural advisory interface powered by Groq LLaMA-3 models.
-- **Soil & Fertilizer Calculator**: N-P-K (Urea, TSP, DAP, MOP) dosage calculator per decimal land size.
-- **Dual Language**: Instant English (EN) and Bangla (BN) toggle in top navigation.
+Additional Modules:
+AI Agro Prompt Chat: Interactive agricultural advisory interface powered by Groq LLaMA-3 models.
+Soil & Fertilizer Calculator: N-P-K (Urea, TSP, DAP, MOP) dosage calculator per decimal land size.
+Dual Language: Instant English (EN) and Bangla (BN) toggle in top navigation.
 
----
 
-## Tech Stack
-- **Frontend Framework**: React 18, Vite
-- **Styling**: Vanilla CSS3 (Modern Emerald & White Palette)
-- **Icons**: Lucide React
-- **Voice & Audio**: Web Speech API (`SpeechRecognition`, `speechSynthesis`)
-- **PDF Generation**: `html2pdf.js`
-- **Typography**: Google Fonts (*Anek Bangla*, *Poppins*)
-- **Backend Architecture**: FastAPI, Python, Groq Cloud API, Open-Meteo API
 
----
+Tech Stack:
+Frontend Framework: React 18, Vite
+Styling: Vanilla CSS3 (Modern Emerald & White Palette)
+Icons: Lucide React
+Voice & Audio: Web Speech API (`SpeechRecognition`, `speechSynthesis`)
+PDF Generation: `html2pdf.js`
+Typography: Google Fonts (*Anek Bangla*, *Poppins*)
+Backend Architecture: FastAPI, Python, Groq Cloud API, Open-Meteo API
 
-## Quick Start & Installation
-
-### Prerequisites
-- Node.js (v18+)
-- npm or yarn
-
-### Steps to Run Locally
+Steps to Run Locally:
 
 ```bash
-# 1. Clone the repository
+ 1. Clone the repository
 git clone https://github.com/sabrinamaimon/agro-ai.git
 
-# 2. Navigate into the frontend directory
+2. Navigate into the frontend directory
 cd agro-ai/frontend
 
-# 3. Install dependencies
+3. Install dependencies
 npm install
 
-# 4. Start the local development server
+4. Start the local development server
 npm run dev
 ```
 
 Open `http://localhost:5173` in Google Chrome to test the application.
 
----
-
-## Hackathon Team
-- **Frontend Lead**: Member 1 (React, Vite, UI/UX, Voice & Speech Integration)
