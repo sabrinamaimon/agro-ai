@@ -61,13 +61,13 @@ export default function AIChatPrompt({ language }) {
     <div className="card task-card">
       <div className="card-header">
         <MessageSquare color="#059669" size={24} />
-        <h2>{language === 'bn' ? 'এআই কৃষি চ্যাট প্রম্পট (Groq 120B AI Assistant)' : 'AI Agro Assistant Prompt Chat'}</h2>
+        <h2>{language === 'bn' ? 'উন্নত এআই কৃষি চ্যাট সহকারী' : 'Advanced AI Agro Assistant'}</h2>
       </div>
 
       <p className="card-desc">
         {language === 'bn'
-          ? 'কৃষি বিষয়ক যেকোনো প্রশ্ন বা প্রম্পট লিখুন—Groq এর ১২০ বিলিয়ন প্যারামিটার এআই মডেল সরাসরি সঠিক ও বৈজ্ঞানিক সমাধান প্রদান করবে।'
-          : 'Ask any custom farming query—Groq 120B AI model generates live, scientifically verified agronomic guidance.'}
+          ? 'কৃষি বিষয়ক যেকোনো প্রশ্ন বা প্রম্পট লিখুন—উন্নত এআই মডেল সরাসরি সঠিক ও বৈজ্ঞানিক সমাধান প্রদান করবে।'
+          : 'Ask any custom farming query—our advanced agricultural AI model generates live, scientifically verified agronomic guidance.'}
       </p>
 
       {/* Suggested Prompt Chips */}

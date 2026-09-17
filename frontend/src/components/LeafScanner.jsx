@@ -1,255 +1,439 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, Upload, AlertTriangle, ShieldAlert, Sparkles, Sprout, CheckCircle2, Image as ImageIcon } from 'lucide-react';
+import { Upload, AlertTriangle, ShieldCheck, CheckCircle2, Image as ImageIcon, RefreshCw, ArrowRight, Eye, Trash2, Search, SlidersHorizontal, Leaf, FlaskConical, CloudRain } from 'lucide-react';
 import { diagnoseCropImage } from '../services/api';
-import CropSearchSelect from './CropSearchSelect';
-
-const DEMO_SAMPLES = [
-  { id: 'mango-anthracnose', name: 'আমের অ্যানথ্রাকনোজ (Mango)', image: '/samples/potato_late_blight.jpg', crop: 'Mango (আম)' },
-  { id: 'potato-blight', name: 'আলুর নাবী ধসা (Potato)', image: '/samples/potato_late_blight.jpg', crop: 'Potato (আলু)' },
-  { id: 'rice-blast', name: 'ধানের ব্লাস্ট (Rice)', image: '/samples/rice_blast.jpg', crop: 'Rice / Paddy (ধান)' }
-];
+import CropSearchDropdown from './CropSearchDropdown';
+import PlantPartDropdown from './PlantPartDropdown';
 
 export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagnosisComplete }) {
-  const [selectedCrop, setSelectedCrop] = useState(intakeCrop || 'Mango (আম)');
-  const [selectedPart, setSelectedPart] = useState('leaf');
+  // Enforced flow states:
+  // Step 1: Upload photo first
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [imageFileName, setImageFileName] = useState('');
+  const [imageFileSize, setImageFileSize] = useState('');
+
+  // Step 2: Target Crop (No default crop!)
+  const [selectedCrop, setSelectedCrop] = useState(intakeCrop || null);
+
+  // Step 3: Plant Part
+  const [selectedPart, setSelectedPart] = useState('leaf');
+
+  // Step 4: Loading & Diagnostics
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [diagnosisResult, setDiagnosisResult] = useState(null);
 
+  // Sync if intakeCrop changes from Task 1
   useEffect(() => {
-    if (intakeCrop) {
+    if (intakeCrop && !selectedCrop) {
       setSelectedCrop(intakeCrop);
     }
   }, [intakeCrop]);
 
+  // Handle Photo Selection (Does NOT auto-run analysis)
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (!file) return;
     setErrorMessage(null);
     setSelectedImage(file);
+    setImageFileName(file.name);
+    setImageFileSize(`${(file.size / (1024 * 1024)).toFixed(2)} MB`);
     setPreviewUrl(URL.createObjectURL(file));
-    runDiagnosis(file, null, selectedCrop, selectedPart);
   };
 
-  const handleSampleClick = (sample) => {
-    setErrorMessage(null);
+  // Remove uploaded image
+  const handleClearImage = (e) => {
+    e.stopPropagation();
     setSelectedImage(null);
-    setSelectedCrop(sample.crop);
-    setSelectedPart('leaf');
-    setPreviewUrl(sample.image);
-    runDiagnosis(null, sample.id, sample.crop, 'leaf');
+    setPreviewUrl(null);
+    setImageFileName('');
+    setImageFileSize('');
+    setDiagnosisResult(null);
   };
 
-  const runDiagnosis = async (file, sampleId, cropToUse, partToUse) => {
-    const activeCrop = cropToUse || selectedCrop;
-    const activePart = partToUse || selectedPart;
+  // Check if Step 1, Step 2, and Step 3 are satisfied
+  const isFormValid = Boolean(previewUrl && selectedCrop && selectedPart);
+
+  // Run Diagnosis ONLY when user clicks the active search button
+  const handleRunSearch = async () => {
+    if (!isFormValid || loading) return;
+
     setLoading(true);
     setErrorMessage(null);
     try {
       const unionParam = intakeUnion || 'Rangpur Sadar';
-      const result = await diagnoseCropImage(file, sampleId, activeCrop, unionParam, language, activePart);
+      const result = await diagnoseCropImage(
+        selectedImage, 
+        null, 
+        selectedCrop, 
+        unionParam, 
+        language, 
+        selectedPart
+      );
       setDiagnosisResult(result);
       if (onDiagnosisComplete) onDiagnosisComplete(result);
     } catch (err) {
       console.error('Diagnosis failed:', err);
       setErrorMessage(language === 'bn' 
-        ? 'AI রোগ বিশ্লেষণে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।' 
-        : 'AI diagnosis failed. Please retry.');
+        ? 'রোগ বিশ্লেষণে সমস্যা হয়েছে। দয়া করে সার্ভার কানেকশন চেক করে পুনরায় চেষ্টা করুন।' 
+        : 'Diagnosis failed. Please check connection and retry.');
     } finally {
       setLoading(false);
     }
   };
 
-  const getSeverityBadgeClass = (severity) => {
-    switch (severity?.toLowerCase()) {
-      case 'mild': return 'badge-severity mild';
-      case 'moderate': return 'badge-severity moderate';
-      case 'severe': return 'badge-severity severe';
-      case 'critical': return 'badge-severity critical';
-      default: return 'badge-severity moderate';
+  const getSeverityBadge = (severity) => {
+    const s = severity?.toLowerCase();
+    if (s === 'mild') {
+      return { class: 'severity-mild', labelBn: 'হালকা (Mild)', labelEn: 'Mild' };
+    } else if (s === 'moderate') {
+      return { class: 'severity-moderate', labelBn: 'মাঝারি (Moderate)', labelEn: 'Moderate' };
+    } else if (s === 'severe') {
+      return { class: 'severity-severe', labelBn: 'তীব্র (Severe)', labelEn: 'Severe' };
+    } else {
+      return { class: 'severity-critical', labelBn: 'মারাত্মক (Critical)', labelEn: 'Critical' };
     }
   };
 
   return (
-    <div className="card task-card">
-      <div className="card-header">
-        <h2>{language === 'bn' ? 'দৃশ্যমান ফসল ও উদ্ভিদ স্বাস্থ্য স্ক্যানার (পাতা, ফল ও কাণ্ড)' : 'Visual Plant Health & Disease Scanner (Leaf, Fruit & Stem)'}</h2>
-      </div>
-
-      <p className="card-desc">
-        {language === 'bn'
-          ? 'যেকোনো কৃষি ফসলের পাতা, ফল, কাণ্ড বা শরীরের ছবি দিন। প্রথমে নিচের তালিকা থেকে ফসল ও আক্রান্ত অঙ্গ নির্বাচন করুন, এআই মডেল ওই ফসলের বাস্তব রোগ নির্ভুলভাবে শনাক্ত করবে।'
-          : 'Select your crop and infected plant organ (leaf, fruit, or stem), then upload a photo. OpenCV measures lesion damage % and Groq AI diagnoses the exact pathogen.'}
-      </p>
-
-      {/* Step 1: Comprehensive Searchable Crop Selector */}
-      <CropSearchSelect 
-        language={language} 
-        selectedCrop={selectedCrop} 
-        onSelectCrop={(formattedName) => setSelectedCrop(formattedName)} 
-      />
-
-      {/* Step 2: Plant Part / Organ Selector */}
-      <div className="plant-part-selector mt-3">
-        <label className="input-label font-bold text-base mb-2">
-          <span>
-            {language === 'bn' 
-              ? '২. আক্রান্ত উদ্ভিদাংশ বা অঙ্গ নির্বাচন করুন (Infected Plant Part):' 
-              : '2. Select Infected Plant Part / Organ:'}
+    <div className="card task-card scanner-premium-card">
+      {/* Header Banner */}
+      <div className="card-header border-b pb-3">
+        <div className="header-badge-row">
+          <span className="premium-tag">
+            <ShieldCheck size={15} />
+            <span>{language === 'bn' ? 'উদ্ভিদ রোগতত্ত্ব ভিশন ইঞ্জিন' : 'Precision Plant Health Vision'}</span>
           </span>
-        </label>
-        <div className="part-btn-group">
-          {[
-            { id: 'leaf', labelBn: '🍃 পাতা (Leaf)', labelEn: '🍃 Leaf / Foliage' },
-            { id: 'fruit', labelBn: '🍎 ফল (Fruit)', labelEn: '🍎 Fruit / Tuber' },
-            { id: 'stem', labelBn: '🪵 কাণ্ড ও শরীর (Stem / Trunk)', labelEn: '🪵 Stem & Trunk' },
-            { id: 'root', labelBn: '🌱 গোড়া ও মূল (Root / Collar)', labelEn: '🌱 Root / Collar' },
-            { id: 'auto', labelBn: '🔍 স্বয়ংক্রিয় (Auto-Detect)', labelEn: '🔍 Auto-Detect' }
-          ].map((part) => (
-            <button
-              key={part.id}
-              type="button"
-              className={`part-pill ${selectedPart === part.id ? 'active' : ''}`}
-              onClick={() => {
-                setSelectedPart(part.id);
-                if (selectedImage || previewUrl) {
-                  runDiagnosis(selectedImage, null, selectedCrop, part.id);
-                }
-              }}
-            >
-              {language === 'bn' ? part.labelBn : part.labelEn}
-            </button>
-          ))}
         </div>
+        <h2 className="mt-1">
+          {language === 'bn' 
+            ? 'ফসল ও উদ্ভিদ স্বাস্থ্য স্ক্যানার (পাতা, ফল ও কাণ্ড)' 
+            : 'Visual Crop Health & Pathology Scanner'}
+        </h2>
+        <p className="card-desc mt-1">
+          {language === 'bn'
+            ? 'আক্রান্ত অংশের ছবি আপলোড করুন, ফসল ও অঙ্গ নির্বাচন করে অনুসন্ধান বাটনে চাপুন। উন্নত এআই দৃষ্টি মডেল ছবির লক্ষণ বিশ্লেষণ করে সঠিক রোগ নির্ণয় ও সমাধান প্রদর্শন করবে।'
+            : 'Upload a clear photo of the infected plant tissue, select the crop and organ, then initiate search for verified scientific pathology diagnosis.'}
+        </p>
       </div>
 
-      {/* Step 3: Upload or Capture Photo */}
-      <div className="mt-3">
-        <label className="input-label font-bold text-base mb-2">
-          <ImageIcon size={18} color="#059669" />
-          <span>
-            {language === 'bn' 
-              ? `৩. ${selectedCrop ? `"${selectedCrop}" এর` : ''} ${selectedPart === 'fruit' ? 'আক্রান্ত ফলের' : selectedPart === 'stem' ? 'আক্রান্ত কাণ্ড বা শরীরের' : selectedPart === 'root' ? 'আক্রান্ত গোড়ার' : 'আক্রান্ত পাতা বা অংশের'} ছবি আপলোড করুন:` 
-              : `3. Upload photo for ${selectedCrop || 'crop'} (${selectedPart}):`}
-          </span>
-        </label>
+      {/* Main Sequential Workflow Container */}
+      <div className="scanner-workflow-flow mt-4">
 
-        {/* Demo Samples Selector */}
-        <div className="demo-samples-bar mb-3">
-          <span className="text-xs text-muted font-semibold">{language === 'bn' ? 'নমুনা পরীক্ষা (Demo Samples):' : 'Demo Samples:'}</span>
-          <div className="sample-btn-group">
-            {DEMO_SAMPLES.map((sample) => (
-              <button
-                key={sample.id}
-                type="button"
-                className="btn btn-outline btn-sm"
-                onClick={() => handleSampleClick(sample)}
-              >
-                <Camera size={14} />
-                <span>{sample.name}</span>
-              </button>
-            ))}
+        {/* STEP 1: Upload Photo First */}
+        <div className="workflow-step-box">
+          <div className="step-header">
+            <div className={`step-circle ${previewUrl ? 'completed' : 'active'}`}>
+              {previewUrl ? <CheckCircle2 size={16} /> : '১'}
+            </div>
+            <div className="step-title-group">
+              <h3 className="step-heading">
+                {language === 'bn' ? '১ম ধাপ: আক্রান্ত উদ্ভিদাংশের ছবি আপলোড করুন' : 'Step 1: Upload Plant Photo'}
+              </h3>
+              <span className="step-subheading">
+                {language === 'bn' 
+                  ? 'রোগাক্রান্ত পাতা, ফল, কাণ্ড বা পুরো গাছের একটি স্পষ্ট ছবি দিন' 
+                  : 'Take or upload a clear photo of the infected leaf, fruit, or stem'}
+              </span>
+            </div>
+          </div>
+
+          <div className="step-content">
+            <div className="upload-dropzone-wrapper">
+              <input 
+                type="file" 
+                accept="image/*" 
+                id="crop-photo-upload" 
+                onChange={handleImageSelect}
+                style={{ display: 'none' }}
+              />
+
+              {!previewUrl ? (
+                <label htmlFor="crop-photo-upload" className="dropzone-label">
+                  <div className="dropzone-inner">
+                    <div className="dropzone-icon-circle">
+                      <Upload size={28} className="text-emerald" />
+                    </div>
+                    <h4 className="dropzone-title">
+                      {language === 'bn' ? 'ছবি আপলোড করতে ক্লিক করুন বা ফাইল টেনে আনুন' : 'Click to browse or drag & drop leaf/fruit photo'}
+                    </h4>
+                    <span className="dropzone-hint">
+                      {language === 'bn' 
+                        ? 'সাপোর্টেড ফরম্যাট: JPG, PNG, WEBP (সর্বোচ্চ ১০ মেগাবাইট)' 
+                        : 'Supported formats: JPG, PNG, WEBP (Max 10MB)'}
+                    </span>
+                  </div>
+                </label>
+              ) : (
+                <div className="upload-preview-card">
+                  <div className="preview-img-container">
+                    <img 
+                      src={diagnosisResult?.annotated_image || previewUrl} 
+                      alt="Crop specimen" 
+                      className="preview-img" 
+                    />
+                    {diagnosisResult?.annotated_image && (
+                      <span className="cv-overlay-pill">
+                        <Eye size={14} />
+                        <span>{language === 'bn' ? 'ক্ষত চিহ্নিত বাউন্ডিং বক্স' : 'Lesion Overlays'}</span>
+                      </span>
+                    )}
+                  </div>
+                  <div className="preview-meta">
+                    <div className="meta-left">
+                      <strong className="meta-filename">{imageFileName || 'uploaded_specimen.jpg'}</strong>
+                      <span className="meta-filesize">{imageFileSize || 'Image Ready'}</span>
+                      <span className="meta-status-badge">
+                        <CheckCircle2 size={14} />
+                        <span>{language === 'bn' ? 'ছবি প্রস্তুত' : 'Image Loaded'}</span>
+                      </span>
+                    </div>
+                    <div className="meta-actions">
+                      <label htmlFor="crop-photo-upload" className="btn-action-outline">
+                        <RefreshCw size={14} />
+                        <span>{language === 'bn' ? 'পরিবর্তন' : 'Change'}</span>
+                      </label>
+                      <button 
+                        type="button" 
+                        className="btn-action-danger" 
+                        onClick={handleClearImage}
+                        title={language === 'bn' ? 'ছবি মুছুন' : 'Remove Image'}
+                      >
+                        <Trash2 size={14} />
+                        <span>{language === 'bn' ? 'মুছুন' : 'Remove'}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="upload-box">
-          <input 
-            type="file" 
-            accept="image/*" 
-            id="leaf-upload" 
-            onChange={handleImageSelect}
-            style={{ display: 'none' }}
-          />
-          <label htmlFor="leaf-upload" className="upload-label">
-            {previewUrl ? (
-              <div className="image-preview-wrapper">
-                <img src={diagnosisResult?.annotated_image || previewUrl} alt="Crop leaf" className="leaf-preview-img" />
-                <div className="overlay-tag">
-                  <Camera size={16} />
-                  <span>
-                    {diagnosisResult?.annotated_image 
-                      ? (language === 'bn' ? 'ক্ষত চিহ্নিত ওভারলে (OpenCV Bounding Box)' : 'OpenCV Lesion Bounding Overlays') 
-                      : (language === 'bn' ? 'নতুন ছবি চয়ন করুন' : 'Change Image')}
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <div className="upload-placeholder">
-                <Upload size={40} color="#10B981" />
-                <p>{language === 'bn' ? 'এখানে ছবি ক্লিক করে আপলোড করুন বা ড্র্যাগ করুন' : 'Drag & drop leaf photo or click to upload'}</p>
-                <span className="text-sm text-gray">PNG, JPG or JPEG format ({selectedCrop ? selectedCrop : 'যেকোনো ফসল'})</span>
-              </div>
-            )}
-          </label>
+        {/* STEP 2: Select Crop via Searchable Dropdown */}
+        <div className="workflow-step-box mt-3">
+          <div className="step-header">
+            <div className={`step-circle ${selectedCrop ? 'completed' : previewUrl ? 'active' : 'pending'}`}>
+              {selectedCrop ? <CheckCircle2 size={16} /> : '২'}
+            </div>
+            <div className="step-title-group">
+              <h3 className="step-heading">
+                {language === 'bn' ? '২য় ধাপ: ফসল নির্বাচন করুন (সার্চ ড্রপডাউন)' : 'Step 2: Select Target Crop (Search Dropdown)'}
+              </h3>
+              <span className="step-subheading">
+                {language === 'bn' 
+                  ? 'কোন ফসলের ছবি আপলোড করেছেন? তালিকা থেকে খুঁজুন' 
+                  : 'Which agricultural crop are you diagnosing? Search & select'}
+              </span>
+            </div>
+          </div>
+
+          <div className="step-content">
+            <CropSearchDropdown 
+              language={language}
+              selectedCrop={selectedCrop}
+              onSelectCrop={(cropFormatted) => {
+                setSelectedCrop(cropFormatted);
+                setDiagnosisResult(null); // Reset old diagnosis if crop changes
+              }}
+            />
+          </div>
         </div>
+
+        {/* STEP 3: Select Plant Part / Organ */}
+        <div className="workflow-step-box mt-3">
+          <div className="step-header">
+            <div className={`step-circle ${selectedPart ? 'completed' : selectedCrop ? 'active' : 'pending'}`}>
+              {selectedPart ? <CheckCircle2 size={16} /> : '৩'}
+            </div>
+            <div className="step-title-group">
+              <h3 className="step-heading">
+                {language === 'bn' ? '৩য় ধাপ: আক্রান্ত উদ্ভিদাংশ বা অঙ্গ নির্বাচন করুন' : 'Step 3: Select Infected Plant Part / Organ'}
+              </h3>
+              <span className="step-subheading">
+                {language === 'bn' 
+                  ? 'ছবিটি উদ্ভিদের কোন অংশের? পাতা, ফল, কাণ্ড নাকি শিকড়' 
+                  : 'Which plant part is photographed? Leaf, fruit, stem, or root'}
+              </span>
+            </div>
+          </div>
+
+          <div className="step-content">
+            <PlantPartDropdown 
+              language={language}
+              selectedPart={selectedPart}
+              onSelectPart={(partId) => {
+                setSelectedPart(partId);
+                setDiagnosisResult(null); // Reset old diagnosis if part changes
+              }}
+            />
+          </div>
+        </div>
+
+        {/* STEP 4: Trigger Search & Analyze Button */}
+        <div className="workflow-action-box mt-4">
+          <button
+            type="button"
+            className={`btn-diagnose-action ${isFormValid && !loading ? 'active' : 'disabled'}`}
+            disabled={!isFormValid || loading}
+            onClick={handleRunSearch}
+          >
+            {loading ? (
+              <>
+                <RefreshCw size={20} className="spin" />
+                <span>{language === 'bn' ? 'উন্নত এআই দৃষ্টি ও রোগতত্ত্ব বিশ্লেষণ চলছে...' : 'Running Precision AI Pathology Analysis...'}</span>
+              </>
+            ) : (
+              <>
+                <Search size={20} />
+                <span>
+                  {language === 'bn' 
+                    ? 'রোগ অনুসন্ধান ও নিখুঁত বিশ্লেষণ করুন' 
+                    : 'Analyze Crop & Diagnose Pathology'}
+                </span>
+                <ArrowRight size={18} />
+              </>
+            )}
+          </button>
+
+          {/* Helper / Validation Guidance */}
+          {!isFormValid && (
+            <div className="action-guidance-pill mt-2">
+              <AlertTriangle size={15} />
+              <span>
+                {!previewUrl
+                  ? (language === 'bn' ? 'অনুসন্ধান সক্রিয় করতে প্রথমে ১ম ধাপে ছবি আপলোড করুন' : 'Please upload photo in Step 1 to activate search')
+                  : !selectedCrop
+                  ? (language === 'bn' ? 'অনুসন্ধান সক্রিয় করতে ২য় ধাপে ফসল নির্বাচন করুন' : 'Please select a crop in Step 2 to activate search')
+                  : (language === 'bn' ? 'সকল ধাপ পূরণ করুন' : 'Complete all steps to search')}
+              </span>
+            </div>
+          )}
+        </div>
+
       </div>
 
-      {loading && (
-        <div className="loading-spinner mt-4">
-          <Sparkles className="spin" size={24} color="#10B981" />
-          <span>
-            {language === 'bn' 
-              ? `${selectedCrop || 'ফসল'}-এর কম্পিউটার ভিশন ও Groq 120B এআই দ্বারা নির্ভুল বিশ্লেষণ চলছে...` 
-              : `Running precision Computer Vision & Groq 120B analysis for ${selectedCrop || 'crop'}...`}
-          </span>
-        </div>
-      )}
-
+      {/* Error Notification */}
       {errorMessage && (
-        <div className="alert-strip warning mt-3">
+        <div className="alert-strip warning mt-4">
           <AlertTriangle size={18} />
           <span>{errorMessage}</span>
         </div>
       )}
 
+      {/* STEP 5: Verified Diagnostic Result Card */}
       {diagnosisResult && !loading && (
-        <div className="result-box mt-4">
-          <div className="result-header">
-            <ShieldAlert color="#EF4444" size={22} />
-            <h4>{language === 'bn' ? `রোগ নির্ণয় ফলাফল: ${diagnosisResult.cropType}` : `Diagnostic Results: ${diagnosisResult.cropType}`}</h4>
-            <span className={getSeverityBadgeClass(diagnosisResult.severity)}>
-              {diagnosisResult.severity === 'Mild' ? (language === 'bn' ? 'হালকা (Mild)' : 'Mild') :
-               diagnosisResult.severity === 'Moderate' ? (language === 'bn' ? 'মাঝারি (Moderate)' : 'Moderate') :
-               diagnosisResult.severity === 'Severe' ? (language === 'bn' ? 'তীব্র (Severe)' : 'Severe') :
-               diagnosisResult.severity === 'Critical' ? (language === 'bn' ? 'মারাত্মক (Critical)' : 'Critical') :
-               diagnosisResult.severity} {language === 'bn' ? 'মাত্রা' : 'Severity'}
-            </span>
+        <div className="result-box premium-result-card mt-4 animate-fade-in">
+          <div className="result-top-bar">
+            <div className="result-top-left">
+              <span className="result-badge-pill">
+                <CheckCircle2 size={15} />
+                <span>{language === 'bn' ? 'এআই রোগ বিশ্লেষণ ফলাফল' : 'AI Diagnostic Result'}</span>
+              </span>
+              <h3 className="result-title mt-1">
+                {diagnosisResult.name}
+              </h3>
+              <span className="result-scientific-name">
+                {diagnosisResult.pathogen}
+              </span>
+            </div>
+
+            <div className="result-top-right">
+              {(() => {
+                const b = getSeverityBadge(diagnosisResult.severity);
+                return (
+                  <span className={`badge-severity-pill ${b.class}`}>
+                    {language === 'bn' ? b.labelBn : b.labelEn}
+                  </span>
+                );
+              })()}
+            </div>
           </div>
 
-          <div className="grid-2 mt-3">
+          <div className="grid-2 mt-4">
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'শনাক্তকৃত রোগ (Diagnosed Pathology)' : 'Diagnosed Pathology'}</span>
-              <span className="data-value highlight">{diagnosisResult.name}</span>
+              <span className="data-label">{language === 'bn' ? 'শনাক্তকৃত ফসল' : 'Diagnosed Crop'}</span>
+              <span className="data-value font-bold">{diagnosisResult.cropType}</span>
             </div>
+
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'আক্রান্ত উদ্ভিদাংশ (Infected Plant Part)' : 'Infected Plant Part'}</span>
-              <span className="data-value highlight">{diagnosisResult.plantPart || (language === 'bn' ? 'পাতা (Leaf)' : 'Leaf')}</span>
+              <span className="data-label">{language === 'bn' ? 'আক্রান্ত উদ্ভিদাংশ' : 'Infected Organ'}</span>
+              <span className="data-value highlight font-bold">
+                {diagnosisResult.plantPart || (language === 'bn' ? 'পাতা (Leaf)' : 'Leaf')}
+              </span>
             </div>
+
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'আক্রান্ত ক্ষেত্রফল (CV Damage %)' : 'Physical Surface Damage'}</span>
-              <span className="data-value danger">{diagnosisResult.damagePercentage}% {language === 'bn' ? 'ক্ষেত্রফল আক্রান্ত' : 'Surface Area'}</span>
+              <span className="data-label">{language === 'bn' ? 'শারীরিক ক্ষতির মাত্রা (Surface Damage)' : 'Surface Area Damage'}</span>
+              <span className="data-value danger font-bold">
+                {diagnosisResult.damagePercentage}% {language === 'bn' ? 'ক্ষেত্রফল আক্রান্ত' : 'Surface Area'}
+              </span>
             </div>
+
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'ফসলের নাম (Target Crop)' : 'Crop Name'}</span>
-              <span className="data-value">{diagnosisResult.cropType}</span>
+              <span className="data-label">{language === 'bn' ? 'চিহ্নিত ক্ষত গুচ্ছ (Lesion Spots)' : 'Pinpointed Lesions'}</span>
+              <span className="data-value">
+                {diagnosisResult.bounding_boxes?.length || 0} টি ক্লাস্টার
+              </span>
             </div>
-            <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'প্যাথোজেন জীবাণু (Pathogen)' : 'Scientific Pathogen'}</span>
-              <span className="data-value italic">{diagnosisResult.pathogen}</span>
-            </div>
-            <div className="data-item full-width">
-              <span className="data-label">{language === 'bn' ? 'শনাক্তকৃত ক্ষত গুচ্ছ (Lesion Spots)' : 'Lesion Clusters Pinpointed'}</span>
-              <span className="data-value">{diagnosisResult.bounding_boxes?.length || 0} টি ক্ষত ক্লাস্টার (OpenCV Contours)</span>
-            </div>
+
             {diagnosisResult.description && (
               <div className="data-item full-width">
-                <span className="data-label">{language === 'bn' ? 'লক্ষণ ও কোষবিনাশের বিবরণ (Clinical Symptoms)' : 'Clinical Symptoms'}</span>
-                <p className="text-sm mt-1">{diagnosisResult.description}</p>
+                <span className="data-label">{language === 'bn' ? 'রোগের লক্ষণ ও বিবরণ' : 'Clinical Symptoms & Description'}</span>
+                <p className="text-sm mt-1 leading-relaxed text-gray-800">
+                  {diagnosisResult.description}
+                </p>
+              </div>
+            )}
+
+            {diagnosisResult.root_cause && (
+              <div className="data-item full-width">
+                <span className="data-label">{language === 'bn' ? 'আবহাওয়া প্রভাব ও সংক্রমণের কারণ' : 'Climate Trigger & Root Cause'}</span>
+                <p className="text-sm mt-1 leading-relaxed text-gray-800">
+                  {diagnosisResult.root_cause}
+                </p>
               </div>
             )}
           </div>
+
+          {/* Actionable Remedies Grid */}
+          {(diagnosisResult.organicRemedy || diagnosisResult.chemicalRemedy) && (
+            <div className="grid-2 mt-4">
+              {diagnosisResult.organicRemedy && (
+                <div className="remedy-card organic p-3 rounded-xl border border-emerald-200 bg-emerald-50/50">
+                  <div className="remedy-title flex items-center gap-2 text-emerald-800 font-bold mb-2">
+                    <Leaf size={18} className="text-emerald-600" />
+                    <span>{language === 'bn' ? 'জৈব ও প্রাকৃতিক প্রতিকার' : 'Organic Control'}</span>
+                  </div>
+                  <p className="text-xs text-gray-700 whitespace-pre-line leading-relaxed">
+                    {diagnosisResult.organicRemedy}
+                  </p>
+                </div>
+              )}
+
+              {diagnosisResult.chemicalRemedy && (
+                <div className="remedy-card chemical p-3 rounded-xl border border-blue-200 bg-blue-50/50">
+                  <div className="remedy-title flex items-center gap-2 text-blue-800 font-bold mb-2">
+                    <FlaskConical size={18} className="text-blue-600" />
+                    <span>{language === 'bn' ? 'অনুমোদিত রাসায়নিক ও ছত্রাকনাশক' : 'Chemical Control'}</span>
+                  </div>
+                  <p className="text-xs text-gray-700 whitespace-pre-line leading-relaxed">
+                    {diagnosisResult.chemicalRemedy}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {diagnosisResult.sprayAdvice && (
+            <div className="spray-advice-strip mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-2">
+              <CloudRain size={18} className="text-amber-600 mt-0.5 flex-shrink-0" />
+              <div className="text-xs text-amber-900 leading-relaxed">
+                <strong>{language === 'bn' ? 'স্প্রে করার সময়সূচী ও সতর্কতা: ' : 'Spray Advisory: '}</strong>
+                <span>{diagnosisResult.sprayAdvice}</span>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
