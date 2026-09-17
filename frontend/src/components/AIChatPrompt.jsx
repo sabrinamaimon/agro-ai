@@ -99,11 +99,7 @@ export default function AIChatPrompt({ language }) {
   };
 
   return (
-<<<<<<< Updated upstream
-    <div className="card task-card ai-chat-container">
-=======
-    <div className="card task-card ai-chat-card">
->>>>>>> Stashed changes
+    <div className="card task-card ai-chat-container ai-chat-card">
       <div className="card-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <div style={{
