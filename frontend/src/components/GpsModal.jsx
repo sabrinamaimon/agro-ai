@@ -108,16 +108,16 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
         {/* Header */}
         <div className="gps-modal-header">
           <div className="gps-radar-icon-box">
-            <Satellite size={24} className="text-emerald animate-pulse" />
+            <Navigation size={24} className="text-emerald animate-pulse" />
           </div>
           <div className="gps-header-text">
             <h3>
-              {language === 'bn' ? 'হাইপারলোকাল জিপিএস ফিল্ড লোকেশন' : 'Hyperlocal GPS Field Location'}
+              {language === 'bn' ? 'তাৎক্ষণিক আবহাওয়া আপডেট' : 'Real-Time Weather Updates'}
             </h3>
             <p>
               {language === 'bn' 
-                ? 'একই জেলার ভেতরেও কয়েক কিলোমিটার দূরত্বে আবহাওয়া ভিন্ন হতে পারে। আপনার ফসলের মাঠের সঠিক মাইক্রোক্লাইমেট পূর্বাভাসের জন্য সরাসরি স্যাটেলাইট জিপিএস প্রয়োজন।' 
-                : 'Weather varies across micro-regions. Real-time satellite GPS delivers accurate field-level microclimate forecasts.'}
+                ? 'আপনার এলাকার তাৎক্ষণিক আবহাওয়ার আপডেট ও সঠিক পূর্বাভাস জানতে জিপিএস চালু করুন।' 
+                : 'Enable GPS to receive instant weather updates, rain alerts, and precise spraying guidance for your location.'}
             </p>
           </div>
           {activeGps && (
@@ -137,10 +137,10 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
           </div>
           <span className="gps-radar-caption">
             {isDetecting 
-              ? (language === 'bn' ? 'স্যাটেলাইট থেকে মাঠের সঠিক কোঅর্ডিনেট নেওয়া হচ্ছে...' : 'Acquiring pinpoint satellite GPS coordinates...') 
+              ? (language === 'bn' ? 'বর্তমান অবস্থান খোঁজা হচ্ছে...' : 'Locating your current position...') 
               : activeGps 
-                ? (language === 'bn' ? 'জিপিএস সফলভাবে সক্রিয় রয়েছে' : 'GPS Location Active & Synced') 
-                : (language === 'bn' ? 'ফিল্ড জিপিএস সেন্সর প্রস্তুত' : 'Ready to calibrate GPS sensor')}
+                ? (language === 'bn' ? 'বর্তমান অবস্থান সক্রিয় রয়েছে' : 'Location synced successfully') 
+                : (language === 'bn' ? 'লোকেশন সনাক্ত করতে নিচের বাটনে চাপুন' : 'Click below to detect location')}
           </span>
         </div>
 
@@ -149,7 +149,7 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
           <div className="gps-error-box mt-3">
             <AlertCircle size={20} className="text-danger flex-shrink-0" />
             <div className="gps-error-text">
-              <strong>{language === 'bn' ? 'পারমিশন সমস্যা:' : 'Permission Notice:'}</strong>
+              <strong>{language === 'bn' ? 'পারমিশন প্রয়োজন:' : 'Permission Required:'}</strong>
               <p>{errorMsg}</p>
             </div>
           </div>
@@ -160,20 +160,20 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
           <div className="gps-success-box mt-3">
             <div className="success-header">
               <CheckCircle2 size={18} className="text-emerald" />
-              <strong>{language === 'bn' ? 'মাঠের রিয়েল-টাইম জিপিএস তথ্য' : 'Verified Field Coordinates'}</strong>
+              <strong>{language === 'bn' ? 'আপনার বর্তমান এলাকা' : 'Your Current Area'}</strong>
             </div>
             <div className="gps-coords-display mt-2">
               <div className="coord-row">
-                <span className="coord-label">{language === 'bn' ? 'অবস্থান:' : 'Area:'}</span>
+                <span className="coord-label">{language === 'bn' ? 'স্থান:' : 'Location:'}</span>
                 <strong className="coord-val area-name">{activeGps.areaName}</strong>
               </div>
               <div className="coord-row">
                 <span className="coord-label">{language === 'bn' ? 'কোঅর্ডিনেট:' : 'Coords:'}</span>
-                <span className="coord-val">{activeGps.lat?.toFixed(5)}° N, {activeGps.lon?.toFixed(5)}° E</span>
+                <span className="coord-val">{activeGps.lat?.toFixed(4)}° N, {activeGps.lon?.toFixed(4)}° E</span>
               </div>
               {activeGps.accuracy && (
                 <div className="coord-row">
-                  <span className="coord-label">{language === 'bn' ? 'নিখুঁত মাত্রা:' : 'Accuracy:'}</span>
+                  <span className="coord-label">{language === 'bn' ? 'নির্ভুল মাত্রা:' : 'Accuracy:'}</span>
                   <span className="coord-val accuracy-badge">±{activeGps.accuracy} {language === 'bn' ? 'মিটার' : 'meters'}</span>
                 </div>
               )}
@@ -192,10 +192,10 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
             <RefreshCw size={18} className={isDetecting ? 'spin' : ''} />
             <span>
               {isDetecting 
-                ? (language === 'bn' ? 'জিপিএস শনাক্ত করা হচ্ছে...' : 'Detecting GPS...') 
+                ? (language === 'bn' ? 'অবস্থান খোঁজা হচ্ছে...' : 'Detecting Location...') 
                 : activeGps 
-                  ? (language === 'bn' ? 'মাঠের অবস্থান পুনরায় আপডেট করুন' : 'Refresh / Recalibrate Field GPS') 
-                  : (language === 'bn' ? 'জিপিএস দিয়ে অবস্থান শনাক্ত করুন' : 'Detect Current GPS Location')}
+                  ? (language === 'bn' ? 'অবস্থান আপডেট করুন' : 'Update Location') 
+                  : (language === 'bn' ? 'জিপিএস চালু করুন' : 'Enable GPS')}
             </span>
           </button>
           
@@ -203,8 +203,8 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
             <ShieldCheck size={14} className="text-emerald" />
             <span>
               {language === 'bn' 
-                ? 'আপনার জিপিএস শুধুমাত্র ব্রাউজারে সংরক্ষিত থাকে এবং কেবল আবহাওয়া পূর্বাভাসের জন্য ব্যবহৃত হয়।' 
-                : 'Coordinates are stored securely in your browser exclusively for hyperlocal forecasts.'}
+                ? 'আপনার অবস্থান সম্পূর্ণ নিরাপদ এবং শুধুমাত্র আবহাওয়ার পূর্বাভাসের জন্য ব্যবহৃত হবে।' 
+                : 'Your location is kept secure and used solely for accurate local weather forecasting.'}
             </span>
           </div>
         </div>

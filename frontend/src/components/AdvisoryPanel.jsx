@@ -18,8 +18,7 @@ import {
   Camera,
   Calendar,
   Waves,
-  Navigation,
-  Satellite
+  Navigation
 } from 'lucide-react';
 import { fetchWeatherAdvisory } from '../services/api';
 
@@ -108,13 +107,13 @@ export default function AdvisoryPanel({
         <div className="header-title-block">
           <h2>
             {language === 'bn' 
-              ? 'হাইপারলোকাল কৃষি আবহাওয়া ও ফিল্ড ইন্টেলিজেন্স' 
-              : 'Hyperlocal Agro Weather & Field Advisory'}
+              ? 'মাঠের কৃষি আবহাওয়া ও পূর্বাভাস' 
+              : 'Field Agro Weather & Advisory'}
           </h2>
           <p className="header-desc">
             {language === 'bn' 
-              ? 'জেলা বা শহরের গড় তথ্যের বদলে সরাসরি আপনার ফসলের মাঠের জিপিএস ভিত্তিক রিয়েল-টাইম পূর্বাভাস' 
-              : 'Pinpoint GPS field-level forecasts and microclimate spray safety analytics'}
+              ? 'আপনার ফসলের মাঠের তাৎক্ষণিক আবহাওয়া ও সঠিক কৃষি পরামর্শ' 
+              : 'Real-time field weather forecasts and crop care advisory'}
           </p>
         </div>
 
@@ -123,12 +122,12 @@ export default function AdvisoryPanel({
             type="button" 
             className="location-selector-btn"
             onClick={onOpenGpsModal}
-            title={language === 'bn' ? 'মাঠের জিপিএস ক্যালিব্রেট করুন' : 'Calibrate Field GPS'}
+            title={language === 'bn' ? 'বর্তমান অবস্থান পরিবর্তন করুন' : 'Change Location'}
           >
             <Navigation size={16} className="text-emerald" />
             <span className="location-btn-text">{locationDisplay}</span>
             <span className="location-change-tag">
-              {gpsLocation ? (language === 'bn' ? 'জিপিএস রিফ্রেশ' : 'GPS') : (language === 'bn' ? 'জিপিএস অন করুন' : 'Enable GPS')}
+              {gpsLocation ? (language === 'bn' ? 'জিপিএস পরিবর্তন' : 'GPS') : (language === 'bn' ? 'জিপিএস চালু করুন' : 'Enable GPS')}
             </span>
           </button>
 
@@ -148,19 +147,19 @@ export default function AdvisoryPanel({
       {!gpsLocation && (
         <div className="gps-notice-banner mt-3" onClick={onOpenGpsModal}>
           <div className="notice-left">
-            <Satellite size={22} className="text-emerald animate-pulse" />
+            <Navigation size={22} className="text-emerald animate-pulse" />
             <div className="notice-text">
-              <strong>{language === 'bn' ? 'মাঠের সঠিক মাইক্রোক্লাইমেট পেতে জিপিএস সক্রিয় করুন' : 'Calibrate GPS for exact field conditions'}</strong>
+              <strong>{language === 'bn' ? 'তাৎক্ষণিক আবহাওয়ার আপডেট জানতে আপনার জিপিএস চালু করুন' : 'Enable GPS for real-time weather updates'}</strong>
               <p>
                 {language === 'bn' 
-                  ? 'একই জেলার ভিন্ন প্রান্তে আবহাওয়া ভিন্ন হতে পারে। আপনার জমির সঠিক বৃষ্টিপাত ও স্প্রে সময়ের জন্য জিপিএস অন করুন।' 
-                  : 'Weather varies across micro-regions. Activate device GPS for field-accurate forecasts.'}
+                  ? 'আপনার এলাকার সঠিক তাপমাত্রা, বৃষ্টিপাত ও স্প্রে করার উপযুক্ত সময় জানতে জিপিএস চালু করুন।' 
+                  : 'Get accurate local rainfall, temperature, and spray advisory for your field.'}
               </p>
             </div>
           </div>
           <button type="button" className="btn-activate-gps">
             <Navigation size={15} />
-            <span>{language === 'bn' ? 'জিপিএস সক্রিয় করুন' : 'Enable GPS'}</span>
+            <span>{language === 'bn' ? 'জিপিএস চালু করুন' : 'Enable GPS'}</span>
           </button>
         </div>
       )}
@@ -169,7 +168,7 @@ export default function AdvisoryPanel({
         <div className="weather-loading-skeleton mt-3">
           <div className="skeleton-loader-text">
             <RefreshCw size={24} className="spin text-emerald" />
-            <span>{language === 'bn' ? 'আবহাওয়া তথ্য লোড হচ্ছে...' : 'Loading weather intelligence...'}</span>
+            <span>{language === 'bn' ? 'আবহাওয়া তথ্য লোড হচ্ছে...' : 'Loading weather data...'}</span>
           </div>
         </div>
       )}
@@ -186,12 +185,12 @@ export default function AdvisoryPanel({
 
       {weatherData && (
         <>
-          {/* Microclimate GPS Field Coordinates Badge */}
+          {/* Location Badge */}
           <div className="microclimate-field-badge mt-3">
             <div className="badge-left">
-              <Satellite size={16} className="text-emerald" />
+              <MapPin size={16} className="text-emerald" />
               <span className="badge-title">
-                {language === 'bn' ? 'মাঠের স্যাটেলাইট জিপিএস স্থানাঙ্ক:' : 'Field Satellite GPS Coordinates:'}
+                {language === 'bn' ? 'বর্তমান অবস্থান:' : 'Current Location:'}
               </span>
               <strong className="badge-coords">
                 {weatherData.lat?.toFixed(4)}° N, {weatherData.lon?.toFixed(4)}° E
@@ -199,8 +198,8 @@ export default function AdvisoryPanel({
             </div>
             <span className="badge-subtext">
               {language === 'bn' 
-                ? 'অতি-স্থানীয় মাইক্রোক্লাইমেট (জেলা সদরের গড় তথ্যের বদলে সরাসরি আপনার ক্ষেতের আবহাওয়া)' 
-                : 'Hyperlocal microclimate field model (pinpoint accuracy)'}
+                ? 'আপনার এলাকার তাৎক্ষণিক আবহাওয়ার সরাসরি আপডেট' 
+                : 'Direct real-time weather updates for your area'}
             </span>
           </div>
 
