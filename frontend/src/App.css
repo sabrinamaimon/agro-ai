@@ -1,5 +1,5 @@
 /* Modern White & Emerald Green Agro-AI Theme */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@400;600;700&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Sora:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap');
 
 :root {
   --bg-primary: #F8FAFC;
@@ -17,11 +17,36 @@
   --info-color: #2563EB;
 }
 
+/* Font Demo Classes */
+.font-jakarta, .font-jakarta * {
+  font-family: 'Plus Jakarta Sans', 'Hind Siliguri', system-ui, sans-serif !important;
+}
+
+.font-outfit, .font-outfit * {
+  font-family: 'Outfit', 'Noto Sans Bengali', system-ui, sans-serif !important;
+}
+
+.font-poppins, .font-poppins * {
+  font-family: 'Poppins', 'Anek Bangla', system-ui, sans-serif !important;
+}
+
+.font-sora, .font-sora * {
+  font-family: 'Sora', 'Hind Siliguri', system-ui, sans-serif !important;
+}
+
+.font-space, .font-space * {
+  font-family: 'Space Grotesk', 'Noto Sans Bengali', system-ui, sans-serif !important;
+}
+
+.font-inter, .font-inter * {
+  font-family: 'Inter', 'Noto Sans Bengali', system-ui, sans-serif !important;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Hind Siliguri', system-ui, sans-serif;
 }
 
 body {
@@ -85,6 +110,36 @@ body {
 .logo-subtitle {
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.font-select-box {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 0.45rem 0.85rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.font-select-box select {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-weight: 600;
+  color: var(--primary-dark);
+  cursor: pointer;
+  font-size: 0.85rem;
 }
 
 .lang-toggle-btn {
