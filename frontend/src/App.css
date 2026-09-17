@@ -173,6 +173,8 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .happy-farmer-img {
@@ -180,10 +182,11 @@ body {
   max-width: 380px;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  object-position: center 40%;
+  object-position: center 30%;
   border-radius: 20px;
   box-shadow: 0 12px 30px rgba(5, 150, 105, 0.2);
   border: 4px solid #FFFFFF;
+  transform: scale(1.12);
 }
 
 .floating-hero-badge {
