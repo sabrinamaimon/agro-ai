@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, Upload, AlertTriangle, ShieldAlert, Sparkles, Sprout, CheckCircle2 } from 'lucide-react';
+import { Camera, Upload, AlertTriangle, ShieldAlert, Sparkles, Sprout, CheckCircle2, Image as ImageIcon } from 'lucide-react';
 import { diagnoseCropImage } from '../services/api';
+import CropSearchSelect from './CropSearchSelect';
 
-const REAL_SAMPLES = [
-  { id: 'potato-blight', name: 'আলুর নাবী ধসা (Potato Late Blight)', image: '/samples/potato_late_blight.jpg', crop: 'Potato (আলু)' },
-  { id: 'rice-blast', name: 'ধানের ব্লাস্ট রোগ (Rice Blast)', image: '/samples/rice_blast.jpg', crop: 'Rice (ধান)' }
-];
-
-const CROP_CHOICES = [
-  { value: 'auto', labelBn: 'স্বয়ংক্রিয় শনাক্তকরণ (Auto-Detect AI)', labelEn: 'Auto-Detect by AI' },
-  { value: 'Potato (আলু)', labelBn: 'আলু (Potato)', labelEn: 'Potato' },
-  { value: 'Rice (ধান)', labelBn: 'ধান (Rice)', labelEn: 'Rice' },
-  { value: 'Tomato (টমেটো)', labelBn: 'টমেটো (Tomato)', labelEn: 'Tomato' },
-  { value: 'Wheat (গম)', labelBn: 'গম (Wheat)', labelEn: 'Wheat' },
-  { value: 'Onion (পেঁয়াজ)', labelBn: 'পেঁয়াজ (Onion)', labelEn: 'Onion' },
-  { value: 'Brinjal (বেগুন)', labelBn: 'বেগুন (Brinjal)', labelEn: 'Brinjal' },
-  { value: 'Jute (পাট)', labelBn: 'পাট (Jute)', labelEn: 'Jute' },
-  { value: 'Maize (ভুট্টা)', labelBn: 'ভুট্টা (Maize)', labelEn: 'Maize' }
+const DEMO_SAMPLES = [
+  { id: 'mango-anthracnose', name: 'আমের অ্যানথ্রাকনোজ (Mango)', image: '/samples/potato_late_blight.jpg', crop: 'Mango (আম)' },
+  { id: 'potato-blight', name: 'আলুর নাবী ধসা (Potato)', image: '/samples/potato_late_blight.jpg', crop: 'Potato (আলু)' },
+  { id: 'rice-blast', name: 'ধানের ব্লাস্ট (Rice)', image: '/samples/rice_blast.jpg', crop: 'Rice / Paddy (ধান)' }
 ];
 
 export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagnosisComplete }) {
-  const [selectedCrop, setSelectedCrop] = useState(intakeCrop || 'auto');
+  const [selectedCrop, setSelectedCrop] = useState(intakeCrop || 'Mango (আম)');
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -50,13 +40,13 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
     runDiagnosis(null, sample.id, sample.crop);
   };
 
-  const runDiagnosis = async (file, sampleId, crop) => {
+  const runDiagnosis = async (file, sampleId, cropToUse) => {
+    const activeCrop = cropToUse || selectedCrop;
     setLoading(true);
     setErrorMessage(null);
     try {
-      const cropParam = crop === 'auto' ? null : crop;
       const unionParam = intakeUnion || 'Rangpur Sadar';
-      const result = await diagnoseCropImage(file, sampleId, cropParam, unionParam);
+      const result = await diagnoseCropImage(file, sampleId, activeCrop, unionParam);
       setDiagnosisResult(result);
       if (onDiagnosisComplete) onDiagnosisComplete(result);
     } catch (err) {
@@ -82,86 +72,91 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
   return (
     <div className="card task-card">
       <div className="card-header">
-        <h2>{language === 'bn' ? 'দৃশ্যমান রোগ শনাক্তকরণ ও ক্ষতির মাত্রা (OpenCV + Groq AI)' : 'Visual Crop Disease Detection & CV Engine'}</h2>
+        <h2>{language === 'bn' ? 'দৃশ্যমান রোগ শনাক্তকরণ ও ক্ষতির মাত্রা (Precision Crop Vision)' : 'Visual Crop Disease Detection & CV Engine'}</h2>
       </div>
 
       <p className="card-desc">
         {language === 'bn'
-          ? 'আক্রান্ত পাতার ছবি তুলুন বা আপলোড করুন। কম্পিউটার ভিশন পাতার ক্ষতের শতকরা ক্ষতি হিসেব করবে এবং Groq AI লাইভ রোগ নির্ণয় করবে।'
-          : 'Upload a leaf photo. OpenCV measures surface lesion damage %, and Groq AI diagnoses the exact pathogen live.'}
+          ? 'যেকোনো কৃষি ফসলের আক্রান্ত পাতা বা ফলের ছবি দিন। প্রথমে নিচের তালিকা থেকে ফসল নির্বাচন করুন, এআই মডেল ওই ফসলের বাস্তব রোগ নির্ভুলভাবে শনাক্ত করবে।'
+          : 'Select your crop first from the list, then upload a leaf photo. OpenCV measures lesion damage % and Groq AI diagnoses the exact pathogen strictly for that crop.'}
       </p>
 
-      {/* Crop Selector Form Row */}
-      <div className="form-group mb-3">
-        <label className="input-label">
-          <Sprout size={16} />
-          <span>{language === 'bn' ? 'ফসলের ধরণ (ঐচ্ছিক - AI অটো ডিটেক্ট করতে পারে):' : 'Crop Type (Optional - AI can auto-detect):'}</span>
-        </label>
-        <select 
-          className="input-field"
-          value={selectedCrop}
-          onChange={(e) => setSelectedCrop(e.target.value)}
-        >
-          {CROP_CHOICES.map(c => (
-            <option key={c.value} value={c.value}>
-              {language === 'bn' ? c.labelBn : c.labelEn}
-            </option>
-          ))}
-        </select>
-      </div>
+      {/* Step 1: Comprehensive Searchable Crop Selector */}
+      <CropSearchSelect 
+        language={language} 
+        selectedCrop={selectedCrop} 
+        onSelectCrop={(formattedName) => setSelectedCrop(formattedName)} 
+      />
 
-      {/* Real Sample Images Selector */}
-      <div className="demo-samples-bar mb-3">
-        <span className="text-sm text-gray">{language === 'bn' ? 'পরীক্ষামূলক আসল নমুনা ছবি (Real Samples):' : 'Real Test Samples:'}</span>
-        <div className="sample-btn-group">
-          {REAL_SAMPLES.map((sample) => (
-            <button
-              key={sample.id}
-              className="btn btn-outline btn-sm"
-              onClick={() => handleSampleClick(sample)}
-            >
-              <Camera size={14} />
-              <span>{sample.name}</span>
-            </button>
-          ))}
+      {/* Step 2: Upload or Capture Photo */}
+      <div className="mt-3">
+        <label className="input-label font-bold text-base mb-2">
+          <ImageIcon size={18} color="#059669" />
+          <span>
+            {language === 'bn' 
+              ? `২. ${selectedCrop ? `"${selectedCrop}" এর` : ''} আক্রান্ত পাতা/ফলের ছবি আপলোড করুন:` 
+              : `2. Upload leaf photo for ${selectedCrop || 'selected crop'}:`}
+          </span>
+        </label>
+
+        {/* Demo Samples Selector */}
+        <div className="demo-samples-bar mb-3">
+          <span className="text-xs text-muted font-semibold">{language === 'bn' ? 'নমুনা পরীক্ষা (Demo Samples):' : 'Demo Samples:'}</span>
+          <div className="sample-btn-group">
+            {DEMO_SAMPLES.map((sample) => (
+              <button
+                key={sample.id}
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={() => handleSampleClick(sample)}
+              >
+                <Camera size={14} />
+                <span>{sample.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="upload-box">
+          <input 
+            type="file" 
+            accept="image/*" 
+            id="leaf-upload" 
+            onChange={handleImageSelect}
+            style={{ display: 'none' }}
+          />
+          <label htmlFor="leaf-upload" className="upload-label">
+            {previewUrl ? (
+              <div className="image-preview-wrapper">
+                <img src={diagnosisResult?.annotated_image || previewUrl} alt="Crop leaf" className="leaf-preview-img" />
+                <div className="overlay-tag">
+                  <Camera size={16} />
+                  <span>
+                    {diagnosisResult?.annotated_image 
+                      ? (language === 'bn' ? 'ক্ষত চিহ্নিত ওভারলে (OpenCV Bounding Box)' : 'OpenCV Lesion Bounding Overlays') 
+                      : (language === 'bn' ? 'নতুন ছবি চয়ন করুন' : 'Change Image')}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="upload-placeholder">
+                <Upload size={40} color="#10B981" />
+                <p>{language === 'bn' ? 'এখানে ছবি ক্লিক করে আপলোড করুন বা ড্র্যাগ করুন' : 'Drag & drop leaf photo or click to upload'}</p>
+                <span className="text-sm text-gray">PNG, JPG or JPEG format ({selectedCrop ? selectedCrop : 'যেকোনো ফসল'})</span>
+              </div>
+            )}
+          </label>
         </div>
       </div>
 
-      <div className="upload-box">
-        <input 
-          type="file" 
-          accept="image/*" 
-          id="leaf-upload" 
-          onChange={handleImageSelect}
-          style={{ display: 'none' }}
-        />
-        <label htmlFor="leaf-upload" className="upload-label">
-          {previewUrl ? (
-            <div className="image-preview-wrapper">
-              <img src={diagnosisResult?.annotated_image || previewUrl} alt="Infected leaf" className="leaf-preview-img" />
-              <div className="overlay-tag">
-                <Camera size={16} />
-                <span>
-                  {diagnosisResult?.annotated_image 
-                    ? (language === 'bn' ? 'ক্ষত চিহ্নিত ওভারলে (OpenCV Bounding Box)' : 'OpenCV Lesion Bounding Overlays') 
-                    : (language === 'bn' ? 'নতুন ছবি চয়ন করুন' : 'Change Image')}
-                </span>
-              </div>
-            </div>
-          ) : (
-            <div className="upload-placeholder">
-              <Upload size={40} color="#10B981" />
-              <p>{language === 'bn' ? 'আক্রান্ত পাতার ছবি এখানে দিন বা ক্যামেরা দিয়ে তুলুন' : 'Drag & drop leaf photo or click to upload'}</p>
-              <span className="text-sm text-gray">PNG, JPG or JPEG format (Real physical leaf photos)</span>
-            </div>
-          )}
-        </label>
-      </div>
-
       {loading && (
-        <div className="loading-spinner">
+        <div className="loading-spinner mt-4">
           <Sparkles className="spin" size={24} color="#10B981" />
-          <span>{language === 'bn' ? 'কম্পিউটার ভিশন ও Groq 120B এআই দ্বারা লাইভ বিশ্লেষণ চলছে...' : 'Running Computer Vision & Groq 120B AI live analysis...'}</span>
+          <span>
+            {language === 'bn' 
+              ? `${selectedCrop || 'ফসল'}-এর কম্পিউটার ভিশন ও Groq 120B এআই দ্বারা নির্ভুল বিশ্লেষণ চলছে...` 
+              : `Running precision Computer Vision & Groq 120B analysis for ${selectedCrop || 'crop'}...`}
+          </span>
         </div>
       )}
 
@@ -176,7 +171,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
         <div className="result-box mt-4">
           <div className="result-header">
             <ShieldAlert color="#EF4444" size={22} />
-            <h4>{language === 'bn' ? 'এআই রোগ নির্ণয় ফলাফল (Live Pathogen Diagnosis)' : 'Live AI Pathogen Diagnosis'}</h4>
+            <h4>{language === 'bn' ? `রোগ নির্ণয় ফলাফল: ${diagnosisResult.cropType}` : `Diagnostic Results: ${diagnosisResult.cropType}`}</h4>
             <span className={getSeverityBadgeClass(diagnosisResult.severity)}>
               {diagnosisResult.severity} Severity
             </span>
@@ -184,20 +179,24 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
 
           <div className="grid-2 mt-3">
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'শনাক্তকৃত রোগ (Diagnosed Disease)' : 'Identified Disease'}</span>
+              <span className="data-label">{language === 'bn' ? 'শনাক্তকৃত রোগ (Diagnosed Pathology)' : 'Diagnosed Pathology'}</span>
               <span className="data-value highlight">{diagnosisResult.name}</span>
             </div>
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'কম্পিউটার ভিশন ক্ষতির ক্ষেত্রফল' : 'Physical Surface Damage'}</span>
+              <span className="data-label">{language === 'bn' ? 'আক্রান্ত ক্ষেত্রফল (CV Damage %)' : 'Physical Surface Damage'}</span>
               <span className="data-value danger">{diagnosisResult.damagePercentage}% Surface Area</span>
             </div>
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'বৈজ্ঞানিক নাম (Scientific Pathogen)' : 'Scientific Pathogen'}</span>
-              <span className="data-value italic">{diagnosisResult.pathogen}</span>
+              <span className="data-label">{language === 'bn' ? 'ফসলের নাম (Target Crop)' : 'Crop Name'}</span>
+              <span className="data-value">{diagnosisResult.cropType}</span>
             </div>
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'শনাক্তকৃত ক্ষত গুচ্ছ (Lesions Detected)' : 'Lesion Clusters'}</span>
-              <span className="data-value">{diagnosisResult.bounding_boxes?.length || 0} টি ক্লাস্টার</span>
+              <span className="data-label">{language === 'bn' ? 'প্যাথোজেন জীবাণু (Pathogen)' : 'Scientific Pathogen'}</span>
+              <span className="data-value italic">{diagnosisResult.pathogen}</span>
+            </div>
+            <div className="data-item full-width">
+              <span className="data-label">{language === 'bn' ? 'শনাক্তকৃত ক্ষত গুচ্ছ (Lesion Spots)' : 'Lesion Clusters Pinpointed'}</span>
+              <span className="data-value">{diagnosisResult.bounding_boxes?.length || 0} টি ক্ষত ক্লাস্টার (OpenCV Contours)</span>
             </div>
             {diagnosisResult.description && (
               <div className="data-item full-width">
