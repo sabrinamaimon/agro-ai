@@ -53,6 +53,8 @@ export default function App() {
         {activeTab === 'task2' && (
           <LeafScanner 
             language={language} 
+            intakeCrop={intakeData?.crop_type}
+            intakeUnion={intakeData?.geographic_union}
             onDiagnosisComplete={(data) => setDiagnosisData(data)} 
           />
         )}
@@ -88,6 +90,7 @@ export default function App() {
             intake={intakeData} 
             diagnosis={diagnosisData} 
             price={priceData} 
+            setActiveTab={setActiveTab}
           />
         )}
       </main>

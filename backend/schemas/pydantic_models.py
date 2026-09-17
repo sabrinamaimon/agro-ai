@@ -48,11 +48,13 @@ class VisionDiagnosisResponse(BaseModel):
     chemicalRemedy: str
     phiDays: int
     sprayAdvice: str
+    plantPart: Optional[str] = "পাতা (Leaf)"
     market: Optional[MarketInfo] = None
 
 class PriceAnomalyRequest(BaseModel):
     crop: str
     offeredPrice: float
+    language: Optional[str] = "bn"
 
 class PriceAnomalyResponse(BaseModel):
     crop: str

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Sprout, Mic, Camera, TrendingUp, ShieldCheck, ArrowRight, Sun, CloudRain, Award, Activity } from 'lucide-react';
-import { MOCK_PRICE_BENCHMARKS } from '../mockData/sampleCrops';
 import farmerImg from '../assets/farmer.png';
 
 export default function Hero({ language, setActiveTab }) {
