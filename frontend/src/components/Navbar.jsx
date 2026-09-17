@@ -53,11 +53,12 @@ export default function Navbar({
         <div className="navbar-top-actions">
           <button
             type="button"
-            className="navbar-icon-btn"
+            className="navbar-location-btn"
             onClick={onOpenGpsModal}
-            title={language === 'bn' ? 'মাঠের জিপিএস ক্যালিব্রেট করুন' : 'Calibrate Field GPS'}
+            title={language === 'bn' ? 'মাঠের জিপিএস নির্বাচন করুন' : 'Select Field GPS'}
           >
-            <Navigation size={20} />
+            <Navigation size={15} className="text-emerald" />
+            <span className="navbar-location-text">{locationDisplay}</span>
           </button>
 
           <button
