@@ -1104,3 +1104,37 @@ select.input-field {
 }
 /* Missing margin-bottom utility */
 .mb-4 { margin-bottom: 1rem; }
+
+.part-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.part-pill {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.part-pill:hover {
+  border-color: var(--primary-emerald);
+  background: var(--bg-accent);
+}
+
+.part-pill.active {
+  background: var(--primary-emerald);
+  color: #ffffff;
+  border-color: var(--primary-emerald);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+}

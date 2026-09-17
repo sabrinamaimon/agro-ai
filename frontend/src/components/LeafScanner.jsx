@@ -11,6 +11,7 @@ const DEMO_SAMPLES = [
 
 export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagnosisComplete }) {
   const [selectedCrop, setSelectedCrop] = useState(intakeCrop || 'Mango (আম)');
+  const [selectedPart, setSelectedPart] = useState('leaf');
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,24 +30,26 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
     setErrorMessage(null);
     setSelectedImage(file);
     setPreviewUrl(URL.createObjectURL(file));
-    runDiagnosis(file, null, selectedCrop);
+    runDiagnosis(file, null, selectedCrop, selectedPart);
   };
 
   const handleSampleClick = (sample) => {
     setErrorMessage(null);
     setSelectedImage(null);
     setSelectedCrop(sample.crop);
+    setSelectedPart('leaf');
     setPreviewUrl(sample.image);
-    runDiagnosis(null, sample.id, sample.crop);
+    runDiagnosis(null, sample.id, sample.crop, 'leaf');
   };
 
-  const runDiagnosis = async (file, sampleId, cropToUse) => {
+  const runDiagnosis = async (file, sampleId, cropToUse, partToUse) => {
     const activeCrop = cropToUse || selectedCrop;
+    const activePart = partToUse || selectedPart;
     setLoading(true);
     setErrorMessage(null);
     try {
       const unionParam = intakeUnion || 'Rangpur Sadar';
-      const result = await diagnoseCropImage(file, sampleId, activeCrop, unionParam, language);
+      const result = await diagnoseCropImage(file, sampleId, activeCrop, unionParam, language, activePart);
       setDiagnosisResult(result);
       if (onDiagnosisComplete) onDiagnosisComplete(result);
     } catch (err) {
@@ -72,13 +75,13 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
   return (
     <div className="card task-card">
       <div className="card-header">
-        <h2>{language === 'bn' ? 'দৃশ্যমান রোগ শনাক্তকরণ ও ক্ষতির মাত্রা (Precision Crop Vision)' : 'Visual Crop Disease Detection & CV Engine'}</h2>
+        <h2>{language === 'bn' ? 'দৃশ্যমান ফসল ও উদ্ভিদ স্বাস্থ্য স্ক্যানার (পাতা, ফল ও কাণ্ড)' : 'Visual Plant Health & Disease Scanner (Leaf, Fruit & Stem)'}</h2>
       </div>
 
       <p className="card-desc">
         {language === 'bn'
-          ? 'যেকোনো কৃষি ফসলের আক্রান্ত পাতা বা ফলের ছবি দিন। প্রথমে নিচের তালিকা থেকে ফসল নির্বাচন করুন, এআই মডেল ওই ফসলের বাস্তব রোগ নির্ভুলভাবে শনাক্ত করবে।'
-          : 'Select your crop first from the list, then upload a leaf photo. OpenCV measures lesion damage % and Groq AI diagnoses the exact pathogen strictly for that crop.'}
+          ? 'যেকোনো কৃষি ফসলের পাতা, ফল, কাণ্ড বা শরীরের ছবি দিন। প্রথমে নিচের তালিকা থেকে ফসল ও আক্রান্ত অঙ্গ নির্বাচন করুন, এআই মডেল ওই ফসলের বাস্তব রোগ নির্ভুলভাবে শনাক্ত করবে।'
+          : 'Select your crop and infected plant organ (leaf, fruit, or stem), then upload a photo. OpenCV measures lesion damage % and Groq AI diagnoses the exact pathogen.'}
       </p>
 
       {/* Step 1: Comprehensive Searchable Crop Selector */}
@@ -88,14 +91,48 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
         onSelectCrop={(formattedName) => setSelectedCrop(formattedName)} 
       />
 
-      {/* Step 2: Upload or Capture Photo */}
+      {/* Step 2: Plant Part / Organ Selector */}
+      <div className="plant-part-selector mt-3">
+        <label className="input-label font-bold text-base mb-2">
+          <span>
+            {language === 'bn' 
+              ? '২. আক্রান্ত উদ্ভিদাংশ বা অঙ্গ নির্বাচন করুন (Infected Plant Part):' 
+              : '2. Select Infected Plant Part / Organ:'}
+          </span>
+        </label>
+        <div className="part-btn-group">
+          {[
+            { id: 'leaf', labelBn: '🍃 পাতা (Leaf)', labelEn: '🍃 Leaf / Foliage' },
+            { id: 'fruit', labelBn: '🍎 ফল (Fruit)', labelEn: '🍎 Fruit / Tuber' },
+            { id: 'stem', labelBn: '🪵 কাণ্ড ও শরীর (Stem / Trunk)', labelEn: '🪵 Stem & Trunk' },
+            { id: 'root', labelBn: '🌱 গোড়া ও মূল (Root / Collar)', labelEn: '🌱 Root / Collar' },
+            { id: 'auto', labelBn: '🔍 স্বয়ংক্রিয় (Auto-Detect)', labelEn: '🔍 Auto-Detect' }
+          ].map((part) => (
+            <button
+              key={part.id}
+              type="button"
+              className={`part-pill ${selectedPart === part.id ? 'active' : ''}`}
+              onClick={() => {
+                setSelectedPart(part.id);
+                if (selectedImage || previewUrl) {
+                  runDiagnosis(selectedImage, null, selectedCrop, part.id);
+                }
+              }}
+            >
+              {language === 'bn' ? part.labelBn : part.labelEn}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Step 3: Upload or Capture Photo */}
       <div className="mt-3">
         <label className="input-label font-bold text-base mb-2">
           <ImageIcon size={18} color="#059669" />
           <span>
             {language === 'bn' 
-              ? `২. ${selectedCrop ? `"${selectedCrop}" এর` : ''} আক্রান্ত পাতা/ফলের ছবি আপলোড করুন:` 
-              : `2. Upload leaf photo for ${selectedCrop || 'selected crop'}:`}
+              ? `৩. ${selectedCrop ? `"${selectedCrop}" এর` : ''} ${selectedPart === 'fruit' ? 'আক্রান্ত ফলের' : selectedPart === 'stem' ? 'আক্রান্ত কাণ্ড বা শরীরের' : selectedPart === 'root' ? 'আক্রান্ত গোড়ার' : 'আক্রান্ত পাতা বা অংশের'} ছবি আপলোড করুন:` 
+              : `3. Upload photo for ${selectedCrop || 'crop'} (${selectedPart}):`}
           </span>
         </label>
 
@@ -185,6 +222,10 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'শনাক্তকৃত রোগ (Diagnosed Pathology)' : 'Diagnosed Pathology'}</span>
               <span className="data-value highlight">{diagnosisResult.name}</span>
+            </div>
+            <div className="data-item">
+              <span className="data-label">{language === 'bn' ? 'আক্রান্ত উদ্ভিদাংশ (Infected Plant Part)' : 'Infected Plant Part'}</span>
+              <span className="data-value highlight">{diagnosisResult.plantPart || (language === 'bn' ? 'পাতা (Leaf)' : 'Leaf')}</span>
             </div>
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'আক্রান্ত ক্ষেত্রফল (CV Damage %)' : 'Physical Surface Damage'}</span>
