@@ -12,10 +12,11 @@ def get_location_coords(union_name: str = "Rangpur Sadar") -> Dict[str, Any]:
             return loc
     return DEFAULT_LOCATION
 
-def fetch_weather(union_name: str = "Rangpur Sadar") -> Dict[str, Any]:
+def fetch_weather(union_name: str = "Rangpur Sadar", language: str = "bn") -> Dict[str, Any]:
     """
     Fetch real-time weather from Open-Meteo API (Free, 10,000 calls/day, No API key).
     Calculates 6-hour rain risk for chemical spray safety.
+    Supports Bengali ('bn') and English ('en').
     """
     loc = get_location_coords(union_name)
     lat, lon = loc["lat"], loc["lon"]
@@ -48,17 +49,32 @@ def fetch_weather(union_name: str = "Rangpur Sadar") -> Dict[str, Any]:
                     break
 
             if rain_in_hours > 0 and rain_in_hours <= 6:
-                spray_safety = f"Warning: Rain forecast in {rain_in_hours} hours. Abort spray!"
-                rain_forecast = f"Moderate rain expected in {rain_in_hours} hours"
-                condition = "High Humidity & Rain Expected"
+                if language == "bn":
+                    spray_safety = f"সতর্কতা: আগামী {rain_in_hours} ঘণ্টার মধ্যে বৃষ্টির সম্ভাবনা রয়েছে। স্প্রে করা স্থগিত রাখুন!"
+                    rain_forecast = f"আগামী {rain_in_hours} ঘণ্টার মধ্যে মাঝারি বৃষ্টির সম্ভাবনা"
+                    condition = "উচ্চ আর্দ্রতা ও বৃষ্টির ঝুঁকি"
+                else:
+                    spray_safety = f"Warning: Rain forecast in {rain_in_hours} hours. Abort spray!"
+                    rain_forecast = f"Moderate rain expected in {rain_in_hours} hours"
+                    condition = "High Humidity & Rain Expected"
             elif wind_speed > 15:
-                spray_safety = "Warning: High wind speed (>15 km/h) causes spray drift."
-                rain_forecast = "Clear skies, windy"
-                condition = "Windy & Partly Cloudy"
+                if language == "bn":
+                    spray_safety = "সতর্কতা: বাতাসের গতিবেগ বেশি (>১৫ কিমি/ঘণ্টা), স্প্রে বাতাসে ভেসে অপচয় হতে পারে।"
+                    rain_forecast = "আকাশ পরিষ্কার, দমকা বাতাস"
+                    condition = "দমকা বাতাস ও আংশিক মেঘলা"
+                else:
+                    spray_safety = "Warning: High wind speed (>15 km/h) causes spray drift."
+                    rain_forecast = "Clear skies, windy"
+                    condition = "Windy & Partly Cloudy"
             else:
-                spray_safety = "Safe to spray. Calm wind & clear conditions."
-                rain_forecast = "No rain expected in next 24 hours"
-                condition = "Clear / Favorable Spray Weather"
+                if language == "bn":
+                    spray_safety = "স্প্রে করার জন্য অনুকূল পরিবেশ। শান্ত বাতাস ও অনুকূল আবহাওয়া।"
+                    rain_forecast = "আগামী ২৪ ঘণ্টায় বৃষ্টির কোনো সম্ভাবনা নেই"
+                    condition = "পরিষ্কার / স্প্রে করার জন্য অনুকূল আবহাওয়া"
+                else:
+                    spray_safety = "Safe to spray. Calm wind & clear conditions."
+                    rain_forecast = "No rain expected in next 24 hours"
+                    condition = "Clear / Favorable Spray Weather"
 
             return {
                 "city": loc["name"],
@@ -75,13 +91,25 @@ def fetch_weather(union_name: str = "Rangpur Sadar") -> Dict[str, Any]:
         logger.warning(f"Open-Meteo weather fetch error: {e}. Using regional default.")
 
     # Bulletproof fallback
-    return {
-        "city": loc["name"],
-        "temperature": 26.0,
-        "humidity": 84.0,
-        "condition": "High Humidity & Overcast",
-        "rainInHours": 4,
-        "rainForecast": "Moderate rain expected in 4 hours",
-        "spraySafety": "Warning: Rain risk within 6h (Hold Spray)",
-        "windSpeed": 9.5
-    }
+    if language == "bn":
+        return {
+            "city": loc["name"],
+            "temperature": 26.0,
+            "humidity": 84.0,
+            "condition": "উচ্চ আর্দ্রতা ও মেঘলা আকাশ",
+            "rainInHours": 4,
+            "rainForecast": "আগামী ৪ ঘণ্টার মধ্যে মাঝারি বৃষ্টির সম্ভাবনা",
+            "spraySafety": "সতর্কতা: আগামী ৬ ঘণ্টার মধ্যে বৃষ্টির ঝুঁকি (স্প্রে বন্ধ রাখুন)",
+            "windSpeed": 9.5
+        }
+    else:
+        return {
+            "city": loc["name"],
+            "temperature": 26.0,
+            "humidity": 84.0,
+            "condition": "High Humidity & Overcast",
+            "rainInHours": 4,
+            "rainForecast": "Moderate rain expected in 4 hours",
+            "spraySafety": "Warning: Rain risk within 6h (Hold Spray)",
+            "windSpeed": 9.5
+        }

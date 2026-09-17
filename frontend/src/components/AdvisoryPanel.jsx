@@ -27,11 +27,11 @@ export default function AdvisoryPanel({ language, diagnosis, weather }) {
       <div className="weather-widget">
         <div className="weather-item">
           <Thermometer size={18} color="#F59E0B" />
-          <span>{currentWeather?.temperature}°C Temp</span>
+          <span>{currentWeather?.temperature}°C {language === 'bn' ? 'তাপমাত্রা' : 'Temp'}</span>
         </div>
         <div className="weather-item">
           <Droplets size={18} color="#3B82F6" />
-          <span>{currentWeather?.humidity}% Humidity</span>
+          <span>{currentWeather?.humidity}% {language === 'bn' ? 'আর্দ্রতা' : 'Humidity'}</span>
         </div>
         <div className="weather-item">
           <CloudRain size={18} color="#6366F1" />
