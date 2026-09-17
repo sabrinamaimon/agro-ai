@@ -14,25 +14,46 @@ export default function Hero({ language, setActiveTab }) {
     <div className="home-hub">
       {/* Main Hero Banner */}
       <div className="hero-section">
-        <div className="hero-content">
-          <div className="hero-badge">
-            <Sprout size={16} color="#059669" />
-            <span>{language === 'bn' ? 'স্মার্ট এআই কৃষি সহকারী' : 'AI-Driven Smart Agriculture Platform'}</span>
+        <div className="hero-grid">
+          <div className="hero-content text-left">
+            <div className="hero-badge">
+              <Sprout size={16} color="#059669" />
+              <span>{language === 'bn' ? 'স্মার্ট এআই কৃষি সহকারী' : 'AI-Driven Smart Agriculture Platform'}</span>
+            </div>
+
+            <h1 className="hero-title">
+              {language === 'bn' ? (
+                <>কৃষকের বিশ্বস্ত বন্ধু <span className="text-green">Agro-AI</span></>
+              ) : (
+                <>Empowering Agriculture with <span className="text-green">Agro-AI</span></>
+              )}
+            </h1>
+
+            <p className="hero-subtitle">
+              {language === 'bn'
+                ? 'কৃষি কর্মকর্তা ও প্রান্তিক কৃষকদের জন্য এআই চালিত রোগ নির্ণয়, জলবায়ু পূর্বাভাস এবং শস্যের ন্যায্য বাজার দর সেবা।'
+                : 'Empowering smallholder farmers and extension officers with instant AI plant diagnostics, climate resilience, and market price intelligence.'}
+            </p>
           </div>
 
-          <h1 className="hero-title">
-            {language === 'bn' ? (
-              <>কৃষকের বিশ্বস্ত বন্ধু <span className="text-green">Agro-AI</span></>
-            ) : (
-              <>Empowering Agriculture with <span className="text-green">Agro-AI</span></>
-            )}
-          </h1>
-
-          <p className="hero-subtitle">
-            {language === 'bn'
-              ? 'কৃষি কর্মকর্তা ও প্রান্তিক কৃষকদের জন্য এআই চালিত রোগ নির্ণয়, জলবায়ু পূর্বাভাস এবং শস্যের ন্যায্য বাজার দর সেবা।'
-              : 'Empowering smallholder farmers and extension officers with instant AI plant diagnostics, climate resilience, and market price intelligence.'}
-          </p>
+          <div className="hero-image-container">
+            <img 
+              src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=800&q=80" 
+              alt="Happy Smiling Farmer" 
+              className="happy-farmer-img"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80";
+              }}
+            />
+            <div className="floating-hero-badge">
+              <ShieldCheck size={20} color="#059669" />
+              <div>
+                <strong>{language === 'bn' ? '২৪/৭ এআই সহায়তা' : '24/7 AI Assistance'}</strong>
+                <p className="text-xs">{language === 'bn' ? 'হাসিমুখের সঠিক ফলন' : 'Guaranteed Crop Smile'}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
