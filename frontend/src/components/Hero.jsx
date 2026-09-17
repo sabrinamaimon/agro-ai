@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sprout, Mic, Camera, TrendingUp, ShieldCheck, ArrowRight, Sun, CloudRain, Award, Activity } from 'lucide-react';
+import farmerImg from '../assets/farmer.png';
 
 export default function Hero({ language, setActiveTab }) {
   const cropsList = [
@@ -13,11 +14,12 @@ export default function Hero({ language, setActiveTab }) {
     <div className="home-hub">
       {/* Main Hero Banner */}
       <div className="hero-section">
-        <div className="hero-content">
-          <div className="hero-badge">
-            <Sprout size={16} color="#059669" />
-            <span>{language === 'bn' ? 'স্মার্ট এআই কৃষি সহকারী' : 'AI-Driven Smart Agriculture Platform'}</span>
-          </div>
+        <div className="hero-grid">
+          <div className="hero-content text-left">
+            <div className="hero-badge">
+              <Sprout size={16} color="#059669" />
+              <span>{language === 'bn' ? 'স্মার্ট এআই কৃষি সহকারী' : 'AI-Driven Smart Agriculture Platform'}</span>
+            </div>
 
           <h1 className="hero-title">
             {language === 'bn' ? (
@@ -27,11 +29,20 @@ export default function Hero({ language, setActiveTab }) {
             )}
           </h1>
 
-          <p className="hero-subtitle">
-            {language === 'bn'
-              ? 'কৃষি কর্মকর্তা ও প্রান্তিক কৃষকদের জন্য এআই চালিত রোগ নির্ণয়, জলবায়ু পূর্বাভাস এবং শস্যের ন্যায্য বাজার দর সেবা।'
-              : 'Empowering smallholder farmers and extension officers with instant AI plant diagnostics, climate resilience, and market price intelligence.'}
-          </p>
+            <p className="hero-subtitle">
+              {language === 'bn'
+                ? 'কৃষি কর্মকর্তা ও প্রান্তিক কৃষকদের জন্য এআই চালিত রোগ নির্ণয়, জলবায়ু পূর্বাভাস এবং শস্যের ন্যায্য বাজার দর সেবা।'
+                : 'Empowering smallholder farmers and extension officers with instant AI plant diagnostics, climate resilience, and market price intelligence.'}
+            </p>
+          </div>
+
+          <div className="hero-image-container">
+            <img 
+              src={farmerImg} 
+              alt="Bangladeshi Farmer" 
+              className="happy-farmer-img"
+            />
+          </div>
         </div>
       </div>
 

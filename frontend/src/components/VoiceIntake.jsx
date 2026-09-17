@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mic, MicOff, Send, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Mic, MicOff, Send, Sparkles, CheckCircle2, MessageCircle } from 'lucide-react';
 import { processVoiceIntake } from '../services/api';
 
 export default function VoiceIntake({ language, onIntakeComplete }) {
@@ -7,6 +7,12 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
   const [transcript, setTranscript] = useState('');
   const [loading, setLoading] = useState(false);
   const [extractedSchema, setExtractedSchema] = useState(null);
+
+  const sampleQueries = [
+    { bn: 'আমার আলু খেতের পাতায় কালো বাদামী দাগ পড়েছে ও গাছ নেতিয়ে পড়ছে', en: 'My potato crop leaves have blackish brown spots and plants are wilting' },
+    { bn: 'ধানের পাতায় হলুদ লালচে ছোপ ছোপ দাগ ও ডগা মরা রোগ দেখা দিয়েছে', en: 'Rice crop leaves have yellow reddish spots and tip dieback disease' },
+    { bn: 'টমেটো গাছে সাদা মাছি পোকার আক্রমণ ও ফল পচা রোগ শুরু হয়েছে', en: 'Tomato plants have whitefly attack and fruit rot starting' }
+  ];
 
   const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -51,17 +57,53 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
     }
   };
 
+  const handleSelectSample = (sampleText) => {
+    setTranscript(sampleText);
+    handleProcessTranscript(sampleText);
+  };
+
   return (
     <div className="card task-card">
       <div className="card-header">
-        <h2>{language === 'bn' ? 'ভয়েস অনুসন্ধান ও তথ্য নির্যাস (Intake & Intent)' : 'Voice Query Intake & Intent Extraction'}</h2>
+        <h2>{language === 'bn' ? 'ভয়েস ইনপুট ও সমস্যা শনাক্তকরণ (Voice Query Intake)' : 'Voice Query Intake & Intent Extraction'}</h2>
       </div>
 
       <p className="card-desc">
         {language === 'bn' 
-          ? 'আপনার ফসলের সমস্যা বাংলায় বা ইংরেজিতে মুখে বলুন অথবা নিচে লিখে জানান।' 
-          : 'Dictate crop symptoms in spoken Bengali or English to extract structured intent.'}
+          ? 'আপনার ফসলের সমস্যা বাংলায় বা ইংরেজিতে মুখে বলুন, নমুনা প্রশ্ন চাপুন অথবা নিচে লিখে জানান।' 
+          : 'Dictate crop symptoms in spoken Bengali or English, pick a sample query, or type below.'}
       </p>
+
+      {/* Sample Query Chips for Fast Demo */}
+      <div className="sample-chips-wrapper mb-4" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.25rem' }}>
+        <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--primary-dark)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <MessageCircle size={15} />
+          {language === 'bn' ? 'নমুনা বাংলা ভয়েস ইনপুট (দ্রুত পরীক্ষার জন্য ক্লিক করুন):' : 'Sample Voice Queries (Click to test):'}
+        </span>
+        <div className="chips-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+          {sampleQueries.map((sample, idx) => (
+            <button
+              key={idx}
+              type="button"
+              className="sample-chip-btn"
+              onClick={() => handleSelectSample(language === 'bn' ? sample.bn : sample.en)}
+              style={{
+                background: 'var(--bg-accent)',
+                border: '1px solid #A7F3D0',
+                borderRadius: '20px',
+                padding: '0.4rem 0.85rem',
+                fontSize: '0.82rem',
+                color: 'var(--primary-dark)',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'all 0.2s'
+              }}
+            >
+              💬 "{language === 'bn' ? sample.bn : sample.en}"
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="voice-input-group">
         <button 
@@ -72,7 +114,7 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
           <span>
             {isListening 
               ? (language === 'bn' ? 'শুনছি... বলুন' : 'Listening...') 
-              : (language === 'bn' ? 'মুখে বলতে ক্লিক করুন (Mic)' : 'Tap to Dictate')}
+              : (language === 'bn' ? 'মাইকে চাপ দিয়ে কথা বলুন (Mic)' : 'Tap to Dictate')}
           </span>
         </button>
 
@@ -99,7 +141,7 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
         <div className="result-box mt-4">
           <div className="result-header">
             <CheckCircle2 color="#10B981" size={20} />
-            <h4>{language === 'bn' ? 'এক্সট্র্যাক্ট করা তথ্য (Structured Intent JSON)' : 'Extracted JSON Schema'}</h4>
+            <h4>{language === 'bn' ? 'শনাক্তকৃত বিষয় ও তথ্যের বিবরণ (Extracted Intent)' : 'Extracted Intent JSON'}</h4>
           </div>
 
           <div className="grid-2">
