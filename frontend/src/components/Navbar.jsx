@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X } from 'lucide-react';
+import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, MapPin } from 'lucide-react';
 
-export default function Navbar({ language, setLanguage, activeTab, setActiveTab }) {
+export default function Navbar({ 
+  language, 
+  setLanguage, 
+  activeTab, 
+  setActiveTab,
+  userLocation,
+  onOpenLocationModal
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
@@ -19,6 +26,10 @@ export default function Navbar({ language, setLanguage, activeTab, setActiveTab 
     setActiveTab(id);
     setMenuOpen(false);
   };
+
+  const locationDisplay = userLocation?.nameBn 
+    ? (language === 'bn' ? userLocation.nameBn : (userLocation.nameEn || userLocation.nameBn))
+    : (language === 'bn' ? 'অবস্থান নির্বাচন করুন' : 'Select Location');
 
   return (
     <header className="navbar">
@@ -39,15 +50,46 @@ export default function Navbar({ language, setLanguage, activeTab, setActiveTab 
           </div>
         </div>
 
-        <button 
-          className="lang-toggle-btn"
-          onClick={() => setLanguage(language === 'bn' ? 'en' : 'bn')}
-        >
-          <Globe size={18} />
-          <span>{language === 'bn' ? 'English (EN)' : 'বাংলা (BN)'}</span>
-        </button>
+        <div className="navbar-top-actions">
+          <button 
+            type="button"
+            className="navbar-location-btn"
+            onClick={onOpenLocationModal}
+            title={language === 'bn' ? 'অবস্থান পরিবর্তন করুন' : 'Change Location'}
+          >
+            <MapPin size={16} className="text-emerald" />
+            <span className="navbar-location-text">{locationDisplay}</span>
+          </button>
+
+          <button 
+            className="lang-toggle-btn"
+            onClick={() => setLanguage(language === 'bn' ? 'en' : 'bn')}
+          >
+            <Globe size={18} />
+            <span>{language === 'bn' ? 'English (EN)' : 'বাংলা (BN)'}</span>
+          </button>
+        </div>
       </div>
 
+      {/* Desktop Navigation Tabs */}
+      <nav className="navbar-tabs">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              className={`nav-tab-btn ${isActive ? 'active' : ''}`}
+              onClick={() => setActiveTab(item.id)}
+            >
+              <Icon size={18} />
+              <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Mobile Sidebar Overlay & Drawer */}
       {menuOpen && (
         <div className="sidebar-overlay" onClick={() => setMenuOpen(false)} />
       )}
