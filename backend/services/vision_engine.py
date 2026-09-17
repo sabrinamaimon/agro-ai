@@ -54,12 +54,29 @@ def extract_color_profile(hsv_img: np.ndarray, lesion_mask: np.ndarray) -> str:
 
     return ", ".join(traits) if traits else "Brown necrotic lesions with chlorotic borders"
 
-def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") -> Dict[str, Any]:
+def resolve_plant_part_label(plant_part: Optional[str]) -> tuple[str, str]:
+    cleaned = (plant_part or "auto").lower().strip()
+    if any(k in cleaned for k in ["fruit", "ফল", "টিউবার", "tuber"]):
+        return "fruit", "ফল (Fruit)"
+    elif any(k in cleaned for k in ["stem", "trunk", "branch", "bark", "body", "কাণ্ড", "ডাল", "শরীর", "বাকল"]):
+        return "stem", "কাণ্ড ও শরীর (Stem / Trunk)"
+    elif any(k in cleaned for k in ["root", "collar", "গোড়া", "মূল"]):
+        return "root", "গোড়া ও মূল (Root / Collar)"
+    elif any(k in cleaned for k in ["leaf", "পাতা", "foliage"]):
+        return "leaf", "পাতা (Leaf)"
+    else:
+        return "auto", "আক্রান্ত অংশ (Auto-Detect)"
+
+def analyze_crop_image(
+    image_bytes: bytes, 
+    filename: str = "uploaded_crop.jpg",
+    plant_part: str = "auto"
+) -> Dict[str, Any]:
     """
-    Computer Vision pipeline:
+    Multi-Organ Computer Vision pipeline:
     1. Reads image into OpenCV
-    2. Segments total leaf surface via HSV
-    3. Detects necrotic lesion regions via color thresholding
+    2. Segments organ surface (Leaf, Fruit, Stem/Trunk, or Universal Foreground)
+    3. Detects necrotic lesions, rot, cankers, wounds, and spots via color thresholding
     4. Computes exact surface damage %
     5. Pinpoints bounding boxes around lesions
     6. Produces an annotated image with bounding overlays
@@ -72,35 +89,87 @@ def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") 
 
     h, w, _ = img.shape
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
-    # 1. Segment the foliage surface
-    lower_leaf = np.array([20, 25, 25])
-    upper_leaf = np.array([95, 255, 255])
-    leaf_mask = cv2.inRange(hsv, lower_leaf, upper_leaf)
-    
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
-    leaf_mask = cv2.morphologyEx(leaf_mask, cv2.MORPH_CLOSE, kernel)
-    total_leaf_pixels = cv2.countNonZero(leaf_mask)
 
-    if total_leaf_pixels < 500:
-        total_leaf_pixels = max(1000, int(h * w * 0.45))
+    part_key, organ_name_bn = resolve_plant_part_label(plant_part)
 
-    # 2. Segment necrotic lesion regions
-    lower_lesion_1 = np.array([5, 45, 20])
-    upper_lesion_1 = np.array([22, 255, 180])
+    # 1. Segment organ surface
+    if part_key == "leaf":
+        lower_leaf = np.array([15, 20, 20])
+        upper_leaf = np.array([98, 255, 255])
+        organ_mask = cv2.inRange(hsv, lower_leaf, upper_leaf)
+        organ_mask = cv2.morphologyEx(organ_mask, cv2.MORPH_CLOSE, kernel)
+    elif part_key == "stem":
+        lower_bark_1 = np.array([0, 15, 20])
+        upper_bark_1 = np.array([35, 255, 220])
+        lower_bark_2 = np.array([0, 0, 30])
+        upper_bark_2 = np.array([180, 50, 200])
+        mask1 = cv2.inRange(hsv, lower_bark_1, upper_bark_1)
+        mask2 = cv2.inRange(hsv, lower_bark_2, upper_bark_2)
+        organ_mask = cv2.bitwise_or(mask1, mask2)
+        organ_mask = cv2.morphologyEx(organ_mask, cv2.MORPH_CLOSE, kernel)
+    elif part_key == "fruit":
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+        _, organ_mask = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+        border_sum = np.sum(organ_mask[0, :]) + np.sum(organ_mask[-1, :]) + np.sum(organ_mask[:, 0]) + np.sum(organ_mask[:, -1])
+        if border_sum > (2 * (h + w) * 255 * 0.5):
+            organ_mask = cv2.bitwise_not(organ_mask)
+        organ_mask = cv2.morphologyEx(organ_mask, cv2.MORPH_CLOSE, kernel)
+    else: # auto
+        lower_leaf = np.array([15, 20, 20])
+        upper_leaf = np.array([98, 255, 255])
+        leaf_cand = cv2.inRange(hsv, lower_leaf, upper_leaf)
+        leaf_ratio = cv2.countNonZero(leaf_cand) / max(1, (h * w))
+
+        if leaf_ratio > 0.15:
+            organ_mask = cv2.morphologyEx(leaf_cand, cv2.MORPH_CLOSE, kernel)
+            organ_name_bn = "পাতা (Leaf)"
+            part_key = "leaf"
+        else:
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+            _, organ_mask = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+            border_sum = np.sum(organ_mask[0, :]) + np.sum(organ_mask[-1, :]) + np.sum(organ_mask[:, 0]) + np.sum(organ_mask[:, -1])
+            if border_sum > (2 * (h + w) * 255 * 0.5):
+                organ_mask = cv2.bitwise_not(organ_mask)
+            organ_mask = cv2.morphologyEx(organ_mask, cv2.MORPH_CLOSE, kernel)
+            mean_s = np.mean(hsv[:, :, 1])
+            if mean_s > 60:
+                organ_name_bn = "ফল বা কন্দ (Fruit / Tuber)"
+                part_key = "fruit"
+            else:
+                organ_name_bn = "গাছের কাণ্ড বা শরীর (Stem / Trunk)"
+                part_key = "stem"
+
+    total_organ_pixels = cv2.countNonZero(organ_mask)
+    if total_organ_pixels < 500:
+        total_organ_pixels = max(1000, int(h * w * 0.45))
+
+    # 2. Segment necrotic lesion regions (spots, rot, wounds, bark tears, anthracnose)
+    lower_lesion_1 = np.array([3, 40, 15])
+    upper_lesion_1 = np.array([25, 255, 185])
 
     lower_lesion_2 = np.array([0, 0, 10])
     upper_lesion_2 = np.array([180, 255, 75])
 
     lesion_mask_1 = cv2.inRange(hsv, lower_lesion_1, upper_lesion_1)
     lesion_mask_2 = cv2.inRange(hsv, lower_lesion_2, upper_lesion_2)
-    lesion_mask = cv2.bitwise_or(lesion_mask_1, lesion_mask_2)
+    
+    if part_key == "stem":
+        lesion_mask_dark = cv2.inRange(hsv, np.array([0, 0, 5]), np.array([180, 255, 60]))
+        lesion_mask = cv2.bitwise_or(lesion_mask_1, lesion_mask_dark)
+    else:
+        lesion_mask = cv2.bitwise_or(lesion_mask_1, lesion_mask_2)
+
+    if cv2.countNonZero(organ_mask) > 1000:
+        lesion_mask = cv2.bitwise_and(lesion_mask, organ_mask)
 
     lesion_mask = cv2.morphologyEx(lesion_mask, cv2.MORPH_OPEN, kernel)
     lesion_pixels = cv2.countNonZero(lesion_mask)
 
     # 3. Calculate Damage %
-    raw_damage_pct = (lesion_pixels / total_leaf_pixels) * 100.0
+    raw_damage_pct = (lesion_pixels / total_organ_pixels) * 100.0
     damage_pct = round(float(np.clip(raw_damage_pct, 4.0, 92.0)), 1)
 
     # 4. Find bounding boxes of infected regions
@@ -112,7 +181,7 @@ def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") 
 
     for cnt in sorted_contours:
         area = cv2.contourArea(cnt)
-        if area > 70:
+        if area > 60:
             x, y, bw, bh = cv2.boundingRect(cnt)
             bounding_boxes.append([int(x), int(y), int(bw), int(bh)])
             cv2.rectangle(annotated_img, (x, y), (x + bw, y + bh), (0, 0, 235), 2)
@@ -142,23 +211,31 @@ def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") 
         "bounding_boxes": bounding_boxes,
         "lesion_count": len(bounding_boxes),
         "color_profile": color_profile,
-        "total_leaf_pixels": total_leaf_pixels,
+        "total_leaf_pixels": total_organ_pixels,
+        "total_organ_pixels": total_organ_pixels,
         "lesion_pixels": lesion_pixels,
+        "plant_part": part_key,
+        "plant_part_display": organ_name_bn,
         "annotated_image": data_url,
         "annotated_file_path": f"/static/annotated/{annotated_filename}"
     }
+
+# Backward compatibility alias
+analyze_leaf_image = analyze_crop_image
 
 async def diagnose_pathology_with_ai(
     cv_metrics: Dict[str, Any],
     crop_hint: Optional[str] = None,
     weather_data: Optional[Dict[str, Any]] = None,
     union_name: str = "Rangpur Sadar",
-    language: str = "bn"
+    language: str = "bn",
+    plant_part: Optional[str] = "auto"
 ) -> Dict[str, Any]:
     """
     Multimodal AI Diagnostic Reasoning using Groq 120B model:
     Combines real physical OpenCV metrics + live hyperlocal weather + user-selected crop
-    into dynamic, strictly crop-specific plant disease diagnosis and agronomic prescriptions.
+    + inspected plant organ (Leaf, Fruit, Stem/Trunk, or Collar)
+    into dynamic, strictly crop- and organ-specific plant disease diagnosis and agronomic prescriptions.
     """
     weather = weather_data or {}
     temp = weather.get("temperature", 26.0)
@@ -166,9 +243,10 @@ async def diagnose_pathology_with_ai(
     rain_in_hours = weather.get("rainInHours", 4)
     damage_pct = cv_metrics.get("damagePercentage", 25.0)
     severity = cv_metrics.get("severity", "Moderate")
-    color_profile = cv_metrics.get("color_profile", "Necrotic brown spots")
+    color_profile = cv_metrics.get("color_profile", "Necrotic lesions")
     lesion_count = cv_metrics.get("lesion_count", 5)
 
+    part_key, organ_name_bn = resolve_plant_part_label(plant_part or cv_metrics.get("plant_part", "auto"))
     target_crop = crop_hint.strip() if (crop_hint and crop_hint.strip() and crop_hint.lower() != "auto") else "Auto-Deduce from Visual Profile"
 
     # 1. Live AI Diagnosis via Groq 120B
@@ -179,37 +257,59 @@ async def diagnose_pathology_with_ai(
 
             system_prompt = (
                 f"You are a Senior Plant Pathologist and Agronomist in Bangladesh.\n"
-                f"The target crop has been explicitly specified by the farmer as: '{target_crop}'.\n\n"
+                f"The target crop has been explicitly specified by the farmer as: '{target_crop}'.\n"
+                f"The affected plant part/organ inspected is: '{organ_name_bn}' (Category: {part_key}).\n\n"
                 f"CRITICAL CONSTRAINT:\n"
-                f"You MUST diagnose a scientifically authentic, recognized plant disease of '{target_crop}' in Bangladesh agriculture.\n"
+                f"You MUST diagnose a scientifically authentic, recognized plant disease or disorder of '{target_crop}' in Bangladesh agriculture affecting this specific plant part ({organ_name_bn}).\n"
                 f"DO NOT diagnose a disease from any other crop.\n"
-                f"For example: if the crop is Mango (আম), diagnose a Mango disease such as Anthracnose (Colletotrichum), Powdery Mildew, Dieback, or Bacterial Canker; NEVER diagnose Potato Late Blight or Rice Blast.\n"
-                f"If the crop is Banana (কলা), diagnose Sigatoka or Panama Disease.\n"
-                f"If the crop is Brinjal/Eggplant (বেগুন), diagnose Phomopsis Blight or Little Leaf.\n"
-                f"If the crop is Chilli (মরিচ), diagnose Chilli Leaf Curl Virus or Anthracnose Dieback.\n"
-                f"If the crop is Rice (ধান), diagnose Rice Blast, Sheath Blight, or Bacterial Leaf Blight.\n"
-                f"If the crop is Potato (আলু), diagnose Late Blight or Early Blight.\n\n"
-                f"Correlate the physical computer vision measurements with this crop's pathology.\n"
+                f"Targeted Organ Pathology Rules:\n"
+                f"- If crop is Mango (আম):\n"
+                f"  * When part is Fruit (ফল): diagnose Mango Anthracnose Fruit Rot (Colletotrichum gloeosporioides), Stem-End Rot (Lasiodiplodia theobromae), or Fruit Fly damage.\n"
+                f"  * When part is Stem / Trunk / Branch (কাণ্ড/ডাল/শরীর): diagnose Mango Dieback (Botryosphaeria ribis / Lasiodiplodia), Gummosis / Bark Canker (Ceratocystis fimbriata), or Mango Stem Borer (Batocera rufomaculata).\n"
+                f"  * When part is Leaf (পাতা): diagnose Mango Anthracnose Leaf Spot, Powdery Mildew, or Red Rust.\n"
+                f"- If crop is Banana (কলা):\n"
+                f"  * When part is Fruit (ফল): diagnose Banana Anthracnose or Cigar End Rot.\n"
+                f"  * When part is Leaf (পাতা): diagnose Sigatoka Leaf Spot (Pseudocercospora fijiensis).\n"
+                f"  * When part is Stem/Trunk: diagnose Panama Wilt (Fusarium oxysporum) or Pseudostem Borer.\n"
+                f"- If crop is Tomato (টমেটো):\n"
+                f"  * When part is Fruit (ফল): diagnose Blossom End Rot, Tomato Fruit Rot (Alternaria), or Anthracnose.\n"
+                f"  * When part is Leaf (পাতা): diagnose Early/Late Blight or Tomato Leaf Curl Virus.\n"
+                f"  * When part is Stem: diagnose Bacterial Wilt (Ralstonia) or Timber Rot (Sclerotinia).\n"
+                f"- If crop is Brinjal / Eggplant (বেগুন):\n"
+                f"  * When part is Fruit or Stem: diagnose Brinjal Fruit and Shoot Borer (Leucinodes orbonalis) or Phomopsis Fruit Rot.\n"
+                f"  * When part is Leaf: diagnose Phomopsis Blight or Little Leaf.\n"
+                f"- If crop is Jute (পাট):\n"
+                f"  * When part is Stem: diagnose Jute Stem Rot (Macrophomina phaseolina).\n"
+                f"- If crop is Potato (আলু):\n"
+                f"  * When part is Tuber/Fruit: diagnose Common Scab or Potato Dry Rot / Soft Rot.\n"
+                f"  * When part is Leaf: diagnose Potato Late Blight or Early Blight.\n"
+                f"- If crop is Chilli (মরিচ):\n"
+                f"  * When part is Fruit: diagnose Anthracnose Dieback / Fruit Rot (Colletotrichum capsici).\n"
+                f"  * When part is Leaf: diagnose Chilli Leaf Curl Virus or Thrips damage.\n"
+                f"- For other crops, scientifically match the pathogen and symptoms to '{target_crop}' and the inspected organ '{organ_name_bn}'.\n\n"
+                f"Correlate the physical computer vision measurements with this crop and organ's pathology.\n"
                 f"Provide actionable agronomic guidance in JSON with these exact keys:\n"
-                f"1. 'id': disease slug (e.g. 'mango-anthracnose', 'banana-sigatoka', 'brinjal-phomopsis')\n"
-                f"2. 'name': Common name in English and Bengali (e.g. 'Mango Anthracnose (আমের অ্যানথ্রাকনোজ রোগ)')\n"
+                f"1. 'id': disease slug (e.g. 'mango-fruit-anthracnose', 'mango-dieback', 'tomato-blossom-end-rot')\n"
+                f"2. 'name': Common name in English and Bengali (e.g. 'আমের ডাইব্যাক বা ডাল শুকিয়ে যাওয়া (Mango Dieback)')\n"
                 f"3. 'cropType': '{target_crop}'\n"
-                f"4. 'pathogen': Full scientific binomial name (e.g. 'Colletotrichum gloeosporioides')\n"
-                f"5. 'severity': '{severity}'\n"
-                f"6. 'description': Detailed clinical symptoms in Bengali describing the visible physical lesions on this crop.\n"
-                f"7. 'root_cause': Climate trigger explanation in Bengali explaining how current temperature ({temp}°C) and humidity ({humidity}%) caused or accelerated this pathogen.\n"
-                f"8. 'organicRemedy': Specific biological and cultural control measures in Bengali.\n"
-                f"9. 'chemicalRemedy': Specific commercial chemical trade names available in Bangladesh markets with exact dilution dosages (e.g. g/L or ml/L) in Bengali.\n"
-                f"10. 'phiDays': Mandatory Pre-Harvest Interval (integer days).\n"
-                f"11. 'sprayAdvice': Weather-adjusted spraying advice in Bengali taking into account the rain forecast ({rain_in_hours} hours).\n"
+                f"4. 'plantPart': '{organ_name_bn}'\n"
+                f"5. 'pathogen': Full scientific binomial name or causal agent\n"
+                f"6. 'severity': '{severity}'\n"
+                f"7. 'description': Detailed clinical symptoms in Bengali describing the visible physical lesions on this specific plant part ({organ_name_bn}).\n"
+                f"8. 'root_cause': Climate trigger explanation in Bengali explaining how current temperature ({temp}°C) and humidity ({humidity}%) caused or accelerated this pathogen.\n"
+                f"9. 'organicRemedy': Specific biological and cultural control measures in Bengali (e.g. pruning infected twigs, applying Bordeaux paste on tree trunks/cut surfaces, biocontrol).\n"
+                f"10. 'chemicalRemedy': Specific commercial chemical trade names available in Bangladesh markets with exact dilution dosages (e.g. g/L or ml/L) in Bengali (e.g. Cupravit 50 WP, Ridomil Gold, Nativo 75 WG, Tilt 250 EC, Bordeaux paste for trunks).\n"
+                f"11. 'phiDays': Mandatory Pre-Harvest Interval (integer days).\n"
+                f"12. 'sprayAdvice': Weather-adjusted spraying or paste application advice in Bengali taking into account the rain forecast ({rain_in_hours} hours).\n"
                 f"Output ONLY valid JSON."
             )
 
             user_prompt = (
                 f"Target Crop: {target_crop}\n"
+                f"Inspected Plant Organ: {organ_name_bn} ({part_key})\n"
                 f"Physical Computer Vision Findings:\n"
-                f"- Measured Foliage Damage: {damage_pct}%\n"
-                f"- Lesion Cluster Count: {lesion_count}\n"
+                f"- Measured Organ Surface Damage: {damage_pct}%\n"
+                f"- Lesion / Wound Cluster Count: {lesion_count}\n"
                 f"- Physical Lesion Profile: {color_profile}\n"
                 f"Hyperlocal Live Weather ({union_name}, Bangladesh):\n"
                 f"- Temperature: {temp}°C\n"
@@ -230,6 +330,7 @@ async def diagnose_pathology_with_ai(
             res = json.loads(chat_completion.choices[0].message.content)
             res["severity"] = severity
             res["damagePercentage"] = damage_pct
+            res["plantPart"] = organ_name_bn
             if target_crop != "Auto-Deduce from Visual Profile":
                 res["cropType"] = target_crop
             return res
@@ -256,6 +357,7 @@ async def diagnose_pathology_with_ai(
         "id": matched.get("id"),
         "name": f"{matched.get('name_en')} ({matched.get('name_bn')})",
         "cropType": target_crop if target_crop != "Auto-Deduce from Visual Profile" else f"{matched.get('crop_en')} ({matched.get('crop_bn')})",
+        "plantPart": organ_name_bn,
         "pathogen": matched.get("pathogen"),
         "severity": severity,
         "damagePercentage": damage_pct,

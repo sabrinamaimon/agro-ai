@@ -12,7 +12,7 @@ export const processVoiceIntake = async (transcript, language = 'bn') => {
   return response.data;
 };
 
-export const diagnoseCropImage = async (imageFile, sampleId = null, cropType = null, union = 'Rangpur Sadar', language = 'bn') => {
+export const diagnoseCropImage = async (imageFile, sampleId = null, cropType = null, union = 'Rangpur Sadar', language = 'bn', plantPart = 'leaf') => {
   const formData = new FormData();
   if (imageFile) {
     formData.append('image', imageFile);
@@ -28,6 +28,9 @@ export const diagnoseCropImage = async (imageFile, sampleId = null, cropType = n
   }
   if (language) {
     formData.append('language', language);
+  }
+  if (plantPart) {
+    formData.append('plantPart', plantPart);
   }
   
   const response = await api.post('/api/diagnose-vision', formData, {

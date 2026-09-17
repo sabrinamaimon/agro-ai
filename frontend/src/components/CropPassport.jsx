@@ -181,8 +181,8 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
           </div>
 
           <div className="p-item">
-            <span className="p-label">DIAGNOSED PATHOGEN</span>
-            <span className="p-val danger">{activeDiagnosis.name}</span>
+            <span className="p-label">DIAGNOSED PATHOGEN & ORGAN</span>
+            <span className="p-val danger">{activeDiagnosis.name} {activeDiagnosis.plantPart ? `[${activeDiagnosis.plantPart}]` : ''}</span>
           </div>
 
           <div className="p-item">

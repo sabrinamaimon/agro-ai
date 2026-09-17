@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from backend.database import get_db
 from backend.models.schema import DiagnosisRecord, AdvisoryPlan
-from backend.services.vision_engine import analyze_leaf_image, diagnose_pathology_with_ai
+from backend.services.vision_engine import analyze_crop_image, analyze_leaf_image, diagnose_pathology_with_ai
 from backend.services.weather_service import fetch_weather
 from backend.services.anomaly_detector import analyze_price_anomaly
 from backend.config import UPLOADS_DIR, DATA_DIR
@@ -17,6 +17,7 @@ async def diagnose_leaf_image_endpoint(
     image: Optional[UploadFile] = File(None),
     sampleId: Optional[str] = Form(None),
     cropType: Optional[str] = Form(None),
+    plantPart: Optional[str] = Form("auto"),
     union: Optional[str] = Form("Rangpur Sadar"),
     language: Optional[str] = Form("bn"),
     db: Session = Depends(get_db)
@@ -57,7 +58,7 @@ async def diagnose_leaf_image_endpoint(
             cropType = "Potato (আলু)"
 
     # 2. Run Physical Computer Vision Pipeline (OpenCV)
-    cv_result = analyze_leaf_image(image_bytes, filename=filename)
+    cv_result = analyze_crop_image(image_bytes, filename=filename, plant_part=plantPart or "auto")
 
     # 3. Fetch Live Hyperlocal Weather (Open-Meteo)
     target_union = union or "Rangpur Sadar"
@@ -69,7 +70,8 @@ async def diagnose_leaf_image_endpoint(
         crop_hint=cropType,
         weather_data=weather,
         union_name=target_union,
-        language=language or "bn"
+        language=language or "bn",
+        plant_part=plantPart or "auto"
     )
 
     # 5. Market Price Anomaly Check for Diagnosed Crop
@@ -110,6 +112,7 @@ async def diagnose_leaf_image_endpoint(
         "id": diagnosis.get("id"),
         "name": diagnosis.get("name"),
         "cropType": diagnosis.get("cropType"),
+        "plantPart": diagnosis.get("plantPart", cv_result.get("plant_part_display", "পাতা (Leaf)")),
         "pathogen": diagnosis.get("pathogen"),
         "severity": diagnosis.get("severity"),
         "damagePercentage": cv_result.get("damagePercentage"),
