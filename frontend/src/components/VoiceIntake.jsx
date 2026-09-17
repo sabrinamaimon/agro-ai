@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Mic, MicOff, Send, Sparkles, CheckCircle2, MessageCircle, MapPin, AlertCircle } from 'lucide-react';
 import { processVoiceIntake } from '../services/api';
 
@@ -8,6 +8,7 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [extractedSchema, setExtractedSchema] = useState(null);
+  const recognitionRef = useRef(null);
 
   const sampleQueries = [
     { bn: 'বেগুনের গায়ে পোকা ও ডগা ছিদ্রকারী পোকার আক্রমণ', en: 'Eggplant pest and shoot borer attack' },
@@ -17,7 +18,31 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
     { bn: 'টমেটো গাছে সাদা মাছি পোকার আক্রমণ ও পাতা কোঁকড়ানো শুরু হয়েছে', en: 'Tomato plants have whitefly attack and leaf curling starting' }
   ];
 
-  const startListening = () => {
+  // Cleanup speech recognition on unmount
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch (e) {}
+      }
+    };
+  }, []);
+
+  const toggleListening = () => {
+    // If currently listening, toggle OFF immediately
+    if (isListening) {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch (e) {
+          console.error('Error stopping speech recognition:', e);
+        }
+      }
+      setIsListening(false);
+      return;
+    }
+
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
@@ -27,21 +52,37 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
       return;
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = language === 'bn' ? 'bn-BD' : 'en-US';
-    recognition.continuous = false;
-    recognition.interimResults = false;
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = language === 'bn' ? 'bn-BD' : 'en-US';
+      recognition.continuous = false;
+      recognition.interimResults = false;
 
-    recognition.onstart = () => setIsListening(true);
-    recognition.onend = () => setIsListening(false);
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
 
-    recognition.onresult = (event) => {
-      const speechResult = event.results[0][0].transcript;
-      setTranscript(speechResult);
-      handleProcessTranscript(speechResult);
-    };
+      recognition.onend = () => {
+        setIsListening(false);
+      };
 
-    recognition.start();
+      recognition.onerror = (event) => {
+        console.warn('Speech recognition status:', event.error);
+        setIsListening(false);
+      };
+
+      recognition.onresult = (event) => {
+        const speechResult = event.results[0][0].transcript;
+        setTranscript(speechResult);
+        handleProcessTranscript(speechResult);
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
+    } catch (err) {
+      console.error('Speech recognition start failed:', err);
+      setIsListening(false);
+    }
   };
 
   const handleProcessTranscript = async (textToProcess) => {
@@ -132,13 +173,17 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
 
       <div className="voice-input-group">
         <button 
+          type="button"
           className={`mic-btn ${isListening ? 'listening' : ''}`}
-          onClick={startListening}
+          onClick={toggleListening}
+          title={isListening 
+            ? (language === 'bn' ? 'ভয়েস ইনপুট বন্ধ করতে আবার চাপুন' : 'Click to stop listening') 
+            : (language === 'bn' ? 'মাইকে চাপ দিয়ে কথা বলুন' : 'Tap to dictate')}
         >
           {isListening ? <MicOff size={24} /> : <Mic size={24} />}
           <span>
             {isListening 
-              ? (language === 'bn' ? 'শুনছি... বলুন' : 'Listening...') 
+              ? (language === 'bn' ? 'শুনছি... বন্ধ করতে আবার চাপুন' : 'Listening... Click to stop') 
               : (language === 'bn' ? 'মাইকে চাপ দিয়ে কথা বলুন (Mic)' : 'Tap to Dictate')}
           </span>
         </button>
