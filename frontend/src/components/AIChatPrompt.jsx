@@ -7,8 +7,8 @@ export default function AIChatPrompt({ language }) {
     {
       sender: 'ai',
       text: language === 'bn' 
-        ? 'সালাম! আমি আপনার Agro-AI সহকারী। ফসল, সার, রোগবালাই বা যেকোনো কৃষি সম্পর্কিত প্রশ্ন বা প্রম্পট লিখুন।' 
-        : 'Hello! I am your Agro-AI assistant. Ask me any question or prompt regarding crops, fertilizers, or pest control.'
+       ? 'স্বাগতম! আমি আপনার Agro-AI সহকারী। ফসল, সার বা রোগবালাই নিয়ে যা জানতে চান, লিখে ফেলুন।'
+       : 'Hello! I am your Agro-AI assistant. Ask me anything about your crops, fertilizers, or pests.'
     }
   ]);
   const [inputPrompt, setInputPrompt] = useState('');
@@ -61,13 +61,13 @@ export default function AIChatPrompt({ language }) {
     <div className="card task-card">
       <div className="card-header">
         <MessageSquare color="#059669" size={24} />
-        <h2>{language === 'bn' ? 'উন্নত এআই কৃষি চ্যাট সহকারী' : 'Advanced AI Agro Assistant'}</h2>
+       <h2>{language === 'bn' ? 'যেকোনো প্রশ্ন করুন' : 'Ask Any Question'}</h2>
       </div>
 
       <p className="card-desc">
         {language === 'bn'
-          ? 'কৃষি বিষয়ক যেকোনো প্রশ্ন বা প্রম্পট লিখুন—উন্নত এআই মডেল সরাসরি সঠিক ও বৈজ্ঞানিক সমাধান প্রদান করবে।'
-          : 'Ask any custom farming query—our advanced agricultural AI model generates live, scientifically verified agronomic guidance.'}
+         ? 'আপনার ফসল বা চাষ নিয়ে যেকোনো প্রশ্ন লিখুন। আমরা সাথে সাথে আপনাকে সঠিক পরামর্শ দেব।'
+: 'Write any question about your crop or farming. We will give you the right advice right away.'}
       </p>
 
       {/* Suggested Prompt Chips */}
