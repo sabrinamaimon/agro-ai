@@ -38,12 +38,12 @@ export default function Hero({ language, setActiveTab }) {
 
           <div className="hero-image-container">
             <img 
-              src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80" 
-              alt="Single Solo Farmer" 
+              src="https://share.google/8INrkKqxlqmSADiTu" 
+              alt="Farmer Photo" 
               className="happy-farmer-img"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = "https://images.unsplash.com/photo-1592417817098-8f3d6eb19655?auto=format&fit=crop&w=800&q=80";
+                e.target.src = "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80";
               }}
             />
             <div className="floating-hero-badge">
