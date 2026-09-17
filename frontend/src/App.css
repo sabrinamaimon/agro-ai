@@ -2310,6 +2310,899 @@ select.input-field {
   background-color: var(--primary-emerald);
   color: #FFFFFF;
 }
+
+/* ========================================================
+   Navbar Location Pill & Actions
+   ======================================================== */
+.navbar-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar-location-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  color: #166534;
+  border-radius: 9999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  max-width: 220px;
+}
+
+.navbar-location-btn:hover {
+  background: #DCFCE7;
+  border-color: #86EFAC;
+}
+
+.navbar-location-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ========================================================
+   Global Location Modal
+   ======================================================== */
+.location-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.location-modal-card {
+  max-width: 540px;
+  width: 100%;
+  max-height: 88vh;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+.location-modal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  position: relative;
+}
+
+.header-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #ECFDF5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header-text-group {
+  flex: 1;
+  padding-right: 2rem;
+}
+
+.location-modal-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.location-modal-subtitle {
+  font-size: 0.82rem;
+  color: #64748B;
+  margin: 0.35rem 0 0 0;
+  line-height: 1.4;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #F1F5F9;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748B;
+  transition: all 0.15s;
+}
+
+.modal-close-btn:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.btn-gps-detect {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+}
+
+.btn-gps-detect:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.3);
+}
+
+.btn-gps-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.btn-gps-text strong {
+  font-size: 0.92rem;
+}
+
+.btn-gps-text span {
+  font-size: 0.74rem;
+  opacity: 0.85;
+}
+
+.gps-error-pill {
+  padding: 0.5rem 0.85rem;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #991B1B;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.modal-divider {
+  text-align: center;
+  position: relative;
+  margin: 1.25rem 0 0.75rem 0;
+  border-top: 1px solid #E2E8F0;
+}
+
+.modal-divider span {
+  position: relative;
+  top: -10px;
+  background: #FFFFFF;
+  padding: 0 0.75rem;
+  color: #94A3B8;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.district-search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.district-search-bar .search-icon {
+  position: absolute;
+  left: 12px;
+  color: #94A3B8;
+}
+
+.district-search-input {
+  width: 100%;
+  padding: 0.65rem 2.2rem 0.65rem 2.4rem;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.district-search-input:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+}
+
+.district-search-bar .clear-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  display: flex;
+}
+
+.districts-list-container {
+  overflow-y: auto;
+  max-height: 280px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  padding: 0.25rem 0.25rem 0.5rem 0.25rem;
+}
+
+@media (max-width: 500px) {
+  .districts-list-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.district-item-card {
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid #F1F5F9;
+  background: #F8FAFC;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.15s ease;
+}
+
+.district-item-card:hover {
+  background: #ECFDF5;
+  border-color: #A7F3D0;
+  transform: translateY(-1px);
+}
+
+.district-item-card.selected {
+  background: #ECFDF5;
+  border-color: #059669;
+  box-shadow: 0 0 0 1px #059669;
+}
+
+.dist-name-bn {
+  font-size: 0.9rem;
+  color: #0F172A;
+  display: block;
+}
+
+.dist-division {
+  font-size: 0.72rem;
+  color: #64748B;
+}
+
+.dist-check {
+  color: #059669;
+  display: flex;
+}
+
+/* ========================================================
+   Production Agro Weather & Field Advisory Dashboard
+   ======================================================== */
+.weather-panel-container {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.weather-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.header-title-block h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.header-desc {
+  font-size: 0.84rem;
+  color: #64748B;
+  margin: 0.25rem 0 0 0;
+}
+
+.header-actions-block {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.location-selector-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  border-radius: 12px;
+  color: #065F46;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.location-selector-btn:hover {
+  background: #D1FAE5;
+  border-color: #6EE7B7;
+}
+
+.location-change-tag {
+  background: #059669;
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  padding: 2px 7px;
+  border-radius: 6px;
+  margin-left: 4px;
+}
+
+.refresh-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid #E2E8F0;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #475569;
+  transition: all 0.15s ease;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  border-color: #059669;
+  color: #059669;
+}
+
+.weather-loading-skeleton {
+  padding: 3rem 1rem;
+  text-align: center;
+  background: #F8FAFC;
+  border-radius: 14px;
+  border: 1px dashed #CBD5E1;
+}
+
+.skeleton-loader-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: #64748B;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Weather Hero Banner */
+.weather-hero-card {
+  background: linear-gradient(135deg, #059669 0%, #047857 50%, #064E3B 100%);
+  color: #FFFFFF;
+  border-radius: 20px;
+  padding: 1.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  box-shadow: 0 12px 28px -6px rgba(5, 150, 105, 0.35);
+}
+
+.hero-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.weather-icon-large .emoji-icon {
+  font-size: 3.6rem;
+  line-height: 1;
+  display: block;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+}
+
+.weather-main-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.temp-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+
+.current-temp {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.feels-like {
+  font-size: 0.88rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.weather-condition-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0.35rem 0 0 0;
+}
+
+.weather-rain-forecast {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  opacity: 0.95;
+  margin: 0.35rem 0 0 0;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 3px 10px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.hero-right-stats {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  padding: 0.85rem 1.1rem;
+  min-width: 105px;
+  text-align: center;
+}
+
+.stat-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  opacity: 0.92;
+  font-weight: 600;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-top: 0.35rem;
+}
+
+.stat-sub {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  display: block;
+  margin-top: 2px;
+}
+
+/* 4 Agricultural Intelligence Advisories */
+.agro-advisories-section .section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.agro-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.advisory-card {
+  border-radius: 16px;
+  border: 1.5px solid #E2E8F0;
+  background: #FFFFFF;
+  padding: 1.15rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.advisory-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.advisory-card.status-danger,
+.advisory-card.status-pause,
+.advisory-card.status-high {
+  border-left: 5px solid #EF4444;
+}
+
+.advisory-card.status-warning,
+.advisory-card.status-caution,
+.advisory-card.status-irrigate,
+.advisory-card.status-medium {
+  border-left: 5px solid #F59E0B;
+}
+
+.advisory-card.status-safe,
+.advisory-card.status-favorable,
+.advisory-card.status-normal {
+  border-left: 5px solid #10B981;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.advisory-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.advisory-title-group h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.card-icon {
+  color: #059669;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+.advisory-desc {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0.85rem 0;
+  flex: 1;
+}
+
+.advisory-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  border-top: 1px solid #F1F5F9;
+  padding-top: 0.75rem;
+}
+
+.footer-tag {
+  font-size: 0.74rem;
+  color: #64748B;
+  background: #F8FAFC;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+  font-weight: 500;
+}
+
+/* 24-Hour Hourly Weather Strip */
+.section-header-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.65rem;
+}
+
+.section-header-sub h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.scroll-hint-text {
+  font-size: 0.76rem;
+  color: #94A3B8;
+  font-weight: 600;
+}
+
+.hourly-strip-scroll {
+  display: flex;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding: 0.5rem 0.25rem 0.85rem 0.25rem;
+  scrollbar-width: thin;
+}
+
+.hourly-card {
+  min-width: 90px;
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.hourly-card:hover {
+  background: #ECFDF5;
+  border-color: #A7F3D0;
+  transform: translateY(-2px);
+}
+
+.hour-time {
+  font-size: 0.74rem;
+  color: #64748B;
+  font-weight: 600;
+}
+
+.hour-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.hour-temp {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.hour-meta {
+  display: flex;
+  gap: 0.45rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.hour-rain {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #2563EB;
+}
+
+.hour-hum {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #0D9488;
+}
+
+/* 5-Day Daily Agro Forecast */
+.daily-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.daily-card {
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 1rem 0.85rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.daily-card.today {
+  border-color: #059669;
+  background: #F0FDF4;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
+}
+
+.daily-card-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.day-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.day-date {
+  font-size: 0.72rem;
+  color: #64748B;
+}
+
+.daily-icon-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.daily-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.daily-condition {
+  font-size: 0.76rem;
+  color: #475569;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.daily-temp-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.max-temp {
+  color: #EF4444;
+}
+
+.min-temp {
+  color: #3B82F6;
+}
+
+.daily-rain-row {
+  font-size: 0.74rem;
+  color: #2563EB;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-weight: 600;
+}
+
+.daily-rain-prob {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.daily-precip-sum {
+  font-size: 0.7rem;
+  color: #64748B;
+}
+
+/* Diagnosis Treatment Box */
+.diagnosis-treatment-box {
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 18px;
+  padding: 1.5rem;
+}
+
+.diagnosis-box-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.diagnosis-box-header h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.diagnosis-box-header .subtext {
+  font-size: 0.82rem;
+  color: #64748B;
+  margin: 0.2rem 0 0 0;
+}
+
+/* Scan Invitation Banner */
+.scan-invitation-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #F0FDF4;
+  border: 1.5px dashed #10B981;
+  border-radius: 18px;
+  padding: 1.25rem 1.5rem;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.invite-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 260px;
+}
+
+.invite-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: #DCFCE7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.invite-text h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #065F46;
+  margin: 0;
+}
+
+.invite-text p {
+  font-size: 0.82rem;
+  color: #047857;
+  margin: 0.25rem 0 0 0;
+  line-height: 1.4;
+}
+
+.btn-scan-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #059669;
+  color: #FFFFFF;
+  padding: 0.65rem 1.25rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+  white-space: nowrap;
+}
+
+.btn-scan-action:hover {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
 @media (max-width: 640px) {
   .navbar-top {
     display: flex;

@@ -39,8 +39,12 @@ export const diagnoseCropImage = async (imageFile, sampleId = null, cropType = n
   return response.data;
 };
 
-export const fetchWeatherAdvisory = async (unionName = 'Rangpur Sadar', language = 'bn') => {
-  const response = await api.get(`/api/weather-advisory?union=${encodeURIComponent(unionName)}&language=${encodeURIComponent(language)}`);
+export const fetchWeatherAdvisory = async (unionName = 'Rangpur Sadar', language = 'bn', lat = null, lon = null) => {
+  let url = `/api/weather-advisory?union=${encodeURIComponent(unionName || 'Rangpur Sadar')}&language=${encodeURIComponent(language)}`;
+  if (lat !== null && lat !== undefined && lon !== null && lon !== undefined) {
+    url += `&lat=${lat}&lon=${lon}`;
+  }
+  const response = await api.get(url);
   return response.data;
 };
 
