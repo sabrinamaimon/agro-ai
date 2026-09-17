@@ -19,7 +19,7 @@ export default function Navbar({
     { id: 'task3', labelBn: 'আবহাওয়া ও স্প্রে', labelEn: 'Weather & Spray', icon: CloudRain },
     { id: 'task4', labelBn: '৳ বাজার দর', labelEn: '৳ Price Checker', icon: TrendingUp },
     { id: 'fertilizer', labelBn: 'সার ক্যালকুলেটর', labelEn: 'Fertilizer Calc', icon: Calculator },
-    { id: 'task5', labelBn: 'ডিজিটাল পাসপোর্ট', labelEn: 'Crop Passport', icon: FileText }
+    { id: 'task5', labelBn: 'ডিজিটাল পাসপোর্ট', labelEn: 'Digital Passport', icon: FileText }
   ];
 
   const handleNavClick = (id) => {
