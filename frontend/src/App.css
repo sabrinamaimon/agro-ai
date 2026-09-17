@@ -637,6 +637,7 @@ body {
   overflow-y: auto;
   padding: 1rem;
   background: #F8FAFC;
+}
 /* AI Agro Prompt Chat */
 .chat-messages-box {
   display: flex;

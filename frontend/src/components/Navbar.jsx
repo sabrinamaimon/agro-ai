@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation } from 'lucide-react';
-import React, { useState } from 'react';
-import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation } from 'lucide-react';
 
 export default function Navbar({
   language,
@@ -15,8 +13,6 @@ export default function Navbar({
 
   const navItems = [
     { id: 'home', labelBn: 'হোম', labelEn: 'Home', icon: Home },
-    { id: 'aichat', labelBn: 'এআই চ্যাট', labelEn: 'AI Chat Prompt', icon: MessageSquare },
-    { id: 'task1', labelBn: 'ভয়েস ইনপুট', labelEn: 'Voice Input', icon: Mic },
     { id: 'aichat', labelBn: 'এআই চ্যাট', labelEn: 'AI Chat Prompt', icon: MessageSquare },
     { id: 'task1', labelBn: 'ভয়েস ইনপুট', labelEn: 'Voice Input', icon: Mic },
     { id: 'task2', labelBn: 'রোগ নির্ণয়', labelEn: 'Leaf Scanner', icon: Camera },
@@ -35,22 +31,9 @@ export default function Navbar({
     ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(3)}°N, ${gpsLocation.lon?.toFixed(3)}°E (GPS)`)
     : (language === 'bn' ? 'মাঠের জিপিএস চালু করুন' : 'Enable Field GPS');
 
-  const handleNavClick = (id) => {
-    setActiveTab(id);
-    setMenuOpen(false);
-  };
-
-  const locationDisplay = gpsLocation
-    ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(3)}°N, ${gpsLocation.lon?.toFixed(3)}°E (GPS)`)
-    : (language === 'bn' ? 'মাঠের জিপিএস চালু করুন' : 'Enable Field GPS');
-
   return (
     <header className="navbar">
       <div className="navbar-top">
-        <button className="menu-toggle-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu">
-          <Menu size={24} />
-        </button>
-
         <button className="menu-toggle-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu">
           <Menu size={24} />
         </button>
@@ -71,14 +54,10 @@ export default function Navbar({
           <button
             type="button"
             className="navbar-icon-btn"
-            onClick={onOpenLocationModal}
-            title={locationDisplay}
-            className="navbar-location-btn"
             onClick={onOpenGpsModal}
             title={language === 'bn' ? 'মাঠের জিপিএস ক্যালিব্রেট করুন' : 'Calibrate Field GPS'}
           >
-            <Navigation size={15} className="text-emerald" />
-            <span className="navbar-location-text">{locationDisplay}</span>
+            <Navigation size={20} />
           </button>
 
           <button
@@ -89,53 +68,53 @@ export default function Navbar({
             <Globe size={20} />
           </button>
         </div>
-         </div>
+      </div>
 
-        {/* Desktop Navigation Tabs */}
-        <nav className="navbar-tabs">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                className={`nav-tab-btn ${isActive ? 'active' : ''}`}
-                onClick={() => setActiveTab(item.id)}
-              >
-                <Icon size={18} />
-                <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
-              </button>
-            );
-          })}
-        </nav>
-
-        {/* Mobile Sidebar Overlay & Drawer */}
-        {menuOpen && (
-          <div className="sidebar-overlay" onClick={() => setMenuOpen(false)} />
-        )}
-
-        <nav className={`sidebar-drawer ${menuOpen ? 'open' : ''}`}>
-          <div className="sidebar-header">
-            <span className="sidebar-title">{language === 'bn' ? 'মেনু' : 'Menu'}</span>
-            <button className="sidebar-close-btn" onClick={() => setMenuOpen(false)} aria-label="Close menu">
-              <X size={22} />
+      {/* Desktop Navigation Tabs */}
+      <nav className="navbar-tabs">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              className={`nav-tab-btn ${isActive ? 'active' : ''}`}
+              onClick={() => setActiveTab(item.id)}
+            >
+              <Icon size={18} />
+              <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
             </button>
-          </div>
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                className={`sidebar-nav-btn ${isActive ? 'active' : ''}`}
-                onClick={() => handleNavClick(item.id)}
-              >
-                <Icon size={20} />
-                <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
-              </button>
-            );
-          })}
-        </nav>
+          );
+        })}
+      </nav>
+
+      {/* Mobile Sidebar Overlay & Drawer */}
+      {menuOpen && (
+        <div className="sidebar-overlay" onClick={() => setMenuOpen(false)} />
+      )}
+
+      <nav className={`sidebar-drawer ${menuOpen ? 'open' : ''}`}>
+        <div className="sidebar-header">
+          <span className="sidebar-title">{language === 'bn' ? 'মেনু' : 'Menu'}</span>
+          <button className="sidebar-close-btn" onClick={() => setMenuOpen(false)} aria-label="Close menu">
+            <X size={22} />
+          </button>
+        </div>
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              className={`sidebar-nav-btn ${isActive ? 'active' : ''}`}
+              onClick={() => handleNavClick(item.id)}
+            >
+              <Icon size={20} />
+              <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
+            </button>
+          );
+        })}
+      </nav>
     </header>
   );
 }
