@@ -15,8 +15,8 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
         <h3 className="mt-2">{language === 'bn' ? 'ডিজিটাল ক্রপ পাসপোর্ট (Digital Field Passport)' : 'Digital Crop Passport'}</h3>
         <p className="text-gray mt-1">
           {language === 'bn' 
-            ? 'ডিজিটাল ক্রপ পাসপোর্ট ও বাংলা অডিও ব্রিফিং পেতে প্রথমে রোগ শনাক্তকরণ (Task 2) সম্পন্ন করুন।'
-            : 'Please run Task 2 (Visual Crop Disease Detection) to generate your verified digital field passport.'}
+            ? 'ডিজিটাল ক্রপ পাসপোর্ট ও বাংলা অডিও ব্রিফিং পেতে প্রথমে রোগ শনাক্তকরণ সম্পন্ন করুন।'
+            : 'Please run Visual Crop Disease Detection to generate your verified digital field passport.'}
         </p>
         {setActiveTab && (
           <button className="btn btn-primary mt-3" onClick={() => setActiveTab('task2')}>
