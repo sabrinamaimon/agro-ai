@@ -11,11 +11,11 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
   const recognitionRef = useRef(null);
 
   const sampleQueries = [
-    { bn: 'বেগুনের গায়ে পোকা ও ডগা ছিদ্রকারী পোকার আক্রমণ', en: 'Eggplant pest and shoot borer attack' },
-    { bn: 'আমার কলা গাছের পাতায় কালো দাগ পড়েছে ও পাতা পুড়ে যাচ্ছে', en: 'My banana plant leaves have black spots and are drying up' },
-    { bn: 'আমার আলু খেতের পাতায় কালো বাদামী দাগ পড়েছে ও গাছ নেতিয়ে পড়ছে', en: 'My potato crop leaves have blackish brown spots and plants are wilting' },
-    { bn: 'ধানের পাতায় হলুদ লালচে ছোপ ছোপ দাগ ও ডগা মরা রোগ দেখা দিয়েছে', en: 'Rice crop leaves have yellow reddish spots and tip dieback disease' },
-    { bn: 'টমেটো গাছে সাদা মাছি পোকার আক্রমণ ও পাতা কোঁকড়ানো শুরু হয়েছে', en: 'Tomato plants have whitefly attack and leaf curling starting' }
+    { bn: 'আলুর জমিতে ভালো ফলন পেতে কি কি সার ও ইউরিয়া দিতে হবে?', en: 'What fertilizers are needed for good potato yield?' },
+    { bn: 'বেগুনের গায়ে পোকা ও ডগা ছিদ্রকারী বালাই দমনে কি কীটনাশক দেব?', en: 'What pesticide should I spray for eggplant shoot and fruit borer?' },
+    { bn: 'আগামীকাল কি বৃষ্টি হতে পারে, জমিতে এখন সেচ দেওয়া যাবে?', en: 'Will it rain tomorrow, is it safe to irrigate now?' },
+    { bn: 'বেলে দোআঁশ মাটিতে কোন কোন ফসল সবচেয়ে ভালো ফলন দেয়?', en: 'Which crops grow best in sandy loam soil?' },
+    { bn: 'কলা গাছের পাতায় কালো দাগ পড়েছে ও পাতা পুড়ে যাচ্ছে', en: 'Banana leaves have black spots and are drying up' }
   ];
 
   // Cleanup speech recognition on unmount
@@ -111,13 +111,13 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
   return (
     <div className="card task-card">
       <div className="card-header">
-        <h2>{language === 'bn' ? 'ভয়েস ইনপুট ও সমস্যা শনাক্তকরণ (Voice Query Intake)' : 'Voice Query Intake & Intent Extraction'}</h2>
+        <h2>{language === 'bn' ? 'ভয়েস কৃষি পরামর্শ ও জিজ্ঞাসা (Voice Farming Advisory)' : 'Voice Farming Advisory & Query Intake'}</h2>
       </div>
 
       <p className="card-desc">
         {language === 'bn' 
-          ? 'আপনার ফসলের সমস্যা বাংলায় বা ইংরেজিতে মুখে বলুন, নমুনা প্রশ্ন চাপুন অথবা নিচে লিখে জানান।' 
-          : 'Dictate crop symptoms in spoken Bengali or English, pick a sample query, or type below.'}
+          ? 'ফসলের রোগবালাই, সার, কীটনাশক, জমি/মাটি কিংবা আবহাওয়া সংক্রান্ত যেকোনো প্রশ্ন মুখে বলুন বা লিখে জানান।' 
+          : 'Ask any questions about crop diseases, fertilizers, pesticides, soil preparation, or weather in voice or text.'}
       </p>
 
       {/* GPS Location Indicator Badge */}
@@ -218,8 +218,28 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
         <div className="result-box mt-4">
           <div className="result-header">
             <CheckCircle2 color="#10B981" size={20} />
-            <h4>{language === 'bn' ? 'শনাক্তকৃত বিষয় ও তথ্যের বিবরণ (Extracted Intent)' : 'Extracted Intent'}</h4>
+            <h4>{language === 'bn' ? 'শনাক্তকৃত বিষয় ও তথ্যের বিবরণ' : 'Extracted Intent & Details'}</h4>
           </div>
+
+          {extractedSchema.query_category && (
+            <div className="query-category-badge" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              background: '#ECFDF5',
+              color: '#065F46',
+              border: '1px solid #A7F3D0',
+              padding: '0.35rem 0.85rem',
+              borderRadius: '20px',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              marginTop: '0.65rem',
+              marginBottom: '1rem'
+            }}>
+              <Sparkles size={15} color="#059669" />
+              <span>{language === 'bn' ? 'বিষয়:' : 'Topic:'} <strong>{extractedSchema.query_category}</strong></span>
+            </div>
+          )}
 
           <div className="grid-2">
             <div className="data-item">
@@ -231,7 +251,13 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
               <span className="data-value">{extractedSchema.estimated_planting_date || (language === 'bn' ? 'উল্লেখ নেই' : 'Not specified')}</span>
             </div>
             <div className="data-item">
-              <span className="data-label">{language === 'bn' ? 'ক্ষতির বিবরণ' : 'Observed Damage'}</span>
+              <span className="data-label">
+                {language === 'bn' 
+                  ? (extractedSchema.query_category?.includes('রোগ') || extractedSchema.query_category?.includes('বালাই') 
+                      ? 'লক্ষণ ও ক্ষতির বিবরণ' 
+                      : 'জিজ্ঞাসার মূল বিষয়') 
+                  : 'Query / Symptom Summary'}
+              </span>
               <span className="data-value">{extractedSchema.observed_damage_description}</span>
             </div>
             <div className="data-item">
@@ -239,6 +265,42 @@ export default function VoiceIntake({ language, gpsLocation, onIntakeComplete })
               <strong className="data-value" style={{ color: '#047857' }}>{extractedSchema.geographic_union}</strong>
             </div>
           </div>
+
+          {extractedSchema.expert_advisory && (
+            <div className="expert-advisory-card" style={{
+              background: '#F0FDF4',
+              border: '1.5px solid #86EFAC',
+              borderRadius: '12px',
+              padding: '1.25rem',
+              marginTop: '1.25rem',
+              boxShadow: '0 2px 8px rgba(16, 185, 129, 0.08)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', marginBottom: '0.75rem' }}>
+                <div style={{
+                  background: '#059669',
+                  color: '#fff',
+                  borderRadius: '8px',
+                  padding: '0.35rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Sparkles size={18} />
+                </div>
+                <h4 style={{ margin: 0, color: '#065F46', fontSize: '1.05rem', fontWeight: 700 }}>
+                  {language === 'bn' ? 'কৃষি বিশেষজ্ঞের তাৎক্ষণিক পরামর্শ ও সমাধান' : 'Instant Agricultural Advisory & Solution'}
+                </h4>
+              </div>
+              <div style={{
+                color: '#1F2937',
+                fontSize: '0.94rem',
+                lineHeight: '1.7',
+                whiteSpace: 'pre-line'
+              }}>
+                {extractedSchema.expert_advisory}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

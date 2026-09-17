@@ -53,13 +53,15 @@ async def intake_voice_or_text(
     planting_date = extracted.get("estimated_planting_date") or ("উল্লেখ নেই" if lang == "bn" else "Not mentioned")
     damage_desc = extracted.get("observed_damage_description") or transcript
     union = extracted.get("geographic_union") or gps_location or ("মাঠের লোকেশন সনাক্ত হয়নি" if lang == "bn" else "Location not set")
+    query_category = extracted.get("query_category") or ("সাধারণ কৃষি পরামর্শ" if lang == "bn" else "General Advice")
+    expert_advisory = extracted.get("expert_advisory")
 
     # Save to database
     intake_record = IntakeLog(
         raw_transcript=transcript,
         detected_crop=crop_type,
         planting_date=planting_date,
-        damage_desc=damage_desc,
+        damage_desc=f"[{query_category}] {damage_desc}",
         geographic_union=union,
         language=lang
     )
@@ -72,7 +74,9 @@ async def intake_voice_or_text(
         estimated_planting_date=planting_date,
         observed_damage_description=damage_desc,
         geographic_union=union,
-        raw_transcript=transcript
+        raw_transcript=transcript,
+        query_category=query_category,
+        expert_advisory=expert_advisory
     )
 
 @router.post("/agro-chat")

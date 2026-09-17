@@ -11,6 +11,8 @@ class VoiceIntakeResponse(BaseModel):
     observed_damage_description: Optional[str] = "লক্ষণ পর্যবেক্ষণ করা হয়েছে"
     geographic_union: Optional[str] = "মাঠের লোকেশন সনাক্ত হয়নি"
     raw_transcript: Optional[str] = None
+    query_category: Optional[str] = "সাধারণ কৃষি পরামর্শ"
+    expert_advisory: Optional[str] = None
 
 class WeatherInfo(BaseModel):
     city: Optional[str] = "Rangpur Sadar, Bangladesh"

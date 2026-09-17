@@ -212,15 +212,49 @@ def parse_transcript_rules(transcript: str, language: str = "bn", gps_location: 
     else:
         est_date = "উল্লেখ নেই" if language == "bn" else "Not mentioned"
 
-    # Damage description extraction
+    # Detect Query Category
+    if any(w in text_lower for w in ["সার", "ইউরিয়া", "টিএসপি", "পটাশ", "জিপসাম", "সার দেওয়া", "fertilizer", "urea", "dap"]):
+        query_category = "সার ও পুষ্টি ব্যবস্থাপনা" if language == "bn" else "Fertilizer & Soil Nutrition"
+        advisory = (
+            f"{detected_crop} চাষে সঠিক মাত্রায় ইউরিয়া, টিএসপি, এমওপি এবং জৈব সার জমি তৈরির সময় ও বৃদ্ধির পর্যায়ে সুষমভাবে প্রয়োগ করুন।"
+            if language == "bn" else f"Apply balanced N-P-K and organic manure for {detected_crop} according to growth stages."
+        )
+    elif any(w in text_lower for w in ["কীটনাশক", "স্প্রে", "পোকামাকড়", "পোকা", "বালাই", "বিষ", "pesticide", "insecticide", "spray", "pest"]):
+        query_category = "কীটনাশক ও বালাই দমন" if language == "bn" else "Pest & Disease Control"
+        advisory = (
+            f"{detected_crop} গাছে বালাই দমনে আক্রান্ত অংশ অপসারণ করুন এবং অনুমোদিত বালাইনাশক বিকেলে সঠিক মাত্রায় স্প্রে করুন।"
+            if language == "bn" else f"Remove affected plant parts and spray approved pest controls for {detected_crop} in the late afternoon."
+        )
+    elif any(w in text_lower for w in ["বৃষ্টি", "আবহাওয়া", "সেচ", "পানি", "খরা", "weather", "rain", "irrigation"]):
+        query_category = "আবহাওয়া ও সেচ" if language == "bn" else "Weather & Irrigation"
+        advisory = (
+            "আবহাওয়ার পূর্বাভাস দেখে সেচ দিন। বৃষ্টিপাতের সম্ভাবনা থাকলে সেচ স্থগিত রাখুন এবং জমিতে অতিরিক্ত পানি নিষ্কাশনের ব্যবস্থা রাখুন।"
+            if language == "bn" else "Check weather forecast before irrigation. Delay watering if rain is anticipated and ensure drainage."
+        )
+    elif any(w in text_lower for w in ["মাটি", "জমি", "দোআঁশ", "চাষ", "বেলে", "soil", "land", "plow", "tillage"]):
+        query_category = "জমি ও মাটি প্রস্তুতি" if language == "bn" else "Land & Soil Preparation"
+        advisory = (
+            "জমি ভালোভাবে ৩-৪ বার চাষ ও মই দিয়ে ঝুরঝুরে করে নিন। জমিতে পর্যাপ্ত পচা গোবর বা জৈব সার মিশিয়ে দিলে ফলন বৃদ্ধি পায়।"
+            if language == "bn" else "Plow and harrow land 3-4 times. Incorporate well-rotted organic compost for best yield."
+        )
+    else:
+        query_category = "রোগ ও লক্ষণ সনাক্তকরণ" if language == "bn" else "Crop Health & Symptoms"
+        advisory = (
+            f"{detected_crop} ফসলের লক্ষণ পর্যবেক্ষণ করে আক্রান্ত অংশ সংগ্রহ করুন এবং নিকটস্থ কৃষি কর্মকর্তার সাথে পরামর্শ করে ব্যবস্থা নিন।"
+            if language == "bn" else f"Monitor {detected_crop} symptoms carefully and apply recommended cultural or chemical practices."
+        )
+
+    # Damage / query description extraction
     observed_damage = transcript.strip()
     if len(observed_damage) < 5:
         observed_damage = "লক্ষণ পর্যবেক্ষণ করা হয়েছে" if language == "bn" else "Symptoms observed"
 
     return {
+        "query_category": query_category,
         "crop_type": detected_crop,
         "estimated_planting_date": est_date,
         "observed_damage_description": observed_damage,
+        "expert_advisory": advisory,
         "geographic_union": detected_union,
         "raw_transcript": transcript
     }
@@ -247,7 +281,7 @@ async def transcribe_audio_with_groq(audio_file_path: str, language: str = "bn")
         return "কলার পাতায় কালো দাগ দেখা যাচ্ছে।"
 
 async def extract_intent_nlp(transcript: str, language: str = "bn", gps_location: Optional[str] = None) -> Dict[str, Any]:
-    """Parse raw transcript into structured JSON schema using Groq LLM with deterministic crop dictionary."""
+    """Parse raw transcript into structured JSON schema and comprehensive agricultural advice using Groq LLM."""
     if not GROQ_API_KEY:
         return parse_transcript_rules(transcript, language, gps_location)
 
@@ -256,40 +290,33 @@ async def extract_intent_nlp(transcript: str, language: str = "bn", gps_location
         client = Groq(api_key=GROQ_API_KEY)
         
         system_prompt = (
-            f"You are an agricultural NLP entity extraction pipeline for Bangladesh farming queries.\n"
-            f"Given a farmer's spoken or written query in {'Bengali (বাংলা)' if language == 'bn' else 'English'}, extract the structured information into valid JSON:\n"
-            f"1. 'crop_type': The specific crop name in 'English (বাংলা)' format, e.g.:\n"
-            f"   - বেগুন / বেগুনের -> 'Brinjal (বেগুন)'\n"
-            f"   - কলা / কলার -> 'Banana (কলা)'\n"
-            f"   - আলু / আলুর -> 'Potato (আলু)'\n"
-            f"   - ধান / ধানের -> 'Rice (ধান)'\n"
-            f"   - টমেটো / টমেটোর -> 'Tomato (টমেটো)'\n"
-            f"   - মরিচ / মরিচের -> 'Chilli (মরিচ)'\n"
-            f"   - আম / আমের -> 'Mango (আম)'\n"
-            f"   - পেঁয়াজ / পেঁয়াজের -> 'Onion (পেঁয়াজ)'\n"
-            f"   - রসুন / রসুনের -> 'Garlic (রসুন)'\n"
-            f"   - গম / গমের -> 'Wheat (গম)'\n"
-            f"   - ভুট্টা / ভুট্টার -> 'Maize (ভুট্টা)'\n"
-            f"   - পেঁপে / পেঁপের -> 'Papaya (পেঁপে)'\n"
-            f"   - পেয়ারা / পেয়ারার -> 'Guava (পেয়ারা)'\n"
-            f"   - সরিষা / সরিষার -> 'Mustard (সরিষা)'\n"
-            f"   - লাউ / লাউয়ের -> 'Bottle Gourd (লাউ)'\n"
-            f"   - শসা / শসার -> 'Cucumber (শসা)'\n"
-            f"   If NO crop is mentioned at all, return 'Unspecified Crop (অনির্দিষ্ট ফসল)'. NEVER leave blank or null.\n"
-            f"2. 'estimated_planting_date': Duration or date since planting (e.g. '১৫ দিন আগে' or '15 days ago'). If not mentioned in query, return 'উল্লেখ নেই'. DO NOT return null.\n"
-            f"3. 'observed_damage_description': Concise description of symptoms or anomalies observed in the query in {'Bengali (বাংলা)' if language == 'bn' else 'English'}. E.g. 'বেগুনের গায়ে পোকার আক্রমণ' or 'পাতায় কালো দাগ'.\n"
-            f"4. 'geographic_union': If user explicitly mentions a district/union in their query, extract it. Otherwise use the farmer's GPS location: '{gps_location or ('মাঠের লোকেশন সনাক্ত হয়নি' if language == 'bn' else 'Location not set')}'. NEVER default to 'Rangpur Sadar' unless explicitly stated!\n"
+            f"You are Agro-AI, an expert Agricultural NLP and Advisory system for farmers and agronomists in Bangladesh.\n"
+            f"Farmers may speak or write queries in {'Bengali (বাংলা)' if language == 'bn' else 'English'} on ANY farming topic:\n"
+            f" - সার ও পুষ্টি ব্যবস্থাপনা (Fertilizer doses: Urea, TSP, DAP, MoP, Gypsum, Zinc, Boron, compost, application schedules)\n"
+            f" - কীটনাশক ও বালাই দমন (Pesticides, insecticides, fungicides with registered Bangladesh brands like Indofil, Ridomil Gold, Tilt, Confidor, Virtako, Karate, Voliam Flexi, dosage per liter/decimal)\n"
+            f" - জমি ও মাটি প্রস্তুতি (Land preparation, plowing, leveling, cow dung, soil types like sandy loam / দোআঁশ, pH, drainage)\n"
+            f" - আবহাওয়া ও সেচ (Weather risk, rain timing, irrigation precaution, waterlogging)\n"
+            f" - রোগবালাই ও লক্ষণ (Disease symptoms, blight, rot, leaf curl, wilts)\n"
+            f" - অন্যান্য সাধারণ কৃষি প্রশ্ন (Crop varieties, seed germination, market timing)\n\n"
+            f"Extract structured information into valid JSON with these fields:\n"
+            f"1. 'query_category': Category in {'Bengali' if language == 'bn' else 'English'}, one of:\n"
+            f"   ['সার ও পুষ্টি ব্যবস্থাপনা', 'কীটনাশক ও বালাই দমন', 'আবহাওয়া ও সেচ', 'জমি ও মাটি প্রস্তুতি', 'রোগ ও লক্ষণ সনাক্তকরণ', 'সাধারণ কৃষি পরামর্শ']\n"
+            f"2. 'crop_type': The specific crop name in 'English (বাংলা)' format (e.g. 'Brinjal (বেগুন)', 'Banana (কলা)', 'Potato (আলু)', 'Rice (ধান)', 'Tomato (টমেটো)', 'Mango (আম)', 'Chilli (মরিচ)', 'Wheat (গম)', 'Maize (ভুট্টা)'). If no specific crop is mentioned (e.g. general soil, rain, or farming question), return 'অনির্দিষ্ট ফসল'.\n"
+            f"3. 'estimated_planting_date': Duration or date if mentioned (e.g. '১৫ দিন আগে'). If not stated, return 'উল্লেখ নেই'. DO NOT return null.\n"
+            f"4. 'observed_damage_description': Concise summary of what the farmer is asking or observing in {'Bengali (বাংলা)' if language == 'bn' else 'English'}.\n"
+            f"5. 'expert_advisory': Comprehensive, highly practical, and actionable answer/solution for the farmer in {'clear fluent Bengali (বাংলা)' if language == 'bn' else 'English'}. Include specific brand names, dosages per decimal/bigha/liter, spray timing, or cultural steps.\n"
+            f"6. 'geographic_union': Use the farmer's GPS location: '{gps_location or ('মাঠের লোকেশন সনাক্ত হয়নি' if language == 'bn' else 'Location not set')}' unless they named another area in query. NEVER invent 'Rangpur Sadar'!\n"
             f"Output ONLY valid JSON."
         )
 
         chat_completion = client.chat.completions.create(
             messages=[
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"Language: {language}\nTranscript: {transcript}"}
+                {"role": "user", "content": f"Language: {language}\nFarmer Query: {transcript}\nFarmer Location: {gps_location or 'GPS'}"}
             ],
             model=GROQ_LLM_MODEL,
             response_format={"type": "json_object"},
-            temperature=0.1
+            temperature=0.2
         )
 
         response_content = chat_completion.choices[0].message.content
@@ -306,6 +333,15 @@ async def extract_intent_nlp(transcript: str, language: str = "bn", gps_location
             parsed["crop_type"] = llm_crop
         else:
             parsed["crop_type"] = "Unspecified Crop (অনির্দিষ্ট ফসল)" if language == "en" else "অনির্দিষ্ট ফসল"
+
+        # Ensure query_category
+        if not parsed.get("query_category"):
+            parsed["query_category"] = "সাধারণ কৃষি পরামর্শ" if language == "bn" else "General Agricultural Advice"
+
+        # Ensure expert_advisory
+        if not parsed.get("expert_advisory"):
+            rule_fallback = parse_transcript_rules(transcript, language, gps_location)
+            parsed["expert_advisory"] = rule_fallback.get("expert_advisory")
 
         # Ensure all required strings are non-null and properly localized
         if not parsed.get("estimated_planting_date"):
