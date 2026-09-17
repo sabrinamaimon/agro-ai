@@ -1,11 +1,10 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Search, X, Check, ChevronDown, Sprout } from 'lucide-react';
+import { Search, X, Check, ChevronDown, Sprout, AlertCircle } from 'lucide-react';
 import { BANGLADESH_CROPS, CROP_CATEGORIES } from '../data/bangladeshCrops';
 
-export default function CropSearchDropdown({ language, selectedCrop, onSelectCrop }) {
+export default function CropSearchDropdown({ language, selectedCategory, selectedCrop, onSelectCrop }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const dropdownRef = useRef(null);
   const searchInputRef = useRef(null);
 
@@ -38,6 +37,10 @@ export default function CropSearchDropdown({ language, selectedCrop, onSelectCro
     }
   }, [isOpen]);
 
+  const currentCategoryObj = useMemo(() => {
+    return CROP_CATEGORIES.find(c => c.id === selectedCategory);
+  }, [selectedCategory]);
+
   // Find currently selected crop object
   const currentCropObj = useMemo(() => {
     if (!selectedCrop) return null;
@@ -50,18 +53,22 @@ export default function CropSearchDropdown({ language, selectedCrop, onSelectCro
     });
   }, [selectedCrop]);
 
-  // Filtered crops based on search and category
+  // Crops filtered ONLY by the chosen category
+  const availableCropsForCategory = useMemo(() => {
+    if (!selectedCategory) return [];
+    return BANGLADESH_CROPS.filter(crop => crop.category === selectedCategory);
+  }, [selectedCategory]);
+
+  // Filtered crops based on search query within this category
   const filteredCrops = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
-    return BANGLADESH_CROPS.filter(crop => {
-      const matchesCategory = selectedCategory === 'all' || crop.category === selectedCategory;
-      const matchesSearch = !query ||
-        crop.nameBn.includes(query) ||
-        crop.nameEn.toLowerCase().includes(query) ||
-        crop.commonDiseases.some(d => d.toLowerCase().includes(query));
-      return matchesCategory && matchesSearch;
+    if (!query) return availableCropsForCategory;
+    return availableCropsForCategory.filter(crop => {
+      return crop.nameBn.includes(query) ||
+             crop.nameEn.toLowerCase().includes(query) ||
+             crop.commonDiseases.some(d => d.toLowerCase().includes(query));
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, availableCropsForCategory]);
 
   const handleSelect = (crop) => {
     const formatted = `${crop.nameEn} (${crop.nameBn})`;
@@ -75,17 +82,34 @@ export default function CropSearchDropdown({ language, selectedCrop, onSelectCro
     onSelectCrop(null, null);
   };
 
+  const handleTriggerClick = () => {
+    if (!selectedCategory) {
+      // If no category selected yet, don't open or prompt
+      return;
+    }
+    setIsOpen(prev => !prev);
+  };
+
   return (
     <div className="crop-search-dropdown-container" ref={dropdownRef}>
       {/* Dropdown Trigger Box */}
       <button
         type="button"
-        className={`crop-dropdown-trigger ${isOpen ? 'open' : ''} ${selectedCrop ? 'has-value' : 'empty'}`}
-        onClick={() => setIsOpen(prev => !prev)}
+        className={`crop-dropdown-trigger ${isOpen ? 'open' : ''} ${selectedCrop ? 'has-value' : 'empty'} ${!selectedCategory ? 'category-needed' : ''}`}
+        onClick={handleTriggerClick}
         aria-expanded={isOpen}
       >
         <div className="trigger-left">
-          {currentCropObj ? (
+          {!selectedCategory ? (
+            <div className="trigger-placeholder warning-state">
+              <AlertCircle size={18} className="text-amber-500" />
+              <span className="text-amber-700">
+                {language === 'bn' 
+                  ? '-- প্রথমে ২য় ধাপে ফসলের ধরন (ক্যাটাগরি) নির্বাচন করুন --' 
+                  : '-- Please select crop category first in Step 2 --'}
+              </span>
+            </div>
+          ) : currentCropObj ? (
             <>
               <span className="selected-crop-icon">{currentCropObj.icon}</span>
               <div className="selected-crop-text">
@@ -102,15 +126,15 @@ export default function CropSearchDropdown({ language, selectedCrop, onSelectCro
               <Sprout size={18} className="placeholder-icon" />
               <span>
                 {language === 'bn' 
-                  ? '-- ফসল নির্বাচন করুন (তালিকা থেকে খুঁজুন) --' 
-                  : '-- Select Crop to Diagnose --'}
+                  ? `-- ${currentCategoryObj?.nameBn || ''} থেকে আপনার নির্দিষ্ট ফসলটি নির্বাচন করুন --` 
+                  : `-- Select crop from ${currentCategoryObj?.nameEn || 'category'} --`}
               </span>
             </div>
           )}
         </div>
 
         <div className="trigger-right">
-          {selectedCrop && (
+          {selectedCrop && selectedCategory && (
             <span 
               className="trigger-clear-btn" 
               onClick={handleClear} 
@@ -124,7 +148,7 @@ export default function CropSearchDropdown({ language, selectedCrop, onSelectCro
       </button>
 
       {/* Floating Search & Selection Modal Menu */}
-      {isOpen && (
+      {isOpen && selectedCategory && (
         <div className="crop-dropdown-panel animate-fade-in">
           {/* Header & Search Field */}
           <div className="dropdown-search-wrapper">
@@ -133,7 +157,7 @@ export default function CropSearchDropdown({ language, selectedCrop, onSelectCro
               ref={searchInputRef}
               type="text"
               className="dropdown-search-input"
-              placeholder={language === 'bn' ? 'ফসল খুঁজুন (আম, ধান, টমেটো, মরিচ, বেগুন, কলা...)' : 'Search crop (Mango, Rice, Tomato, Chilli...)'}
+              placeholder={language === 'bn' ? `খুঁজুন (${currentCategoryObj?.nameBn || ''} এর মধ্যে)...` : `Search in ${currentCategoryObj?.nameEn || 'crops'}...`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -148,26 +172,15 @@ export default function CropSearchDropdown({ language, selectedCrop, onSelectCro
             )}
           </div>
 
-          {/* Category Tabs */}
-          <div className="dropdown-category-strip">
-            {CROP_CATEGORIES.map(cat => (
-              <button
-                key={cat.id}
-                type="button"
-                className={`cat-pill-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(cat.id)}
-              >
-                {language === 'bn' ? cat.nameBn : cat.nameEn}
-              </button>
-            ))}
-          </div>
-
-          {/* Results Count Strip */}
-          <div className="dropdown-count-strip">
-            <span>
+          {/* Category Scope Badge */}
+          <div className="dropdown-category-scope-strip">
+            <span className="scope-tag">
+              {currentCategoryObj?.icon} {language === 'bn' ? currentCategoryObj?.nameBn : currentCategoryObj?.nameEn}
+            </span>
+            <span className="scope-count">
               {language === 'bn' 
                 ? `${filteredCrops.length} টি ফসল উপলব্ধ` 
-                : `${filteredCrops.length} crops available`}
+                : `${filteredCrops.length} crops`}
             </span>
           </div>
 
@@ -177,8 +190,8 @@ export default function CropSearchDropdown({ language, selectedCrop, onSelectCro
               <div className="dropdown-empty-state">
                 <p>
                   {language === 'bn' 
-                    ? `"${searchQuery}" নামে কোনো ফসল পাওয়া যায়নি।` 
-                    : `No crops found matching "${searchQuery}".`}
+                    ? `"${searchQuery}" নামে এই ক্যাটাগরিতে কোনো ফসল পাওয়া যায়নি।` 
+                    : `No crops found matching "${searchQuery}" in this category.`}
                 </p>
               </div>
             ) : (
