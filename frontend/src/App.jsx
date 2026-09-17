@@ -12,19 +12,22 @@ import './App.css';
 
 export default function App() {
   const [language, setLanguage] = useState('bn'); // Default: Bengali ('bn' or 'en')
+  const [selectedFont, setSelectedFont] = useState('jakarta'); // Default: 'jakarta' (Plus Jakarta Sans + Hind Siliguri)
   const [activeTab, setActiveTab] = useState('home'); // Default: 'home'
   const [intakeData, setIntakeData] = useState(null);
   const [diagnosisData, setDiagnosisData] = useState(null);
   const [priceData, setPriceData] = useState(null);
 
   return (
-    <div className="app-container">
+    <div className={`app-container font-${selectedFont}`}>
       {/* Header & Navbar Tabs */}
       <Navbar 
         language={language} 
         setLanguage={setLanguage} 
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        selectedFont={selectedFont}
+        setSelectedFont={setSelectedFont}
       />
 
       {/* Main Content Body */}
