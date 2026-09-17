@@ -33,17 +33,20 @@ export default function AdvisoryPanel({
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState(null);
 
+  const DEFAULT_AGRO_HUB = {
+    lat: 24.8465,
+    lon: 89.3777,
+    areaName: language === 'bn' ? 'বগুড়া কৃষি জোন (ডিফল্ট)' : 'Bogura Agro Hub (Default)'
+  };
+
+  const activeGps = (gpsLocation?.lat && gpsLocation?.lon) ? gpsLocation : DEFAULT_AGRO_HUB;
+
   const loadWeather = async () => {
-    if (!gpsLocation?.lat || !gpsLocation?.lon) {
-      setWeatherData(null);
-      setIsLoading(false);
-      return;
-    }
     setIsLoading(true);
     setFetchError(null);
     try {
-      const lat = gpsLocation.lat;
-      const lon = gpsLocation.lon;
+      const lat = activeGps.lat;
+      const lon = activeGps.lon;
       const data = await fetchWeatherAdvisory('GPS', language, lat, lon);
       setWeatherData(data);
     } catch (err) {
@@ -55,17 +58,12 @@ export default function AdvisoryPanel({
   };
 
   useEffect(() => {
-    if (gpsLocation?.lat && gpsLocation?.lon) {
-      loadWeather();
-    } else {
-      setWeatherData(null);
-      setIsLoading(false);
-    }
+    loadWeather();
   }, [gpsLocation, language]);
 
   const locationDisplay = gpsLocation?.areaName 
     ? gpsLocation.areaName
-    : (weatherData?.city || (gpsLocation ? `${gpsLocation.lat?.toFixed(4)}° N, ${gpsLocation.lon?.toFixed(4)}° E` : (language === 'bn' ? 'জিপিএস বন্ধ রয়েছে' : 'GPS Disabled')));
+    : (weatherData?.city || activeGps.areaName);
 
   const getStatusBadge = (status) => {
     switch (status) {

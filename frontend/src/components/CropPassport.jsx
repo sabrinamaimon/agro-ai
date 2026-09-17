@@ -3,7 +3,7 @@ import { Volume2, Download, Share2, FileText, CheckCircle, AlertOctagon, Sparkle
 import html2pdf from 'html2pdf.js';
 import { requestAudioTTS } from '../services/api';
 
-export default function CropPassport({ language, intake, diagnosis, price, setActiveTab }) {
+export default function CropPassport({ language, intake, diagnosis, price, setActiveTab, onLoadDemo }) {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const audioRef = useRef(null);
@@ -15,15 +15,28 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
         <h3 className="mt-2">{language === 'bn' ? 'ডিজিটাল ক্রপ পাসপোর্ট (Digital Field Passport)' : 'Digital Crop Passport'}</h3>
         <p className="text-gray mt-1">
           {language === 'bn' 
-            ? 'ডিজিটাল ক্রপ পাসপোর্ট ও বাংলা অডিও ব্রিফিং পেতে প্রথমে রোগ শনাক্তকরণ সম্পন্ন করুন।'
-            : 'Please run Visual Crop Disease Detection to generate your verified digital field passport.'}
+            ? 'ডিজিটাল ক্রপ পাসপোর্ট ও বাংলা অডিও ব্রিফিং পেতে রোগ শনাক্তকরণ সম্পন্ন করুন অথবা স্যাম্পল ভেরিফাইড পাসপোর্ট লোড করুন।'
+            : 'Please run Visual Crop Disease Detection to generate your verified digital field passport, or inspect a sample verified field passport.'}
         </p>
-        {setActiveTab && (
-          <button className="btn btn-primary mt-3" onClick={() => setActiveTab('task2')}>
-            <span>{language === 'bn' ? 'রোগ নির্ণয় করতে যান (Go to Scanner)' : 'Go to Leaf Scanner'}</span>
-            <ArrowRight size={16} />
-          </button>
-        )}
+        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.25rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          {setActiveTab && (
+            <button className="btn btn-primary" onClick={() => setActiveTab('task2')}>
+              <span>{language === 'bn' ? 'রোগ নির্ণয় করতে যান' : 'Go to Leaf Scanner'}</span>
+              <ArrowRight size={16} />
+            </button>
+          )}
+          {onLoadDemo && (
+            <button 
+              type="button" 
+              className="btn btn-outline" 
+              style={{ borderColor: '#059669', color: '#059669', background: '#ECFDF5', fontWeight: 600 }}
+              onClick={() => onLoadDemo('rice')}
+            >
+              <Sparkles size={16} color="#059669" />
+              <span>{language === 'bn' ? '📋 স্যাম্পল ভেরিফাইড পাসপোর্ট দেখুন' : 'View Sample Verified Passport'}</span>
+            </button>
+          )}
+        </div>
       </div>
     );
   }

@@ -58,6 +58,88 @@ export default function App() {
     }
   };
 
+  const handleLoadDemoScenario = (scenarioType = 'rice') => {
+    if (scenarioType === 'rice') {
+      const demoIntake = {
+        crop_type: 'ধান (Rice)',
+        issue_summary: 'পাতার উপর চোখের মতো বাদামি দাগ ও ডগা শুকিয়ে যাওয়া',
+        geographic_union: 'গাবতলী, বগুড়া',
+        confidence: 0.94
+      };
+      const demoDiagnosis = {
+        name: 'ধানের ব্লাস্ট রোগ (Rice Blast)',
+        cropType: 'ধান (Rice)',
+        confidence: 0.96,
+        severity: 'Critical (মারাত্মক)',
+        damagePercentage: 38,
+        affectedParts: ['পাতা (Leaf)', 'শীষ (Panicle)'],
+        chemicalRemedy: 'ট্রাইসাইক্লাজোল ৭৫% ডব্লিউপি (Tricyclazole 75% WP) প্রতি লিটার পানিতে ০.৭৫ গ্রাম হারে মিশিয়ে স্প্রে করুন।',
+        organicRemedy: 'কাঁচা নিম পাতার রস ও ছাইয়ের মিশ্রণ প্রয়োগ করুন এবং পরিমিত পানি নিষ্কাশন নিশ্চিত করুন।',
+        sprayAdvice: 'সকালের দিকে হালকা রোদে স্প্রে করুন। বাতাসের গতি ১০ কিমি/ঘণ্টার কম হলে স্প্রে করা নিরাপদ।',
+        phiDays: 14,
+        diseaseHistory: 'উষ্ণ ও আর্দ্র আবহাওয়ায় ম্যাগনাপোরথে ওরিজি ছত্রাকের দ্রুত বিস্তার।'
+      };
+      const demoPrice = {
+        crop: 'ধান (Rice)',
+        district: 'বগুড়া',
+        marketPrice: 32.50,
+        expectedLossAmount: 14200,
+        yieldLossPercent: 28,
+        recommendation: 'বর্তমানে স্থানীয় পাইকারি বাজারে ধানের চাহিদা ঊর্ধ্বমুখী। স্প্রে করার পর ফসল সুরক্ষিত রাখলে সর্বোচ্চ মূল্য পাওয়া যাবে।'
+      };
+      const demoGps = {
+        lat: 24.8465,
+        lon: 89.3777,
+        areaName: 'গাবতলী, বগুড়া (শস্য অঞ্চল)'
+      };
+
+      setIntakeData(demoIntake);
+      setDiagnosisData(demoDiagnosis);
+      setPriceData(demoPrice);
+      setGpsLocation(demoGps);
+      setActiveTab('task5');
+    } else {
+      const demoIntake = {
+        crop_type: 'আলু (Potato)',
+        issue_summary: 'পাতার কিনারা কালচে হয়ে পচন ধরা ও সাদাটে ছত্রাকের আস্তরণ',
+        geographic_union: 'শিবগঞ্জ, বগুড়া',
+        confidence: 0.92
+      };
+      const demoDiagnosis = {
+        name: 'আলুর লেট ব্লাইট / নাবি ধসা (Late Blight)',
+        cropType: 'আলু (Potato)',
+        confidence: 0.95,
+        severity: 'High (উচ্চ ঝুঁকি)',
+        damagePercentage: 42,
+        affectedParts: ['পাতা (Leaf)', 'কান্ড (Stem)'],
+        chemicalRemedy: 'ম্যানকোজেব + মেটালাক্সিল (Mancozeb + Metalaxyl) প্রতি লিটারে ২ গ্রাম হারে স্প্রে করুন।',
+        organicRemedy: 'ট্রাইকোডার্মা ও বোর্দো মিশ্রণ (১%) দ্রুত আক্রান্ত স্থানে ছিটিয়ে দিন।',
+        sprayAdvice: 'কুয়াশাচ্ছন্ন সকালে স্প্রে এড়িয়ে চলুন। দুপুর ১২টার পর পাতা শুকনা থাকা অবস্থায় স্প্রে করুন।',
+        phiDays: 10,
+        diseaseHistory: 'ফাইটোফথোরা ইনফেস্টানস ছত্রাকজনিত সংক্রমণ।'
+      };
+      const demoPrice = {
+        crop: 'আলু (Potato)',
+        district: 'বগুড়া',
+        marketPrice: 28.00,
+        expectedLossAmount: 22000,
+        yieldLossPercent: 35,
+        recommendation: 'রোগ নিয়ন্ত্রণ হলে পাশের মোকামে প্রতি মণে ১২০ টাকা বেশি দরে আলু বিক্রি সম্ভব।'
+      };
+      const demoGps = {
+        lat: 24.9816,
+        lon: 89.3308,
+        areaName: 'শিবগঞ্জ, বগুড়া (আলু জোন)'
+      };
+
+      setIntakeData(demoIntake);
+      setDiagnosisData(demoDiagnosis);
+      setPriceData(demoPrice);
+      setGpsLocation(demoGps);
+      setActiveTab('task5');
+    }
+  };
+
   return (
     <div className="app-container">
       {/* Header & Navbar Tabs */}
@@ -74,7 +156,11 @@ export default function App() {
       <main className="main-layout">
         {/* Home Landing Page Hub */}
         {activeTab === 'home' && (
-          <Hero language={language} setActiveTab={setActiveTab} />
+          <Hero 
+            language={language} 
+            setActiveTab={setActiveTab} 
+            onLoadDemo={handleLoadDemoScenario} 
+          />
         )}
 
         {/* AI Agro Prompt Chat Tab */}
@@ -138,6 +224,7 @@ export default function App() {
             diagnosis={diagnosisData} 
             price={priceData} 
             setActiveTab={setActiveTab}
+            onLoadDemo={handleLoadDemoScenario}
           />
         )}
       </main>

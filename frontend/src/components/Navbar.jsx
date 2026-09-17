@@ -38,7 +38,7 @@ export default function Navbar({
           <Menu size={24} />
         </button>
 
-        {/* Left: GPS Location Pill */}
+        {/* Left: GPS Location Pill & Field Ready Badge */}
         <div className="navbar-top-actions">
           <button
             type="button"
@@ -49,6 +49,11 @@ export default function Navbar({
             <Navigation size={15} className="text-emerald" />
             <span className="navbar-location-text">{locationDisplay}</span>
           </button>
+
+          <div className="field-ready-badge" title={language === 'bn' ? 'মাঠ পর্যায়ের অফলাইন ক্যাশ ও স্থানীয় এআই সক্রিয়' : 'Offline local cache and field models active'}>
+            <span className="pulse-dot"></span>
+            <span>{language === 'bn' ? 'ফিল্ড রেডি' : 'Field Ready'}</span>
+          </div>
         </div>
 
         {/* Center: Agro-AI Logo */}
