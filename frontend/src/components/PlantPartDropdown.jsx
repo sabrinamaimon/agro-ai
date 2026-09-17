@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Check, Layers, Search, X } from 'lucide-react';
 
 const PLANT_PARTS = [
-  { id: 'leaf', nameBn: 'পাতা (Leaf / Foliage)', nameEn: 'Leaf / Foliage', descBn: 'পাতার দাগ, ব্লাইট, মোজাইক, গুঁড়া রোগ', icon: '🍃' },
-  { id: 'fruit', nameBn: 'ফল ও কন্দ (Fruit / Tuber)', nameEn: 'Fruit / Tuber', descBn: 'ফল পচা, অ্যানথ্রাকনোজ, ফলের ছিদ্র বা পচন', icon: '🍎' },
-  { id: 'stem', nameBn: 'গাছের কাণ্ড ও ডাল (Stem & Trunk)', nameEn: 'Stem & Trunk', descBn: 'ডাইব্যাক, কাণ্ড পচা, আঠা ঝরা, বাকল ফাটা', icon: '🪵' },
-  { id: 'root', nameBn: 'গোড়া ও মূল (Root & Collar)', nameEn: 'Root & Collar', descBn: 'গোড়া পচা, শেকড় শুকিয়ে যাওয়া, শিকড় পচা', icon: '🌱' },
-  { id: 'auto', nameBn: 'স্বয়ংক্রিয় শনাক্তকরণ (Auto-Detect)', nameEn: 'Auto-Detect', descBn: 'ছবির ক্ষত দেখে এআই স্বয়ংক্রিয়ভাবে শনাক্ত করবে', icon: '🔍' }
+  { id: 'leaf', nameBn: 'পাতা (Leaf / Foliage)', nameEn: 'Leaf / Foliage', icon: '🍃' },
+  { id: 'fruit', nameBn: 'ফল ও কন্দ (Fruit / Tuber)', nameEn: 'Fruit / Tuber', icon: '🍎' },
+  { id: 'stem', nameBn: 'গাছের কাণ্ড ও ডাল (Stem & Trunk)', nameEn: 'Stem & Trunk', icon: '🪵' },
+  { id: 'root', nameBn: 'গোড়া ও মূল (Root & Collar)', nameEn: 'Root & Collar', icon: '🌱' },
+  { id: 'auto', nameBn: 'স্বয়ংক্রিয় শনাক্তকরণ (Auto-Detect)', nameEn: 'Auto-Detect', icon: '🔍' }
 ];
 
 export default function PlantPartDropdown({ language, selectedPart, onSelectPart }) {
@@ -37,8 +37,7 @@ export default function PlantPartDropdown({ language, selectedPart, onSelectPart
     const q = searchQuery.toLowerCase().trim();
     if (!q) return true;
     return p.nameBn.toLowerCase().includes(q) || 
-           p.nameEn.toLowerCase().includes(q) ||
-           p.descBn.toLowerCase().includes(q);
+           p.nameEn.toLowerCase().includes(q);
   });
 
   const handleSelect = (partId) => {
@@ -63,9 +62,6 @@ export default function PlantPartDropdown({ language, selectedPart, onSelectPart
               <div className="part-trigger-labels">
                 <span className="part-main-name">
                   {language === 'bn' ? currentPart.nameBn : currentPart.nameEn}
-                </span>
-                <span className="part-sub-desc">
-                  {language === 'bn' ? currentPart.descBn : currentPart.nameEn}
                 </span>
               </div>
             </>
@@ -102,8 +98,8 @@ export default function PlantPartDropdown({ language, selectedPart, onSelectPart
             />
             {searchQuery && (
               <button 
-                type="button"
-                className="search-clear-btn"
+                type="button" 
+                className="search-clear-btn" 
                 onClick={() => setSearchQuery('')}
               >
                 <X size={14} />
@@ -112,30 +108,36 @@ export default function PlantPartDropdown({ language, selectedPart, onSelectPart
           </div>
 
           <div className="part-options-list">
-            {filteredParts.map(part => {
-              const isSelected = selectedPart === part.id;
-              return (
-                <div
-                  key={part.id}
-                  className={`part-option-item ${isSelected ? 'selected' : ''}`}
-                  onClick={() => handleSelect(part.id)}
-                >
-                  <span className="part-item-icon">{part.icon}</span>
-                  <div className="part-item-info">
-                    <strong className="part-item-title">{language === 'bn' ? part.nameBn : part.nameEn}</strong>
-                    <span className="part-item-subtitle">{part.descBn}</span>
+            {filteredParts.length > 0 ? (
+              filteredParts.map(part => {
+                const isSelected = selectedPart === part.id;
+                return (
+                  <div
+                    key={part.id}
+                    className={`part-option-item ${isSelected ? 'selected' : ''}`}
+                    onClick={() => handleSelect(part.id)}
+                  >
+                    <span className="part-item-icon">{part.icon}</span>
+                    <div className="part-item-info">
+                      <strong className="part-item-title">{language === 'bn' ? part.nameBn : part.nameEn}</strong>
+                    </div>
+                    {isSelected && (
+                      <span className="part-item-check">
+                        <Check size={16} />
+                      </span>
+                    )}
                   </div>
-                  {isSelected && (
-                    <span className="part-item-check">
-                      <Check size={16} />
-                    </span>
-                  )}
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <div className="dropdown-empty-state">
+                <span>{language === 'bn' ? 'কোনো উদ্ভিদাংশ খুঁজে পাওয়া যায়নি' : 'No plant parts found'}</span>
+              </div>
+            )}
           </div>
         </div>
       )}
     </div>
   );
 }
+
