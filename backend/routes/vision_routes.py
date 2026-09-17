@@ -61,7 +61,7 @@ async def diagnose_leaf_image_endpoint(
 
     # 3. Fetch Live Hyperlocal Weather (Open-Meteo)
     target_union = union or "Rangpur Sadar"
-    weather = fetch_weather(target_union)
+    weather = fetch_weather(target_union, language=language or "bn")
 
     # 4. Crop-Enforced Precision AI Pathology & Agronomic Reasoning (Groq 120B)
     diagnosis = await diagnose_pathology_with_ai(
@@ -73,7 +73,7 @@ async def diagnose_leaf_image_endpoint(
     )
 
     # 5. Market Price Anomaly Check for Diagnosed Crop
-    market = analyze_price_anomaly(diagnosis.get("cropType", "Potato"), 20.0)
+    market = analyze_price_anomaly(diagnosis.get("cropType", "Potato"), 20.0, language=language or "bn")
 
     # 6. Save to Relational Database
     diagnosis_entry = DiagnosisRecord(

@@ -12,7 +12,7 @@ export const processVoiceIntake = async (transcript, language = 'bn') => {
   return response.data;
 };
 
-export const diagnoseCropImage = async (imageFile, sampleId = null, cropType = null, union = 'Rangpur Sadar') => {
+export const diagnoseCropImage = async (imageFile, sampleId = null, cropType = null, union = 'Rangpur Sadar', language = 'bn') => {
   const formData = new FormData();
   if (imageFile) {
     formData.append('image', imageFile);
@@ -26,6 +26,9 @@ export const diagnoseCropImage = async (imageFile, sampleId = null, cropType = n
   if (union) {
     formData.append('union', union);
   }
+  if (language) {
+    formData.append('language', language);
+  }
   
   const response = await api.post('/api/diagnose-vision', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
@@ -33,21 +36,22 @@ export const diagnoseCropImage = async (imageFile, sampleId = null, cropType = n
   return response.data;
 };
 
-export const fetchWeatherAdvisory = async (unionName = 'Rangpur Sadar') => {
-  const response = await api.get(`/api/weather-advisory?union=${encodeURIComponent(unionName)}`);
+export const fetchWeatherAdvisory = async (unionName = 'Rangpur Sadar', language = 'bn') => {
+  const response = await api.get(`/api/weather-advisory?union=${encodeURIComponent(unionName)}&language=${encodeURIComponent(language)}`);
   return response.data;
 };
 
-export const checkMarketAnomaly = async (crop, offeredPrice) => {
+export const checkMarketAnomaly = async (crop, offeredPrice, language = 'bn') => {
   const response = await api.post('/api/price-anomaly', { 
     crop, 
-    offeredPrice: Number(offeredPrice) 
+    offeredPrice: Number(offeredPrice),
+    language
   });
   return response.data;
 };
 
-export const fetchMarketBenchmarks = async () => {
-  const response = await api.get('/api/market-benchmarks');
+export const fetchMarketBenchmarks = async (language = 'bn') => {
+  const response = await api.get(`/api/market-benchmarks?language=${encodeURIComponent(language)}`);
   return response.data;
 };
 

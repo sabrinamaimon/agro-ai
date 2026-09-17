@@ -7,14 +7,14 @@ from backend.schemas.pydantic_models import AgronomicReasoningRequest, Agronomic
 router = APIRouter(prefix="/api", tags=["Task 3: Weather & Agronomic Reasoning"])
 
 @router.get("/weather-advisory")
-async def get_weather_advisory(union: Optional[str] = Query("Rangpur Sadar")):
-    weather = fetch_weather(union_name=union or "Rangpur Sadar")
+async def get_weather_advisory(union: Optional[str] = Query("Rangpur Sadar"), language: Optional[str] = Query("bn")):
+    weather = fetch_weather(union_name=union or "Rangpur Sadar", language=language or "bn")
     return weather
 
 @router.post("/agronomic-reasoning", response_model=AgronomicReasoningResponse)
 async def get_agronomic_reasoning(payload: AgronomicReasoningRequest):
     union_name = payload.union or "Rangpur Sadar"
-    weather = fetch_weather(union_name=union_name)
+    weather = fetch_weather(union_name=union_name, language=payload.language or "bn")
     
     if payload.temperature is not None:
         weather["temperature"] = payload.temperature
