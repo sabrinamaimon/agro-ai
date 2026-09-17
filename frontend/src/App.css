@@ -3602,10 +3602,10 @@ select.input-field {
 }
 
   .menu-toggle-btn {
-    position: static;
-    transform: none;
-    order: 3;
-  }
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
 }
 /* Responsive Navigation: tabs on desktop, hamburger+sidebar on mobile */
 @media (min-width: 641px) {
