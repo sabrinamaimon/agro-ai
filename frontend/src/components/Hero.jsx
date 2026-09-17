@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sprout, Mic, Camera, TrendingUp, ShieldCheck, ArrowRight, Sun, CloudRain, Award, Activity } from 'lucide-react';
 import { MOCK_PRICE_BENCHMARKS } from '../mockData/sampleCrops';
+import farmerImg from '../assets/farmer.png';
 
 export default function Hero({ language, setActiveTab }) {
   const cropsList = [
@@ -38,21 +39,10 @@ export default function Hero({ language, setActiveTab }) {
 
           <div className="hero-image-container">
             <img 
-              src="https://share.google/8INrkKqxlqmSADiTu" 
-              alt="Farmer Photo" 
+              src={farmerImg} 
+              alt="Bangladeshi Farmer" 
               className="happy-farmer-img"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80";
-              }}
             />
-            <div className="floating-hero-badge">
-              <ShieldCheck size={20} color="#059669" />
-              <div>
-                <strong>{language === 'bn' ? '২৪/৭ এআই সহায়তা' : '24/7 AI Assistance'}</strong>
-                <p className="text-xs">{language === 'bn' ? 'হাসিমুখের সঠিক ফলন' : 'Guaranteed Crop Smile'}</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
