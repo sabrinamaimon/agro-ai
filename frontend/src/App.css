@@ -180,7 +180,7 @@ body {
   max-width: 380px;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: center 40%;
   border-radius: 20px;
   box-shadow: 0 12px 30px rgba(5, 150, 105, 0.2);
   border: 4px solid #FFFFFF;
