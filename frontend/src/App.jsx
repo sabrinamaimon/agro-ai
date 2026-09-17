@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import VoiceIntake from './components/VoiceIntake';
@@ -8,7 +8,7 @@ import PriceChecker from './components/PriceChecker';
 import FertilizerCalculator from './components/FertilizerCalculator';
 import AIChatPrompt from './components/AIChatPrompt';
 import CropPassport from './components/CropPassport';
-import LocationModal from './components/LocationModal';
+import GpsModal from './components/GpsModal';
 import './App.css';
 
 export default function App() {
@@ -18,34 +18,33 @@ export default function App() {
   const [diagnosisData, setDiagnosisData] = useState(null);
   const [priceData, setPriceData] = useState(null);
 
-  // Persistent User Location (saved in browser localStorage)
-  const [userLocation, setUserLocation] = useState(() => {
+  // Persistent Hyperlocal GPS Location (saved in browser localStorage)
+  const [gpsLocation, setGpsLocation] = useState(() => {
     try {
-      const saved = localStorage.getItem('agro_user_location');
+      const saved = localStorage.getItem('agro_gps_location');
       return saved ? JSON.parse(saved) : null;
     } catch (e) {
       return null;
     }
   });
 
-  // Prompt location selector on initial visit if no location has been stored
-  const [showLocationModal, setShowLocationModal] = useState(() => {
+  // Prompt GPS modal on initial visit if no GPS coordinates have been saved
+  const [showGpsModal, setShowGpsModal] = useState(() => {
     try {
-      const saved = localStorage.getItem('agro_user_location');
+      const saved = localStorage.getItem('agro_gps_location');
       return !saved;
     } catch (e) {
       return true;
     }
   });
 
-  const handleSelectLocation = (loc) => {
-    setUserLocation(loc);
+  const handleGpsDetected = (detected) => {
+    setGpsLocation(detected);
     try {
-      localStorage.setItem('agro_user_location', JSON.stringify(loc));
+      localStorage.setItem('agro_gps_location', JSON.stringify(detected));
     } catch (e) {
-      console.warn('LocalStorage error:', e);
+      console.warn('LocalStorage save error:', e);
     }
-    setShowLocationModal(false);
   };
 
   return (
@@ -56,8 +55,8 @@ export default function App() {
         setLanguage={setLanguage} 
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        userLocation={userLocation}
-        onOpenLocationModal={() => setShowLocationModal(true)}
+        gpsLocation={gpsLocation}
+        onOpenGpsModal={() => setShowGpsModal(true)}
       />
 
       {/* Main Content Body */}
@@ -87,7 +86,7 @@ export default function App() {
           <LeafScanner 
             language={language} 
             intakeCrop={intakeData?.crop_type}
-            intakeUnion={userLocation?.nameBn || intakeData?.geographic_union}
+            intakeUnion={gpsLocation?.areaName || intakeData?.geographic_union}
             onDiagnosisComplete={(data) => setDiagnosisData(data)} 
           />
         )}
@@ -97,8 +96,8 @@ export default function App() {
           <AdvisoryPanel 
             language={language} 
             diagnosis={diagnosisData} 
-            userLocation={userLocation}
-            onOpenLocationModal={() => setShowLocationModal(true)}
+            gpsLocation={gpsLocation}
+            onOpenGpsModal={() => setShowGpsModal(true)}
             setActiveTab={setActiveTab}
           />
         )}
@@ -131,15 +130,16 @@ export default function App() {
         )}
       </main>
 
-      {/* Global Location Selection Modal */}
-      <LocationModal
-        isOpen={showLocationModal}
-        onClose={() => setShowLocationModal(false)}
-        currentLocation={userLocation}
-        onSelectLocation={handleSelectLocation}
+      {/* Hyperlocal GPS Activation & Calibration Modal */}
+      <GpsModal
+        isOpen={showGpsModal}
+        onClose={() => setShowGpsModal(false)}
+        currentGps={gpsLocation}
+        onGpsDetected={handleGpsDetected}
         language={language}
       />
     </div>
   );
 }
+
 

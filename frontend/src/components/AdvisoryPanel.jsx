@@ -17,15 +17,17 @@ import {
   ChevronRight, 
   Camera,
   Calendar,
-  Waves
+  Waves,
+  Navigation,
+  Satellite
 } from 'lucide-react';
 import { fetchWeatherAdvisory } from '../services/api';
 
 export default function AdvisoryPanel({ 
   language, 
   diagnosis, 
-  userLocation, 
-  onOpenLocationModal, 
+  gpsLocation, 
+  onOpenGpsModal, 
   setActiveTab 
 }) {
   const [weatherData, setWeatherData] = useState(null);
@@ -36,10 +38,9 @@ export default function AdvisoryPanel({
     setIsLoading(true);
     setFetchError(null);
     try {
-      const unionName = userLocation?.nameBn || userLocation?.nameEn || 'Rangpur Sadar';
-      const lat = userLocation?.lat;
-      const lon = userLocation?.lon;
-      const data = await fetchWeatherAdvisory(unionName, language, lat, lon);
+      const lat = gpsLocation?.lat;
+      const lon = gpsLocation?.lon;
+      const data = await fetchWeatherAdvisory('GPS', language, lat, lon);
       setWeatherData(data);
     } catch (err) {
       console.error('Failed to load weather advisory:', err);
@@ -51,11 +52,11 @@ export default function AdvisoryPanel({
 
   useEffect(() => {
     loadWeather();
-  }, [userLocation, language]);
+  }, [gpsLocation, language]);
 
-  const locationDisplay = userLocation?.nameBn 
-    ? (language === 'bn' ? userLocation.nameBn : (userLocation.nameEn || userLocation.nameBn))
-    : (weatherData?.city || (language === 'bn' ? 'রংপুর সদর, রংপুর' : 'Rangpur Sadar'));
+  const locationDisplay = gpsLocation?.areaName 
+    ? gpsLocation.areaName
+    : (weatherData?.city || (gpsLocation ? `${gpsLocation.lat?.toFixed(4)}° N, ${gpsLocation.lon?.toFixed(4)}° E` : (language === 'bn' ? 'মাঠের জিপিএস চালু করুন' : 'Enable Field GPS')));
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -102,18 +103,18 @@ export default function AdvisoryPanel({
 
   return (
     <div className="card task-card weather-panel-container animate-fade-in">
-      {/* Top Header with Location Picker and Refresh */}
+      {/* Top Header with GPS Calibrate and Refresh */}
       <div className="weather-panel-header">
         <div className="header-title-block">
           <h2>
             {language === 'bn' 
-              ? 'কৃষি আবহাওয়া ও ফিল্ড পূর্বাভাস ইন্টেলিজেন্স' 
-              : 'Agricultural Weather & Field Advisory'}
+              ? 'হাইপারলোকাল কৃষি আবহাওয়া ও ফিল্ড ইন্টেলিজেন্স' 
+              : 'Hyperlocal Agro Weather & Field Advisory'}
           </h2>
           <p className="header-desc">
             {language === 'bn' 
-              ? 'বাস্তব সময়ে আবহাওয়ার পূর্বাভাস, স্প্রে নিরাপত্তা, সেচ ও রোগবালাই ঝুঁকি সতর্কতা' 
-              : 'Hyperlocal real-time weather analytics, spray safety, irrigation, and pathogen alerts'}
+              ? 'জেলা বা শহরের গড় তথ্যের বদলে সরাসরি আপনার ফসলের মাঠের জিপিএস ভিত্তিক রিয়েল-টাইম পূর্বাভাস' 
+              : 'Pinpoint GPS field-level forecasts and microclimate spray safety analytics'}
           </p>
         </div>
 
@@ -121,13 +122,13 @@ export default function AdvisoryPanel({
           <button 
             type="button" 
             className="location-selector-btn"
-            onClick={onOpenLocationModal}
-            title={language === 'bn' ? 'অবস্থান পরিবর্তন করুন' : 'Change Location'}
+            onClick={onOpenGpsModal}
+            title={language === 'bn' ? 'মাঠের জিপিএস ক্যালিব্রেট করুন' : 'Calibrate Field GPS'}
           >
-            <MapPin size={16} className="text-emerald" />
+            <Navigation size={16} className="text-emerald" />
             <span className="location-btn-text">{locationDisplay}</span>
             <span className="location-change-tag">
-              {language === 'bn' ? 'পরিবর্তন' : 'Change'}
+              {gpsLocation ? (language === 'bn' ? 'জিপিএস রিফ্রেশ' : 'GPS') : (language === 'bn' ? 'জিপিএস অন করুন' : 'Enable GPS')}
             </span>
           </button>
 
@@ -142,6 +143,27 @@ export default function AdvisoryPanel({
           </button>
         </div>
       </div>
+
+      {/* GPS Notice Banner if GPS is not yet enabled */}
+      {!gpsLocation && (
+        <div className="gps-notice-banner mt-3" onClick={onOpenGpsModal}>
+          <div className="notice-left">
+            <Satellite size={22} className="text-emerald animate-pulse" />
+            <div className="notice-text">
+              <strong>{language === 'bn' ? 'মাঠের সঠিক মাইক্রোক্লাইমেট পেতে জিপিএস সক্রিয় করুন' : 'Calibrate GPS for exact field conditions'}</strong>
+              <p>
+                {language === 'bn' 
+                  ? 'একই জেলার ভিন্ন প্রান্তে আবহাওয়া ভিন্ন হতে পারে। আপনার জমির সঠিক বৃষ্টিপাত ও স্প্রে সময়ের জন্য জিপিএস অন করুন।' 
+                  : 'Weather varies across micro-regions. Activate device GPS for field-accurate forecasts.'}
+              </p>
+            </div>
+          </div>
+          <button type="button" className="btn-activate-gps">
+            <Navigation size={15} />
+            <span>{language === 'bn' ? 'জিপিএস সক্রিয় করুন' : 'Enable GPS'}</span>
+          </button>
+        </div>
+      )}
 
       {isLoading && !weatherData && (
         <div className="weather-loading-skeleton mt-3">
@@ -164,8 +186,26 @@ export default function AdvisoryPanel({
 
       {weatherData && (
         <>
+          {/* Microclimate GPS Field Coordinates Badge */}
+          <div className="microclimate-field-badge mt-3">
+            <div className="badge-left">
+              <Satellite size={16} className="text-emerald" />
+              <span className="badge-title">
+                {language === 'bn' ? 'মাঠের স্যাটেলাইট জিপিএস স্থানাঙ্ক:' : 'Field Satellite GPS Coordinates:'}
+              </span>
+              <strong className="badge-coords">
+                {weatherData.lat?.toFixed(4)}° N, {weatherData.lon?.toFixed(4)}° E
+              </strong>
+            </div>
+            <span className="badge-subtext">
+              {language === 'bn' 
+                ? 'অতি-স্থানীয় মাইক্রোক্লাইমেট (জেলা সদরের গড় তথ্যের বদলে সরাসরি আপনার ক্ষেতের আবহাওয়া)' 
+                : 'Hyperlocal microclimate field model (pinpoint accuracy)'}
+            </span>
+          </div>
+
           {/* Main Weather Hero Card */}
-          <div className="weather-hero-card mt-3">
+          <div className="weather-hero-card mt-2">
             <div className="hero-left">
               <div className="weather-icon-large">
                 <span className="emoji-icon">{weatherData.conditionIcon || '⛅'}</span>
