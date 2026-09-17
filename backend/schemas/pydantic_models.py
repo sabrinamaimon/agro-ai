@@ -6,10 +6,10 @@ class VoiceIntakeRequest(BaseModel):
     language: str = Field("bn", description="Language code (bn or en)")
 
 class VoiceIntakeResponse(BaseModel):
-    crop_type: str
-    estimated_planting_date: str
-    observed_damage_description: str
-    geographic_union: str
+    crop_type: str = "Banana (কলা)"
+    estimated_planting_date: Optional[str] = "উল্লেখ নেই"
+    observed_damage_description: Optional[str] = "লক্ষণ পর্যবেক্ষণ করা হয়েছে"
+    geographic_union: Optional[str] = "মাঠের লোকেশন সনাক্ত হয়নি"
     raw_transcript: Optional[str] = None
 
 class WeatherInfo(BaseModel):

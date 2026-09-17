@@ -88,6 +88,7 @@ export default function App() {
         {activeTab === 'task1' && (
           <VoiceIntake 
             language={language} 
+            gpsLocation={gpsLocation}
             onIntakeComplete={(data) => setIntakeData(data)} 
           />
         )}

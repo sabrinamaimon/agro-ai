@@ -18,6 +18,7 @@ async def intake_voice_or_text(
 ):
     transcript = ""
     lang = "bn"
+    gps_location = None
 
     content_type = request.headers.get("content-type", "")
     
@@ -25,6 +26,7 @@ async def intake_voice_or_text(
         form = await request.form()
         audio_file = form.get("audio_file")
         lang = form.get("language", "bn")
+        gps_location = form.get("gps_location") or form.get("gpsLocation")
         if audio_file and hasattr(audio_file, "filename") and audio_file.filename:
             saved_audio = UPLOADS_DIR / audio_file.filename
             with open(saved_audio, "wb") as buffer:
@@ -37,22 +39,28 @@ async def intake_voice_or_text(
             body = await request.json()
             transcript = body.get("transcript", "")
             lang = body.get("language", "bn")
+            gps_location = body.get("gps_location") or body.get("gpsLocation")
         except Exception:
             transcript = ""
 
     if not transcript:
-        transcript = "আমার আলুর ক্ষেতে পাতায় সাদা দাগ ও ধসা দেখা যাচ্ছে, রোপণ করেছি ১৫ দিন আগে, রংপুর সদর।"
+        transcript = "কলার পাতায় কালো দাগ দেখা যাচ্ছে"
 
-    # NLP entity extraction
-    extracted = await extract_intent_nlp(transcript, language=lang)
+    # NLP entity extraction with farmer's GPS location
+    extracted = await extract_intent_nlp(transcript, language=lang, gps_location=gps_location)
+
+    crop_type = extracted.get("crop_type") or ("অনির্দিষ্ট ফসল" if lang == "bn" else "Unspecified Crop")
+    planting_date = extracted.get("estimated_planting_date") or ("উল্লেখ নেই" if lang == "bn" else "Not mentioned")
+    damage_desc = extracted.get("observed_damage_description") or transcript
+    union = extracted.get("geographic_union") or gps_location or ("মাঠের লোকেশন সনাক্ত হয়নি" if lang == "bn" else "Location not set")
 
     # Save to database
     intake_record = IntakeLog(
         raw_transcript=transcript,
-        detected_crop=extracted.get("crop_type"),
-        planting_date=extracted.get("estimated_planting_date"),
-        damage_desc=extracted.get("observed_damage_description"),
-        geographic_union=extracted.get("geographic_union"),
+        detected_crop=crop_type,
+        planting_date=planting_date,
+        damage_desc=damage_desc,
+        geographic_union=union,
         language=lang
     )
     db.add(intake_record)
@@ -60,10 +68,10 @@ async def intake_voice_or_text(
     db.refresh(intake_record)
 
     return VoiceIntakeResponse(
-        crop_type=extracted.get("crop_type", "Potato (আলু)"),
-        estimated_planting_date=extracted.get("estimated_planting_date", "15 days ago"),
-        observed_damage_description=extracted.get("observed_damage_description", "Fungal spots"),
-        geographic_union=extracted.get("geographic_union", "Rangpur Sadar"),
+        crop_type=crop_type,
+        estimated_planting_date=planting_date,
+        observed_damage_description=damage_desc,
+        geographic_union=union,
         raw_transcript=transcript
     )
 

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { Mic, MicOff, Send, Sparkles, CheckCircle2, MessageCircle } from 'lucide-react';
+import { Mic, MicOff, Send, Sparkles, CheckCircle2, MessageCircle, MapPin, AlertCircle } from 'lucide-react';
 import { processVoiceIntake } from '../services/api';
 
-export default function VoiceIntake({ language, onIntakeComplete }) {
+export default function VoiceIntake({ language, gpsLocation, onIntakeComplete }) {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [extractedSchema, setExtractedSchema] = useState(null);
 
   const sampleQueries = [
+    { bn: 'আমার কলা গাছের পাতায় কালো দাগ পড়েছে ও পাতা পুড়ে যাচ্ছে', en: 'My banana plant leaves have black spots and are drying up' },
     { bn: 'আমার আলু খেতের পাতায় কালো বাদামী দাগ পড়েছে ও গাছ নেতিয়ে পড়ছে', en: 'My potato crop leaves have blackish brown spots and plants are wilting' },
-    { bn: 'ধানের পাতায় হলুদ লালচে ছোপ ছোপ দাগ ও ডগা মরা রোগ দেখা দিয়েছে', en: 'Rice crop leaves have yellow reddish spots and tip dieback disease' },
-    { bn: 'টমেটো গাছে সাদা মাছি পোকার আক্রমণ ও ফল পচা রোগ শুরু হয়েছে', en: 'Tomato plants have whitefly attack and fruit rot starting' }
+    { bn: 'ধানের পাতায় হলুদ লালচে ছোপ ছোপ দাগ ও ডগা মরা রোগ দেখা দিয়েছে', en: 'Rice crop leaves have yellow reddish spots and tip dieback disease' },
+    { bn: 'টমেটো গাছে সাদা মাছি পোকার আক্রমণ ও পাতা কোঁকড়ানো শুরু হয়েছে', en: 'Tomato plants have whitefly attack and leaf curling starting' }
   ];
 
   const startListening = () => {
@@ -46,12 +48,14 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
     if (!query.trim()) return;
 
     setLoading(true);
+    setErrorMsg(null);
     try {
-      const data = await processVoiceIntake(query, language);
+      const data = await processVoiceIntake(query, language, gpsLocation);
       setExtractedSchema(data);
       if (onIntakeComplete) onIntakeComplete(data);
     } catch (err) {
-      console.error(err);
+      console.error('Voice intake error:', err);
+      setErrorMsg(language === 'bn' ? 'তথ্য বিশ্লেষণে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।' : 'Failed to extract intent. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -73,6 +77,26 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
           ? 'আপনার ফসলের সমস্যা বাংলায় বা ইংরেজিতে মুখে বলুন, নমুনা প্রশ্ন চাপুন অথবা নিচে লিখে জানান।' 
           : 'Dictate crop symptoms in spoken Bengali or English, pick a sample query, or type below.'}
       </p>
+
+      {/* GPS Location Indicator Badge */}
+      <div className="voice-gps-badge mb-3" style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '0.45rem',
+        background: '#F0FDF4',
+        border: '1px solid #BBF7D0',
+        padding: '0.45rem 0.85rem',
+        borderRadius: '10px',
+        fontSize: '0.84rem',
+        color: '#065F46',
+        marginBottom: '1rem'
+      }}>
+        <MapPin size={16} className="text-emerald" />
+        <span>
+          {language === 'bn' ? 'মাঠের লোকেশন:' : 'Field Location:'}{' '}
+          <strong>{gpsLocation?.areaName || (language === 'bn' ? 'জিপিএস যুক্ত নেই (আবহাওয়া পেজ থেকে চালু করুন)' : 'GPS not enabled')}</strong>
+        </span>
+      </div>
 
       {/* Sample Query Chips for Fast Demo */}
       <div className="sample-chips-wrapper mb-4" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.25rem' }}>
@@ -124,7 +148,7 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
             className="input-field"
             value={transcript}
             onChange={(e) => setTranscript(e.target.value)}
-            placeholder={language === 'bn' ? 'অথবা এখানে লিখুন: "আমার আলুর পাতায় দাগ..."' : 'Or type: "Potato leaves have white spots..."'}
+            placeholder={language === 'bn' ? 'অথবা এখানে লিখুন: "আমার কলার পাতায় দাগ..."' : 'Or type: "Banana leaves have spots..."'}
           />
           <button 
             className="btn btn-primary"
@@ -137,21 +161,28 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
         </div>
       </div>
 
+      {errorMsg && (
+        <div className="alert-strip warning mt-3">
+          <AlertCircle size={18} />
+          <span>{errorMsg}</span>
+        </div>
+      )}
+
       {extractedSchema && (
         <div className="result-box mt-4">
           <div className="result-header">
             <CheckCircle2 color="#10B981" size={20} />
-            <h4>{language === 'bn' ? 'শনাক্তকৃত বিষয় ও তথ্যের বিবরণ (Extracted Intent)' : 'Extracted Intent JSON'}</h4>
+            <h4>{language === 'bn' ? 'শনাক্তকৃত বিষয় ও তথ্যের বিবরণ (Extracted Intent)' : 'Extracted Intent'}</h4>
           </div>
 
           <div className="grid-2">
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'ফসলের নাম' : 'Crop Type'}</span>
-              <span className="data-value">{extractedSchema.crop_type}</span>
+              <strong className="data-value" style={{ color: '#059669', fontSize: '1.05rem' }}>{extractedSchema.crop_type}</strong>
             </div>
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'রোপণের সময়' : 'Est. Planting Date'}</span>
-              <span className="data-value">{extractedSchema.estimated_planting_date}</span>
+              <span className="data-value">{extractedSchema.estimated_planting_date || (language === 'bn' ? 'উল্লেখ নেই' : 'Not specified')}</span>
             </div>
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'ক্ষতির বিবরণ' : 'Observed Damage'}</span>
@@ -159,7 +190,7 @@ export default function VoiceIntake({ language, onIntakeComplete }) {
             </div>
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'ইউনিয়ন / এলাকা' : 'Geographic Union'}</span>
-              <span className="data-value">{extractedSchema.geographic_union}</span>
+              <strong className="data-value" style={{ color: '#047857' }}>{extractedSchema.geographic_union}</strong>
             </div>
           </div>
         </div>

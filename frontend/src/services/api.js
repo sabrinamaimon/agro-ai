@@ -7,8 +7,13 @@ const api = axios.create({
   timeout: 45000, // 45s for deep multimodal AI reasoning
 });
 
-export const processVoiceIntake = async (transcript, language = 'bn') => {
-  const response = await api.post('/api/intake-voice', { transcript, language });
+export const processVoiceIntake = async (transcript, language = 'bn', gpsLocation = null) => {
+  const gps_location = gpsLocation?.areaName || (gpsLocation ? `${gpsLocation.lat?.toFixed(4)}° N, ${gpsLocation.lon?.toFixed(4)}° E` : null);
+  const response = await api.post('/api/intake-voice', { 
+    transcript, 
+    language,
+    gps_location 
+  });
   return response.data;
 };
 
