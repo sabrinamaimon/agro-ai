@@ -2542,6 +2542,31 @@ select.input-field {
   position: relative;
 }
 
+.modal-close-btn {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #E2E8F0;
+  background: #F8FAFC;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  z-index: 5;
+}
+
+.modal-close-btn:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+  border-color: #CBD5E1;
+  transform: scale(1.05);
+}
+
 .gps-radar-icon-box {
   width: 48px;
   height: 48px;
@@ -2742,6 +2767,26 @@ select.input-field {
   box-shadow: 0 6px 18px rgba(5, 150, 105, 0.38);
 }
 
+.btn-gps-secondary {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #F8FAFC;
+  color: #475569;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+}
+
+.btn-gps-secondary:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+  border-color: #CBD5E1;
+}
+
 .gps-privacy-note {
   display: flex;
   align-items: center;
@@ -2850,6 +2895,84 @@ select.input-field {
 .weather-panel-container {
   max-width: 980px;
   margin: 0 auto;
+}
+
+/* GPS Gate Card when Location is not provided */
+.weather-gps-gate-card {
+  background: linear-gradient(180deg, #FAFCFA 0%, #FFFFFF 100%);
+  border-radius: 24px;
+  border: 1.5px dashed #A7F3D0;
+  padding: 3.5rem 2rem 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 640px;
+  margin: 2rem auto;
+  box-shadow: 0 12px 32px -8px rgba(5, 150, 105, 0.08);
+}
+
+.gate-icon-circle {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  background: #ECFDF5;
+  border: 2px solid #A7F3D0;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.2);
+}
+
+.weather-gps-gate-card h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 0.65rem 0;
+}
+
+.weather-gps-gate-card p {
+  font-size: 0.92rem;
+  color: #64748B;
+  line-height: 1.55;
+  max-width: 500px;
+  margin: 0 0 1.75rem 0;
+}
+
+.gate-cta-btn {
+  max-width: 240px;
+  margin: 0 auto;
+}
+
+.gate-features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.85rem;
+  width: 100%;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.gate-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #F8FAFC;
+  padding: 0.85rem 1.15rem;
+  border-radius: 14px;
+  border: 1px solid #E2E8F0;
+  font-size: 0.85rem;
+  color: #334155;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.gate-feature-item:hover {
+  background: #F1F5F9;
+  border-color: #CBD5E1;
+  transform: translateY(-1px);
 }
 
 .weather-panel-header {
