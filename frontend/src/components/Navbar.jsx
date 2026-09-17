@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, MapPin } from 'lucide-react';
+import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation } from 'lucide-react';
 
 export default function Navbar({
   language,
   setLanguage,
   activeTab,
   setActiveTab,
-  userLocation,
-  onOpenLocationModal
+  gpsLocation,
+  onOpenGpsModal
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -27,9 +27,9 @@ export default function Navbar({
     setMenuOpen(false);
   };
 
-  const locationDisplay = userLocation?.nameBn
-    ? (language === 'bn' ? userLocation.nameBn : (userLocation.nameEn || userLocation.nameBn))
-    : (language === 'bn' ? 'অবস্থান নির্বাচন করুন' : 'Select Location');
+  const locationDisplay = gpsLocation
+    ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(3)}°N, ${gpsLocation.lon?.toFixed(3)}°E (GPS)`)
+    : (language === 'bn' ? 'মাঠের জিপিএস চালু করুন' : 'Enable Field GPS');
 
   return (
     <header className="navbar">
@@ -56,8 +56,12 @@ export default function Navbar({
             className="navbar-icon-btn"
             onClick={onOpenLocationModal}
             title={locationDisplay}
+            className="navbar-location-btn"
+            onClick={onOpenGpsModal}
+            title={language === 'bn' ? 'মাঠের জিপিএস ক্যালিব্রেট করুন' : 'Calibrate Field GPS'}
           >
-            <MapPin size={20} />
+            <Navigation size={15} className="text-emerald" />
+            <span className="navbar-location-text">{locationDisplay}</span>
           </button>
 
           <button
