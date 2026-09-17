@@ -124,23 +124,13 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
 
   return (
     <div className="card task-card scanner-premium-card">
-      {/* Header Banner */}
+      {/* Production-Grade Clean Header */}
       <div className="card-header border-b pb-3">
-        <div className="header-badge-row">
-          <span className="premium-tag">
-            <ShieldCheck size={15} />
-            <span>{language === 'bn' ? 'উদ্ভিদ রোগতত্ত্ব ভিশন ইঞ্জিন' : 'Precision Plant Health Vision'}</span>
-          </span>
-        </div>
-        <h2 className="mt-1">
+        <h2>{language === 'bn' ? 'ফসলের রোগ নির্ণয়' : 'Crop Disease Diagnosis'}</h2>
+        <p className="card-desc">
           {language === 'bn' 
-            ? 'ফসল ও উদ্ভিদ স্বাস্থ্য স্ক্যানার (পাতা, ফল, কাণ্ড ও শিকড়)' 
-            : 'Visual Crop Health & Multi-Organ Pathology Scanner'}
-        </h2>
-        <p className="card-desc mt-1">
-          {language === 'bn'
-            ? 'আক্রান্ত অংশের ছবি আপলোড করুন, পর্যায়ক্রমে ফসলের ধরন, নির্দিষ্ট ফসল ও আক্রান্ত উদ্ভিদাংশ নির্বাচন করে অনুসন্ধান বাটনে চাপুন। উন্নত এআই দৃষ্টি মডেল ছবির লক্ষণ বিশ্লেষণ করে সঠিক রোগ নির্ণয় ও প্রতিকার প্রদর্শন করবে।'
-            : 'Upload specimen photo, select crop category, target crop, and infected plant part, then click search for verified scientific pathology diagnosis.'}
+            ? 'আক্রান্ত উদ্ভিদাংশের ছবি ও বিবরণ প্রদান করে সঠিক রোগ ও বিজ্ঞানসম্মত প্রতিকার জানুন' 
+            : 'Upload affected plant photo and specify crop details for accurate disease diagnosis and treatment plan'}
         </p>
       </div>
 
@@ -179,7 +169,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
                 <label htmlFor="crop-photo-upload" className="dropzone-label">
                   <div className="dropzone-inner">
                     <div className="dropzone-icon-circle">
-                      <Upload size={28} className="text-emerald" />
+                      <Upload size={26} className="text-emerald" />
                     </div>
                     <h4 className="dropzone-title">
                       {language === 'bn' ? 'ছবি আপলোড করতে ক্লিক করুন বা ফাইল টেনে আনুন' : 'Click to browse or drag & drop plant photo'}
@@ -237,63 +227,64 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
           </div>
         </div>
 
-        {/* STEP 2: Select Crop Category / Type */}
-        <div className="workflow-step-box mt-3">
-          <div className="step-header">
-            <div className={`step-circle ${selectedCategory ? 'completed' : previewUrl ? 'active' : 'pending'}`}>
-              {selectedCategory ? <CheckCircle2 size={16} /> : '২'}
+        {/* STEP 2 & 3: Crop Category & Target Crop (Side-by-Side Grid) */}
+        <div className="grid-2 step-grid-row mt-3">
+          {/* STEP 2: Crop Category */}
+          <div className="workflow-step-box">
+            <div className="step-header">
+              <div className={`step-circle ${selectedCategory ? 'completed' : previewUrl ? 'active' : 'pending'}`}>
+                {selectedCategory ? <CheckCircle2 size={16} /> : '২'}
+              </div>
+              <div className="step-title-group">
+                <h3 className="step-heading">
+                  {language === 'bn' ? '২য় ধাপ: ফসলের ধরন' : 'Step 2: Crop Category'}
+                </h3>
+                <span className="step-subheading">
+                  {language === 'bn' 
+                    ? 'শস্য, সবজি, মসলা, ফল, পান, তেলবীজ ইত্যাদি' 
+                    : 'Select category to filter crops'}
+                </span>
+              </div>
             </div>
-            <div className="step-title-group">
-              <h3 className="step-heading">
-                {language === 'bn' ? '২য় ধাপ: আপনার ফসলের ধরন নির্বাচন করুন' : 'Step 2: Select Your Crop Category'}
-              </h3>
-              <span className="step-subheading">
-                {language === 'bn' 
-                  ? 'আপনার ফসলটি কোন ধরনের? যেমন: শস্য, সবজি, মসলা, ফল, পান/পাতা, তেলবীজ ও ডাল, অর্থকরী ও পাতা' 
-                  : 'Which category does your crop belong to? Cereals, Vegetables, Spices, Fruits, etc.'}
-              </span>
+
+            <div className="step-content compact">
+              <CropCategoryDropdown 
+                language={language}
+                selectedCategory={selectedCategory}
+                onSelectCategory={handleCategoryChange}
+              />
             </div>
           </div>
 
-          <div className="step-content">
-            <CropCategoryDropdown 
-              language={language}
-              selectedCategory={selectedCategory}
-              onSelectCategory={handleCategoryChange}
-            />
-          </div>
-        </div>
-
-        {/* STEP 3: Select Specific Crop (Filtered strictly by Category) */}
-        <div className="workflow-step-box mt-3">
-          <div className="step-header">
-            <div className={`step-circle ${selectedCrop ? 'completed' : selectedCategory ? 'active' : 'pending'}`}>
-              {selectedCrop ? <CheckCircle2 size={16} /> : '৩'}
+          {/* STEP 3: Specific Crop */}
+          <div className="workflow-step-box">
+            <div className="step-header">
+              <div className={`step-circle ${selectedCrop ? 'completed' : selectedCategory ? 'active' : 'pending'}`}>
+                {selectedCrop ? <CheckCircle2 size={16} /> : '৩'}
+              </div>
+              <div className="step-title-group">
+                <h3 className="step-heading">
+                  {language === 'bn' ? '৩য় ধাপ: ফসল নির্বাচন' : 'Step 3: Select Crop'}
+                </h3>
+                <span className="step-subheading">
+                  {language === 'bn' 
+                    ? (selectedCategory ? 'নির্বাচিত ক্যাটাগরির অন্তর্ভুক্ত ফসল' : 'আগে ২য় ধাপে ধরন নির্বাচন করুন')
+                    : 'Choose your specific crop'}
+                </span>
+              </div>
             </div>
-            <div className="step-title-group">
-              <h3 className="step-heading">
-                {language === 'bn' ? '৩য় ধাপ: আপনার ফসল নির্বাচন করুন' : 'Step 3: Select Your Target Crop'}
-              </h3>
-              <span className="step-subheading">
-                {language === 'bn' 
-                  ? (selectedCategory 
-                      ? 'নির্বাচিত ধরনের মধ্য থেকে আপনার নির্দিষ্ট ফসলটি খুঁজুন ও বেছে নিন' 
-                      : 'প্রথমে ২য় ধাপে ফসলের ধরন নির্বাচন করলে এখানে শুধুমাত্র সেই ধরনের ফসলগুলো দেখাবে')
-                  : 'Select category above to filter and display the available crops'}
-              </span>
-            </div>
-          </div>
 
-          <div className="step-content">
-            <CropSearchDropdown 
-              language={language}
-              selectedCategory={selectedCategory}
-              selectedCrop={selectedCrop}
-              onSelectCrop={(cropFormatted) => {
-                setSelectedCrop(cropFormatted);
-                setDiagnosisResult(null); // Reset old diagnosis if crop changes
-              }}
-            />
+            <div className="step-content compact">
+              <CropSearchDropdown 
+                language={language}
+                selectedCategory={selectedCategory}
+                selectedCrop={selectedCrop}
+                onSelectCrop={(cropFormatted) => {
+                  setSelectedCrop(cropFormatted);
+                  setDiagnosisResult(null);
+                }}
+              />
+            </div>
           </div>
         </div>
 
@@ -311,8 +302,8 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
               </h3>
               <span className="step-subheading">
                 {language === 'bn' 
-                  ? 'ছবিটি উদ্ভিদের কোন অংশের? পাতা, ফল, কাণ্ড নাকি শেকড় (সঠিক অংশ নির্বাচন করলে এআই শতভাগ নিখুঁত রোগ শনাক্ত করতে পারে)' 
-                  : 'Which plant part is photographed? Leaf, fruit, stem, or root (Accurate selection ensures correct diagnosis)'}
+                  ? 'ছবিটি উদ্ভিদের কোন অংশের? পাতা, ফল, কাণ্ড নাকি শেকড়' 
+                  : 'Which plant part is photographed? Leaf, fruit, stem, or root'}
               </span>
             </div>
           </div>
@@ -340,15 +331,15 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
             {loading ? (
               <>
                 <RefreshCw size={20} className="spin" />
-                <span>{language === 'bn' ? 'উন্নত এআই দৃষ্টি ও রোগতত্ত্ব বিশ্লেষণ চলছে...' : 'Running Precision AI Pathology Analysis...'}</span>
+                <span>{language === 'bn' ? 'রোগতত্ত্ব বিশ্লেষণ ও যাচাইকরণ চলছে...' : 'Analyzing Pathology...'}</span>
               </>
             ) : (
               <>
                 <Search size={20} />
                 <span>
                   {language === 'bn' 
-                    ? 'রোগ অনুসন্ধান ও নিখুঁত বিশ্লেষণ করুন' 
-                    : 'Analyze Crop & Diagnose Pathology'}
+                    ? 'রোগ অনুসন্ধান করুন' 
+                    : 'Diagnose Crop Pathology'}
                 </span>
                 <ArrowRight size={18} />
               </>
