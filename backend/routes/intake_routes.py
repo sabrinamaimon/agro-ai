@@ -98,4 +98,4 @@ async def agro_chat_endpoint(request: Request):
         except Exception as e:
             return {"response": f"AI প্রতিক্রিয়া পেতে সমস্যা হয়েছে: {str(e)}"}
 
-    return {"response": "GROQ API Key কনফিগার করা নেই।"}
+    return {"response": "এআই সেবা এই মুহূর্তে সংযোগ করতে পারছে না। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন।"}
