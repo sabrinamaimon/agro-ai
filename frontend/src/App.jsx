@@ -159,7 +159,6 @@ export default function App() {
           <Hero 
             language={language} 
             setActiveTab={setActiveTab} 
-            onLoadDemo={handleLoadDemoScenario} 
           />
         )}
 
