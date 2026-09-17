@@ -39,16 +39,59 @@ _REVERSE_GEO_CACHE: Dict[str, Dict[str, str]] = {}
 def get_hyperlocal_address(lat: float, lon: float, language: str = "bn") -> Dict[str, str]:
     """
     Resolve exact micro-location (Union / Village / Upazila / District) from GPS coordinates
-    using Nominatim reverse geocoding with in-memory caching.
+    using BigDataCloud fast geocoding with Nominatim fallback and in-memory caching.
     """
     cache_key = f"{round(lat, 3)}_{round(lon, 3)}_{language}"
     if cache_key in _REVERSE_GEO_CACHE:
         return _REVERSE_GEO_CACHE[cache_key]
 
+    # 1. Primary: BigDataCloud fast client API (<200ms, no rate limit)
+    try:
+        url = f"https://api.bigdatacloud.net/data/reverse-geocode-client?latitude={lat}&longitude={lon}&localityLanguage={language}"
+        res = requests.get(url, timeout=2.5)
+        if res.status_code == 200:
+            data = res.json()
+            locality_info = data.get("localityInfo", {}).get("administrative", [])
+            union = ""
+            upazila = ""
+            district = ""
+            for item in locality_info:
+                desc = item.get("description", "")
+                name = item.get("name", "")
+                if "ইউনিয়ন" in desc or "ইউনিয়ন" in name:
+                    union = name
+                elif "উপজেলা" in desc or "উপজেলা" in name:
+                    upazila = name
+                elif "জেলা" in desc or "জেলা" in name:
+                    district = name
+            
+            if not union:
+                union = data.get("locality") or ""
+            if not upazila:
+                upazila = data.get("city") or ""
+            if not district:
+                district = data.get("principalSubdivision") or ""
+
+            parts = [p for p in [union, upazila, district] if p]
+            if parts:
+                full_name = ", ".join(parts)
+                res_obj = {
+                    "name": full_name,
+                    "nameEn": full_name,
+                    "union": union,
+                    "upazila": upazila,
+                    "district": district
+                }
+                _REVERSE_GEO_CACHE[cache_key] = res_obj
+                return res_obj
+    except Exception as e:
+        logger.warning(f"BigDataCloud geocode failed: {e}. Falling back to Nominatim.")
+
+    # 2. Secondary: Nominatim OpenStreetMap
     headers = {"User-Agent": "AgroAI-Hyperlocal-Platform/1.0 (contact@agroai.bd)"}
     try:
         url = f"https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={lon}&format=json&accept-language={language}"
-        res = requests.get(url, headers=headers, timeout=3)
+        res = requests.get(url, headers=headers, timeout=2.5)
         if res.status_code == 200:
             data = res.json()
             addr = data.get("address", {})
@@ -77,7 +120,7 @@ def get_hyperlocal_address(lat: float, lon: float, language: str = "bn") -> Dict
                 _REVERSE_GEO_CACHE[cache_key] = res_obj
                 return res_obj
     except Exception as e:
-        logger.warning(f"Reverse geocoding error: {e}")
+        logger.warning(f"Nominatim reverse geocoding error: {e}")
 
     coord_str = f"{round(lat, 4)}° N, {round(lon, 4)}° E"
     fallback_name = f"মাঠ জিপিএস ({coord_str})" if language == "bn" else f"Field GPS ({coord_str})"
