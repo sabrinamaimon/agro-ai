@@ -9,7 +9,11 @@ router = APIRouter(prefix="/api", tags=["Task 4: Market Price Anomaly Detection"
 
 @router.post("/price-anomaly", response_model=PriceAnomalyResponse)
 async def check_price_anomaly_endpoint(payload: PriceAnomalyRequest, db: Session = Depends(get_db)):
-    result = analyze_price_anomaly(crop_input=payload.crop, offered_price=payload.offeredPrice)
+    result = analyze_price_anomaly(
+        crop_input=payload.crop, 
+        offered_price=payload.offeredPrice,
+        language=payload.language or "bn"
+    )
 
     # Log to Database
     log_entry = MarketCheck(
@@ -35,13 +39,16 @@ async def check_price_anomaly_endpoint(payload: PriceAnomalyRequest, db: Session
     )
 
 @router.get("/market-benchmarks")
-async def get_market_benchmarks():
+async def get_market_benchmarks(language: str = "bn"):
     data = load_dam_market_data()
     benchmarks = []
     for k, v in data.items():
+        crop_title = f"{v.get('name_bn')} ({v.get('name_en')})" if language == "bn" else f"{v.get('name_en')} ({v.get('name_bn')})"
         benchmarks.append({
             "id": k,
-            "crop": f"{v.get('name_en')} ({v.get('name_bn')})",
+            "crop": crop_title,
+            "name_en": v.get("name_en"),
+            "name_bn": v.get("name_bn"),
             "averagePrice": v.get("average_benchmark"),
             "minPrice": v.get("min_price"),
             "maxPrice": v.get("max_price"),

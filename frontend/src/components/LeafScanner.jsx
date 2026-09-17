@@ -46,7 +46,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
     setErrorMessage(null);
     try {
       const unionParam = intakeUnion || 'Rangpur Sadar';
-      const result = await diagnoseCropImage(file, sampleId, activeCrop, unionParam);
+      const result = await diagnoseCropImage(file, sampleId, activeCrop, unionParam, language);
       setDiagnosisResult(result);
       if (onDiagnosisComplete) onDiagnosisComplete(result);
     } catch (err) {
@@ -173,7 +173,11 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
             <ShieldAlert color="#EF4444" size={22} />
             <h4>{language === 'bn' ? `রোগ নির্ণয় ফলাফল: ${diagnosisResult.cropType}` : `Diagnostic Results: ${diagnosisResult.cropType}`}</h4>
             <span className={getSeverityBadgeClass(diagnosisResult.severity)}>
-              {diagnosisResult.severity} Severity
+              {diagnosisResult.severity === 'Mild' ? (language === 'bn' ? 'হালকা (Mild)' : 'Mild') :
+               diagnosisResult.severity === 'Moderate' ? (language === 'bn' ? 'মাঝারি (Moderate)' : 'Moderate') :
+               diagnosisResult.severity === 'Severe' ? (language === 'bn' ? 'তীব্র (Severe)' : 'Severe') :
+               diagnosisResult.severity === 'Critical' ? (language === 'bn' ? 'মারাত্মক (Critical)' : 'Critical') :
+               diagnosisResult.severity} {language === 'bn' ? 'মাত্রা' : 'Severity'}
             </span>
           </div>
 
@@ -184,7 +188,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
             </div>
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'আক্রান্ত ক্ষেত্রফল (CV Damage %)' : 'Physical Surface Damage'}</span>
-              <span className="data-value danger">{diagnosisResult.damagePercentage}% Surface Area</span>
+              <span className="data-value danger">{diagnosisResult.damagePercentage}% {language === 'bn' ? 'ক্ষেত্রফল আক্রান্ত' : 'Surface Area'}</span>
             </div>
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'ফসলের নাম (Target Crop)' : 'Crop Name'}</span>
