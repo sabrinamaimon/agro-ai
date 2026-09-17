@@ -38,6 +38,20 @@ export default function Navbar({
           <Menu size={24} />
         </button>
 
+        {/* Left: GPS Location Pill */}
+        <div className="navbar-top-actions">
+          <button
+            type="button"
+            className="navbar-location-btn"
+            onClick={onOpenGpsModal}
+            title={language === 'bn' ? 'মাঠের জিপিএস নির্বাচন করুন' : 'Select Field GPS'}
+          >
+            <Navigation size={15} className="text-emerald" />
+            <span className="navbar-location-text">{locationDisplay}</span>
+          </button>
+        </div>
+
+        {/* Center: Agro-AI Logo */}
         <div className="navbar-logo" onClick={() => setActiveTab('home')} style={{ cursor: 'pointer' }}>
           <div className="logo-icon">
             <Sprout size={28} color="#059669" />
@@ -50,24 +64,26 @@ export default function Navbar({
           </div>
         </div>
 
-        <div className="navbar-top-actions">
-          <button
-            type="button"
-            className="navbar-location-btn"
-            onClick={onOpenGpsModal}
-            title={language === 'bn' ? 'মাঠের জিপিএস নির্বাচন করুন' : 'Select Field GPS'}
-          >
-            <Navigation size={15} className="text-emerald" />
-            <span className="navbar-location-text">{locationDisplay}</span>
-          </button>
-
-          <button
-            className="navbar-icon-btn"
-            onClick={() => setLanguage(language === 'bn' ? 'en' : 'bn')}
-            title={language === 'bn' ? 'English (EN)' : 'বাংলা (BN)'}
-          >
-            <Globe size={20} />
-          </button>
+        {/* Top Right: Language Toggle (Bangla / English) */}
+        <div className="navbar-top-right">
+          <div className="lang-toggle-pill" role="group" aria-label="Language Toggle">
+            <button
+              type="button"
+              className={`lang-pill-btn ${language === 'bn' ? 'active' : ''}`}
+              onClick={() => setLanguage('bn')}
+              title="বাংলা ভাষা নির্বাচন করুন"
+            >
+              বাংলা
+            </button>
+            <button
+              type="button"
+              className={`lang-pill-btn ${language === 'en' ? 'active' : ''}`}
+              onClick={() => setLanguage('en')}
+              title="Select English Language"
+            >
+              English
+            </button>
+          </div>
         </div>
       </div>
 
