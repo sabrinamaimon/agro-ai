@@ -30,7 +30,7 @@ def classify_severity(damage_pct: float) -> str:
 def extract_color_profile(hsv_img: np.ndarray, lesion_mask: np.ndarray) -> str:
     """Extract physical color and shape profile of detected lesions."""
     if cv2.countNonZero(lesion_mask) == 0:
-        return "No visible necrotic lesions detected (healthy foliage)."
+        return "Healthy foliage with no visible necrotic lesions."
 
     lesion_hsv = hsv_img[lesion_mask > 0]
     mean_h = np.mean(lesion_hsv[:, 0])
@@ -38,19 +38,19 @@ def extract_color_profile(hsv_img: np.ndarray, lesion_mask: np.ndarray) -> str:
     mean_v = np.mean(lesion_hsv[:, 2])
 
     traits = []
-    if mean_v < 60:
-        traits.append("dark blackish necrotic spots")
+    if mean_v < 65:
+        traits.append("dark brown/blackish sunken necrotic spots")
     elif mean_h < 22:
-        traits.append("water-soaked dark brown fungal lesions")
-    elif 22 <= mean_h <= 35:
-        traits.append("yellowish chlorotic halo / leaf curl discoloration")
+        traits.append("water-soaked brownish fungal lesions")
+    elif 22 <= mean_h <= 36:
+        traits.append("yellowish chlorotic margin and leaf curl discoloration")
     else:
         traits.append("irregular discolored patches")
 
     if mean_s > 140:
-        traits.append("dense pathogen sporulation")
+        traits.append("dense mycelial sporulation")
     elif mean_v > 150:
-        traits.append("powdery or bleached grayish centers")
+        traits.append("bleached grayish/ash centers")
 
     return ", ".join(traits) if traits else "Brown necrotic lesions with chlorotic borders"
 
@@ -73,12 +73,11 @@ def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") 
     h, w, _ = img.shape
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-    # 1. Segment the leaf body (greenish, yellowish-green foliage)
+    # 1. Segment the foliage surface
     lower_leaf = np.array([20, 25, 25])
     upper_leaf = np.array([95, 255, 255])
     leaf_mask = cv2.inRange(hsv, lower_leaf, upper_leaf)
     
-    # Clean leaf mask with morphological closing
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
     leaf_mask = cv2.morphologyEx(leaf_mask, cv2.MORPH_CLOSE, kernel)
     total_leaf_pixels = cv2.countNonZero(leaf_mask)
@@ -86,7 +85,7 @@ def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") 
     if total_leaf_pixels < 500:
         total_leaf_pixels = max(1000, int(h * w * 0.45))
 
-    # 2. Segment necrotic lesions (dark brown, blackish, or dry yellow/rust spots)
+    # 2. Segment necrotic lesion regions
     lower_lesion_1 = np.array([5, 45, 20])
     upper_lesion_1 = np.array([22, 255, 180])
 
@@ -97,7 +96,6 @@ def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") 
     lesion_mask_2 = cv2.inRange(hsv, lower_lesion_2, upper_lesion_2)
     lesion_mask = cv2.bitwise_or(lesion_mask_1, lesion_mask_2)
 
-    # Clean lesion mask
     lesion_mask = cv2.morphologyEx(lesion_mask, cv2.MORPH_OPEN, kernel)
     lesion_pixels = cv2.countNonZero(lesion_mask)
 
@@ -114,11 +112,9 @@ def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") 
 
     for cnt in sorted_contours:
         area = cv2.contourArea(cnt)
-        if area > 80: # Minimum lesion cluster threshold
+        if area > 70:
             x, y, bw, bh = cv2.boundingRect(cnt)
             bounding_boxes.append([int(x), int(y), int(bw), int(bh)])
-            
-            # Draw red bounding rectangle on annotated image
             cv2.rectangle(annotated_img, (x, y), (x + bw, y + bh), (0, 0, 235), 2)
             cv2.putText(annotated_img, "Lesion", (x, max(15, y - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1)
 
@@ -136,7 +132,6 @@ def analyze_leaf_image(image_bytes: bytes, filename: str = "uploaded_leaf.jpg") 
     annotated_path = ANNOTATED_DIR / annotated_filename
     cv2.imwrite(str(annotated_path), annotated_img)
 
-    # Convert annotated image to Base64 data URL
     _, buffer = cv2.imencode('.jpg', annotated_img)
     b64_encoded = base64.b64encode(buffer).decode('utf-8')
     data_url = f"data:image/jpeg;base64,{b64_encoded}"
@@ -162,50 +157,60 @@ async def diagnose_pathology_with_ai(
 ) -> Dict[str, Any]:
     """
     Multimodal AI Diagnostic Reasoning using Groq 120B model:
-    Combines real physical OpenCV metrics + live hyperlocal weather + crop context
-    into dynamic plant disease diagnosis and agronomic prescriptions.
+    Combines real physical OpenCV metrics + live hyperlocal weather + user-selected crop
+    into dynamic, strictly crop-specific plant disease diagnosis and agronomic prescriptions.
     """
     weather = weather_data or {}
-    temp = weather.get("temperature", 25.0)
+    temp = weather.get("temperature", 26.0)
     humidity = weather.get("humidity", 85.0)
     rain_in_hours = weather.get("rainInHours", 4)
     damage_pct = cv_metrics.get("damagePercentage", 25.0)
     severity = cv_metrics.get("severity", "Moderate")
-    color_profile = cv_metrics.get("color_profile", "Necrotic brown lesions")
+    color_profile = cv_metrics.get("color_profile", "Necrotic brown spots")
     lesion_count = cv_metrics.get("lesion_count", 5)
 
-    # 1. Live AI Diagnosis via Groq
+    target_crop = crop_hint.strip() if (crop_hint and crop_hint.strip() and crop_hint.lower() != "auto") else "Auto-Deduce from Visual Profile"
+
+    # 1. Live AI Diagnosis via Groq 120B
     if GROQ_API_KEY:
         try:
             from groq import Groq
             client = Groq(api_key=GROQ_API_KEY)
 
             system_prompt = (
-                "You are an expert Plant Pathologist and Senior Agronomist serving farmers in Bangladesh. "
-                "You are given real physical computer vision metrics extracted from a leaf photo, live microclimate weather, and crop hints. "
-                "Accurately diagnose the plant disease and provide actionable, real agronomic advice in JSON with these exact keys: "
-                "1. 'id': disease slug (e.g. 'potato-late-blight', 'rice-blast', 'tomato-leaf-curl', 'wheat-rust'). "
-                "2. 'name': Common name in English and Bengali (e.g. 'Potato Late Blight (আলুর নাবী ধসা)'). "
-                "3. 'cropType': Crop name in English and Bengali (e.g. 'Potato (আলু)'). "
-                "4. 'pathogen': Full scientific pathogen name (e.g. 'Phytophthora infestans'). "
-                "5. 'severity': 'Mild', 'Moderate', 'Severe', or 'Critical'. "
-                "6. 'description': Detailed clinical symptom explanation in Bengali describing the visible physical lesions and cell necrosis. "
-                "7. 'root_cause': Climate trigger explanation in Bengali explaining how local temperature and humidity caused spore germination. "
-                "8. 'organicRemedy': Specific biological/cultural control measures in Bengali (e.g. Trichoderma, Bordeaux mixture, neem extract, rogueing). "
-                "9. 'chemicalRemedy': Commercial chemical trade names available in Bangladesh (e.g. Dithane M-45, Ridomil Gold, Nativo 75 WG, Confidor, Tilt 250 EC) with exact dilution rates (e.g. 2 g/L or 0.5 ml/L). "
-                "10. 'phiDays': Pre-Harvest Interval (integer days). "
-                "11. 'sprayAdvice': Weather-adjusted hourly spray advice in Bengali considering rain forecast. "
-                "Output ONLY valid JSON."
+                f"You are a Senior Plant Pathologist and Agronomist in Bangladesh.\n"
+                f"The target crop has been explicitly specified by the farmer as: '{target_crop}'.\n\n"
+                f"CRITICAL CONSTRAINT:\n"
+                f"You MUST diagnose a scientifically authentic, recognized plant disease of '{target_crop}' in Bangladesh agriculture.\n"
+                f"DO NOT diagnose a disease from any other crop.\n"
+                f"For example: if the crop is Mango (আম), diagnose a Mango disease such as Anthracnose (Colletotrichum), Powdery Mildew, Dieback, or Bacterial Canker; NEVER diagnose Potato Late Blight or Rice Blast.\n"
+                f"If the crop is Banana (কলা), diagnose Sigatoka or Panama Disease.\n"
+                f"If the crop is Brinjal/Eggplant (বেগুন), diagnose Phomopsis Blight or Little Leaf.\n"
+                f"If the crop is Chilli (মরিচ), diagnose Chilli Leaf Curl Virus or Anthracnose Dieback.\n"
+                f"If the crop is Rice (ধান), diagnose Rice Blast, Sheath Blight, or Bacterial Leaf Blight.\n"
+                f"If the crop is Potato (আলু), diagnose Late Blight or Early Blight.\n\n"
+                f"Correlate the physical computer vision measurements with this crop's pathology.\n"
+                f"Provide actionable agronomic guidance in JSON with these exact keys:\n"
+                f"1. 'id': disease slug (e.g. 'mango-anthracnose', 'banana-sigatoka', 'brinjal-phomopsis')\n"
+                f"2. 'name': Common name in English and Bengali (e.g. 'Mango Anthracnose (আমের অ্যানথ্রাকনোজ রোগ)')\n"
+                f"3. 'cropType': '{target_crop}'\n"
+                f"4. 'pathogen': Full scientific binomial name (e.g. 'Colletotrichum gloeosporioides')\n"
+                f"5. 'severity': '{severity}'\n"
+                f"6. 'description': Detailed clinical symptoms in Bengali describing the visible physical lesions on this crop.\n"
+                f"7. 'root_cause': Climate trigger explanation in Bengali explaining how current temperature ({temp}°C) and humidity ({humidity}%) caused or accelerated this pathogen.\n"
+                f"8. 'organicRemedy': Specific biological and cultural control measures in Bengali.\n"
+                f"9. 'chemicalRemedy': Specific commercial chemical trade names available in Bangladesh markets with exact dilution dosages (e.g. g/L or ml/L) in Bengali.\n"
+                f"10. 'phiDays': Mandatory Pre-Harvest Interval (integer days).\n"
+                f"11. 'sprayAdvice': Weather-adjusted spraying advice in Bengali taking into account the rain forecast ({rain_in_hours} hours).\n"
+                f"Output ONLY valid JSON."
             )
 
-            crop_context = crop_hint if (crop_hint and crop_hint.lower() != "auto-detect") else "Auto-Deduce Most Probable Bangladesh Crop (Potato/Rice/Tomato/Wheat/Onion/Brinjal)"
-
             user_prompt = (
-                f"Crop Hint: {crop_context}\n"
-                f"Physical Computer Vision Metrics:\n"
-                f"- Measured Surface Damage: {damage_pct}%\n"
+                f"Target Crop: {target_crop}\n"
+                f"Physical Computer Vision Findings:\n"
+                f"- Measured Foliage Damage: {damage_pct}%\n"
                 f"- Lesion Cluster Count: {lesion_count}\n"
-                f"- Lesion Visual/Color Profile: {color_profile}\n"
+                f"- Physical Lesion Profile: {color_profile}\n"
                 f"Hyperlocal Live Weather ({union_name}, Bangladesh):\n"
                 f"- Temperature: {temp}°C\n"
                 f"- Relative Humidity: {humidity}%\n"
@@ -219,38 +224,38 @@ async def diagnose_pathology_with_ai(
                 ],
                 model=GROQ_LLM_MODEL,
                 response_format={"type": "json_object"},
-                temperature=0.2
+                temperature=0.1
             )
 
             res = json.loads(chat_completion.choices[0].message.content)
             res["severity"] = severity
             res["damagePercentage"] = damage_pct
+            if target_crop != "Auto-Deduce from Visual Profile":
+                res["cropType"] = target_crop
             return res
         except Exception as e:
-            logger.warning(f"Groq dynamic AI diagnosis error: {e}. Falling back to pathology database.")
+            logger.warning(f"Groq dynamic AI diagnosis error: {e}. Falling back to crop-specific pathology database.")
 
-    # 2. Deterministic Pathology Database Fallback (Only if Groq is offline)
+    # 2. Deterministic Fallback - strictly matched to selected crop
     pathologies = load_pathology_db()
     matched = None
     if crop_hint:
         hint_lower = crop_hint.lower()
         for p in pathologies:
-            if p["crop_en"].lower() in hint_lower or p["crop_bn"] in crop_hint:
+            if (p["crop_en"].lower() in hint_lower or 
+                hint_lower in p["crop_en"].lower() or 
+                p["crop_bn"] in crop_hint or 
+                crop_hint in p["crop_bn"]):
                 matched = p
                 break
 
     if not matched:
-        if "yellow" in color_profile.lower():
-            matched = next((p for p in pathologies if "curl" in p["id"] or "yellow" in p["id"]), pathologies[0])
-        elif "blast" in color_profile.lower() or "spindle" in color_profile.lower():
-            matched = next((p for p in pathologies if "blast" in p["id"]), pathologies[2])
-        else:
-            matched = pathologies[0]
+        matched = pathologies[0]
 
     return {
         "id": matched.get("id"),
         "name": f"{matched.get('name_en')} ({matched.get('name_bn')})",
-        "cropType": f"{matched.get('crop_en')} ({matched.get('crop_bn')})",
+        "cropType": target_crop if target_crop != "Auto-Deduce from Visual Profile" else f"{matched.get('crop_en')} ({matched.get('crop_bn')})",
         "pathogen": matched.get("pathogen"),
         "severity": severity,
         "damagePercentage": damage_pct,

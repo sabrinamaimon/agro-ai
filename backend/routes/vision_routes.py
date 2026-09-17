@@ -21,13 +21,13 @@ async def diagnose_leaf_image_endpoint(
     language: Optional[str] = Form("bn"),
     db: Session = Depends(get_db)
 ):
-    filename = "potato_late_blight.jpg"
+    filename = "uploaded_crop_leaf.jpg"
     image_bytes = b""
 
+    # 1. Resolve image bytes from upload or sample
     if image and image.filename:
         filename = image.filename
         image_bytes = await image.read()
-        # Save original upload
         saved_file = UPLOADS_DIR / filename
         with open(saved_file, "wb") as f:
             f.write(image_bytes)
@@ -38,7 +38,15 @@ async def diagnose_leaf_image_endpoint(
             with open(sample_path, "rb") as f:
                 image_bytes = f.read()
         if not cropType:
-            cropType = "Rice (ধান)"
+            cropType = "Rice / Paddy (ধান)"
+    elif sampleId and "mango" in str(sampleId).lower():
+        filename = "potato_late_blight.jpg"
+        sample_path = DATA_DIR / "samples" / filename
+        if sample_path.exists():
+            with open(sample_path, "rb") as f:
+                image_bytes = f.read()
+        if not cropType:
+            cropType = "Mango (আম)"
     else:
         filename = "potato_late_blight.jpg"
         sample_path = DATA_DIR / "samples" / filename
@@ -48,14 +56,14 @@ async def diagnose_leaf_image_endpoint(
         if not cropType:
             cropType = "Potato (আলু)"
 
-    # 1. Run Physical Computer Vision Pipeline (OpenCV)
+    # 2. Run Physical Computer Vision Pipeline (OpenCV)
     cv_result = analyze_leaf_image(image_bytes, filename=filename)
 
-    # 2. Fetch Live Hyperlocal Weather (Open-Meteo)
+    # 3. Fetch Live Hyperlocal Weather (Open-Meteo)
     target_union = union or "Rangpur Sadar"
     weather = fetch_weather(target_union)
 
-    # 3. Dynamic Multimodal AI Pathology & Agronomic Reasoning (Groq 120B)
+    # 4. Crop-Enforced Precision AI Pathology & Agronomic Reasoning (Groq 120B)
     diagnosis = await diagnose_pathology_with_ai(
         cv_metrics=cv_result,
         crop_hint=cropType,
@@ -64,10 +72,10 @@ async def diagnose_leaf_image_endpoint(
         language=language or "bn"
     )
 
-    # 4. Market Price Anomaly Check for Detected Crop (DAM Isolation Forest)
+    # 5. Market Price Anomaly Check for Diagnosed Crop
     market = analyze_price_anomaly(diagnosis.get("cropType", "Potato"), 20.0)
 
-    # 5. Save to Relational Database
+    # 6. Save to Relational Database
     diagnosis_entry = DiagnosisRecord(
         original_image_path=f"/static/uploads/{filename}",
         annotated_image_path=cv_result.get("annotated_file_path"),
