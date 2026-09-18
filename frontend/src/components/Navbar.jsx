@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation } from 'lucide-react';
+import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation, MapPin } from 'lucide-react';
 
 export default function Navbar({
   language,
@@ -13,8 +13,7 @@ export default function Navbar({
 
   const navItems = [
     { id: 'home', labelBn: 'হোম', labelEn: 'Home', icon: Home },
-    { id: 'aichat', labelBn: 'এআই চ্যাট', labelEn: 'AI Chat Prompt', icon: MessageSquare },
-    { id: 'task1', labelBn: 'ভয়েসে সমস্যা বলুন', labelEn: 'Voice Input', icon: Mic },
+    { id: 'aichat', labelBn: 'ভয়েস ও এআই চ্যাট', labelEn: 'Voice & AI Chat', icon: MessageSquare },
     { id: 'task2', labelBn: 'রোগ নির্ণয়', labelEn: 'Leaf Scanner', icon: Camera },
     { id: 'task3', labelBn: 'আবহাওয়া ও স্প্রে', labelEn: 'Weather & Spray', icon: CloudRain },
     { id: 'task4', labelBn: '৳ বাজার দর', labelEn: '৳ Price Checker', icon: TrendingUp },
@@ -28,49 +27,67 @@ export default function Navbar({
   };
 
   const locationDisplay = gpsLocation
-    ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(3)}°N, ${gpsLocation.lon?.toFixed(3)}°E (GPS)`)
-    : (language === 'bn' ? 'মাঠের জিপিএস চালু করুন' : 'Enable Field GPS');
+    ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(2)}°N, ${gpsLocation.lon?.toFixed(2)}°E`)
+    : (language === 'bn' ? 'মাঠের লোকেশন নির্বাচন' : 'Set Field Location');
 
   return (
     <header className="navbar">
       <div className="navbar-top">
-        <button className="menu-toggle-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu">
-          <Menu size={24} />
+        {/* Left Mobile Menu Toggle Button */}
+        <button 
+          className="menu-toggle-btn" 
+          onClick={() => setMenuOpen(true)} 
+          aria-label="Open navigation menu"
+        >
+          <Menu size={22} />
         </button>
 
-        {/* Left: GPS Location Pill & Field Ready Badge */}
-        <div className="navbar-top-actions">
-          <button
-            type="button"
-            className="navbar-location-btn"
-            onClick={onOpenGpsModal}
-            title={language === 'bn' ? 'মাঠের জিপিএস নির্বাচন করুন' : 'Select Field GPS'}
-          >
-            <Navigation size={15} className="text-emerald" />
-            <span className="navbar-location-text">{locationDisplay}</span>
-          </button>
-
-          <div className="field-ready-badge" title={language === 'bn' ? 'মাঠ পর্যায়ের অফলাইন ক্যাশ ও স্থানীয় এআই সক্রিয়' : 'Offline local cache and field models active'}>
-            <span className="pulse-dot"></span>
-            <span>{language === 'bn' ? 'ফিল্ড রেডি' : 'Field Ready'}</span>
-          </div>
-        </div>
-
-        {/* Center: Agro-AI Logo */}
-        <div className="navbar-logo" onClick={() => setActiveTab('home')} style={{ cursor: 'pointer' }}>
+        {/* Brand Logo & Title */}
+        <div 
+          className="navbar-brand-wrapper" 
+          onClick={() => setActiveTab('home')} 
+          style={{ cursor: 'pointer' }}
+        >
           <div className="logo-icon">
-            <Sprout size={28} color="#059669" />
+            <Sprout size={24} color="#059669" />
           </div>
-          <div>
-            <h1 className="logo-title">Agro-AI</h1>
+          <div className="brand-text-block">
+            <div className="brand-title-row">
+              <h1 className="logo-title">Agro-AI</h1>
+              <span className="brand-hackathon-pill">BUP '26</span>
+            </div>
             <p className="logo-subtitle">
-              {language === 'bn' ? 'কৃষি পরামর্শ ও ফিল্ড ইন্টেলিজেন্স প্ল্যাটফর্ম' : 'Smart Agricultural Advisory Platform'}
+              {language === 'bn' ? 'কৃষি পরামর্শ ও ফিল্ড ইন্টেলিজেন্স' : 'Smart Agricultural Advisory'}
             </p>
           </div>
         </div>
 
-        {/* Top Right: Language Toggle (Bangla / English) */}
-        <div className="navbar-top-right">
+        {/* Middle: Location Pill & Field Ready Status */}
+        <div className="navbar-center-actions">
+          <button
+            type="button"
+            className="navbar-location-btn"
+            onClick={onOpenGpsModal}
+            title={language === 'bn' ? 'মাঠের জিপিএস বা জেলা নির্বাচন করুন' : 'Select Field GPS / District'}
+          >
+            <MapPin size={14} className="text-emerald location-pin-icon" />
+            <span className="navbar-location-text">{locationDisplay}</span>
+            <span className="location-edit-pill">
+              {gpsLocation ? (language === 'bn' ? 'পরিবর্তন' : 'Edit') : (language === 'bn' ? 'যুক্ত করুন' : 'Add')}
+            </span>
+          </button>
+
+          <div 
+            className="field-ready-badge" 
+            title={language === 'bn' ? 'মাঠ পর্যায়ের অফলাইন ক্যাশ ও স্থানীয় এআই সক্রিয়' : 'Offline local cache and field models active'}
+          >
+            <span className="pulse-dot"></span>
+            <span className="field-ready-text">{language === 'bn' ? 'ফিল্ড রেডি' : 'Field Ready'}</span>
+          </div>
+        </div>
+
+        {/* Right: Language Switcher Pill */}
+        <div className="navbar-right-actions">
           <div className="lang-toggle-pill" role="group" aria-label="Language Toggle">
             <button
               type="button"
@@ -96,14 +113,14 @@ export default function Navbar({
       <nav className="navbar-tabs">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = activeTab === item.id;
+          const isActive = activeTab === item.id || (item.id === 'aichat' && activeTab === 'task1');
           return (
             <button
               key={item.id}
               className={`nav-tab-btn ${isActive ? 'active' : ''}`}
               onClick={() => setActiveTab(item.id)}
             >
-              <Icon size={18} />
+              <Icon size={17} />
               <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
             </button>
           );
@@ -112,30 +129,50 @@ export default function Navbar({
 
       {/* Mobile Sidebar Overlay & Drawer */}
       {menuOpen && (
-        <div className="sidebar-overlay" onClick={() => setMenuOpen(false)} />
+        <div className="sidebar-overlay animate-fade-in" onClick={() => setMenuOpen(false)} />
       )}
 
       <nav className={`sidebar-drawer ${menuOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <span className="sidebar-title">{language === 'bn' ? 'মেনু' : 'Menu'}</span>
+          <div className="sidebar-brand">
+            <Sprout size={20} color="#059669" />
+            <span className="sidebar-title">Agro-AI</span>
+          </div>
           <button className="sidebar-close-btn" onClick={() => setMenuOpen(false)} aria-label="Close menu">
-            <X size={22} />
+            <X size={20} />
           </button>
         </div>
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              className={`sidebar-nav-btn ${isActive ? 'active' : ''}`}
-              onClick={() => handleNavClick(item.id)}
-            >
-              <Icon size={20} />
-              <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
-            </button>
-          );
-        })}
+
+        <div className="sidebar-location-box">
+          <button
+            type="button"
+            className="navbar-location-btn sidebar-loc-btn"
+            onClick={() => {
+              setMenuOpen(false);
+              onOpenGpsModal();
+            }}
+          >
+            <MapPin size={15} className="text-emerald" />
+            <span className="navbar-location-text">{locationDisplay}</span>
+          </button>
+        </div>
+
+        <div className="sidebar-nav-list">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id || (item.id === 'aichat' && activeTab === 'task1');
+            return (
+              <button
+                key={item.id}
+                className={`sidebar-nav-btn ${isActive ? 'active' : ''}`}
+                onClick={() => handleNavClick(item.id)}
+              >
+                <Icon size={19} />
+                <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
+              </button>
+            );
+          })}
+        </div>
       </nav>
     </header>
   );

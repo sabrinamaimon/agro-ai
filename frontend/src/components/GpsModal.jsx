@@ -197,17 +197,59 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
             </span>
           </button>
           
-          {!activeGps && (
-            <button
-              type="button"
-              className="btn-gps-secondary mt-2"
-              onClick={onClose}
-            >
-              {language === 'bn' ? 'এখন নয় / পরে চালু করব' : 'Not Now / Skip'}
-            </button>
-          )}
+          <div className="manual-location-divider mt-4">
+            <span>{language === 'bn' ? 'অথবা আপনার জেলা / শস্য অঞ্চল নির্বাচন করুন' : 'Or Select Agricultural District / Hub'}</span>
+          </div>
 
-          <div className="gps-privacy-note mt-2">
+          {/* Quick District Grid */}
+          <div className="manual-district-grid mt-3">
+            {[
+              { nameBn: 'বগুড়া সদর', nameEn: 'Bogura Sadar', desc: 'শস্য অঞ্চল', lat: 24.8465, lon: 89.3777 },
+              { nameBn: 'রংপুর সদর', nameEn: 'Rangpur Sadar', desc: 'আলু হাব', lat: 25.7439, lon: 89.2752 },
+              { nameBn: 'দিনাজপুর সদর', nameEn: 'Dinajpur Sadar', desc: 'ধান ও লিচু', lat: 25.6279, lon: 88.6332 },
+              { nameBn: 'রাজশাহী সদর', nameEn: 'Rajshahi Sadar', desc: 'আম ও রবিশস্য', lat: 24.3636, lon: 88.6241 },
+              { nameBn: 'যশোর সদর', nameEn: 'Jashore Sadar', desc: 'সবজি ভান্ডার', lat: 23.1664, lon: 89.2081 },
+              { nameBn: 'ময়মনসিংহ সদর', nameEn: 'Mymensingh Sadar', desc: 'ধান ও মৎস্য', lat: 24.7471, lon: 90.4203 },
+              { nameBn: 'কুমিল্লা সদর', nameEn: 'Cumilla Sadar', desc: 'ধান ও রবিশস্য', lat: 23.4682, lon: 91.1788 },
+              { nameBn: 'পাবনা সদর', nameEn: 'Pabna Sadar', desc: 'পেঁয়াজ হাব', lat: 24.0064, lon: 89.2372 },
+              { nameBn: 'ঢাকা সেন্ট্রাল', nameEn: 'Dhaka Central', desc: 'সদর অঞ্চল', lat: 23.8103, lon: 90.4125 },
+              { nameBn: 'বরিশাল সদর', nameEn: 'Barishal Sadar', desc: 'ধানের অঞ্চল', lat: 22.7010, lon: 90.3535 },
+              { nameBn: 'সিলেট সদর', nameEn: 'Sylhet Sadar', desc: 'চা ও হাওর', lat: 24.8949, lon: 91.8687 },
+              { nameBn: 'নাটোর সদর', nameEn: 'Natore Sadar', desc: 'রসুন ও ফসল', lat: 24.4102, lon: 88.9796 },
+            ].map((dist, idx) => {
+              const isSelected = activeGps && (activeGps.district === dist.nameBn || activeGps.areaName?.includes(dist.nameBn));
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  className={`district-select-chip ${isSelected ? 'active' : ''}`}
+                  onClick={() => {
+                    const gpsObj = {
+                      lat: dist.lat,
+                      lon: dist.lon,
+                      accuracy: 50,
+                      areaName: `${dist.nameBn} (${language === 'bn' ? dist.desc : dist.nameEn})`,
+                      areaNameEn: `${dist.nameEn} (${dist.desc})`,
+                      district: dist.nameBn,
+                      isGps: false,
+                      timestamp: Date.now()
+                    };
+                    setDetectedData(gpsObj);
+                    onGpsDetected(gpsObj);
+                    setTimeout(() => {
+                      onClose();
+                    }, 400);
+                  }}
+                >
+                  <MapPin size={13} className={isSelected ? 'text-emerald' : 'text-muted'} />
+                  <span className="district-name">{language === 'bn' ? dist.nameBn : dist.nameEn}</span>
+                  <span className="district-tag">{dist.desc}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="gps-privacy-note mt-3">
             <ShieldCheck size={14} className="text-emerald" />
             <span>
               {language === 'bn' 

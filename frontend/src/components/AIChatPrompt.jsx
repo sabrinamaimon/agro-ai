@@ -1,22 +1,35 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Send, Sparkles, Bot, User, Volume2, Copy, Check, CornerDownLeft } from 'lucide-react';
+import { MessageSquare, Send, Sparkles, Bot, User, Volume2, Copy, Check, CornerDownLeft, Mic, MicOff } from 'lucide-react';
 import { sendAgroChatPrompt } from '../services/api';
 
-export default function AIChatPrompt({ language }) {
+export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }) {
   const [messages, setMessages] = useState([
     {
       sender: 'ai',
       text: language === 'bn' 
-        ? 'স্বাগতম! আমি আপনার Agro-AI সহকারী। ফসল, সার, কীটনাশক বা রোগবালাই নিয়ে যেকোনো প্রশ্ন লিখে ফেলুন, আমি সাথে সাথে সমাধান দিচ্ছি।'
-        : 'Welcome! I am your Agro-AI agricultural assistant. Ask me anything about your crops, fertilizers, pesticides, or diseases.',
+        ? 'স্বাগতম! আমি আপনার Agro-AI সহকারী। ফসল, সার, কীটনাশক বা রোগবালাই নিয়ে যেকোনো প্রশ্ন মুখে বলুন বা লিখে জানান, আমি সাথে সাথে সমাধান দিচ্ছি।'
+        : 'Welcome! I am your Agro-AI agricultural assistant. Ask me anything via voice or text about crops, fertilizers, pesticides, or plant diseases.',
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
   const [inputPrompt, setInputPrompt] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
+  const recognitionRef = useRef(null);
+
+  // Cleanup speech recognition on unmount
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch (e) {}
+      }
+    };
+  }, []);
 
   const samplePrompts = language === 'bn' ? [
     'আলুর ব্লাইট রোগের সবচেয়ে কার্যকর চিকিৎসা কী?',
@@ -81,6 +94,56 @@ export default function AIChatPrompt({ language }) {
       }]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const toggleListening = () => {
+    if (isListening) {
+      if (recognitionRef.current) {
+        try { recognitionRef.current.abort(); } catch (e) {}
+      }
+      setIsListening(false);
+      return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert(language === 'bn' 
+        ? 'আপনার ব্রাউজারে সরাসরি ভয়েস সমর্থন নেই। অনুগ্রহ করে গুগল ক্রোম ব্রাউজার ব্যবহার করুন অথবা লিখে দিন।' 
+        : 'Browser voice recognition is not supported. Please use Google Chrome or type your question.');
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = language === 'bn' ? 'bn-BD' : 'en-US';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
+
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognition.onerror = (event) => {
+        console.warn('Speech recognition status:', event.error);
+        setIsListening(false);
+      };
+
+      recognition.onresult = (event) => {
+        const speechResult = event.results[0][0].transcript;
+        setInputPrompt(speechResult);
+        handleSendPrompt(speechResult);
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
+    } catch (err) {
+      console.error('Speech start failed:', err);
+      setIsListening(false);
     }
   };
 
@@ -249,16 +312,36 @@ export default function AIChatPrompt({ language }) {
         <div className="chat-input-bottom-bar">
           <span className="input-shortcut-hint">
             <CornerDownLeft size={13} />
-            <span>{language === 'bn' ? 'Enter চাপলে পাঠানো হবে, Shift+Enter এ নতুন লাইন' : 'Press Enter to send, Shift+Enter for new line'}</span>
+            <span>{language === 'bn' ? 'Enter চাপলে পাঠানো হবে' : 'Press Enter to send'}</span>
           </span>
-          <button 
-            type="submit" 
-            className="btn-chat-send" 
-            disabled={loading || !inputPrompt.trim()}
-          >
-            {loading ? <Sparkles className="spin" size={16} /> : <Send size={16} />}
-            <span>{language === 'bn' ? 'পাঠান' : 'Send'}</span>
-          </button>
+
+          <div className="chat-action-buttons">
+            <button
+              type="button"
+              className={`btn-chat-mic ${isListening ? 'listening' : ''}`}
+              onClick={toggleListening}
+              disabled={loading}
+              title={isListening 
+                ? (language === 'bn' ? 'শোনা বন্ধ করুন' : 'Stop Listening') 
+                : (language === 'bn' ? 'ভয়েসে বাংলায় প্রশ্ন বলুন' : 'Speak your question in voice')}
+            >
+              {isListening ? <MicOff size={16} className="text-red animate-pulse" /> : <Mic size={16} />}
+              <span>
+                {isListening 
+                  ? (language === 'bn' ? 'শুনছি... বলুন' : 'Listening...') 
+                  : (language === 'bn' ? 'ভয়েস ইনপুট' : 'Voice Input')}
+              </span>
+            </button>
+
+            <button 
+              type="submit" 
+              className="btn-chat-send" 
+              disabled={loading || !inputPrompt.trim()}
+            >
+              {loading ? <Sparkles className="spin" size={16} /> : <Send size={16} />}
+              <span>{language === 'bn' ? 'পাঠান' : 'Send'}</span>
+            </button>
+          </div>
         </div>
       </form>
     </div>

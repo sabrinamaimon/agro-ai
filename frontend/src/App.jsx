@@ -9,6 +9,7 @@ import FertilizerCalculator from './components/FertilizerCalculator';
 import AIChatPrompt from './components/AIChatPrompt';
 import CropPassport from './components/CropPassport';
 import GpsModal from './components/GpsModal';
+import Footer from './components/Footer';
 import './App.css';
 
 export default function App() {
@@ -162,19 +163,12 @@ export default function App() {
           />
         )}
 
-        {/* AI Agro Prompt Chat Tab */}
-        {activeTab === 'aichat' && (
+        {/* AI Agro Prompt Chat & Voice Intake Tab (Merged) */}
+        {(activeTab === 'aichat' || activeTab === 'task1') && (
           <AIChatPrompt 
             language={language} 
-          />
-        )}
-
-        {/* Task 1: Voice Intake Tab */}
-        {activeTab === 'task1' && (
-          <VoiceIntake 
-            language={language} 
             gpsLocation={gpsLocation}
-            onIntakeComplete={(data) => setIntakeData(data)} 
+            onIntakeComplete={(data) => setIntakeData(data)}
           />
         )}
 
@@ -227,6 +221,12 @@ export default function App() {
           />
         )}
       </main>
+
+      {/* Professional Copyright & Farmer Helpline Footer */}
+      <Footer 
+        language={language} 
+        setActiveTab={setActiveTab} 
+      />
 
       {/* Hyperlocal GPS Activation & Calibration Modal */}
       <GpsModal

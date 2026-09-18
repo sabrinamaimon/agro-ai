@@ -4,10 +4,11 @@ import farmerImg from '../assets/farmer.png';
 
 export default function Hero({ language, setActiveTab }) {
   const cropsList = [
-    { nameBn: 'আলু (Potato)', nameEn: 'Potato', disease: 'Late Blight', img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80' },
-    { nameBn: 'ধান (Rice)', nameEn: 'Rice', disease: 'Rice Blast', img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80' },
-    { nameBn: 'টমেটো (Tomato)', nameEn: 'Tomato', disease: 'Leaf Curl Virus', img: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?auto=format&fit=crop&w=600&q=80' },
-    { nameBn: 'গম (Wheat)', nameEn: 'Wheat', disease: 'Wheat Rust', img: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80' }
+    { nameBn: 'আলু (Potato)', nameEn: 'Potato', disease: 'Late Blight', img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80', tag: '৯৬% নির্ভুল' },
+    { nameBn: 'ধান (Rice)', nameEn: 'Rice', disease: 'Rice Blast', img: 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=600&q=80', tag: '৯৮% নির্ভুল' },
+    { nameBn: 'টমেটো (Tomato)', nameEn: 'Tomato', disease: 'Leaf Curl Virus', img: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?auto=format&fit=crop&w=600&q=80', tag: '৯৫% নির্ভুল' },
+    { nameBn: 'গম (Wheat)', nameEn: 'Wheat', disease: 'Wheat Rust', img: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80', tag: '৯৪% নির্ভুল' },
+    { nameBn: 'ভুট্টা (Maize)', nameEn: 'Maize', disease: 'Leaf Blight', img: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=600&q=80', tag: '৯৩% নির্ভুল' }
   ];
 
   return (
@@ -94,16 +95,25 @@ export default function Hero({ language, setActiveTab }) {
 
         <div className="crops-grid">
           {cropsList.map((crop, idx) => (
-            <div className="crop-card" key={idx}>
-              <img 
-                src={crop.img} 
-                alt={crop.nameEn} 
-                className="crop-img" 
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80';
-                }}
-              />
+            <div 
+              className="crop-card interactive-card" 
+              key={idx}
+              onClick={() => setActiveTab('task2')}
+              title={language === 'bn' ? `${crop.nameBn} রোগ স্ক্যান করতে ক্লিক করুন` : `Click to scan ${crop.nameEn}`}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="crop-img-wrap">
+                <img 
+                  src={crop.img} 
+                  alt={crop.nameEn} 
+                  className="crop-img" 
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80';
+                  }}
+                />
+                <span className="crop-accuracy-badge">{crop.tag}</span>
+              </div>
               <div className="crop-info">
                 <h4>{language === 'bn' ? crop.nameBn : crop.nameEn}</h4>
                 <span className="text-xs text-muted">Pathology: {crop.disease}</span>
