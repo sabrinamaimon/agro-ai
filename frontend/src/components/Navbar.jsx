@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sprout, Globe, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation, MapPin } from 'lucide-react';
+import { Sprout, Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, Navigation, MapPin } from 'lucide-react';
 
 export default function Navbar({
   language,
@@ -171,29 +171,6 @@ export default function Navbar({
               </button>
             );
           })}
-        </div>
-
-        <div className="sidebar-footer">
-          <div className="sidebar-lang-label">
-            <Globe size={16} />
-            <span>{language === 'bn' ? 'ভাষা' : 'Language'}</span>
-          </div>
-          <div className="lang-toggle-pill">
-            <button
-              type="button"
-              className={`lang-pill-btn ${language === 'bn' ? 'active' : ''}`}
-              onClick={() => { setLanguage('bn'); setMenuOpen(false); }}
-            >
-              বাংলা
-            </button>
-            <button
-              type="button"
-              className={`lang-pill-btn ${language === 'en' ? 'active' : ''}`}
-              onClick={() => { setLanguage('en'); setMenuOpen(false); }}
-            >
-              English
-            </button>
-          </div>
         </div>
       </nav>
     </header>
