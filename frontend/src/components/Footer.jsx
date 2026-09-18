@@ -13,12 +13,6 @@ export default function Footer({ language }) {
         <p className="copyright-text">
           &copy; {new Date().getFullYear()} Agro-AI. {language === 'bn' ? 'সর্বস্বত্ব সংরক্ষিত।' : 'All Rights Reserved.'}
         </p>
-        <span className="footer-dot">•</span>
-        <span className="footer-event-tag">
-          {language === 'bn' 
-            ? 'বিইউপি সিএসই ফেস্ট ২০২৬ হ্যাকাথন (পরিধি সহযোগিতায়)' 
-            : 'BUP CSE FEST 2026 Hackathon (With Poridhi)'}
-        </span>
       </div>
     </footer>
   );

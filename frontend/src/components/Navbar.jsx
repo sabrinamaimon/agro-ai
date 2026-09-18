@@ -54,7 +54,6 @@ export default function Navbar({
           <div className="brand-text-block">
             <div className="brand-title-row">
               <h1 className="logo-title">Agro-AI</h1>
-              <span className="brand-hackathon-pill">BUP '26</span>
             </div>
             <p className="logo-subtitle">
               {language === 'bn' ? 'কৃষি পরামর্শ ও ফিল্ড ইন্টেলিজেন্স' : 'Smart Agricultural Advisory'}
