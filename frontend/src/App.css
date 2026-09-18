@@ -5026,232 +5026,59 @@ select.input-field {
 }
 
 /* ========================================================
-   Complete Professional Agro-AI Footer
+   Minimalist Copyright Footer
    ======================================================== */
-.app-footer {
-  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 2.25rem 2rem 1.5rem 2rem;
-  margin-top: 3rem;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
-}
-
-.footer-top-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1.2fr 1.4fr;
-  gap: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid #E2E8F0;
-}
-
-@media (max-width: 900px) {
-  .footer-top-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.75rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .footer-top-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
-
-.footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  margin-bottom: 0.75rem;
-}
-
-.footer-logo-icon {
-  background: #ECFDF5;
-  border: 1.5px solid #A7F3D0;
-  border-radius: 10px;
-  padding: 0.45rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.footer-brand-title {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--primary-emerald);
-  margin: 0;
-  line-height: 1.1;
-}
-
-.footer-brand-sub {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin: 0;
-}
-
-.footer-mission-text {
-  font-size: 0.85rem;
-  color: #475569;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-}
-
-.footer-hackathon-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  background: #ECFDF5;
-  border: 1px solid #6EE7B7;
-  color: #065F46;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.35rem 0.7rem;
-  border-radius: 14px;
-}
-
-.footer-col-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #1E293B;
-  margin-bottom: 1rem;
-  position: relative;
-  padding-bottom: 0.35rem;
-}
-
-.footer-col-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 28px;
-  height: 2px;
-  background: var(--primary-emerald);
-  border-radius: 2px;
-}
-
-.footer-nav-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.footer-nav-list button {
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: 0.85rem;
-  color: #64748B;
-  cursor: pointer;
-  text-align: left;
-  transition: color 0.2s;
-}
-
-.footer-nav-list button:hover {
-  color: var(--primary-emerald);
-  text-decoration: underline;
-}
-
-.footer-helpline-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.helpline-item {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+.app-footer-minimal {
   background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 10px;
-  padding: 0.55rem 0.75rem;
-  text-decoration: none;
-  color: inherit;
-  transition: all 0.2s ease;
-}
-
-.helpline-item:hover {
-  border-color: #6EE7B7;
-  background: #F0FDF4;
-  transform: translateX(3px);
-}
-
-.helpline-item strong {
-  display: block;
-  font-size: 0.92rem;
-  color: #1E293B;
-  line-height: 1.1;
-}
-
-.helpline-item span {
-  font-size: 0.72rem;
-  color: #64748B;
-}
-
-.team-credit-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-}
-
-.team-member-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.55rem;
-}
-
-.team-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--primary-emerald);
-  border-radius: 50%;
-  margin-top: 5px;
-  flex-shrink: 0;
-}
-
-.team-member-item strong {
-  display: block;
-  font-size: 0.85rem;
-  color: #1E293B;
-  line-height: 1.2;
-}
-
-.team-member-item span {
-  font-size: 0.72rem;
-  color: #64748B;
-}
-
-.footer-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  background: #ECFDF5;
-  border: 1px solid #A7F3D0;
-  color: #065F46;
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 0.3rem 0.65rem;
-  border-radius: 14px;
-}
-
-.footer-bottom-strip {
-  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+  padding: 1.25rem 1rem;
+  margin-top: 2.5rem;
   text-align: center;
 }
 
-.copyright-text {
-  font-size: 0.8rem;
+.footer-minimal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  font-size: 0.82rem;
   color: #64748B;
-  margin: 0;
 }
 
-.footer-event-note {
-  display: inline-block;
-  margin-left: 0.5rem;
+.footer-mini-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 700;
+  color: var(--primary-emerald);
+}
+
+.footer-brand-name {
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+}
+
+.footer-dot {
+  color: #CBD5E1;
+}
+
+.copyright-text {
+  margin: 0;
+  color: #475569;
+}
+
+.footer-event-tag {
   color: #059669;
   font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .footer-minimal-container {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .footer-dot {
+    display: none;
+  }
 }
