@@ -39,7 +39,7 @@ export default function Navbar({
           onClick={() => setMenuOpen(true)} 
           aria-label="Open navigation menu"
         >
-          <Menu size={22} />
+          <Menu size={22} strokeWidth={2.4} />
         </button>
 
         {/* Brand Logo & Title */}
@@ -171,6 +171,29 @@ export default function Navbar({
               </button>
             );
           })}
+        </div>
+
+        <div className="sidebar-footer">
+          <div className="sidebar-lang-label">
+            <Globe size={16} />
+            <span>{language === 'bn' ? 'ভাষা' : 'Language'}</span>
+          </div>
+          <div className="lang-toggle-pill">
+            <button
+              type="button"
+              className={`lang-pill-btn ${language === 'bn' ? 'active' : ''}`}
+              onClick={() => { setLanguage('bn'); setMenuOpen(false); }}
+            >
+              বাংলা
+            </button>
+            <button
+              type="button"
+              className={`lang-pill-btn ${language === 'en' ? 'active' : ''}`}
+              onClick={() => { setLanguage('en'); setMenuOpen(false); }}
+            >
+              English
+            </button>
+          </div>
         </div>
       </nav>
     </header>
