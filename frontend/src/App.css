@@ -5078,6 +5078,11 @@ select.input-field {
   text-align: center;
 }
 
+.app-footer-minimal.compact-footer {
+  padding: 0.9rem 1rem;
+  margin-top: 2rem;
+}
+
 .farmer-helpline-section {
   max-width: 950px;
   margin: 0 auto 1.25rem auto;

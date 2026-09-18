@@ -1,7 +1,9 @@
 import React from 'react';
 import { Sprout, PhoneCall } from 'lucide-react';
 
-export default function Footer({ language }) {
+export default function Footer({ language, activeTab = 'home' }) {
+  const isHome = activeTab === 'home';
+
   const helplines = [
     {
       number: '16123',
@@ -30,38 +32,40 @@ export default function Footer({ language }) {
   ];
 
   return (
-    <footer className="app-footer-minimal mt-5">
-      {/* Farmer Emergency Helplines Strip */}
-      <div className="farmer-helpline-section">
-        <div className="helpline-header">
-          <PhoneCall size={18} color="#059669" />
-          <span className="helpline-title">
-            {language === 'bn' ? 'কৃষক জরুরি হেল্পলাইন (সরাসরি কল করতে ট্যাপ করুন)' : 'Farmer Emergency Helplines (Tap to Call)'}
-          </span>
-        </div>
+    <footer className={`app-footer-minimal ${isHome ? 'mt-5' : 'compact-footer mt-4'}`}>
+      {/* Farmer Emergency Helplines Strip - Only on Homepage */}
+      {isHome && (
+        <div className="farmer-helpline-section">
+          <div className="helpline-header">
+            <PhoneCall size={18} color="#059669" />
+            <span className="helpline-title">
+              {language === 'bn' ? 'কৃষক জরুরি হেল্পলাইন (সরাসরি কল করতে ট্যাপ করুন)' : 'Farmer Emergency Helplines (Tap to Call)'}
+            </span>
+          </div>
 
-        <div className="helpline-cards-row">
-          {helplines.map((item, idx) => (
-            <a 
-              key={idx} 
-              href={`tel:${item.number}`} 
-              className="helpline-pill-card"
-              title={language === 'bn' ? `${item.number} এ কল করুন` : `Call ${item.number}`}
-            >
-              <div className="helpline-icon-wrap">
-                <PhoneCall size={16} color={item.iconColor} />
-              </div>
-              <div className="helpline-text-wrap">
-                <div className="helpline-number-row">
-                  <strong className="helpline-num">{item.number}</strong>
-                  <span className="helpline-sub">{language === 'bn' ? item.subBn : item.subEn}</span>
+          <div className="helpline-cards-row">
+            {helplines.map((item, idx) => (
+              <a 
+                key={idx} 
+                href={`tel:${item.number}`} 
+                className="helpline-pill-card"
+                title={language === 'bn' ? `${item.number} এ কল করুন` : `Call ${item.number}`}
+              >
+                <div className="helpline-icon-wrap">
+                  <PhoneCall size={16} color={item.iconColor} />
                 </div>
-                <span className="helpline-label">{language === 'bn' ? item.titleBn : item.titleEn}</span>
-              </div>
-            </a>
-          ))}
+                <div className="helpline-text-wrap">
+                  <div className="helpline-number-row">
+                    <strong className="helpline-num">{item.number}</strong>
+                    <span className="helpline-sub">{language === 'bn' ? item.subBn : item.subEn}</span>
+                  </div>
+                  <span className="helpline-label">{language === 'bn' ? item.titleBn : item.titleEn}</span>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Bottom Minimal Copyright */}
       <div className="footer-bottom-strip">

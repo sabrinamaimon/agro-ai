@@ -281,6 +281,7 @@ export default function App() {
       {/* Professional Copyright & Farmer Helpline Footer */}
       <Footer 
         language={language} 
+        activeTab={activeTab}
         setActiveTab={setActiveTab} 
       />
 
