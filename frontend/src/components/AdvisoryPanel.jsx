@@ -70,10 +70,9 @@ export default function AdvisoryPanel({
       case 'safe':
       case 'favorable':
         return {
-          bg: '#ECFDF5',
-          border: '#A7F3D0',
-          text: '#065F46',
-          dot: '#10B981',
+          levelKey: 'safe',
+          level: 1,
+          levelText: language === 'bn' ? 'অনুকূল' : 'Optimal',
           label: language === 'bn' ? 'অনুকূল ও নিরাপদ' : 'Favorable / Safe',
           icon: CheckCircle
         };
@@ -82,10 +81,9 @@ export default function AdvisoryPanel({
       case 'irrigate':
       case 'medium':
         return {
-          bg: '#FFFBEB',
-          border: '#FDE68A',
-          text: '#92400E',
-          dot: '#F59E0B',
+          levelKey: 'warning',
+          level: 2,
+          levelText: language === 'bn' ? 'সতর্কতা' : 'Caution',
           label: language === 'bn' ? 'সতর্কতা প্রয়োজন' : 'Caution Advised',
           icon: AlertTriangle
         };
@@ -93,19 +91,17 @@ export default function AdvisoryPanel({
       case 'pause':
       case 'high':
         return {
-          bg: '#FEF2F2',
-          border: '#FECACA',
-          text: '#991B1B',
-          dot: '#EF4444',
+          levelKey: 'danger',
+          level: 3,
+          levelText: language === 'bn' ? 'উচ্চ ঝুঁকি' : 'High Risk',
           label: language === 'bn' ? 'উচ্চ ঝুঁকি / স্থগিত রাখুন' : 'High Risk / Hold Off',
           icon: ShieldAlert
         };
       default:
         return {
-          bg: '#F8FAFC',
-          border: '#E2E8F0',
-          text: '#374151',
-          dot: '#64748B',
+          levelKey: 'safe',
+          level: 1,
+          levelText: language === 'bn' ? 'স্বাভাবিক' : 'Normal',
           label: language === 'bn' ? 'স্বাভাবিক' : 'Normal',
           icon: CheckCircle
         };
@@ -315,10 +311,10 @@ export default function AdvisoryPanel({
                 const badge = getStatusBadge(spray.status);
                 const BadgeIcon = badge.icon;
                 return (
-                  <div key="spray" className={`advisory-card-premium status-${spray.status}`}>
+                  <div key="spray" className={`advisory-card-premium status-${badge.levelKey}`}>
                     <div className="advisory-card-body">
-                      <div className={`advisory-icon-squircle spray-squircle status-${spray.status}`}>
-                        <FlaskConical size={24} />
+                      <div className={`advisory-icon-squircle theme-spray status-${badge.levelKey}`}>
+                        <FlaskConical size={22} />
                       </div>
                       <div className="advisory-content-wrap">
                         <div className="advisory-header-row">
@@ -328,29 +324,44 @@ export default function AdvisoryPanel({
                             </span>
                             <h4 className="advisory-title">{spray.title}</h4>
                           </div>
-                          <span 
-                            className="status-pill-premium"
-                            style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
-                          >
-                            <span className="status-dot-pulse" style={{ backgroundColor: badge.dot }} />
-                            <BadgeIcon size={14} />
-                            <span>{badge.label}</span>
-                          </span>
+
+                          <div className="status-indicator-cluster">
+                            <div 
+                              className={`status-micro-meter level-${badge.levelKey}`} 
+                              title={`${language === 'bn' ? 'ঝুঁকি মাত্রা' : 'Risk Level'}: ${badge.levelText}`}
+                            >
+                              <span className={`meter-bar bar-1 ${badge.level >= 1 ? 'filled' : ''}`} />
+                              <span className={`meter-bar bar-2 ${badge.level >= 2 ? 'filled' : ''}`} />
+                              <span className={`meter-bar bar-3 ${badge.level >= 3 ? 'filled' : ''}`} />
+                            </div>
+
+                            <span className={`status-pill-studio status-${badge.levelKey}`}>
+                              <span className="status-beacon">
+                                <span className="beacon-ping" />
+                                <span className="beacon-core" />
+                              </span>
+                              <BadgeIcon size={14} className="status-badge-icon" />
+                              <span className="status-badge-label">{badge.label}</span>
+                            </span>
+                          </div>
                         </div>
+
                         <p className="advisory-desc-premium">{spray.desc}</p>
+
                         <div className="advisory-metrics-row">
                           <span className="metric-chip">
-                            <Wind size={14} className="text-teal" />
-                            <span>{language === 'bn' ? 'বাতাস: ' : 'Wind: '}{weatherData.windSpeed} কিমি/ঘণ্টা</span>
+                            <Wind size={14} className="metric-icon-wind" />
+                            <span className="metric-label">{language === 'bn' ? 'বাতাস:' : 'Wind:'}</span>
+                            <strong className="metric-val">{weatherData.windSpeed} কিমি/ঘণ্টা</strong>
                           </span>
                           <span className="metric-chip">
-                            <CloudRain size={14} className="text-rose" />
-                            <span>
-                              {language === 'bn' ? 'বৃষ্টির ঝুঁকি: ' : 'Rain Risk: '}
+                            <CloudRain size={14} className="metric-icon-rain" />
+                            <span className="metric-label">{language === 'bn' ? 'বৃষ্টির ঝুঁকি:' : 'Rain Risk:'}</span>
+                            <strong className="metric-val">
                               {weatherData.rainInHours > 0 && weatherData.rainInHours <= 6 
                                 ? (language === 'bn' ? `${weatherData.rainInHours} ঘণ্টার মধ্যে` : `In ${weatherData.rainInHours} hrs`)
                                 : (language === 'bn' ? 'নেই' : 'Low')}
-                            </span>
+                            </strong>
                           </span>
                         </div>
                       </div>
@@ -365,10 +376,10 @@ export default function AdvisoryPanel({
                 const badge = getStatusBadge(irr.status);
                 const BadgeIcon = badge.icon;
                 return (
-                  <div key="irrigation" className={`advisory-card-premium status-${irr.status}`}>
+                  <div key="irrigation" className={`advisory-card-premium status-${badge.levelKey}`}>
                     <div className="advisory-card-body">
-                      <div className="advisory-icon-squircle irrigation-squircle">
-                        <Droplets size={24} />
+                      <div className={`advisory-icon-squircle theme-irrigation status-${badge.levelKey}`}>
+                        <Droplets size={22} />
                       </div>
                       <div className="advisory-content-wrap">
                         <div className="advisory-header-row">
@@ -378,24 +389,40 @@ export default function AdvisoryPanel({
                             </span>
                             <h4 className="advisory-title">{irr.title}</h4>
                           </div>
-                          <span 
-                            className="status-pill-premium"
-                            style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
-                          >
-                            <span className="status-dot-pulse" style={{ backgroundColor: badge.dot }} />
-                            <BadgeIcon size={14} />
-                            <span>{badge.label}</span>
-                          </span>
+
+                          <div className="status-indicator-cluster">
+                            <div 
+                              className={`status-micro-meter level-${badge.levelKey}`} 
+                              title={`${language === 'bn' ? 'ঝুঁকি মাত্রা' : 'Risk Level'}: ${badge.levelText}`}
+                            >
+                              <span className={`meter-bar bar-1 ${badge.level >= 1 ? 'filled' : ''}`} />
+                              <span className={`meter-bar bar-2 ${badge.level >= 2 ? 'filled' : ''}`} />
+                              <span className={`meter-bar bar-3 ${badge.level >= 3 ? 'filled' : ''}`} />
+                            </div>
+
+                            <span className={`status-pill-studio status-${badge.levelKey}`}>
+                              <span className="status-beacon">
+                                <span className="beacon-ping" />
+                                <span className="beacon-core" />
+                              </span>
+                              <BadgeIcon size={14} className="status-badge-icon" />
+                              <span className="status-badge-label">{badge.label}</span>
+                            </span>
+                          </div>
                         </div>
+
                         <p className="advisory-desc-premium">{irr.desc}</p>
+
                         <div className="advisory-metrics-row">
                           <span className="metric-chip">
-                            <Droplets size={14} className="text-cyan" />
-                            <span>{language === 'bn' ? 'মাটির আর্দ্রতা পর্যবেক্ষণ' : 'Moisture Need'}</span>
+                            <Droplets size={14} className="metric-icon-moist" />
+                            <span className="metric-label">{language === 'bn' ? 'মাটির আর্দ্রতা:' : 'Moisture:'}</span>
+                            <strong className="metric-val">{language === 'bn' ? 'চাহিদা পর্যবেক্ষণ' : 'Check Demand'}</strong>
                           </span>
                           <span className="metric-chip">
-                            <Waves size={14} className="text-blue" />
-                            <span>{language === 'bn' ? '৪৮ ঘণ্টার বৃষ্টিপাত পর্যবেক্ষণ' : '48h Rain Radar'}</span>
+                            <Waves size={14} className="metric-icon-radar" />
+                            <span className="metric-label">{language === 'bn' ? 'বৃষ্টিপাত রাডার:' : 'Rain Radar:'}</span>
+                            <strong className="metric-val">{language === 'bn' ? '৪৮ ঘণ্টা নজরদারি' : '48h Watch'}</strong>
                           </span>
                         </div>
                       </div>
@@ -410,10 +437,10 @@ export default function AdvisoryPanel({
                 const badge = getStatusBadge(hrv.status);
                 const BadgeIcon = badge.icon;
                 return (
-                  <div key="harvest" className={`advisory-card-premium status-${hrv.status}`}>
+                  <div key="harvest" className={`advisory-card-premium status-${badge.levelKey}`}>
                     <div className="advisory-card-body">
-                      <div className="advisory-icon-squircle harvest-squircle">
-                        <Sun size={24} />
+                      <div className={`advisory-icon-squircle theme-harvest status-${badge.levelKey}`}>
+                        <Sun size={22} />
                       </div>
                       <div className="advisory-content-wrap">
                         <div className="advisory-header-row">
@@ -423,24 +450,40 @@ export default function AdvisoryPanel({
                             </span>
                             <h4 className="advisory-title">{hrv.title}</h4>
                           </div>
-                          <span 
-                            className="status-pill-premium"
-                            style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
-                          >
-                            <span className="status-dot-pulse" style={{ backgroundColor: badge.dot }} />
-                            <BadgeIcon size={14} />
-                            <span>{badge.label}</span>
-                          </span>
+
+                          <div className="status-indicator-cluster">
+                            <div 
+                              className={`status-micro-meter level-${badge.levelKey}`} 
+                              title={`${language === 'bn' ? 'ঝুঁকি মাত্রা' : 'Risk Level'}: ${badge.levelText}`}
+                            >
+                              <span className={`meter-bar bar-1 ${badge.level >= 1 ? 'filled' : ''}`} />
+                              <span className={`meter-bar bar-2 ${badge.level >= 2 ? 'filled' : ''}`} />
+                              <span className={`meter-bar bar-3 ${badge.level >= 3 ? 'filled' : ''}`} />
+                            </div>
+
+                            <span className={`status-pill-studio status-${badge.levelKey}`}>
+                              <span className="status-beacon">
+                                <span className="beacon-ping" />
+                                <span className="beacon-core" />
+                              </span>
+                              <BadgeIcon size={14} className="status-badge-icon" />
+                              <span className="status-badge-label">{badge.label}</span>
+                            </span>
+                          </div>
                         </div>
+
                         <p className="advisory-desc-premium">{hrv.desc}</p>
+
                         <div className="advisory-metrics-row">
                           <span className="metric-chip">
-                            <Sun size={14} className="text-amber" />
-                            <span>{language === 'bn' ? 'রোদে শুকানোর সুযোগ' : 'Sun Drying Viability'}</span>
+                            <Sun size={14} className="metric-icon-sun" />
+                            <span className="metric-label">{language === 'bn' ? 'রোদে শুকানো:' : 'Sun Drying:'}</span>
+                            <strong className="metric-val">{language === 'bn' ? 'সুযোগ ও পরিস্থিতি' : 'Viability'}</strong>
                           </span>
                           <span className="metric-chip">
-                            <Leaf size={14} className="text-emerald" />
-                            <span>{language === 'bn' ? 'মাড়াই ও গুদামজাতকরণ' : 'Threshing & Storage'}</span>
+                            <Leaf size={14} className="metric-icon-leaf" />
+                            <span className="metric-label">{language === 'bn' ? 'মাড়াই ও গুদাম:' : 'Storage:'}</span>
+                            <strong className="metric-val">{language === 'bn' ? 'সুরক্ষিত রাখুন' : 'Keep Protected'}</strong>
                           </span>
                         </div>
                       </div>
@@ -455,10 +498,10 @@ export default function AdvisoryPanel({
                 const badge = getStatusBadge(dis.status);
                 const BadgeIcon = badge.icon;
                 return (
-                  <div key="diseaseRisk" className={`advisory-card-premium status-${dis.status}`}>
+                  <div key="diseaseRisk" className={`advisory-card-premium status-${badge.levelKey}`}>
                     <div className="advisory-card-body">
-                      <div className={`advisory-icon-squircle disease-squircle status-${dis.status}`}>
-                        <ShieldAlert size={24} />
+                      <div className={`advisory-icon-squircle theme-disease status-${badge.levelKey}`}>
+                        <ShieldAlert size={22} />
                       </div>
                       <div className="advisory-content-wrap">
                         <div className="advisory-header-row">
@@ -468,24 +511,40 @@ export default function AdvisoryPanel({
                             </span>
                             <h4 className="advisory-title">{dis.title}</h4>
                           </div>
-                          <span 
-                            className="status-pill-premium"
-                            style={{ backgroundColor: badge.bg, borderColor: badge.border, color: badge.text }}
-                          >
-                            <span className="status-dot-pulse" style={{ backgroundColor: badge.dot }} />
-                            <BadgeIcon size={14} />
-                            <span>{badge.label}</span>
-                          </span>
+
+                          <div className="status-indicator-cluster">
+                            <div 
+                              className={`status-micro-meter level-${badge.levelKey}`} 
+                              title={`${language === 'bn' ? 'ঝুঁকি মাত্রা' : 'Risk Level'}: ${badge.levelText}`}
+                            >
+                              <span className={`meter-bar bar-1 ${badge.level >= 1 ? 'filled' : ''}`} />
+                              <span className={`meter-bar bar-2 ${badge.level >= 2 ? 'filled' : ''}`} />
+                              <span className={`meter-bar bar-3 ${badge.level >= 3 ? 'filled' : ''}`} />
+                            </div>
+
+                            <span className={`status-pill-studio status-${badge.levelKey}`}>
+                              <span className="status-beacon">
+                                <span className="beacon-ping" />
+                                <span className="beacon-core" />
+                              </span>
+                              <BadgeIcon size={14} className="status-badge-icon" />
+                              <span className="status-badge-label">{badge.label}</span>
+                            </span>
+                          </div>
                         </div>
+
                         <p className="advisory-desc-premium">{dis.desc}</p>
+
                         <div className="advisory-metrics-row">
                           <span className="metric-chip">
-                            <Droplets size={14} className="text-blue" />
-                            <span>{language === 'bn' ? 'আর্দ্রতা: ' : 'RH: '}{weatherData.humidity}%</span>
+                            <Droplets size={14} className="metric-icon-moist" />
+                            <span className="metric-label">{language === 'bn' ? 'আর্দ্রতা:' : 'RH:'}</span>
+                            <strong className="metric-val">{weatherData.humidity}%</strong>
                           </span>
                           <span className="metric-chip">
-                            <ShieldAlert size={14} className="text-rose" />
-                            <span>{language === 'bn' ? 'ছত্রাক স্পোর বিস্তার অনুকূল' : 'Fungal Proliferation'}</span>
+                            <ShieldAlert size={14} className="metric-icon-spore" />
+                            <span className="metric-label">{language === 'bn' ? 'ছত্রাক বিস্তার:' : 'Fungal Proliferation:'}</span>
+                            <strong className="metric-val">{language === 'bn' ? 'অনুকূল' : 'Favored'}</strong>
                           </span>
                         </div>
                       </div>

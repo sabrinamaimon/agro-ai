@@ -3540,9 +3540,9 @@ select.input-field {
 .advisory-card-premium {
   border-radius: 18px;
   border: 1.5px solid #E2E8F0;
-  background: #FFFFFF;
-  padding: 1.35rem 1.5rem;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  background-color: #FFFFFF;
+  padding: 1.35rem 1.6rem;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03), 0 6px 18px -3px rgba(15, 23, 42, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   position: relative;
   overflow: hidden;
@@ -3550,33 +3550,46 @@ select.input-field {
 
 .advisory-card-premium:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.03);
 }
 
-/* Status specific side border & ambient tint */
+/* Atmospheric Ambient Surface Glows (Zero harsh left lines) */
 .advisory-card-premium.status-danger,
 .advisory-card-premium.status-pause,
 .advisory-card-premium.status-high {
+  background: radial-gradient(420px circle at top right, rgba(254, 226, 226, 0.45) 0%, rgba(255, 255, 255, 0) 70%), #FFFFFF;
+  border-color: #F1F5F9;
+}
+.advisory-card-premium.status-danger:hover,
+.advisory-card-premium.status-pause:hover,
+.advisory-card-premium.status-high:hover {
   border-color: #FECDD3;
-  border-left: 5px solid #EF4444;
-  background: linear-gradient(180deg, #FFFFFF 0%, #FFF8F8 100%);
 }
 
 .advisory-card-premium.status-warning,
 .advisory-card-premium.status-caution,
 .advisory-card-premium.status-irrigate,
 .advisory-card-premium.status-medium {
+  background: radial-gradient(420px circle at top right, rgba(254, 243, 199, 0.45) 0%, rgba(255, 255, 255, 0) 70%), #FFFFFF;
+  border-color: #F1F5F9;
+}
+.advisory-card-premium.status-warning:hover,
+.advisory-card-premium.status-caution:hover,
+.advisory-card-premium.status-irrigate:hover,
+.advisory-card-premium.status-medium:hover {
   border-color: #FDE68A;
-  border-left: 5px solid #F59E0B;
-  background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF5 100%);
 }
 
 .advisory-card-premium.status-safe,
 .advisory-card-premium.status-favorable,
 .advisory-card-premium.status-normal {
+  background: radial-gradient(420px circle at top right, rgba(209, 250, 229, 0.45) 0%, rgba(255, 255, 255, 0) 70%), #FFFFFF;
+  border-color: #F1F5F9;
+}
+.advisory-card-premium.status-safe:hover,
+.advisory-card-premium.status-favorable:hover,
+.advisory-card-premium.status-normal:hover {
   border-color: #A7F3D0;
-  border-left: 5px solid #10B981;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F5FDF8 100%);
 }
 
 .advisory-card-body {
@@ -3586,74 +3599,60 @@ select.input-field {
   width: 100%;
 }
 
-/* Premium Squircle Icon */
+/* Bespoke Squircle Icon */
 .advisory-icon-squircle {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
 .advisory-card-premium:hover .advisory-icon-squircle {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
-.advisory-icon-squircle.spray-squircle.status-danger,
-.advisory-icon-squircle.spray-squircle.status-pause,
-.advisory-icon-squircle.spray-squircle.status-high {
-  background: linear-gradient(135deg, #FFE4E6 0%, #FECDD3 100%);
-  color: #E11D48;
-  border: 1.5px solid #FDA4AF;
-  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.18);
-}
-
-.advisory-icon-squircle.spray-squircle.status-warning,
-.advisory-icon-squircle.spray-squircle.status-caution {
-  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-  color: #D97706;
-  border: 1.5px solid #FCD34D;
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.18);
-}
-
-.advisory-icon-squircle.spray-squircle {
-  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+.advisory-icon-squircle.theme-spray {
+  background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
   color: #059669;
-  border: 1.5px solid #6EE7B7;
-  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.18);
+  border: 1px solid #A7F3D0;
+}
+.advisory-icon-squircle.theme-spray.status-danger {
+  background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
+  color: #E11D48;
+  border: 1px solid #FECDD3;
+}
+.advisory-icon-squircle.theme-spray.status-warning {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  color: #D97706;
+  border: 1px solid #FDE68A;
 }
 
-.advisory-icon-squircle.irrigation-squircle {
-  background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+.advisory-icon-squircle.theme-irrigation {
+  background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
   color: #0284C7;
-  border: 1.5px solid #7DD3FC;
-  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.18);
+  border: 1px solid #BAE6FD;
 }
 
-.advisory-icon-squircle.harvest-squircle {
-  background: linear-gradient(135deg, #FEF9C3 0%, #FEF08A 100%);
+.advisory-icon-squircle.theme-harvest {
+  background: linear-gradient(135deg, #FEFCE8 0%, #FEF9C3 100%);
   color: #CA8A04;
-  border: 1.5px solid #FDE047;
-  box-shadow: 0 4px 14px rgba(202, 138, 4, 0.18);
+  border: 1px solid #FEF08A;
 }
 
-.advisory-icon-squircle.disease-squircle.status-danger,
-.advisory-icon-squircle.disease-squircle.status-pause,
-.advisory-icon-squircle.disease-squircle.status-high {
-  background: linear-gradient(135deg, #FCE7F3 0%, #FBCFE8 100%);
-  color: #DB2777;
-  border: 1.5px solid #F472B6;
-  box-shadow: 0 4px 14px rgba(219, 39, 119, 0.18);
-}
-
-.advisory-icon-squircle.disease-squircle {
-  background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%);
+.advisory-icon-squircle.theme-disease {
+  background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%);
   color: #7C3AED;
-  border: 1.5px solid #C4B5FD;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.18);
+  border: 1px solid #E9D5FF;
+}
+.advisory-icon-squircle.theme-disease.status-danger {
+  background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
+  color: #E11D48;
+  border: 1px solid #FECDD3;
 }
 
 /* Content Wrap */
@@ -3680,97 +3679,216 @@ select.input-field {
 }
 
 .advisory-category-label {
-  font-size: 0.74rem;
+  font-size: 0.72rem;
   font-weight: 700;
   color: #64748B;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 .advisory-title {
-  font-size: 1.08rem;
+  font-size: 1.05rem;
   font-weight: 800;
   color: #0F172A;
   margin: 0;
   line-height: 1.35;
 }
 
-/* Status Pill with Pulsing Dot */
-.status-pill-premium {
+/* Status Indicator Cluster */
+.status-indicator-cluster {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+}
+
+/* 3-Level Micro-Meter / Gauge Indicator */
+.status-micro-meter {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #F1F5F9;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid #E2E8F0;
+}
+
+.meter-bar {
+  width: 5px;
+  height: 14px;
+  border-radius: 2px;
+  background-color: #CBD5E1;
+  transition: all 0.2s ease;
+}
+
+/* Safe Level (Level 1) */
+.level-safe .meter-bar.bar-1.filled {
+  background-color: #10B981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.4);
+}
+
+/* Warning Level (Level 2) */
+.level-warning .meter-bar.bar-1.filled,
+.level-warning .meter-bar.bar-2.filled {
+  background-color: #F59E0B;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
+}
+
+/* Danger Level (Level 3) */
+.level-danger .meter-bar.bar-1.filled,
+.level-danger .meter-bar.bar-2.filled,
+.level-danger .meter-bar.bar-3.filled {
+  background-color: #EF4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
+}
+
+/* Studio Status Pill with Live Radar Beacon */
+.status-pill-studio {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   padding: 0.35rem 0.85rem;
-  border-radius: 9999px;
+  border-radius: 20px;
   font-size: 0.82rem;
-  font-weight: 700;
-  border: 1.5px solid transparent;
-  flex-shrink: 0;
+  font-weight: 650;
   white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
 }
 
-.status-dot-pulse {
+.status-pill-studio.status-safe {
+  background: rgba(236, 253, 245, 0.85);
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+}
+
+.status-pill-studio.status-warning {
+  background: rgba(255, 251, 235, 0.85);
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+.status-pill-studio.status-danger {
+  background: rgba(254, 242, 242, 0.85);
+  color: #991B1B;
+  border: 1px solid #FECACA;
+}
+
+/* Radar Beacon */
+.status-beacon {
+  position: relative;
   width: 8px;
   height: 8px;
-  border-radius: 50%;
-  display: inline-block;
-  animation: pulse-advisory-dot 2s infinite ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-@keyframes pulse-advisory-dot {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
+.beacon-core {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+}
+
+.beacon-ping {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: beacon-ripple 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  z-index: 1;
+}
+
+@keyframes beacon-ripple {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
   }
-  50% {
-    transform: scale(1.35);
-    opacity: 0.6;
+  70%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
   }
+}
+
+.status-safe .beacon-core { background-color: #10B981; }
+.status-safe .beacon-ping { background-color: #10B981; }
+
+.status-warning .beacon-core { background-color: #F59E0B; }
+.status-warning .beacon-ping { background-color: #F59E0B; }
+
+.status-danger .beacon-core { background-color: #EF4444; }
+.status-danger .beacon-ping { background-color: #EF4444; }
+
+.status-badge-icon {
+  flex-shrink: 0;
+}
+
+.status-badge-label {
+  line-height: 1;
 }
 
 .advisory-desc-premium {
-  font-size: 0.94rem;
-  color: #334155;
-  line-height: 1.6;
+  font-size: 0.93rem;
+  color: #475569;
+  line-height: 1.62;
   margin: 0.65rem 0 0.85rem;
 }
 
-/* Metrics Row */
+/* Hairline Solid Separator & Modern Data Badges */
 .advisory-metrics-row {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
   align-items: center;
-  padding-top: 0.75rem;
-  border-top: 1px dashed #E2E8F0;
+  margin-top: 0.25rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #F1F5F9;
 }
 
 .metric-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   padding: 0.35rem 0.8rem;
   border-radius: 8px;
-  background: #FFFFFF;
+  background: #F8FAFC;
   border: 1px solid #E2E8F0;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.82rem;
   color: #475569;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition: all 0.15s ease;
 }
 
 .metric-chip:hover {
-  background: #F8FAFC;
+  background: #F1F5F9;
   border-color: #CBD5E1;
+}
+
+.metric-label {
+  font-weight: 500;
+  color: #64748B;
+}
+
+.metric-val {
+  font-weight: 700;
   color: #1E293B;
 }
+
+.metric-icon-wind { color: #0D9488; }
+.metric-icon-rain { color: #E11D48; }
+.metric-icon-moist { color: #0284C7; }
+.metric-icon-radar { color: #2563EB; }
+.metric-icon-sun { color: #D97706; }
+.metric-icon-leaf { color: #059669; }
+.metric-icon-spore { color: #DB2777; }
 
 /* Legacy class fallback */
 .advisory-card {
   border-radius: 16px;
-  border: 1.5px solid #E2E8F0;
+  border: 1px solid #E2E8F0;
   background: #FFFFFF;
   padding: 1.15rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
@@ -4366,6 +4484,12 @@ select.input-field {
   .advisory-header-row {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.55rem;
+  }
+
+  .status-indicator-cluster {
+    width: 100%;
+    justify-content: space-between;
     gap: 0.45rem;
   }
 
@@ -4373,9 +4497,19 @@ select.input-field {
     font-size: 0.98rem;
   }
 
-  .status-pill-premium {
+  .status-pill-studio {
     font-size: 0.74rem;
     padding: 0.22rem 0.65rem;
+  }
+
+  .status-micro-meter {
+    padding: 3px 5px;
+    gap: 2px;
+  }
+
+  .meter-bar {
+    width: 4px;
+    height: 12px;
   }
 
   .advisory-desc-premium {
@@ -4384,7 +4518,7 @@ select.input-field {
   }
 
   .metric-chip {
-    font-size: 0.74rem;
+    font-size: 0.76rem;
     padding: 0.25rem 0.6rem;
   }
 
