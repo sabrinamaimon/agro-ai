@@ -6,6 +6,12 @@ export default function FertilizerCalculator({ language }) {
   const [landSize, setLandSize] = useState('10'); // in Decimals (শতক)
   const [soilType, setSoilType] = useState('loam');
 
+  const toDigits = (num) => {
+    if (language !== 'bn') return String(num);
+    const bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return String(num).replace(/[0-9]/g, (d) => bn[d]);
+  };
+
   const calculateFertilizer = () => {
     const decimals = parseFloat(landSize) || 10;
     
@@ -88,7 +94,7 @@ export default function FertilizerCalculator({ language }) {
           <div className="stat-card">
             <div className="stat-icon green"><Sprout size={20} /></div>
             <div>
-              <h3>{result.urea} kg</h3>
+              <h3>{toDigits(result.urea)} {language === 'bn' ? 'কেজি' : 'kg'}</h3>
               <p>{language === 'bn' ? 'ইউরিয়া (Urea)' : 'Urea (N)'}</p>
             </div>
           </div>
@@ -96,7 +102,7 @@ export default function FertilizerCalculator({ language }) {
           <div className="stat-card">
             <div className="stat-icon amber"><Sprout size={20} /></div>
             <div>
-              <h3>{result.tsp} kg</h3>
+              <h3>{toDigits(result.tsp)} {language === 'bn' ? 'কেজি' : 'kg'}</h3>
               <p>{language === 'bn' ? 'টিএসপি (TSP)' : 'TSP (P)'}</p>
             </div>
           </div>
@@ -104,7 +110,7 @@ export default function FertilizerCalculator({ language }) {
           <div className="stat-card">
             <div className="stat-icon blue"><Sprout size={20} /></div>
             <div>
-              <h3>{result.mop} kg</h3>
+              <h3>{toDigits(result.mop)} {language === 'bn' ? 'কেজি' : 'kg'}</h3>
               <p>{language === 'bn' ? 'এমওপি/পটাশ (MOP)' : 'MOP Potash (K)'}</p>
             </div>
           </div>
@@ -112,7 +118,7 @@ export default function FertilizerCalculator({ language }) {
           <div className="stat-card">
             <div className="stat-icon emerald"><Sprout size={20} /></div>
             <div>
-              <h3>{result.zinc} kg</h3>
+              <h3>{toDigits(result.zinc)} {language === 'bn' ? 'কেজি' : 'kg'}</h3>
               <p>{language === 'bn' ? 'জিংক (Zinc)' : 'Zinc Sulphate'}</p>
             </div>
           </div>

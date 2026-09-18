@@ -27,6 +27,10 @@ WMO_WEATHER_MAP = {
     99: {"bn": "তীব্র বজ্রঝড় ও শিলাবৃষ্টি", "en": "Severe Thunderstorm with Hail", "icon": "⛈️"},
 }
 
+def to_bn_digits(s: Any) -> str:
+    bn_digits = str.maketrans("0123456789", "০১২৩৪৫৬৭৮৯")
+    return str(s).translate(bn_digits)
+
 def get_wmo_info(code: int, language: str = "bn") -> Dict[str, str]:
     info = WMO_WEATHER_MAP.get(int(code), {"bn": "আংশিক মেঘলা", "en": "Partly Cloudy", "icon": "⛅"})
     return {
@@ -313,9 +317,10 @@ def fetch_weather(
             formatted_hourly: List[Dict[str, Any]] = []
             for t_str, h_temp, h_hum, h_prob, h_c in zip(hourly_times, hourly_temps, hourly_hums, hourly_probs, hourly_codes):
                 dt = datetime.fromisoformat(t_str)
-                hour_label = dt.strftime("%I %p").lstrip("0")
                 if language == "bn":
-                    hour_label = hour_label.replace("AM", "সকাল").replace("PM", "বিকাল/রাত")
+                    hour_label = to_bn_digits(dt.strftime("%I %p").lstrip("0").replace("AM", "সকাল").replace("PM", "বিকাল/রাত"))
+                else:
+                    hour_label = dt.strftime("%I %p").lstrip("0")
                 info_h = get_wmo_info(h_c, language)
                 formatted_hourly.append({
                     "time": hour_label,
@@ -350,7 +355,10 @@ def fetch_weather(
             )):
                 d_obj = datetime.fromisoformat(d_str)
                 day_en = d_obj.strftime("%A")
-                day_label = "আজ" if i == 0 else ("আগামীকাল" if i == 1 else (bangla_days.get(day_en, day_en) if language == "bn" else day_en))
+                if language == "bn":
+                    day_label = "আজ" if i == 0 else ("আগামীকাল" if i == 1 else bangla_days.get(day_en, day_en))
+                else:
+                    day_label = "Today" if i == 0 else ("Tomorrow" if i == 1 else day_en)
                 info_d = get_wmo_info(d_c, language)
                 formatted_daily.append({
                     "date": d_str,
@@ -407,7 +415,11 @@ def fetch_weather(
                 },
                 "hourlyForecast": formatted_hourly,
                 "dailyForecast": formatted_daily,
-                "updatedAt": datetime.now().strftime("%I:%M %p")
+                "updatedAt": (
+                    to_bn_digits(datetime.now().strftime("%I:%M %p").replace("AM", "সকাল").replace("PM", "বিকাল/রাত"))
+                    if language == "bn" else
+                    datetime.now().strftime("%I:%M %p")
+                )
             }
 
     except Exception as e:
@@ -458,5 +470,9 @@ def fetch_weather(
         },
         "hourlyForecast": [],
         "dailyForecast": [],
-        "updatedAt": datetime.now().strftime("%I:%M %p")
+        "updatedAt": (
+            to_bn_digits(datetime.now().strftime("%I:%M %p").replace("AM", "সকাল").replace("PM", "বিকাল/রাত"))
+            if language == "bn" else
+            datetime.now().strftime("%I:%M %p")
+        )
     }

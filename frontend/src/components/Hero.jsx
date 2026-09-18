@@ -4,11 +4,11 @@ import farmerImg from '../assets/farmer.png';
 
 export default function Hero({ language, setActiveTab }) {
   const cropsList = [
-    { nameBn: 'আলু (Potato)', nameEn: 'Potato', disease: 'Late Blight', img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80', tag: '৯৬% নির্ভুল' },
-    { nameBn: 'ধান (Rice)', nameEn: 'Rice', disease: 'Rice Blast', img: 'https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=600&q=80', tag: '৯৮% নির্ভুল' },
-    { nameBn: 'টমেটো (Tomato)', nameEn: 'Tomato', disease: 'Leaf Curl Virus', img: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?auto=format&fit=crop&w=600&q=80', tag: '৯৫% নির্ভুল' },
-    { nameBn: 'গম (Wheat)', nameEn: 'Wheat', disease: 'Wheat Rust', img: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80', tag: '৯৪% নির্ভুল' },
-    { nameBn: 'ভুট্টা (Maize)', nameEn: 'Maize', disease: 'Leaf Blight', img: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=600&q=80', tag: '৯৩% নির্ভুল' }
+    { nameBn: 'আলু (Potato)', nameEn: 'Potato', disease: 'Late Blight', img: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80', tagBn: '৯৬% নির্ভুল', tagEn: '96% Accurate' },
+    { nameBn: 'ধান (Rice)', nameEn: 'Rice', disease: 'Rice Blast', img: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=600&q=80', tagBn: '৯৮% নির্ভুল', tagEn: '98% Accurate' },
+    { nameBn: 'টমেটো (Tomato)', nameEn: 'Tomato', disease: 'Leaf Curl Virus', img: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?auto=format&fit=crop&w=600&q=80', tagBn: '৯৫% নির্ভুল', tagEn: '95% Accurate' },
+    { nameBn: 'গম (Wheat)', nameEn: 'Wheat', disease: 'Wheat Rust', img: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80', tagBn: '৯৪% নির্ভুল', tagEn: '94% Accurate' },
+    { nameBn: 'ভুট্টা (Maize)', nameEn: 'Maize', disease: 'Leaf Blight', img: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=600&q=80', tagBn: '৯৩% নির্ভুল', tagEn: '93% Accurate' }
   ];
 
   return (
@@ -50,7 +50,7 @@ export default function Hero({ language, setActiveTab }) {
         <div className="stat-card">
           <div className="stat-icon emerald"><Sprout size={24} /></div>
           <div>
-            <h3>৪০%+</h3>
+            <h3>{language === 'bn' ? '৪০%+' : '40%+'}</h3>
             <p>{language === 'bn' ? 'জাতীয় শ্রমশক্তি কৃষি নির্ভর' : 'National Workforce in Farming'}</p>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default function Hero({ language, setActiveTab }) {
         <div className="stat-card">
           <div className="stat-icon amber"><Activity size={24} /></div>
           <div>
-            <h3>৩০%</h3>
+            <h3>{language === 'bn' ? '৩০%' : '30%'}</h3>
             <p>{language === 'bn' ? 'ফসল অপচয় রোধ' : 'Yield Loss Prevention'}</p>
           </div>
         </div>
@@ -66,7 +66,7 @@ export default function Hero({ language, setActiveTab }) {
         <div className="stat-card">
           <div className="stat-icon blue"><CloudRain size={24} /></div>
           <div>
-            <h3>২৪/৭</h3>
+            <h3>{language === 'bn' ? '২৪/৭' : '24/7'}</h3>
             <p>{language === 'bn' ? 'জলবায়ু ভিত্তিক স্প্রে অ্যালার্ট' : 'Climate Spray Advisory'}</p>
           </div>
         </div>
@@ -74,7 +74,7 @@ export default function Hero({ language, setActiveTab }) {
         <div className="stat-card">
           <div className="stat-icon green"><Award size={24} /></div>
           <div>
-            <h3>১০০%</h3>
+            <h3>{language === 'bn' ? '১০০%' : '100%'}</h3>
             <p>{language === 'bn' ? 'ফ্রি ডিজিটাল পাসপোর্টিং' : 'Free Digital Field Passports'}</p>
           </div>
         </div>
@@ -112,7 +112,7 @@ export default function Hero({ language, setActiveTab }) {
                     e.target.src = 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80';
                   }}
                 />
-                <span className="crop-accuracy-badge">{crop.tag}</span>
+                <span className="crop-accuracy-badge">{language === 'bn' ? crop.tagBn : crop.tagEn}</span>
               </div>
               <div className="crop-info">
                 <h4>{language === 'bn' ? crop.nameBn : crop.nameEn}</h4>

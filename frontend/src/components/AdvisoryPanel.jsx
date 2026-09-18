@@ -277,7 +277,7 @@ export default function AdvisoryPanel({
                   <Wind size={16} className="text-teal" />
                   <span>{language === 'bn' ? 'বাতাসের গতি' : 'Wind Speed'}</span>
                 </div>
-                <strong className="stat-value">{weatherData.windSpeed} <small>কিমি/ঘণ্টা</small></strong>
+                <strong className="stat-value">{weatherData.windSpeed} <small>{language === 'bn' ? 'কিমি/ঘণ্টা' : 'km/h'}</small></strong>
                 <span className="stat-sub">{weatherData.windSpeed > 15 ? (language === 'bn' ? 'দমকা' : 'Gusty') : (language === 'bn' ? 'শান্ত' : 'Calm')}</span>
               </div>
 
@@ -286,7 +286,7 @@ export default function AdvisoryPanel({
                   <Clock size={16} className="text-purple" />
                   <span>{language === 'bn' ? 'আপডেট সময়' : 'Updated'}</span>
                 </div>
-                <strong className="stat-value">{weatherData.updatedAt || 'এখন'}</strong>
+                <strong className="stat-value">{weatherData.updatedAt || (language === 'bn' ? 'এখন' : 'Just now')}</strong>
                 <span className="stat-sub">{language === 'bn' ? 'লাইভ ডাটা' : 'Live Data'}</span>
               </div>
             </div>
@@ -352,7 +352,7 @@ export default function AdvisoryPanel({
                           <span className="metric-chip">
                             <Wind size={14} className="metric-icon-wind" />
                             <span className="metric-label">{language === 'bn' ? 'বাতাস:' : 'Wind:'}</span>
-                            <strong className="metric-val">{weatherData.windSpeed} কিমি/ঘণ্টা</strong>
+                            <strong className="metric-val">{weatherData.windSpeed} {language === 'bn' ? 'কিমি/ঘণ্টা' : 'km/h'}</strong>
                           </span>
                           <span className="metric-chip">
                             <CloudRain size={14} className="metric-icon-rain" />

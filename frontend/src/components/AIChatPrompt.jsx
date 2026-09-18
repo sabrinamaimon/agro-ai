@@ -3,13 +3,17 @@ import { MessageSquare, Send, Sparkles, Bot, User, Volume2, Copy, Check, CornerD
 import { sendAgroChatPrompt } from '../services/api';
 
 export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }) {
+  const formatTime = () => {
+    return new Date().toLocaleTimeString(language === 'bn' ? 'bn-BD' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+  };
+
   const [messages, setMessages] = useState([
     {
       sender: 'ai',
       text: language === 'bn' 
         ? 'স্বাগতম! আমি আপনার Agro-AI সহকারী। ফসল, সার, কীটনাশক বা রোগবালাই নিয়ে যেকোনো প্রশ্ন মুখে বলুন বা লিখে জানান, আমি সাথে সাথে সমাধান দিচ্ছি।'
         : 'Welcome! I am your Agro-AI agricultural assistant. Ask me anything via voice or text about crops, fertilizers, pesticides, or plant diseases.',
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      time: new Date().toLocaleTimeString(language === 'bn' ? 'bn-BD' : 'en-US', { hour: '2-digit', minute: '2-digit' })
     }
   ]);
   const [inputPrompt, setInputPrompt] = useState('');
@@ -19,6 +23,22 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
   const recognitionRef = useRef(null);
+
+  // Sync welcome message on language change if no user chat yet
+  useEffect(() => {
+    setMessages(prev => {
+      if (prev.length === 1 && prev[0].sender === 'ai') {
+        return [{
+          sender: 'ai',
+          text: language === 'bn' 
+            ? 'স্বাগতম! আমি আপনার Agro-AI সহকারী। ফসল, সার, কীটনাশক বা রোগবালাই নিয়ে যেকোনো প্রশ্ন মুখে বলুন বা লিখে জানান, আমি সাথে সাথে সমাধান দিচ্ছি।'
+            : 'Welcome! I am your Agro-AI agricultural assistant. Ask me anything via voice or text about crops, fertilizers, pesticides, or plant diseases.',
+          time: new Date().toLocaleTimeString(language === 'bn' ? 'bn-BD' : 'en-US', { hour: '2-digit', minute: '2-digit' })
+        }];
+      }
+      return prev;
+    });
+  }, [language]);
 
   // Cleanup speech recognition on unmount
   useEffect(() => {
@@ -67,7 +87,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
     const query = textToSend || inputPrompt;
     if (!query.trim() || loading) return;
 
-    const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const currentTime = formatTime();
     const newMsgList = [...messages, { sender: 'user', text: query, time: currentTime }];
     setMessages(newMsgList);
     setInputPrompt('');
@@ -81,7 +101,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
       setMessages([...newMsgList, { 
         sender: 'ai', 
         text: data.response,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        time: formatTime()
       }]);
     } catch (err) {
       console.error('Chat error:', err);
@@ -90,7 +110,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
         text: language === 'bn' 
           ? 'দুঃখিত, এআই প্রতিক্রিয়া পেতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।' 
           : 'Sorry, failed to fetch AI response. Please try again.',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        time: formatTime()
       }]);
     } finally {
       setLoading(false);
