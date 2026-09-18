@@ -454,25 +454,6 @@ body {
   margin-top: 1rem;
 }
 
-.crop-card {
-  background: #FFFFFF;
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-  transition: transform 0.2s;
-}
-
-.crop-card:hover {
-  transform: translateY(-3px);
-}
-
-.crop-img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-}
-
 .crop-info {
   padding: 1rem;
 }
@@ -4927,7 +4908,7 @@ select.input-field {
 }
 
 /* ========================================================
-   Enhanced Crop Cards & Smooth Hover Animations
+   Enhanced Crop Cards & Smooth Mobile / Desktop Animations
    ======================================================== */
 .crop-card {
   position: relative;
@@ -4936,13 +4917,35 @@ select.input-field {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.35s ease;
+  will-change: transform, box-shadow;
 }
 
-.crop-card.interactive-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  border-color: #34D399;
-  box-shadow: 0 16px 30px -4px rgba(5, 150, 105, 0.18), 0 6px 12px -2px rgba(0, 0, 0, 0.06);
+/* Desktop Hover Lift & Glow */
+@media (hover: hover) and (pointer: fine) {
+  .crop-card.interactive-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: #34D399;
+    box-shadow: 0 16px 30px -4px rgba(5, 150, 105, 0.2), 0 6px 12px -2px rgba(0, 0, 0, 0.06);
+  }
+
+  .crop-card:hover .crop-img {
+    transform: scale(1.09);
+  }
+}
+
+/* Touch & Mobile Active Tap State */
+.crop-card.interactive-card:active {
+  transform: scale(0.96) !important;
+  border-color: #059669 !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3) !important;
+  transition: transform 0.1s ease !important;
+}
+
+.crop-card.interactive-card:active .crop-img {
+  transform: scale(1.08) !important;
 }
 
 .crop-img-wrap {
@@ -4960,10 +4963,6 @@ select.input-field {
   transition: transform 0.5s ease;
 }
 
-.crop-card:hover .crop-img {
-  transform: scale(1.09);
-}
-
 .crop-accuracy-badge {
   position: absolute;
   top: 10px;
@@ -4976,6 +4975,108 @@ select.input-field {
   border-radius: 20px;
   backdrop-filter: blur(4px);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  animation: badgeGlowPulse 2.8s infinite ease-in-out;
+}
+
+@keyframes badgeGlowPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.55);
+  }
+}
+
+/* Mobile Staggered Showcase & Floating Animations */
+@keyframes mobileCropWave {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.02);
+    border-color: #34D399;
+    box-shadow: 0 12px 24px -2px rgba(5, 150, 105, 0.18), 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+}
+
+@keyframes mobileImgWave {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+@media (max-width: 768px) {
+  .crops-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .crops-grid .crop-card:last-child:nth-child(odd) {
+    grid-column: span 2;
+  }
+
+  .crop-img-wrap {
+    height: 120px;
+  }
+
+  .crop-info {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .crop-info h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .crop-accuracy-badge {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.45rem;
+    top: 7px;
+    right: 7px;
+  }
+
+  /* Sequenced Wave Animation on Mobile */
+  .crops-grid .crop-card:nth-child(1) {
+    animation: mobileCropWave 4s ease-in-out infinite 0s;
+  }
+  .crops-grid .crop-card:nth-child(1) .crop-img {
+    animation: mobileImgWave 4s ease-in-out infinite 0s;
+  }
+
+  .crops-grid .crop-card:nth-child(2) {
+    animation: mobileCropWave 4s ease-in-out infinite 0.8s;
+  }
+  .crops-grid .crop-card:nth-child(2) .crop-img {
+    animation: mobileImgWave 4s ease-in-out infinite 0.8s;
+  }
+
+  .crops-grid .crop-card:nth-child(3) {
+    animation: mobileCropWave 4s ease-in-out infinite 1.6s;
+  }
+  .crops-grid .crop-card:nth-child(3) .crop-img {
+    animation: mobileImgWave 4s ease-in-out infinite 1.6s;
+  }
+
+  .crops-grid .crop-card:nth-child(4) {
+    animation: mobileCropWave 4s ease-in-out infinite 2.4s;
+  }
+  .crops-grid .crop-card:nth-child(4) .crop-img {
+    animation: mobileImgWave 4s ease-in-out infinite 2.4s;
+  }
+
+  .crops-grid .crop-card:nth-child(5) {
+    animation: mobileCropWave 4s ease-in-out infinite 3.2s;
+  }
+  .crops-grid .crop-card:nth-child(5) .crop-img {
+    animation: mobileImgWave 4s ease-in-out infinite 3.2s;
+  }
 }
 
 /* ========================================================
