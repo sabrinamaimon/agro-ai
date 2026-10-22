@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sprout, Mic, Camera, TrendingUp, ShieldCheck, ArrowRight, Sun, CloudRain, Award, Activity } from 'lucide-react';
+import { Sprout } from 'lucide-react';
 import farmerImg from '../assets/farmer.png';
 
 export default function Hero({ language, setActiveTab }) {
@@ -42,41 +42,6 @@ export default function Hero({ language, setActiveTab }) {
             alt="Bangladeshi Farmer Smiling" 
             className="happy-farmer-img"
           />
-        </div>
-      </div>
-
-      {/* Impact & Agriculture Statistics Bar */}
-      <div className="stats-bar grid-4 mt-4">
-        <div className="stat-card">
-          <div className="stat-icon emerald"><Sprout size={24} /></div>
-          <div>
-            <h3>{language === 'bn' ? '৪০%+' : '40%+'}</h3>
-            <p>{language === 'bn' ? 'জাতীয় শ্রমশক্তি কৃষি নির্ভর' : 'National Workforce in Farming'}</p>
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-icon amber"><Activity size={24} /></div>
-          <div>
-            <h3>{language === 'bn' ? '৩০%' : '30%'}</h3>
-            <p>{language === 'bn' ? 'ফসল অপচয় রোধ' : 'Yield Loss Prevention'}</p>
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-icon blue"><CloudRain size={24} /></div>
-          <div>
-            <h3>{language === 'bn' ? '২৪/৭' : '24/7'}</h3>
-            <p>{language === 'bn' ? 'জলবায়ু ভিত্তিক স্প্রে অ্যালার্ট' : 'Climate Spray Advisory'}</p>
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-icon green"><Award size={24} /></div>
-          <div>
-            <h3>{language === 'bn' ? '১০০%' : '100%'}</h3>
-            <p>{language === 'bn' ? 'ফ্রি ডিজিটাল পাসপোর্টিং' : 'Free Digital Field Passports'}</p>
-          </div>
         </div>
       </div>
 
