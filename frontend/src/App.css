@@ -6066,28 +6066,40 @@ body:has(.app-container-home) {
 .proto-corner-left {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
   pointer-events: auto;
   cursor: pointer;
   user-select: none;
 }
 
 .proto-logo-box {
-  width: 38px;
-  height: 38px;
-  border-radius: 9px;
-  padding: 2px;
-  border: 1px solid rgba(197, 168, 128, 0.55);
-  background: rgba(5, 8, 6, 0.85);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  padding: 5px;
+  border: 1.5px solid rgba(197, 168, 128, 0.65);
+  background: rgba(8, 14, 10, 0.92);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   flex-shrink: 0;
-  transition: transform 0.25s ease;
+  transition: all 0.3s ease;
 }
 
 .proto-corner-left:hover .proto-logo-box {
-  transform: scale(1.05);
+  transform: scale(1.06);
   border-color: #E8D3B7;
+  box-shadow: 0 6px 25px rgba(197, 168, 128, 0.4);
+}
+
+.proto-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px rgba(197, 168, 128, 0.7));
+  display: block;
 }
 
 .proto-brand-col {
@@ -6095,17 +6107,31 @@ body:has(.app-container-home) {
   flex-direction: column;
 }
 
+.proto-brand-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 .proto-brand-title {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   color: #C5A880;
   line-height: 1.1;
 }
 
+.proto-brand-bn {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
 .proto-brand-meta {
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
   color: rgba(197, 168, 128, 0.75);
   margin-top: 2px;
 }
@@ -6238,57 +6264,100 @@ body:has(.app-container-home) {
   color: #E8D3B7;
 }
 
-/* Floating Corner Dropdown Menu */
-.proto-menu-backdrop {
+/* Luxury Right-Hand Sliding Drawer */
+.proto-drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 52;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 998;
+  animation: fadeIn 0.25s ease-out;
 }
 
-.proto-corner-dropdown {
+.proto-corner-drawer {
   position: fixed;
-  top: 4.8rem;
-  right: 3.5rem;
-  width: 290px;
-  max-width: 90vw;
-  background: rgba(10, 16, 12, 0.96);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
-  border: 1px solid rgba(197, 168, 128, 0.35);
-  border-radius: 18px;
-  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.8);
-  padding: 1.15rem;
-  z-index: 55;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-10px) scale(0.96);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  top: 0;
+  right: 0;
+  width: 360px;
+  max-width: 88vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(8, 14, 10, 0.97);
+  backdrop-filter: blur(36px);
+  -webkit-backdrop-filter: blur(36px);
+  border-left: 1px solid rgba(197, 168, 128, 0.35);
+  box-shadow: -15px 0 50px rgba(0, 0, 0, 0.85);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.75rem 1.5rem;
+  transform: translateX(100%);
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
 }
 
-.proto-corner-dropdown.open {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0) scale(1);
+.proto-corner-drawer.open {
+  transform: translateX(0);
 }
 
-.proto-dropdown-header {
+.drawer-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 0.85rem;
+  padding-bottom: 1.15rem;
   border-bottom: 1px solid rgba(197, 168, 128, 0.2);
-  margin-bottom: 0.75rem;
 }
 
-.proto-dropdown-close {
-  width: 26px;
-  height: 26px;
+.drawer-brand-block {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.drawer-logo-chip {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid rgba(197, 168, 128, 0.55);
+  background: rgba(5, 8, 6, 0.85);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drawer-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(197, 168, 128, 0.6));
+}
+
+.drawer-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-brand-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #C5A880;
+}
+
+.drawer-brand-sub {
+  font-size: 0.78rem;
+  color: #94A3B8;
+}
+
+.drawer-close-btn {
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #F1F5F9;
   display: flex;
   align-items: center;
@@ -6297,53 +6366,125 @@ body:has(.app-container-home) {
   transition: all 0.2s ease;
 }
 
-.proto-dropdown-close:hover {
+.drawer-close-btn:hover {
   background: rgba(220, 38, 38, 0.2);
+  border-color: #EF4444;
   color: #EF4444;
+  transform: scale(1.08);
 }
 
-.proto-dropdown-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.proto-nav-link {
+.drawer-location-badge {
+  margin: 1.15rem 0 1rem 0;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(197, 168, 128, 0.2);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.65rem 0.85rem;
-  border-radius: 10px;
-  background: transparent;
-  border: none;
-  color: rgba(241, 245, 249, 0.85);
+  justify-content: space-between;
   cursor: pointer;
-  text-align: left;
   transition: all 0.2s ease;
+}
+
+.drawer-location-badge:hover {
+  background: rgba(197, 168, 128, 0.1);
+  border-color: rgba(197, 168, 128, 0.45);
+}
+
+.drawer-loc-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drawer-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+.drawer-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: rgba(241, 245, 249, 0.88);
+  cursor: pointer;
   width: 100%;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.proto-nav-link:hover {
-  background: rgba(197, 168, 128, 0.15);
+.drawer-nav-item:hover {
+  background: rgba(197, 168, 128, 0.12);
+  border-color: rgba(197, 168, 128, 0.25);
   color: #FFFFFF;
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
-.proto-nav-link.active {
-  background: rgba(197, 168, 128, 0.22);
+.drawer-nav-item.active {
+  background: rgba(197, 168, 128, 0.2);
+  border-color: rgba(197, 168, 128, 0.5);
   color: #E8D3B7;
   font-weight: 600;
 }
 
-.proto-nav-idx {
-  font-size: 0.72rem;
-  color: #C5A880;
-  font-weight: 700;
-  width: 18px;
+.drawer-item-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
-.proto-nav-title {
-  font-size: 0.88rem;
+.drawer-item-idx {
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: #C5A880;
+  opacity: 0.8;
+}
+
+.drawer-icon-wrap {
+  color: #C5A880;
+  display: flex;
+  align-items: center;
+}
+
+.drawer-item-label {
+  font-size: 0.92rem;
+}
+
+.drawer-active-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10B981;
+  box-shadow: 0 0 8px #10B981;
+}
+
+.drawer-footer {
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(197, 168, 128, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.drawer-helpline-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.drawer-copyright {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: #94A3B8;
+  letter-spacing: 0.1em;
 }
 
 /* Responsive Adjustments (<768px, <640px) */
@@ -6438,9 +6579,9 @@ body:has(.app-container-home) {
     display: none;
   }
 
-  .proto-corner-dropdown {
-    top: 4.2rem;
-    right: 1.25rem;
+  .proto-corner-drawer {
+    width: 320px;
+    max-width: 90vw;
   }
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Home, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, MapPin, X } from 'lucide-react';
-import onkurLogo from '../assets/onkur-logo.png';
+import onkurCalligraphy from '../assets/onkur-calligraphy-gold.png';
 
 export default function Navbar({
   language,
@@ -40,7 +40,7 @@ export default function Navbar({
             style={{ cursor: 'pointer' }}
           >
             <div className="onkur-nav-logo-box">
-              <img src={onkurLogo} alt="অঙ্কুর" className="onkur-nav-logo-img" />
+              <img src={onkurCalligraphy} alt="অঙ্কুর" className="onkur-nav-logo-img" />
             </div>
             <div className="brand-text-block">
               <div className="brand-title-row">
@@ -120,12 +120,16 @@ export default function Navbar({
         <div 
           className="proto-corner-left"
           onClick={() => setActiveTab('home')}
+          title={language === 'bn' ? 'হোমে ফিরে যান' : 'Go to Home'}
         >
           <div className="proto-logo-box">
-            <img src={onkurLogo} alt="অঙ্কুর" className="w-full h-full object-cover" />
+            <img src={onkurCalligraphy} alt="অঙ্কুর" className="proto-logo-img" />
           </div>
           <div className="proto-brand-col">
-            <span className="proto-brand-title font-cinzel">ONKUR</span>
+            <div className="proto-brand-title-row">
+              <span className="proto-brand-title font-cinzel">ONKUR</span>
+              <span className="proto-brand-bn font-serif-bn">অঙ্কুর</span>
+            </div>
             <span className="proto-brand-meta font-mono">ESTATE • 2026</span>
           </div>
         </div>
@@ -165,8 +169,8 @@ export default function Navbar({
           <button 
             type="button"
             className="proto-menu-trigger-btn"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle Menu"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open Navigation Menu"
           >
             <div className="proto-burger-lines">
               <span className="line line-1"></span>
@@ -180,33 +184,53 @@ export default function Navbar({
         </div>
       </header>
 
-      {/* Floating Corner Dropdown Menu: Attached strictly to the Top-Right Corner */}
+      {/* Slide-In Corner Drawer Overlay & Luxury Sidebar */}
       {menuOpen && (
         <div 
-          className="proto-menu-backdrop" 
+          className="proto-drawer-backdrop" 
           onClick={() => setMenuOpen(false)} 
         />
       )}
 
-      <div className={`proto-corner-dropdown ${menuOpen ? 'open' : ''}`}>
-        <div className="proto-dropdown-header">
-          <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded border border-[#C5A880]/50 overflow-hidden">
-              <img src={onkurLogo} alt="অঙ্কুর" className="w-full h-full object-cover" />
+      <aside className={`proto-corner-drawer ${menuOpen ? 'open' : ''}`} aria-label="Navigation Menu">
+        {/* Drawer Header */}
+        <div className="drawer-header">
+          <div className="drawer-brand-block">
+            <div className="drawer-logo-chip">
+              <img src={onkurCalligraphy} alt="অঙ্কুর" className="drawer-logo-img" />
             </div>
-            <span className="font-serif-bn font-bold text-white text-sm">অঙ্কুর মেনু</span>
+            <div className="drawer-brand-text">
+              <span className="drawer-brand-title font-cinzel">ONKUR ESTATE</span>
+              <span className="drawer-brand-sub font-serif-bn">
+                {language === 'bn' ? 'ন্যাভিগেশন মেনু' : 'Navigation Menu'}
+              </span>
+            </div>
           </div>
           <button 
-            type="button"
-            className="proto-dropdown-close"
+            type="button" 
+            className="drawer-close-btn"
             onClick={() => setMenuOpen(false)}
-            aria-label="Close"
+            aria-label="Close Menu"
           >
-            <X size={15} />
+            <X size={18} />
           </button>
         </div>
 
-        <div className="proto-dropdown-nav">
+        {/* Location Info Pill */}
+        <div 
+          className="drawer-location-badge" 
+          onClick={() => { onOpenGpsModal(); setMenuOpen(false); }}
+          title={language === 'bn' ? 'মাঠের অবস্থান পরিবর্তন' : 'Change Field Location'}
+        >
+          <div className="drawer-loc-inner">
+            <span className="live-ping-dot"></span>
+            <span className="font-serif-bn text-xs text-slate-200">{locationDisplay}</span>
+          </div>
+          <span className="font-mono text-xs text-gold">GPS 📍</span>
+        </div>
+
+        {/* Navigation Links */}
+        <nav className="drawer-nav-list">
           {navItems.map((item, idx) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -214,22 +238,43 @@ export default function Navbar({
               <button
                 key={item.id}
                 type="button"
-                className={`proto-nav-link ${isActive ? 'active' : ''}`}
+                className={`drawer-nav-item ${isActive ? 'active' : ''}`}
                 onClick={() => {
                   setActiveTab(item.id);
                   setMenuOpen(false);
                 }}
               >
-                <span className="proto-nav-idx font-mono">0{idx + 1}</span>
-                <Icon size={16} />
-                <span className="proto-nav-title font-serif-bn">
-                  {language === 'bn' ? item.labelBn : item.labelEn}
-                </span>
+                <div className="drawer-item-left">
+                  <span className="drawer-item-idx font-mono">0{idx + 1}</span>
+                  <div className="drawer-icon-wrap">
+                    <Icon size={17} />
+                  </div>
+                  <span className="drawer-item-label font-serif-bn">
+                    {language === 'bn' ? item.labelBn : item.labelEn}
+                  </span>
+                </div>
+                {isActive && <span className="drawer-active-dot" />}
               </button>
             );
           })}
+        </nav>
+
+        {/* Drawer Footer */}
+        <div className="drawer-footer">
+          <div className="drawer-helpline-box">
+            <span className="font-serif-bn text-xs text-muted-sub">
+              {language === 'bn' ? 'জরুরি কৃষক হেল্পলাইন:' : 'Farmer Emergency Line:'}
+            </span>
+            <strong className="font-mono text-gold text-sm tracking-wider">
+              16123 ({language === 'bn' ? 'টোল-ফ্রি' : 'Toll-Free'})
+            </strong>
+          </div>
+          <div className="drawer-copyright font-mono">
+            <span>© 2026 ONKUR</span>
+            <span className="text-gold">SOVEREIGN DELTA</span>
+          </div>
         </div>
-      </div>
+      </aside>
     </>
   );
 }
