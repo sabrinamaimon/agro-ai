@@ -148,17 +148,6 @@ export default function Hero({ language, setActiveTab }) {
       {/* Main Spacious Hero Stage */}
       <div className="hero-stage-content">
         <div className="hero-stage-left">
-          
-          {/* Eyebrow Label */}
-          <div className="hero-eyebrow-pill">
-            <span className="live-dot" />
-            <span className="eyebrow-title font-cinzel">BENGAL ALLUVIAL DELTA</span>
-            <span className="eyebrow-divider">—</span>
-            <span className="eyebrow-season font-serif-bn">
-              {language === 'bn' ? activeCrop.seasonBn : activeCrop.seasonEn}
-            </span>
-          </div>
-
           {/* Grand Handcrafted Calligraphy */}
           <div className="hero-calligraphy-wrap">
             <img 
