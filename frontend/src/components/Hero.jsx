@@ -152,7 +152,7 @@ export default function Hero({ language, setActiveTab }) {
           {/* Eyebrow Label */}
           <div className="hero-eyebrow-pill">
             <span className="live-dot" />
-            <span className="eyebrow-title font-cinzel">BENGAL AGRI-ESTATE</span>
+            <span className="eyebrow-title font-cinzel">BENGAL ALLUVIAL DELTA</span>
             <span className="eyebrow-divider">—</span>
             <span className="eyebrow-season font-serif-bn">
               {language === 'bn' ? activeCrop.seasonBn : activeCrop.seasonEn}
