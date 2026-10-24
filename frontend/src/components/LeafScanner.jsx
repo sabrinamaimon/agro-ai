@@ -141,7 +141,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
         <div className="workflow-step-box">
           <div className="step-header">
             <div className={`step-circle ${previewUrl ? 'completed' : 'active'}`}>
-              {previewUrl ? <CheckCircle2 size={16} /> : '১'}
+              {previewUrl ? <CheckCircle2 size={16} /> : (language === 'bn' ? '১' : '1')}
             </div>
             <div className="step-title-group">
               <h3 className="step-heading">
@@ -233,7 +233,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
           <div className="workflow-step-box">
             <div className="step-header">
               <div className={`step-circle ${selectedCategory ? 'completed' : previewUrl ? 'active' : 'pending'}`}>
-                {selectedCategory ? <CheckCircle2 size={16} /> : '২'}
+                {selectedCategory ? <CheckCircle2 size={16} /> : (language === 'bn' ? '২' : '2')}
               </div>
               <div className="step-title-group">
                 <h3 className="step-heading">
@@ -260,7 +260,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
           <div className="workflow-step-box">
             <div className="step-header">
               <div className={`step-circle ${selectedCrop ? 'completed' : selectedCategory ? 'active' : 'pending'}`}>
-                {selectedCrop ? <CheckCircle2 size={16} /> : '৩'}
+                {selectedCrop ? <CheckCircle2 size={16} /> : (language === 'bn' ? '৩' : '3')}
               </div>
               <div className="step-title-group">
                 <h3 className="step-heading">
@@ -292,7 +292,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
         <div className="workflow-step-box mt-3">
           <div className="step-header">
             <div className={`step-circle ${selectedPart ? 'completed' : selectedCrop ? 'active' : 'pending'}`}>
-              {selectedPart ? <CheckCircle2 size={16} /> : '৪'}
+              {selectedPart ? <CheckCircle2 size={16} /> : (language === 'bn' ? '৪' : '4')}
             </div>
             <div className="step-title-group">
               <h3 className="step-heading">
@@ -427,7 +427,9 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
             <div className="data-item">
               <span className="data-label">{language === 'bn' ? 'চিহ্নিত ক্ষত গুচ্ছ (Lesion Spots)' : 'Pinpointed Lesions'}</span>
               <span className="data-value">
-                {diagnosisResult.bounding_boxes?.length || 0} টি ক্লাস্টার
+                {language === 'bn' 
+                  ? `${diagnosisResult.bounding_boxes?.length || 0} টি ক্লাস্টার` 
+                  : `${diagnosisResult.bounding_boxes?.length || 0} Clusters`}
               </span>
             </div>
 

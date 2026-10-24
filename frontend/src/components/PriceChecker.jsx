@@ -141,7 +141,9 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
             disabled={loadingBenchmarks}
           >
             {benchmarks.map((b) => (
-              <option key={b.id} value={b.crop}>{b.crop} (গড়: ৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}/{b.unit || 'কেজি'})</option>
+              <option key={b.id} value={b.crop}>
+                {b.crop} ({language === 'bn' ? `গড়: ৳${toBengaliDigits(b.averagePrice)}/${b.unit || 'কেজি'}` : `Avg: ৳${b.averagePrice}/${b.unit || 'kg'}`})
+              </option>
             ))}
           </select>
         </div>
@@ -200,7 +202,9 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
               <div className="data-item">
                 <span className="data-label">{language === 'bn' ? 'মূল্য বৈষম্যের হার' : 'Undercut Percentage'}</span>
                 <span className="data-value danger">
-                  {language === 'bn' ? toBengaliDigits(priceAnalysis.undercutPercentage) : priceAnalysis.undercutPercentage}% কম দাম
+                  {language === 'bn' 
+                    ? `${toBengaliDigits(priceAnalysis.undercutPercentage)}% কম দাম` 
+                    : `${priceAnalysis.undercutPercentage}% lower`}
                 </span>
               </div>
             )}

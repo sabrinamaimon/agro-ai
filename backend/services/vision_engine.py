@@ -295,12 +295,12 @@ async def diagnose_pathology_with_ai(
                 f"4. 'plantPart': '{organ_name_bn}'\n"
                 f"5. 'pathogen': Full scientific binomial name or causal agent\n"
                 f"6. 'severity': '{severity}'\n"
-                f"7. 'description': Detailed clinical symptoms in Bengali describing the visible physical lesions on this specific plant part ({organ_name_bn}).\n"
-                f"8. 'root_cause': Climate trigger explanation in Bengali explaining how current temperature ({temp}°C) and humidity ({humidity}%) caused or accelerated this pathogen.\n"
-                f"9. 'organicRemedy': Specific biological and cultural control measures in Bengali (e.g. pruning infected twigs, applying Bordeaux paste on tree trunks/cut surfaces, biocontrol).\n"
-                f"10. 'chemicalRemedy': Specific commercial chemical trade names available in Bangladesh markets with exact dilution dosages (e.g. g/L or ml/L) in Bengali (e.g. Cupravit 50 WP, Ridomil Gold, Nativo 75 WG, Tilt 250 EC, Bordeaux paste for trunks).\n"
+                f"7. 'description': Detailed clinical symptoms in {'Bengali' if language == 'bn' else 'English'} describing the visible physical lesions on this specific plant part ({organ_name_bn}).\n"
+                f"8. 'root_cause': Climate trigger explanation in {'Bengali' if language == 'bn' else 'English'} explaining how current temperature ({temp}°C) and humidity ({humidity}%) caused or accelerated this pathogen.\n"
+                f"9. 'organicRemedy': Specific biological and cultural control measures in {'Bengali' if language == 'bn' else 'English'} (e.g. pruning infected twigs, applying Bordeaux paste on tree trunks/cut surfaces, biocontrol).\n"
+                f"10. 'chemicalRemedy': Specific commercial chemical trade names available in Bangladesh markets with exact dilution dosages (e.g. g/L or ml/L) in {'Bengali' if language == 'bn' else 'English'} (e.g. Cupravit 50 WP, Ridomil Gold, Nativo 75 WG, Tilt 250 EC, Bordeaux paste for trunks).\n"
                 f"11. 'phiDays': Mandatory Pre-Harvest Interval (integer days).\n"
-                f"12. 'sprayAdvice': Weather-adjusted spraying or paste application advice in Bengali taking into account the rain forecast ({rain_in_hours} hours).\n"
+                f"12. 'sprayAdvice': Weather-adjusted spraying or paste application advice in {'Bengali' if language == 'bn' else 'English'} taking into account the rain forecast ({rain_in_hours} hours).\n"
                 f"Output ONLY valid JSON."
             )
 
@@ -355,16 +355,16 @@ async def diagnose_pathology_with_ai(
 
     return {
         "id": matched.get("id"),
-        "name": f"{matched.get('name_en')} ({matched.get('name_bn')})",
-        "cropType": target_crop if target_crop != "Auto-Deduce from Visual Profile" else f"{matched.get('crop_en')} ({matched.get('crop_bn')})",
-        "plantPart": organ_name_bn,
+        "name": f"{matched.get('name_en')} ({matched.get('name_bn')})" if language != "bn" else f"{matched.get('name_bn')} ({matched.get('name_en')})",
+        "cropType": target_crop if target_crop != "Auto-Deduce from Visual Profile" else (f"{matched.get('crop_en')} ({matched.get('crop_bn')})" if language != "bn" else f"{matched.get('crop_bn')} ({matched.get('crop_en')})"),
+        "plantPart": organ_name_bn if language == "bn" else f"{part_key.capitalize()} ({organ_name_bn})",
         "pathogen": matched.get("pathogen"),
         "severity": severity,
         "damagePercentage": damage_pct,
-        "description": matched.get("description_bn"),
-        "root_cause": f"উচ্চ আর্দ্রতা ({humidity}%) এবং অনুকূল তাপমাত্রার ({temp}°C) কারণে {matched.get('pathogen')} রোগ বিস্তার লাভ করেছে।",
-        "organicRemedy": matched.get("organic_remedy_bn"),
-        "chemicalRemedy": matched.get("chemical_remedy_bn"),
+        "description": matched.get("description_bn") if language == "bn" else matched.get("description_en", matched.get("description_bn")),
+        "root_cause": (f"উচ্চ আর্দ্রতা ({humidity}%) এবং অনুকূল তাপমাত্রার ({temp}°C) কারণে {matched.get('pathogen')} রোগ বিস্তার লাভ করেছে।" if language == "bn" else f"High humidity ({humidity}%) and favorable temperature ({temp}°C) accelerated {matched.get('pathogen')} proliferation."),
+        "organicRemedy": matched.get("organic_remedy_bn") if language == "bn" else matched.get("organic_remedy_en", matched.get("organic_remedy_bn")),
+        "chemicalRemedy": matched.get("chemical_remedy_bn") if language == "bn" else matched.get("chemical_remedy_en", matched.get("chemical_remedy_bn")),
         "phiDays": matched.get("phi_days", 14),
-        "sprayAdvice": matched.get("spray_advice_bn")
+        "sprayAdvice": matched.get("spray_advice_bn") if language == "bn" else matched.get("spray_advice_en", matched.get("spray_advice_bn"))
     }

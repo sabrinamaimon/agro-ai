@@ -163,7 +163,7 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
             <div className="gps-coords-display mt-2">
               <div className="coord-row">
                 <span className="coord-label">{language === 'bn' ? 'স্থান:' : 'Location:'}</span>
-                <strong className="coord-val area-name">{activeGps.areaName}</strong>
+                <strong className="coord-val area-name">{language === 'bn' ? (activeGps.areaName || activeGps.areaNameEn) : (activeGps.areaNameEn || activeGps.areaName)}</strong>
               </div>
               <div className="coord-row">
                 <span className="coord-label">{language === 'bn' ? 'কোঅর্ডিনেট:' : 'Coords:'}</span>
@@ -197,17 +197,59 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
             </span>
           </button>
           
-          {!activeGps && (
-            <button
-              type="button"
-              className="btn-gps-secondary mt-2"
-              onClick={onClose}
-            >
-              {language === 'bn' ? 'এখন নয় / পরে চালু করব' : 'Not Now / Skip'}
-            </button>
-          )}
+          <div className="manual-location-divider mt-4">
+            <span>{language === 'bn' ? 'অথবা আপনার জেলা / শস্য অঞ্চল নির্বাচন করুন' : 'Or Select Agricultural District / Hub'}</span>
+          </div>
 
-          <div className="gps-privacy-note mt-2">
+          {/* Quick District Grid */}
+          <div className="manual-district-grid mt-3">
+            {[
+              { nameBn: 'বগুড়া সদর', nameEn: 'Bogura Sadar', descBn: 'শস্য অঞ্চল', descEn: 'Grain Hub', lat: 24.8465, lon: 89.3777 },
+              { nameBn: 'রংপুর সদর', nameEn: 'Rangpur Sadar', descBn: 'আলু হাব', descEn: 'Potato Hub', lat: 25.7439, lon: 89.2752 },
+              { nameBn: 'দিনাজপুর সদর', nameEn: 'Dinajpur Sadar', descBn: 'ধান ও লিচু', descEn: 'Paddy & Litchi', lat: 25.6279, lon: 88.6332 },
+              { nameBn: 'রাজশাহী সদর', nameEn: 'Rajshahi Sadar', descBn: 'আম ও রবিশস্য', descEn: 'Mango & Crops', lat: 24.3636, lon: 88.6241 },
+              { nameBn: 'যশোর সদর', nameEn: 'Jashore Sadar', descBn: 'সবজি ভান্ডার', descEn: 'Vegetables Hub', lat: 23.1664, lon: 89.2081 },
+              { nameBn: 'ময়মনসিংহ সদর', nameEn: 'Mymensingh Sadar', descBn: 'ধান ও মৎস্য', descEn: 'Paddy & Fishery', lat: 24.7471, lon: 90.4203 },
+              { nameBn: 'কুমিল্লা সদর', nameEn: 'Cumilla Sadar', descBn: 'ধান ও রবিশস্য', descEn: 'Paddy & Rabi', lat: 23.4682, lon: 91.1788 },
+              { nameBn: 'পাবনা সদর', nameEn: 'Pabna Sadar', descBn: 'পেঁয়াজ হাব', descEn: 'Onion Hub', lat: 24.0064, lon: 89.2372 },
+              { nameBn: 'ঢাকা সেন্ট্রাল', nameEn: 'Dhaka Central', descBn: 'সদর অঞ্চল', descEn: 'Capital Hub', lat: 23.8103, lon: 90.4125 },
+              { nameBn: 'বরিশাল সদর', nameEn: 'Barishal Sadar', descBn: 'ধানের অঞ্চল', descEn: 'Delta Paddy', lat: 22.7010, lon: 90.3535 },
+              { nameBn: 'সিলেট সদর', nameEn: 'Sylhet Sadar', descBn: 'চা ও হাওর', descEn: 'Tea & Haor', lat: 24.8949, lon: 91.8687 },
+              { nameBn: 'নাটোর সদর', nameEn: 'Natore Sadar', descBn: 'রসুন ও ফসল', descEn: 'Garlic & Crops', lat: 24.4102, lon: 88.9796 },
+            ].map((dist, idx) => {
+              const isSelected = activeGps && (activeGps.district === dist.nameBn || activeGps.areaName?.includes(dist.nameBn) || activeGps.areaNameEn?.includes(dist.nameEn));
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  className={`district-select-chip ${isSelected ? 'active' : ''}`}
+                  onClick={() => {
+                    const gpsObj = {
+                      lat: dist.lat,
+                      lon: dist.lon,
+                      accuracy: 50,
+                      areaName: `${dist.nameBn} (${dist.descBn})`,
+                      areaNameEn: `${dist.nameEn} (${dist.descEn})`,
+                      district: dist.nameBn,
+                      isGps: false,
+                      timestamp: Date.now()
+                    };
+                    setDetectedData(gpsObj);
+                    onGpsDetected(gpsObj);
+                    setTimeout(() => {
+                      onClose();
+                    }, 400);
+                  }}
+                >
+                  <MapPin size={13} className={isSelected ? 'text-emerald' : 'text-muted'} />
+                  <span className="district-name">{language === 'bn' ? dist.nameBn : dist.nameEn}</span>
+                  <span className="district-tag">{language === 'bn' ? dist.descBn : dist.descEn}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="gps-privacy-note mt-3">
             <ShieldCheck size={14} className="text-emerald" />
             <span>
               {language === 'bn' 
