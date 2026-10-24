@@ -261,13 +261,13 @@ export default function Hero({ language, setActiveTab }) {
 
           {/* Right Controls */}
           <div className="footer-slide-controls">
-            <span className="slide-counter font-mono">0{currentSlide + 1} / 0{totalSlides}</span>
             <div className="slide-arrow-pair">
               <button 
                 type="button" 
                 onClick={prevSlide} 
                 className="btn-slide-arrow" 
                 aria-label="Previous Slide"
+                title={language === 'bn' ? 'পূর্ববর্তী ফসল' : 'Previous Crop'}
               >
                 <ChevronLeft size={16} />
               </button>
@@ -276,6 +276,7 @@ export default function Hero({ language, setActiveTab }) {
                 onClick={nextSlide} 
                 className="btn-slide-arrow" 
                 aria-label="Next Slide"
+                title={language === 'bn' ? 'পরবর্তী ফসল' : 'Next Crop'}
               >
                 <ChevronRight size={16} />
               </button>
