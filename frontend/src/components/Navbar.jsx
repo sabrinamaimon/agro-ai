@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Home, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, MapPin, X } from 'lucide-react';
+import onkurLogo from '../assets/onkur-logo.png';
 import onkurCalligraphy from '../assets/onkur-calligraphy-gold.png';
 
 export default function Navbar({
@@ -40,7 +41,7 @@ export default function Navbar({
             style={{ cursor: 'pointer' }}
           >
             <div className="onkur-nav-logo-box">
-              <img src={onkurCalligraphy} alt="অঙ্কুর" className="onkur-nav-logo-img" />
+              <img src={onkurLogo} alt="অঙ্কুর" className="onkur-nav-logo-img" />
             </div>
             <div className="brand-text-block">
               <div className="brand-title-row">
@@ -123,7 +124,7 @@ export default function Navbar({
           title={language === 'bn' ? 'হোমে ফিরে যান' : 'Go to Home'}
         >
           <div className="proto-logo-box">
-            <img src={onkurCalligraphy} alt="অঙ্কুর" className="proto-logo-img" />
+            <img src={onkurLogo} alt="অঙ্কুর" className="proto-logo-img" />
           </div>
           <div className="proto-brand-col">
             <div className="proto-brand-title-row">
@@ -197,7 +198,7 @@ export default function Navbar({
         <div className="drawer-header">
           <div className="drawer-brand-block">
             <div className="drawer-logo-chip">
-              <img src={onkurCalligraphy} alt="অঙ্কুর" className="drawer-logo-img" />
+              <img src={onkurLogo} alt="অঙ্কুর" className="drawer-logo-img" />
             </div>
             <div className="drawer-brand-text">
               <span className="drawer-brand-title font-cinzel">ONKUR ESTATE</span>
