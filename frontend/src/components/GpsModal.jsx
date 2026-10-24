@@ -13,6 +13,20 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const handleDetectGps = () => {
@@ -121,11 +135,13 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
             </p>
           </div>
           <button type="button" className="modal-close-btn" onClick={onClose} aria-label="Close">
-            <X size={18} />
+            <X size={18} strokeWidth={2.4} />
           </button>
         </div>
 
-        {/* Radar Visual */}
+        {/* Scrollable Modal Body */}
+        <div className="gps-modal-body">
+          {/* Radar Visual */}
         <div className="gps-radar-visual mt-3">
           <div className={`radar-scanner-circle ${isDetecting ? 'scanning' : ''}`}>
             <div className="radar-sweep" />
@@ -257,6 +273,7 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
                 : 'Your location is kept secure and used solely for accurate local weather forecasting.'}
             </span>
           </div>
+        </div>
         </div>
 
       </div>
