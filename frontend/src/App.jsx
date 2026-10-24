@@ -198,7 +198,7 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${activeTab === 'home' ? 'app-container-home' : ''}`}>
       {/* Header & Navbar Tabs */}
       <Navbar 
         language={language} 

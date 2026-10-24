@@ -11,8 +11,8 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
     {
       sender: 'ai',
       text: language === 'bn' 
-        ? 'স্বাগতম! আমি আপনার Agro-AI সহকারী। ফসল, সার, কীটনাশক বা রোগবালাই নিয়ে যেকোনো প্রশ্ন মুখে বলুন বা লিখে জানান, আমি সাথে সাথে সমাধান দিচ্ছি।'
-        : 'Welcome! I am your Agro-AI agricultural assistant. Ask me anything via voice or text about crops, fertilizers, pesticides, or plant diseases.',
+        ? 'স্বাগতম! আমি আপনার অঙ্কুর (Onkur) সহকারী। ফসল, সার, কীটনাশক বা রোগবালাই নিয়ে যেকোনো প্রশ্ন মুখে বলুন বা লিখে জানান, আমি সাথে সাথে সমাধান দিচ্ছি।'
+        : 'Welcome! I am your Onkur (অঙ্কুর) agricultural assistant. Ask me anything via voice or text about crops, fertilizers, pesticides, or plant diseases.',
       time: new Date().toLocaleTimeString(language === 'bn' ? 'bn-BD' : 'en-US', { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -31,8 +31,8 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
         return [{
           sender: 'ai',
           text: language === 'bn' 
-            ? 'স্বাগতম! আমি আপনার Agro-AI সহকারী। ফসল, সার, কীটনাশক বা রোগবালাই নিয়ে যেকোনো প্রশ্ন মুখে বলুন বা লিখে জানান, আমি সাথে সাথে সমাধান দিচ্ছি।'
-            : 'Welcome! I am your Agro-AI agricultural assistant. Ask me anything via voice or text about crops, fertilizers, pesticides, or plant diseases.',
+            ? 'স্বাগতম! আমি আপনার অঙ্কুর (Onkur) সহকারী। ফসল, সার, কীটনাশক বা রোগবালাই নিয়ে যেকোনো প্রশ্ন মুখে বলুন বা লিখে জানান, আমি সাথে সাথে সমাধান দিচ্ছি।'
+            : 'Welcome! I am your Onkur (অঙ্কুর) agricultural assistant. Ask me anything via voice or text about crops, fertilizers, pesticides, or plant diseases.',
           time: new Date().toLocaleTimeString(language === 'bn' ? 'bn-BD' : 'en-US', { hour: '2-digit', minute: '2-digit' })
         }];
       }
@@ -236,7 +236,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
                     <User size={19} />
                   </div>
                 ) : (
-                  <div className="avatar-icon-wrapper ai" title="Agro-AI Assistant">
+                  <div className="avatar-icon-wrapper ai" title="অঙ্কুর (Onkur) Assistant">
                     <Bot size={20} />
                     <span className="online-indicator" title="Active" />
                   </div>
@@ -251,7 +251,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
                       language === 'bn' ? 'আপনি' : 'You'
                     ) : (
                       <>
-                        <span>Agro-AI</span>
+                        <span>অঙ্কুর</span>
                         <span className="ai-badge-tiny">{language === 'bn' ? 'সহকারী' : 'AI'}</span>
                       </>
                     )}
@@ -303,7 +303,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
             <div className="chat-bubble-container ai-container">
               <div className="chat-sender-label">
                 <span className="sender-name">
-                  <span>Agro-AI</span>
+                  <span>অঙ্কুর</span>
                   <span className="ai-badge-tiny">{language === 'bn' ? 'সহকারী' : 'AI'}</span>
                 </span>
               </div>

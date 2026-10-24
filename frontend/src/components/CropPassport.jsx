@@ -118,7 +118,7 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
   };
 
   const shareViaWhatsApp = () => {
-    const text = `*Agro-AI Field Health Card*%0A🌾 Crop: ${activeDiagnosis.cropType}%0A🦠 Pathology: ${activeDiagnosis.name}%0A⚠️ Damage: ${activeDiagnosis.damagePercentage}%%0A💊 Chemical: ${activeDiagnosis.chemicalRemedy}%0A🕒 Spray: ${activeDiagnosis.sprayAdvice}`;
+    const text = `*অঙ্কুর (Onkur) Field Health Card*%0A🌾 Crop: ${activeDiagnosis.cropType}%0A🦠 Pathology: ${activeDiagnosis.name}%0A⚠️ Damage: ${activeDiagnosis.damagePercentage}%%0A💊 Chemical: ${activeDiagnosis.chemicalRemedy}%0A🕒 Spray: ${activeDiagnosis.sprayAdvice}`;
     window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
   };
 
@@ -173,7 +173,7 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
           <div className="passport-brand">
             <FileText size={24} color="#059669" />
             <div>
-              <h3>Agro-AI Digital Crop Passport (ফিল্ড হেলথ কার্ড)</h3>
+              <h3>অঙ্কুর (Onkur) Digital Crop Passport (ফিল্ড হেলথ কার্ড)</h3>
               <p className="text-xs">Smart Agricultural Field Intelligence Document</p>
             </div>
           </div>
@@ -228,7 +228,7 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
 
         <div className="passport-footer mt-3">
           <span>Official AI Field Diagnostic Certificate</span>
-          <span>Verified by Agro-AI System</span>
+          <span>Verified by অঙ্কুর (Onkur) System</span>
         </div>
       </div>
     </div>
