@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Home, Mic, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, Menu, X, MapPin } from 'lucide-react';
+import React from 'react';
+import { Home, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, MapPin } from 'lucide-react';
 import onkurLogo from '../assets/onkur-logo.png';
 
 export default function Navbar({
@@ -10,8 +10,6 @@ export default function Navbar({
   gpsLocation,
   onOpenGpsModal
 }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const navItems = [
     { id: 'home', labelBn: 'হোম ও মাঠ পরিচিতি', labelEn: 'Home & Estate', icon: Home },
     { id: 'aichat', labelBn: 'ভয়েস ও এআই চ্যাট', labelEn: 'Voice & AI Chat', icon: MessageSquare },
@@ -21,11 +19,6 @@ export default function Navbar({
     { id: 'fertilizer', labelBn: 'সার ও সেচ ক্যালকুলেটর', labelEn: 'Fertilizer Calculator', icon: Calculator },
     { id: 'task5', labelBn: 'ডিজিটাল ক্রপ পাসপোর্ট', labelEn: 'Digital Crop Passport', icon: FileText }
   ];
-
-  const handleNavClick = (id) => {
-    setActiveTab(id);
-    setMenuOpen(false);
-  };
 
   const locationDisplay = gpsLocation
     ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(2)}°N, ${gpsLocation.lon?.toFixed(2)}°E`)
@@ -57,8 +50,8 @@ export default function Navbar({
           </div>
         </div>
 
-        {/* Middle: Field Location Pill (On non-home or integrated) */}
-        <div className="navbar-center-actions">
+        {/* Center/Right: Location Pill & Language Switcher */}
+        <div className="navbar-right-actions">
           <button
             type="button"
             className="navbar-location-btn"
@@ -79,10 +72,7 @@ export default function Navbar({
             <span className="pulse-dot"></span>
             <span className="field-ready-text">{language === 'bn' ? 'ফিল্ড রেডি' : 'Field Ready'}</span>
           </div>
-        </div>
 
-        {/* Right Corner: Language Switcher & Corner Menu Trigger Button */}
-        <div className="navbar-right-actions">
           {/* Language Toggle Pill */}
           <div className="lang-toggle-pill" role="group" aria-label="Language Toggle">
             <button
@@ -102,101 +92,26 @@ export default function Navbar({
               EN
             </button>
           </div>
-
-          {/* Corner Menu Button (Always Available & Elegant) */}
-          <button 
-            type="button"
-            className="corner-menu-trigger-btn" 
-            onClick={() => setMenuOpen(true)} 
-            aria-label="Open navigation menu"
-            title={language === 'bn' ? 'মেনু খুলুন' : 'Open Menu'}
-          >
-            <Menu size={18} strokeWidth={2.4} />
-            <span className="corner-menu-text font-serif-bn">
-              {language === 'bn' ? 'মেনু' : 'Menu'}
-            </span>
-          </button>
         </div>
       </div>
 
-      {/* Desktop Navigation Tabs (Hidden on Home for pure fullscreen immersion) */}
-      {!isHome && (
-        <nav className="navbar-tabs animate-fade-in">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id || (item.id === 'aichat' && activeTab === 'task1');
-            return (
-              <button
-                key={item.id}
-                className={`nav-tab-btn ${isActive ? 'active' : ''}`}
-                onClick={() => setActiveTab(item.id)}
-              >
-                <Icon size={16} />
-                <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
-              </button>
-            );
-          })}
-        </nav>
-      )}
-
-      {/* Slide-In Corner Drawer Overlay & Luxury Sidebar */}
-      {menuOpen && (
-        <div className="sidebar-overlay animate-fade-in" onClick={() => setMenuOpen(false)} />
-      )}
-
-      <aside className={`sidebar-drawer ${menuOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <div className="sidebar-brand">
-            <div className="sidebar-logo-box">
-              <img src={onkurLogo} alt="অঙ্কুর" className="w-full h-full object-cover" />
-            </div>
-            <div className="flex flex-col">
-              <span className="sidebar-title font-serif-bn">অঙ্কুর</span>
-              <span className="sidebar-subtitle font-cinzel text-gold">ONKUR ESTATE</span>
-            </div>
-          </div>
-          <button className="sidebar-close-btn" onClick={() => setMenuOpen(false)} aria-label="Close menu">
-            <X size={18} />
-          </button>
-        </div>
-
-        <div className="sidebar-location-box">
-          <button
-            type="button"
-            className="navbar-location-btn sidebar-loc-btn"
-            onClick={() => {
-              setMenuOpen(false);
-              onOpenGpsModal();
-            }}
-          >
-            <MapPin size={14} className="text-emerald" />
-            <span className="navbar-location-text">{locationDisplay}</span>
-          </button>
-        </div>
-
-        <div className="sidebar-nav-list">
-          {navItems.map((item, idx) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id || (item.id === 'aichat' && activeTab === 'task1');
-            return (
-              <button
-                key={item.id}
-                className={`sidebar-nav-btn ${isActive ? 'active' : ''}`}
-                onClick={() => handleNavClick(item.id)}
-              >
-                <span className="sidebar-item-index font-mono">0{idx + 1}</span>
-                <Icon size={18} />
-                <span className="sidebar-item-label font-serif-bn">{language === 'bn' ? item.labelBn : item.labelEn}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="sidebar-footer-info font-mono">
-          <div className="text-[10px] text-muted">SOVEREIGN AGRI-INTELLIGENCE • 2026</div>
-          <div className="text-[11px] text-gold font-bold">ALLUVIAL DELTA PROTOCOL</div>
-        </div>
-      </aside>
+      {/* Navigation Tabs (Available on All Screens, Clean & Unobtrusive) */}
+      <nav className={`navbar-tabs ${isHome ? 'navbar-home-tabs' : ''} animate-fade-in`}>
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id || (item.id === 'aichat' && activeTab === 'task1');
+          return (
+            <button
+              key={item.id}
+              className={`nav-tab-btn ${isActive ? 'active' : ''}`}
+              onClick={() => setActiveTab(item.id)}
+            >
+              <Icon size={16} />
+              <span>{language === 'bn' ? item.labelBn : item.labelEn}</span>
+            </button>
+          );
+        })}
+      </nav>
     </header>
   );
 }

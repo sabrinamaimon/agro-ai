@@ -2678,6 +2678,10 @@ select.input-field {
 
 /* Sliding Sidebar Drawer */
 .sidebar-drawer {
+  display: none !important;
+}
+
+.legacy-sidebar-disabled {
   position: fixed;
   top: 0;
   left: 0;
@@ -6059,162 +6063,48 @@ body:has(.app-container-home) {
   font-weight: 600;
 }
 
-/* Slide-In Luxury Sidebar Drawer */
-.sidebar-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: 9998;
-  animation: fadeIn 0.3s ease;
-}
-
-.sidebar-drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 340px;
-  max-width: 90vw;
-  background: rgba(10, 16, 12, 0.95);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
-  border-left: 1px solid rgba(197, 168, 128, 0.35);
-  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.7);
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(100%);
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 1.5rem;
-}
-
-.sidebar-drawer.open {
-  transform: translateX(0);
-}
-
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid rgba(197, 168, 128, 0.2);
-}
-
-.sidebar-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.sidebar-logo-box {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: 1px solid rgba(197, 168, 128, 0.5);
-  overflow: hidden;
-}
-
-.sidebar-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.sidebar-subtitle {
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  color: #C5A880;
-  font-weight: 600;
-}
-
-.sidebar-close-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #F1F5F9;
-  display: flex;
+/* Navigation Tabs on Home Screen (Floating Luxury Frosted Capsule) */
+.navbar-home-tabs {
+  display: flex !important;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  background: rgba(8, 14, 10, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(197, 168, 128, 0.32);
+  border-radius: 9999px;
+  padding: 0.35rem 0.65rem;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.55);
+  pointer-events: auto;
 }
 
-.sidebar-close-btn:hover {
-  background: rgba(220, 38, 38, 0.2);
-  color: #EF4444;
-  border-color: rgba(220, 38, 38, 0.4);
-}
-
-.sidebar-location-box {
-  margin: 1.25rem 0;
-}
-
-.sidebar-loc-btn {
-  width: 100%;
-  justify-content: flex-start;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(197, 168, 128, 0.2);
-}
-
-.sidebar-nav-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-}
-
-.sidebar-nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  background: transparent;
-  border: 1px solid transparent;
+.navbar-home-tabs .nav-tab-btn {
   color: rgba(241, 245, 249, 0.85);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: left;
-}
-
-.sidebar-nav-btn:hover {
-  background: rgba(197, 168, 128, 0.1);
-  border-color: rgba(197, 168, 128, 0.3);
-  color: #FFFFFF;
-  transform: translateX(4px);
-}
-
-.sidebar-nav-btn.active {
-  background: rgba(197, 168, 128, 0.18);
-  border-color: rgba(197, 168, 128, 0.5);
-  color: #E8D3B7;
-  font-weight: 600;
-}
-
-.sidebar-item-index {
-  font-size: 0.75rem;
-  color: #C5A880;
-  font-weight: 700;
-  width: 20px;
-}
-
-.sidebar-item-label {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
   font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent;
+  border: none;
 }
 
-.sidebar-footer-info {
-  padding-top: 1rem;
-  border-top: 1px solid rgba(197, 168, 128, 0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
+.navbar-home-tabs .nav-tab-btn:hover {
+  color: #FFFFFF;
+  background: rgba(197, 168, 128, 0.18);
+  transform: translateY(-1px);
+}
+
+.navbar-home-tabs .nav-tab-btn.active {
+  background: linear-gradient(135deg, #E8D3B7 0%, #C5A880 100%);
+  color: #080C0A !important;
+  font-weight: 700;
+  box-shadow: 0 2px 14px rgba(197, 168, 128, 0.45);
 }
 
 /* Responsive Adjustments (<768px, <640px) */
