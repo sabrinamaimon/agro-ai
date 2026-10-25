@@ -172,11 +172,6 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
         
         {/* Section Header (Reveals from Below into Focus) */}
         <div className="reveal-focus hiw-header-block">
-          <div className="hiw-eyebrow-pill">
-            <span>⚡</span>
-            <span className="font-cinzel">3D INTERACTIVE WALKTHROUGH</span>
-          </div>
-
           <h2 className="hiw-main-heading font-serif-bn">
             {language === 'bn' ? (
               <>কোন সমস্যার জন্য কোথায় ক্লিক করবেন?<br /><span className="text-gold-gradient">অঙ্কুর অ্যাপের পূর্ণাঙ্গ সচিত্র নির্দেশিকা</span></>
