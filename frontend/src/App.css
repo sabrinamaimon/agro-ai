@@ -5613,7 +5613,7 @@ body:has(.app-container-home) {
 .hero-slide-overlay-bottom {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(5,8,6,0.98) 0%, rgba(5,8,6,0.55) 28%, transparent 65%);
+  background: linear-gradient(to top, #050806 0%, rgba(5,8,6,0.85) 15%, rgba(5,8,6,0.4) 45%, transparent 75%);
   pointer-events: none;
 }
 
@@ -5641,10 +5641,98 @@ body:has(.app-container-home) {
 
 .hero-stage-right-stamp {
   display: flex;
+  flex-direction: column;
   align-items: flex-end;
-  justify-content: flex-end;
+  gap: 0.65rem;
   pointer-events: auto;
   margin-bottom: 1.5rem;
+}
+
+.hero-crop-nav-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.32rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(8, 14, 10, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(197, 168, 128, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.btn-crop-slide {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #E8D3B7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-crop-slide:hover {
+  background: #C5A880;
+  color: #080E0A;
+  border-color: #E8D3B7;
+}
+
+.hero-crop-dots {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.crop-nav-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.crop-nav-dot.active {
+  width: 22px;
+  border-radius: 9999px;
+  background: #C5A880;
+  box-shadow: 0 0 8px rgba(197, 168, 128, 0.6);
+}
+
+.hero-bottom-scroll-cue {
+  position: absolute;
+  bottom: 1.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  pointer-events: auto;
+}
+
+.btn-hero-scroll-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1.15rem;
+  border-radius: 9999px;
+  background: rgba(8, 14, 10, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(197, 168, 128, 0.35);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  color: #F8FAFC;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-hero-scroll-cue:hover {
+  background: rgba(197, 168, 128, 0.2);
+  border-color: #E8D3B7;
+  transform: translateY(-3px);
 }
 
 /* Eyebrow Label Pill */

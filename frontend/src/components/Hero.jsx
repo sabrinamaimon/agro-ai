@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Camera, FileText, PhoneCall, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Camera, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import onkurCalligraphy from '../assets/onkur-calligraphy-gold.png';
 
 export default function Hero({ language, setActiveTab }) {
@@ -188,10 +188,9 @@ export default function Hero({ language, setActiveTab }) {
               <span>{language === 'bn' ? 'ডিজিটাল ক্রপ পাসপোর্ট ↗' : 'Digital Crop Passport ↗'}</span>
             </button>
           </div>
-
         </div>
 
-        {/* Right Corner: Architectural Crop Focus Stamp */}
+        {/* Right Corner: Architectural Crop Focus Stamp & Controls */}
         <div className="hero-stage-right-stamp">
           <div className="corner-crop-chip">
             <div className="corner-crop-title font-serif-bn">
@@ -201,96 +200,63 @@ export default function Hero({ language, setActiveTab }) {
               {language === 'bn' ? activeCrop.diseaseBn : activeCrop.diseaseEn}
             </div>
           </div>
+
+          {/* Floating Slide Navigation Controls */}
+          <div className="hero-crop-nav-row">
+            <button 
+              type="button" 
+              onClick={prevSlide} 
+              className="btn-crop-slide" 
+              aria-label="Previous Crop"
+              title={language === 'bn' ? 'পূর্ববর্তী ফসল' : 'Previous Crop'}
+            >
+              <ChevronLeft size={16} />
+            </button>
+            
+            <div className="hero-crop-dots">
+              {cropsData.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setCurrentSlide(idx)}
+                  className={`crop-nav-dot ${idx === currentSlide ? 'active' : ''}`}
+                  aria-label={`Slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+
+            <button 
+              type="button" 
+              onClick={nextSlide} 
+              className="btn-crop-slide" 
+              aria-label="Next Crop"
+              title={language === 'bn' ? 'পরবর্তী ফসল' : 'Next Crop'}
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Seamless Natural Helpline Bar (At the Very End) */}
-      <footer className="hero-seamless-footer">
-        <div className="footer-seamless-inner">
-          
-          {/* Left Title */}
-          <div className="footer-helpline-title">
-            <span className="live-ping-dot" />
-            <span className={`${language === 'bn' ? 'font-serif-bn' : 'font-cinzel'} text-gold text-xs font-bold tracking-wider`}>
-              {language === 'bn' ? 'টোল-ফ্রি সহায়তা' : 'TOLL-FREE ASSISTANCE'}
-            </span>
-            <span className="divider-dot">•</span>
-            <span className="font-serif-bn text-xs text-muted-sub">
-              {language === 'bn' ? 'কৃষক সার্বক্ষণিক জরুরি হেল্পলাইন' : '24/7 Farmer Emergency Lines'}
-            </span>
-          </div>
-
-          {/* Center Links */}
-          <div className="footer-helpline-links">
-            <a href="tel:16123" className="helpline-link-item group">
-              <strong className="helpline-code">16123</strong>
-              <span className="helpline-name font-serif-bn">
-                {language === 'bn' ? 'কৃষি কল সেন্টার' : 'Krishi Call Center'}
-              </span>
-              <span className="helpline-badge">{language === 'bn' ? 'টোল-ফ্রি' : 'Toll-Free'}</span>
-            </a>
-
-            <span className="link-divider">•</span>
-
-            <a href="tel:1090" className="helpline-link-item group">
-              <strong className="helpline-code">1090</strong>
-              <span className="helpline-name font-serif-bn">
-                {language === 'bn' ? 'আবহাওয়া ও দুর্যোগ' : 'Weather & Disaster'}
-              </span>
-            </a>
-
-            <span className="link-divider">•</span>
-
-            <a href="tel:333" className="helpline-link-item group">
-              <strong className="helpline-code">333</strong>
-              <span className="helpline-name font-serif-bn">
-                {language === 'bn' ? 'জাতীয় তথ্য সেবা' : 'National Citizen Service'}
-              </span>
-            </a>
-          </div>
-
-          {/* Right Controls */}
-          <div className="footer-slide-controls">
-            {/* Scroll Down Prompt Button */}
-            <button 
-              type="button" 
-              onClick={() => {
-                const target = document.getElementById('how-it-works');
-                if (target) {
-                  target.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className="btn-hero-scroll-prompt"
-              title={language === 'bn' ? 'নিচে সচিত্র গাইড দেখুন' : 'Scroll to explore guide'}
-            >
-              <span className="font-serif-bn text-xs">{language === 'bn' ? 'সচিত্র গাইড ও রূপকল্প' : 'Explore Guide'}</span>
-              <span className="scroll-arrow-anim text-xs font-bold text-champagne">↓</span>
-            </button>
-
-            <div className="slide-arrow-pair">
-              <button 
-                type="button" 
-                onClick={prevSlide} 
-                className="btn-slide-arrow" 
-                aria-label="Previous Slide"
-                title={language === 'bn' ? 'পূর্ববর্তী ফসল' : 'Previous Crop'}
-              >
-                <ChevronLeft size={16} />
-              </button>
-              <button 
-                type="button" 
-                onClick={nextSlide} 
-                className="btn-slide-arrow" 
-                aria-label="Next Slide"
-                title={language === 'bn' ? 'পরবর্তী ফসল' : 'Next Crop'}
-              >
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </footer>
+      {/* Floating Smooth Scroll Prompt Cue at Bottom Center */}
+      <div className="hero-bottom-scroll-cue">
+        <button 
+          type="button" 
+          onClick={() => {
+            const target = document.getElementById('how-it-works');
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className="btn-hero-scroll-cue"
+          title={language === 'bn' ? 'নিচে সচিত্র নির্দেশিকা দেখুন' : 'Scroll down to explore guide'}
+        >
+          <span className="font-serif-bn text-xs">
+            {language === 'bn' ? 'সচিত্র নির্দেশিকা ও রূপকল্প দেখুন' : 'Explore Feature Guide & Vision'}
+          </span>
+          <span className="scroll-arrow-anim text-gold font-bold text-sm">↓</span>
+        </button>
+      </div>
     </div>
   );
 }
