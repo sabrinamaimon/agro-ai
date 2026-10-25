@@ -5949,21 +5949,21 @@ body:has(.app-container-home) {
   gap: 0.65rem;
   padding: 0.72rem 1.65rem;
   border-radius: 9999px;
-  background: #10B981;
-  color: #060807;
+  background: #16DB7B;
+  color: #04140B;
   font-family: 'Noto Serif Bengali', serif;
   font-size: 0.92rem;
   font-weight: 700;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 22px rgba(22, 219, 123, 0.45);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-hero-primary:hover {
-  background: #059669;
+  background: #10C76D;
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 8px 30px rgba(22, 219, 123, 0.6);
 }
 
 .btn-hero-secondary {
@@ -7688,11 +7688,42 @@ body:has(.app-container-home) {
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
 }
 
-.vision-desc {
-  font-size: 0.95rem;
+.vision-manifesto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  margin-bottom: 1.65rem;
+}
+
+.vision-p {
+  font-size: 0.93rem;
   color: #E2E8F0;
+  line-height: 1.68;
+  margin: 0;
+}
+
+.vision-dream-callout {
+  margin-top: 0.5rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: 14px;
+  background: rgba(22, 219, 123, 0.08);
+  border-left: 4px solid #16DB7B;
+  border-top: 1px solid rgba(22, 219, 123, 0.22);
+  border-right: 1px solid rgba(22, 219, 123, 0.22);
+  border-bottom: 1px solid rgba(22, 219, 123, 0.22);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.vision-dream-text {
+  font-size: 0.95rem;
+  color: #FFFFFF;
   line-height: 1.65;
-  margin-bottom: 1.75rem;
+  margin: 0;
+}
+
+.vision-dream-text strong {
+  color: #FCD34D;
+  font-weight: 700;
 }
 
 .vision-pillars-grid {

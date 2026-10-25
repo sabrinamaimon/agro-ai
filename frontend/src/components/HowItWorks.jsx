@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { CloudSun } from 'lucide-react';
 import howItWorksBg from '../assets/how-it-works-bg.png';
 
 export default function HowItWorks({ language = 'bn', setActiveTab }) {
@@ -236,13 +237,11 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
                     <span className="text-emerald-status">● Live Mic</span>
                   </div>
                   <div className="mock-chat-bubble user">
-                    <span className="mock-avatar">👨‍🌾</span>
                     <p className="font-serif-bn">
                       {language === 'bn' ? '"ধানের পাতা শুকিয়ে বাদামি চোখা দাগ হচ্ছে, কী স্প্রে করব?"' : '"Brown lesions on paddy leaves, what spray is safe?"'}
                     </p>
                   </div>
                   <div className="mock-chat-bubble bot">
-                    <span className="mock-avatar">🌱</span>
                     <div className="mock-bot-text font-serif-bn">
                       <strong>{language === 'bn' ? 'শনাক্ত: ধানের ব্লাস্ট রোগ' : 'Detected: Rice Blast'}</strong>
                       <span>{language === 'bn' ? 'ট্রাইসাইক্লাজোল ৭৫% ০.৭৫ গ্রাম/লিটারে স্প্রে করুন।' : 'Spray Tricyclazole 75% WP @ 0.75g/L.'}</span>
@@ -254,7 +253,7 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
               <div className="card-action-bar">
                 <div className="card-click-guide">
                   <strong className="font-serif-bn">
-                    👆 {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
+                    {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
                   </strong>
                   <p className="font-serif-bn">
                     {language === 'bn' 
@@ -323,7 +322,7 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
               <div className="card-action-bar">
                 <div className="card-click-guide">
                   <strong className="font-serif-bn">
-                    👆 {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
+                    {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
                   </strong>
                   <p className="font-serif-bn">
                     {language === 'bn' 
@@ -372,7 +371,7 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
                     <span className="text-gold">GPS: 24.84° N</span>
                   </div>
                   <div className="mock-spray-dial">
-                    <span className="mock-weather-icon">🌤️</span>
+                    <CloudSun size={26} className="text-emerald-status" />
                     <div>
                       <strong className="font-serif-bn text-emerald-status block">
                         {language === 'bn' ? 'আজ স্প্রে করা নিরাপদ (Optimal)' : 'Safe Spray Window (Optimal)'}
@@ -383,9 +382,9 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
                     </div>
                   </div>
                   <div className="mock-forecast-row font-serif-bn">
-                    <div className="mock-forecast-item">আজ: রোদ ☀️</div>
-                    <div className="mock-forecast-item">কাল: কুয়াশা 🌫️</div>
-                    <div className="mock-forecast-item alert">পরশু: বৃষ্টি 🌧️</div>
+                    <div className="mock-forecast-item">{language === 'bn' ? 'আজ: রোদ' : 'Today: Clear'}</div>
+                    <div className="mock-forecast-item">{language === 'bn' ? 'কাল: কুয়াশা' : 'Tomorrow: Fog'}</div>
+                    <div className="mock-forecast-item alert">{language === 'bn' ? 'পরশু: বৃষ্টি' : 'Day 3: Rain'}</div>
                   </div>
                 </div>
               </div>
@@ -393,7 +392,7 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
               <div className="card-action-bar">
                 <div className="card-click-guide">
                   <strong className="font-serif-bn">
-                    👆 {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
+                    {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
                   </strong>
                   <p className="font-serif-bn">
                     {language === 'bn' 
@@ -454,8 +453,8 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
                   </div>
                   <p className="mock-price-tip font-serif-bn">
                     {language === 'bn' 
-                      ? '💡 পরামর্শ: পাশের মোকামে বিক্রি করলে মণপ্রতি ৫০ টাকা বেশি মুনাফা হবে।'
-                      : '💡 Tip: Selling in Shibganj mandi yields 50 BDT/maund higher return.'}
+                      ? 'পরামর্শ: পাশের মোকামে বিক্রি করলে মণপ্রতি ৫০ টাকা বেশি মুনাফা হবে।'
+                      : 'Tip: Selling in Shibganj mandi yields 50 BDT/maund higher return.'}
                   </p>
                 </div>
               </div>
@@ -463,7 +462,7 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
               <div className="card-action-bar">
                 <div className="card-click-guide">
                   <strong className="font-serif-bn">
-                    👆 {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
+                    {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
                   </strong>
                   <p className="font-serif-bn">
                     {language === 'bn' 
@@ -533,7 +532,7 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
               <div className="card-action-bar">
                 <div className="card-click-guide">
                   <strong className="font-serif-bn">
-                    👆 {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
+                    {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
                   </strong>
                   <p className="font-serif-bn">
                     {language === 'bn' 
@@ -601,7 +600,7 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
               <div className="card-action-bar">
                 <div className="card-click-guide">
                   <strong className="font-serif-bn">
-                    👆 {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
+                    {language === 'bn' ? 'কোথায় ক্লিক করবেন?' : 'Where to click?'}
                   </strong>
                   <p className="font-serif-bn">
                     {language === 'bn' 
