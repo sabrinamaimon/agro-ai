@@ -194,7 +194,6 @@ export default function Hero({ language, setActiveTab }) {
         {/* Right Corner: Architectural Crop Focus Stamp */}
         <div className="hero-stage-right-stamp">
           <div className="corner-crop-chip">
-            <div className="corner-crop-meta font-cinzel">CROP IN FOCUS</div>
             <div className="corner-crop-title font-serif-bn">
               {language === 'bn' ? activeCrop.nameBn : activeCrop.nameEn} • {language === 'bn' ? activeCrop.accuracyBn : activeCrop.accuracyEn}
             </div>
@@ -212,7 +211,9 @@ export default function Hero({ language, setActiveTab }) {
           {/* Left Title */}
           <div className="footer-helpline-title">
             <span className="live-ping-dot" />
-            <span className="font-cinzel text-gold text-xs font-bold tracking-wider">TOLL-FREE ASSISTANCE</span>
+            <span className={`${language === 'bn' ? 'font-serif-bn' : 'font-cinzel'} text-gold text-xs font-bold tracking-wider`}>
+              {language === 'bn' ? 'টোল-ফ্রি সহায়তা' : 'TOLL-FREE ASSISTANCE'}
+            </span>
             <span className="divider-dot">•</span>
             <span className="font-serif-bn text-xs text-muted-sub">
               {language === 'bn' ? 'কৃষক সার্বক্ষণিক জরুরি হেল্পলাইন' : '24/7 Farmer Emergency Lines'}

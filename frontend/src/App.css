@@ -5808,9 +5808,10 @@ body:has(.app-container-home) {
   border: 1px solid rgba(197, 168, 128, 0.35);
   border-radius: 16px;
   padding: 1.15rem 1.45rem;
-  max-width: 310px;
+  max-width: 380px;
+  width: max-content;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-  text-align: right;
+  text-align: center;
   transition: all 0.4s ease;
 }
 
@@ -5819,25 +5820,19 @@ body:has(.app-container-home) {
   transform: translateY(-3px);
 }
 
-.corner-crop-meta {
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
-  color: #C5A880;
-  font-weight: 700;
-  margin-bottom: 0.35rem;
-}
-
 .corner-crop-title {
   font-size: 1.15rem;
   color: #FFFFFF;
   font-weight: 600;
   margin-bottom: 0.35rem;
+  white-space: nowrap;
 }
 
 .corner-crop-pathology {
   font-size: 0.82rem;
   color: #94A3B8;
   font-family: 'Noto Serif Bengali', serif;
+  text-align: center;
 }
 
 /* Seamless Natural Helpline Footer Bar */

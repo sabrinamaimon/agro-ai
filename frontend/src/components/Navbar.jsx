@@ -272,7 +272,6 @@ export default function Navbar({
           </div>
           <div className="drawer-copyright font-mono">
             <span>© 2026 ONKUR</span>
-            <span className="text-gold">SOVEREIGN DELTA</span>
           </div>
         </div>
       </aside>
