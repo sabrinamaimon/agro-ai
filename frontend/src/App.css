@@ -6850,6 +6850,7 @@ body:has(.app-container-home) {
 /* ========================================================================= */
 .how-it-works-section {
   position: relative;
+  scroll-margin-top: 75px;
   z-index: 15;
   padding: 5.5rem 1.5rem 6rem 1.5rem;
   background-color: #0a1710;
@@ -7561,6 +7562,7 @@ body:has(.app-container-home) {
 /* ========================================================================= */
 .our-vision-section {
   position: relative;
+  scroll-margin-top: 75px;
   padding: 5rem 1.5rem;
   background-color: #0a1710;
   background-image: 

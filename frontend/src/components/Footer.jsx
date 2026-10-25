@@ -2,6 +2,31 @@ import React from 'react';
 import { Sprout } from 'lucide-react';
 
 export default function Footer({ language = 'bn', activeTab = 'home', setActiveTab }) {
+  const scrollToHomeSection = (sectionId) => {
+    const doScroll = () => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        const headerOffset = 70;
+        const elementPosition = el.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    if (activeTab !== 'home') {
+      if (setActiveTab) {
+        setActiveTab('home');
+      }
+      setTimeout(doScroll, 120);
+      setTimeout(doScroll, 320);
+    } else {
+      doScroll();
+    }
+  };
+
   return (
     <footer id="footer-section" className="app-main-footer">
       <div className="footer-inner-container">
@@ -120,16 +145,24 @@ export default function Footer({ language = 'bn', activeTab = 'home', setActiveT
                 </button>
               </li>
               <li>
-                <a href="#how-it-works" className="footer-nav-link">
+                <button 
+                  type="button" 
+                  onClick={() => scrollToHomeSection('how-it-works')} 
+                  className="footer-nav-link"
+                >
                   <span>{language === 'bn' ? 'অ্যাপের সচিত্র গাইড (How It Works)' : 'Illustrated App Guide'}</span>
                   <span className="link-arrow">↗</span>
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#our-vision" className="footer-nav-link">
+                <button 
+                  type="button" 
+                  onClick={() => scrollToHomeSection('our-vision')} 
+                  className="footer-nav-link"
+                >
                   <span>{language === 'bn' ? 'আমাদের উদ্দেশ্য ও রূপকল্প' : 'Our Mission & Vision'}</span>
                   <span className="link-arrow">↗</span>
-                </a>
+                </button>
               </li>
             </ul>
           </div>
