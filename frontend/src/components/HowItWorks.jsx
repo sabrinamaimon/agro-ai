@@ -185,60 +185,6 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
               ? 'কার্ডগুলো স্বয়ংক্রিয়ভাবে ডান থেকে বামে স্লাইড হচ্ছে। মাউস রাখলে থামবে, যেকোনো কার্ডে ক্লিক করে সরাসরি ফিচারটিতে প্রবেশ করুন।'
               : 'Cards automatically slide right to left. Hover to pause, click any card to directly open the feature.'}
           </p>
-
-          {/* Controls Bar */}
-          <div className="hiw-controls-row">
-            <button 
-              type="button" 
-              onClick={() => { prevStep(); resetAutoSlideTimer(); }} 
-              className="btn-hiw-nav"
-              aria-label="Previous Step"
-            >
-              ←
-            </button>
-
-            <div className="hiw-indicators-group">
-              {Array.from({ length: totalSteps }).map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => goToStep(idx)}
-                  className={`hiw-dot-indicator ${idx === currentStep ? 'active' : ''}`}
-                  aria-label={`Step ${idx + 1}`}
-                />
-              ))}
-            </div>
-
-            <button 
-              type="button" 
-              onClick={() => { nextStep(); resetAutoSlideTimer(); }} 
-              className="btn-hiw-nav"
-              aria-label="Next Step"
-            >
-              →
-            </button>
-
-            <button 
-              type="button" 
-              onClick={toggleAutoSlide} 
-              className="btn-hiw-auto-toggle"
-            >
-              <span>{isAutoSlideActive ? '⏸️' : '▶️'}</span>
-              <span className="font-serif-bn text-xs">
-                {isAutoSlideActive 
-                  ? (language === 'bn' ? 'অটো-স্লাইড চালু' : 'Auto-Slide On') 
-                  : (language === 'bn' ? 'অটো-স্লাইড বন্ধ' : 'Auto-Slide Off')}
-              </span>
-            </button>
-          </div>
-
-          {/* Timer Progress Bar */}
-          <div className="hiw-timer-bar-wrap">
-            <div 
-              key={currentStep} 
-              className={`hiw-timer-bar-fill ${isAutoSlideActive ? 'animating' : ''}`} 
-            />
-          </div>
         </div>
 
         {/* 3D Coverflow Stage (Reveals from Below into Focus) */}
