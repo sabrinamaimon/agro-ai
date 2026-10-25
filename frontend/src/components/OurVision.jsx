@@ -48,9 +48,6 @@ export default function OurVision({ language = 'bn' }) {
               alt="বাংলার কৃষক ও গ্রামীণ ফসলের মাঠ" 
               className="our-vision-img"
             />
-            
-            {/* Soft Warm Sunlight & Subtle Feathered Edge Blend */}
-            <div className="our-vision-sun-glow" />
             <div className="our-vision-vignette-side" />
           </div>
 
@@ -106,3 +103,4 @@ export default function OurVision({ language = 'bn' }) {
     </section>
   );
 }
+
