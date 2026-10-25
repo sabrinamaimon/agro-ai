@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Home, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, MapPin, X } from 'lucide-react';
 import onkurLogo from '../assets/onkur-logo.png';
-import onkurCalligraphy from '../assets/onkur-calligraphy-gold.png';
 
 export default function Navbar({
   language,

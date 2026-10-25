@@ -30,6 +30,14 @@ export default function OurVision({ language = 'bn' }) {
       ref={sectionRef} 
       className="our-vision-section"
     >
+      {/* Standalone Section Header above the whole card (no box) */}
+      <div className="reveal-focus our-vision-section-header">
+        <h3 className="our-vision-standalone-title font-cinzel">
+          OUR VISION & MISSION
+        </h3>
+        <div className="our-vision-title-accent" />
+      </div>
+
       <div className="reveal-focus our-vision-card glass-card">
         <div className="our-vision-grid">
           
@@ -41,30 +49,13 @@ export default function OurVision({ language = 'bn' }) {
               className="our-vision-img"
             />
             
-            {/* Cinematic Vignettes */}
-            <div className="our-vision-vignette-bottom" />
+            {/* Soft Warm Sunlight & Subtle Feathered Edge Blend */}
+            <div className="our-vision-sun-glow" />
             <div className="our-vision-vignette-side" />
-
-            {/* Bottom Floating Badge on Photo */}
-            <div className="our-vision-floating-pill">
-              <div className="floating-pill-header font-cinzel">
-                <span>BENGAL GRASSROOTS EMPOWERMENT</span>
-                <span className="live-ping-dot" />
-              </div>
-              <p className="floating-pill-caption font-serif-bn">
-                {language === 'bn' 
-                  ? 'সোনালী ধানের চারা হাতে গর্বিত বাংলার কৃষক — প্রযুক্তি ও মাটির মেলবন্ধনে রচিত হচ্ছে সার্বভৌম কৃষি বিপ্লব।'
-                  : 'Empowering Bengal growers with AI diagnostics, certified harvest security, and sustainable agronomy.'}
-              </p>
-            </div>
           </div>
 
           {/* Right Side: Manifesto & 3 Pillars */}
           <div className="our-vision-text-col">
-            <div className="vision-header-badge font-cinzel">
-              OUR VISION & MISSION
-            </div>
-
             <h2 className="vision-quote font-serif-bn">
               {language === 'bn' 
                 ? '"কৃষকের ঘামে ভেজা ফসলের প্রতিটি দানা হোক সুরক্ষিত — এআই প্রযুক্তির নির্ভুল পাহারায়।"'
@@ -81,7 +72,6 @@ export default function OurVision({ language = 'bn' }) {
             <div className="vision-pillars-grid">
               
               <div className="vision-pillar-item">
-                <span className="pillar-icon">🌾</span>
                 <h4 className="pillar-title font-serif-bn">
                   {language === 'bn' ? 'খাদ্য নিরাপত্তা' : 'Food Security'}
                 </h4>
@@ -91,7 +81,6 @@ export default function OurVision({ language = 'bn' }) {
               </div>
 
               <div className="vision-pillar-item">
-                <span className="pillar-icon">🧪</span>
                 <h4 className="pillar-title font-serif-bn">
                   {language === 'bn' ? 'বিষমুক্ত চাষাবাদ' : 'Safe Agriculture'}
                 </h4>
@@ -101,7 +90,6 @@ export default function OurVision({ language = 'bn' }) {
               </div>
 
               <div className="vision-pillar-item">
-                <span className="pillar-icon">⚖️</span>
                 <h4 className="pillar-title font-serif-bn">
                   {language === 'bn' ? 'ন্যায্য বাজারমূল্য' : 'Fair Market Return'}
                 </h4>

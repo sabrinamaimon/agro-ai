@@ -151,9 +151,8 @@ export default function Hero({ language, setActiveTab }) {
       {/* Main Spacious Hero Stage */}
       <div className="hero-stage-content">
         <div className="hero-stage-left">
-          {/* Grand Handcrafted Calligraphy with Dedicated Dark Contrast Vignette */}
+          {/* Grand Handcrafted Calligraphy */}
           <div className="hero-calligraphy-wrap">
-            <div className="hero-calligraphy-backdrop-glow" />
             <img 
               src={onkurCalligraphy} 
               alt="অঙ্কুর ক্যালিগ্রাফি" 
