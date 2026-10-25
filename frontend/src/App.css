@@ -5607,11 +5607,11 @@ body:has(.app-container-home) {
   transform: scale(1.0);
 }
 
-/* Cinematic Gradient Overlays - Lightened with Sunlight Transmission */
+/* Cinematic Gradient Overlays - Rich Contrast behind Text, Bright & Sunlit on Right */
 .hero-slide-overlay-left {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(8,18,12,0.68) 0%, rgba(8,18,12,0.38) 42%, rgba(8,18,12,0.1) 78%, transparent 100%);
+  background: linear-gradient(to right, rgba(5,13,8,0.85) 0%, rgba(6,15,10,0.58) 32%, rgba(7,16,11,0.18) 65%, transparent 100%);
   pointer-events: none;
 }
 
@@ -5799,9 +5799,23 @@ body:has(.app-container-home) {
   font-weight: 500;
 }
 
-/* Isolated Calligraphy (Large Grand Centerpiece) */
+/* Isolated Calligraphy (Large Grand Centerpiece with Dark Feathered Contrast Aura) */
 .hero-calligraphy-wrap {
+  position: relative;
+  display: inline-block;
   margin: 0.25rem 0 1rem -0.5rem;
+  z-index: 5;
+}
+
+.hero-calligraphy-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -30% -25%;
+  background: radial-gradient(ellipse at 42% 50%, rgba(4, 10, 7, 0.88) 0%, rgba(5, 12, 8, 0.6) 45%, rgba(5, 12, 8, 0.2) 65%, transparent 80%);
+  filter: blur(20px);
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 9999px;
 }
 
 .hero-calligraphy-img {
@@ -5809,7 +5823,13 @@ body:has(.app-container-home) {
   width: auto;
   max-width: 440px;
   object-fit: contain;
-  filter: drop-shadow(0 0 30px rgba(197, 168, 128, 0.65)) drop-shadow(0 0 10px rgba(232, 211, 183, 0.5));
+  filter: 
+    drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.95))
+    drop-shadow(0 3px 8px rgba(0, 0, 0, 0.92))
+    drop-shadow(0 8px 25px rgba(0, 0, 0, 0.95))
+    drop-shadow(0 0 35px rgba(212, 175, 55, 0.35))
+    brightness(1.15) 
+    contrast(1.12);
   animation: gentleFloat 6s ease-in-out infinite;
 }
 
