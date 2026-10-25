@@ -240,26 +240,6 @@ export default function Hero({ language, setActiveTab }) {
           </div>
         </div>
       </div>
-
-      {/* Floating Smooth Scroll Prompt Cue at Bottom Center */}
-      <div className="hero-bottom-scroll-cue">
-        <button 
-          type="button" 
-          onClick={() => {
-            const target = document.getElementById('how-it-works');
-            if (target) {
-              target.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
-          className="btn-hero-scroll-cue"
-          title={language === 'bn' ? 'নিচে সচিত্র নির্দেশিকা দেখুন' : 'Scroll down to explore guide'}
-        >
-          <span className="font-serif-bn text-xs">
-            {language === 'bn' ? 'সচিত্র নির্দেশিকা ও রূপকল্প দেখুন' : 'Explore Feature Guide & Vision'}
-          </span>
-          <span className="scroll-arrow-anim text-gold font-bold text-sm">↓</span>
-        </button>
-      </div>
     </div>
   );
 }
