@@ -517,13 +517,68 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
 
               {diagnosisResult.chemicalRemedy && (
                 <div className="remedy-card chemical p-3 rounded-xl border border-blue-200 bg-blue-50/50">
-                  <div className="remedy-title flex items-center gap-2 text-blue-800 font-bold mb-2">
-                    <FlaskConical size={18} className="text-blue-600" />
-                    <span>{language === 'bn' ? 'অনুমোদিত রাসায়নিক ও ছত্রাকনাশক' : 'Chemical Control'}</span>
+                  <div className="remedy-title flex items-center justify-between text-blue-800 font-bold mb-2">
+                    <div className="flex items-center gap-2">
+                      <FlaskConical size={18} className="text-blue-600" />
+                      <span>{language === 'bn' ? 'অনুমোদিত রাসায়নিক ও ছত্রাকনাশক' : 'Chemical Control'}</span>
+                    </div>
+                    {diagnosisResult.phiDays && (
+                      <span className="text-xs px-2 py-0.5 rounded font-normal bg-blue-100 text-blue-800 border border-blue-300">
+                        {language === 'bn' ? `নিরাপদ বিরতি (PHI): ${diagnosisResult.phiDays} দিন` : `PHI: ${diagnosisResult.phiDays} Days`}
+                      </span>
+                    )}
                   </div>
-                  <p className="text-xs text-gray-700 whitespace-pre-line leading-relaxed">
-                    {diagnosisResult.chemicalRemedy}
-                  </p>
+
+                  {diagnosisResult.commercialMedicines && diagnosisResult.commercialMedicines.length > 0 ? (
+                    <div className="space-y-2.5">
+                      {diagnosisResult.commercialMedicines.map((med, idx) => (
+                        <div 
+                          key={idx} 
+                          className={`p-2.5 rounded-lg border ${med.is_recommended ? 'bg-white border-amber-300 shadow-sm' : 'bg-slate-50/80 border-slate-200'}`}
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-bold text-xs text-gray-900">{med.brand_name}</span>
+                                <span className="text-[11px] text-gray-500">({med.company})</span>
+                              </div>
+                              <div className="text-[11px] text-gray-600 mt-0.5">
+                                <span className="font-medium text-slate-700">{language === 'bn' ? 'উপাদান: ' : 'Active: '}</span>
+                                {med.generic_name}
+                              </div>
+                            </div>
+                            <span 
+                              className={`text-[10px] px-1.5 py-0.5 rounded font-semibold whitespace-nowrap ${
+                                med.is_recommended 
+                                  ? 'bg-amber-100 text-amber-900 border border-amber-300' 
+                                  : 'bg-slate-200 text-slate-700'
+                              }`}
+                            >
+                              {language === 'bn' 
+                                ? (med.badge_bn || (med.is_recommended ? 'গোল্ড স্ট্যান্ডার্ড' : 'বিকল্প ব্র্যান্ড')) 
+                                : (med.badge_en || (med.is_recommended ? 'Gold Standard' : 'Alternative'))}
+                            </span>
+                          </div>
+
+                          <div className="mt-1.5 pt-1.5 border-t border-gray-100 flex items-center justify-between text-xs text-gray-700 flex-wrap gap-1">
+                            <div>
+                              <span className="text-gray-500 font-medium">{language === 'bn' ? 'মাত্রা: ' : 'Dose: '}</span>
+                              <span>{language === 'bn' ? med.dosage_bn : (med.dosage_en || med.dosage_bn)}</span>
+                            </div>
+                            {med.approx_price_bdt && (
+                              <div className="font-semibold text-blue-900 bg-blue-100/60 px-1.5 py-0.5 rounded text-[11px]">
+                                ~৳{med.approx_price_bdt} {med.pack_size ? `(${med.pack_size})` : ''}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-gray-700 whitespace-pre-line leading-relaxed">
+                      {diagnosisResult.chemicalRemedy}
+                    </p>
+                  )}
                 </div>
               )}
             </div>

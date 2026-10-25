@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "verified_by": "DAE / BARI / BRRI Agricultural Extension Protocol",
   "diseases": [
     {
@@ -26,7 +26,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম (বিঘা প্রতি ২০ গ্রাম) ১০-১২ দিন অন্তর ২ বার স্প্রে করুন।",
           "dosage_en": "6g per 10 liters of water (20g/bigha), spray twice at 10-12 days interval.",
           "pack_size": "50g / 100g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Amistar Top 325 SC",
@@ -35,7 +38,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে গুলে সমভাবে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water, sprayed uniformly across foliage.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         },
         {
           "brand_name": "Trooper 75 WP",
@@ -44,7 +50,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৭৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.75g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 380
+          "approx_price_bdt": 420,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "জমিতে পরিমিত ইউরিয়া ও পটাশ সার ব্যবহার করুন। আক্রমণ দেখা দিলে বিঘাপ্রতি ৫ কেজি এমওপি সার উপরিপ্রয়োগ করুন এবং ট্রাইকোডার্মা স্প্রে করুন।",
@@ -74,7 +83,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ১০ দিন পর পর ২ বার স্প্রে করুন।",
           "dosage_en": "2g per liter of water, sprayed twice at 10-day intervals.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Bactroban / Cuproxat 345 SC",
@@ -83,7 +95,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে স্প্রে করুন।",
           "dosage_en": "2 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 290
+          "approx_price_bdt": 350,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "ইউরিয়া সারের উপরিপ্রয়োগ সাময়িক বন্ধ রাখুন। বিঘা প্রতি ৫ কেজি পটাশ (MOP) এবং ৫ কেজি জিপসাম সার উপরিপ্রয়োগ করুন। জমির অতিরিক্ত পানি নিষ্কাশন করুন।",
@@ -114,7 +129,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে গাছের গোড়ায় ভিজে স্প্রে করুন।",
           "dosage_en": "2 ml per liter of water targeted at plant base.",
           "pack_size": "100ml / 500ml",
-          "approx_price_bdt": 190
+          "approx_price_bdt": 220,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Tilt 250 EC",
@@ -123,7 +141,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "জমিতে আলোক ও বাতাস চলাচলের ব্যবস্থা করুন। আক্রমণ তীব্র হলে জমির পানি শুকিয়ে ২-৩ দিন পর আবার সেচ দিন।",
@@ -153,7 +174,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ১.৫ গ্রাম (বিঘা প্রতি ১৫ গ্রাম) গুলে গাছের গোড়ায় স্প্রে করুন।",
           "dosage_en": "1.5g per 10 liters of water (15g/bigha) directed at root-sheath collar.",
           "pack_size": "10g / 25g",
-          "approx_price_bdt": 250
+          "approx_price_bdt": 280,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Chess 50 WG",
@@ -162,7 +186,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "6g per 10 liters of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 390
+          "approx_price_bdt": 460,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         },
         {
           "brand_name": "Confidor 70 WG",
@@ -171,7 +198,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.২ গ্রাম হারে মিশিয়ে স্প্রে করুন।",
           "dosage_en": "0.2g per liter of water.",
           "pack_size": "30g",
-          "approx_price_bdt": 280
+          "approx_price_bdt": 350,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "জমিতে ৮-১০ হাত পর পর বিলি কেটে (আলি) আলো-বাতাস চলাচলের ব্যবস্থা করুন। জমে থাকা পানি ২-৩ দিনের জন্য বের করে দিন। হাঁস ছেড়ে দিন।",
@@ -203,7 +233,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে (বিঘা প্রতি ১০০ গ্রাম) পাতা ও কাণ্ড ভিজিয়ে স্প্রে করুন।",
           "dosage_en": "2g per liter of water (100g/bigha) covering upper and lower leaf surfaces.",
           "pack_size": "100g / 500g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Indofil M-45",
@@ -212,7 +245,10 @@
           "dosage_bn": "রোগের পূর্বে বা হালকা উপসর্গে প্রতি লিটার পানিতে ২.৫ গ্রাম হারে ৭ দিন পরপর স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water as preventative cover spray every 7 days.",
           "pack_size": "500g",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         },
         {
           "brand_name": "Revus 250 SC / Acrobat MZ",
@@ -221,7 +257,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 520
+          "approx_price_bdt": 580,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "রোগ দেখা দিলে সেচ বন্ধ রাখুন। আক্রান্ত গাছ তুলে মাটিতে পুঁতে ফেলুন। বোর্দো মিশ্রণ (১:১:১০০) কুয়াশা পড়ার আগেই স্প্রে করুন।",
@@ -252,7 +291,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Score 250 EC",
@@ -261,7 +303,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 460
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "ট্রাইকোডার্মা ও নিম খৈল মাটির সাথে মেশান। আক্রান্ত পাতা সাবধানে কেটে ধ্বংস করুন।",
@@ -293,7 +338,22 @@
           "dosage_bn": "প্রতি হেক্টরে ১৫-২০ কেজি ব্লিচিং পাউডার শেষ চাষের সময় মাটিতে মিশিয়ে দিন অথবা কপার অক্সিক্লোরাইড ২ গ্রাম/লিটার গোড়ায় ঢালুন।",
           "dosage_en": "Soil treatment with bleaching powder (15-20 kg/ha) or collar drench with Copper Oxychloride 2g/L.",
           "pack_size": "1kg",
-          "approx_price_bdt": 250
+          "approx_price_bdt": 290,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Champion 77 WP",
+          "generic_name": "Copper Hydroxide 77% WP",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন এবং আক্রান্ত গাছের গোড়ায় ঢালুন।",
+          "dosage_en": "2g per liter of water, spray foliage and drench root zone.",
+          "pack_size": "১০০ গ্রাম",
+          "approx_price_bdt": 360,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "রোগমুক্ত সার্টিফাইড বীজ ব্যবহার করুন। আক্রান্ত জমি থেকে পানি অন্য জমিতে যেতে দেবেন না। শস্য পর্যায় (ধান বা ভুট্টা চাষ) মেনে চলুন।",
@@ -325,7 +385,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Acrobat MZ",
@@ -334,7 +397,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 380
+          "approx_price_bdt": 440,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "গাছ বাঁশের খাঁচা বা খুঁটি দিয়ে মাটি থেকে উপরে রাখুন যাতে পাতা মাটিতে না ঠেকে। ড্রিপ সেচ ব্যবহার করুন।",
@@ -364,7 +430,10 @@
           "dosage_bn": "বাহক সাদা মাছি দমনে প্রতি লিটার পানিতে ০.২ গ্রাম হারে ৭-১০ দিন পর পর স্প্রে করুন।",
           "dosage_en": "0.2g per liter of water targeting whitefly vector.",
           "pack_size": "30g",
-          "approx_price_bdt": 280
+          "approx_price_bdt": 350,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Pegasus 500 SC",
@@ -373,7 +442,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 480
+          "approx_price_bdt": 820,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "হলুদ আঠালো ফাঁদ (Yellow Sticky Trap) প্রতি বিঘায় ১০-১২টি স্থাপন করুন। নিম তেল ৫ মিলি + ১ মিলি সাবান পানি প্রতি লিটারে মিশিয়ে স্প্রে করুন।",
@@ -403,7 +475,22 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম কিলেটেড ক্যালসিয়াম মিশিয়ে বিকেলে পাতায় ও ফলে স্প্রে করুন।",
           "dosage_en": "2g per liter chelated calcium foliar spray in the late afternoon.",
           "pack_size": "100g",
-          "approx_price_bdt": 180
+          "approx_price_bdt": 220,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Calbo-Plus / Foliar Calcium Boron",
+          "generic_name": "Chelated Calcium 10% + Boron 2%",
+          "company": "Square Agro / ACI Crop Care",
+          "dosage_bn": "প্রতি লিটার পানিতে ১.৫ মিলি হারে মিশিয়ে পাতা ও ফলে ২ বার স্প্রে করুন।",
+          "dosage_en": "1.5 ml per liter of water, spray on foliage and developing fruits twice.",
+          "pack_size": "১০০ মিলি",
+          "approx_price_bdt": 240,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "মাটিতে ডলোমাইট বা চুন (বিঘা প্রতি ২০ কেজি) চাষের সময় ব্যবহার করুন। নিয়মিত পরিমিত সেচ দিন যাতে মাটি শুকিয়ে না যায়। খড় দিয়ে মালচিং করুন।",
@@ -434,7 +521,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "50ml",
-          "approx_price_bdt": 490
+          "approx_price_bdt": 590,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Coragen 20 SC",
@@ -443,7 +533,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৪ মিলি (বিঘা প্রতি ১৫ মিলি) হারে স্প্রে করুন।",
           "dosage_en": "4 ml per 10 liters of water.",
           "pack_size": "30ml",
-          "approx_price_bdt": 480
+          "approx_price_bdt": 580,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         },
         {
           "brand_name": "Proclaim 5 SG",
@@ -452,7 +545,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "1g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 390,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সেক্স ফেরোমোন ফাঁদ (Lucinlure Pheromone Trap) প্রতি বিঘায় ১০-১২টি ব্যবহার করুন। আক্রান্ত ডগা ও ফল হাত দিয়ে তুলে নষ্ট করুন। ট্রাইকোগ্রামা পরজীবী ডিম ব্যবহার করুন।",
@@ -484,7 +580,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Dithane M-45 / Indofil M-45",
@@ -493,7 +592,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "500g",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "বীজ শোধন করুন ট্রাইকোডার্মা দিয়ে (৩ গ্রাম/কেজি বীজ)। আক্রান্ত ডালপালা ও ফল দ্রুত পুড়িয়ে ফেলুন।",
@@ -525,7 +627,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Tilt 250 EC",
@@ -534,7 +639,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "অতিরিক্ত নাইট্রোজেন সার পরিহার করুন। বীজ শোধন করে বপন করুন। আক্রমণ দেখা দিলে কপার ছত্রাকনাশক স্প্রে করুন।",
@@ -564,7 +672,10 @@
           "dosage_bn": "মাকড় ও থ্রিপস উভয় দমনে প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water controlling both thrips and mites simultaneously.",
           "pack_size": "100ml",
-          "approx_price_bdt": 480
+          "approx_price_bdt": 820,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Vertimec 018 EC",
@@ -573,7 +684,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1.5 ml per liter of water.",
           "pack_size": "50ml",
-          "approx_price_bdt": 310
+          "approx_price_bdt": 380,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "নীল আঠালো ফাঁদ (থ্রিপসের জন্য) এবং হলুদ ফাঁদ ব্যবহার করুন। সালফার গুড়া (কুমুলাস) ২ গ্রাম/লিটার স্প্রে করুন।",
@@ -605,7 +719,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে মুকুল আসার আগে ও মটর দানার মতো আম হলে স্প্রে করুন।",
           "dosage_en": "6g per 10 liters of water sprayed at pre-flowering and pea-sized marble stage.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Amistar Top 325 SC",
@@ -614,7 +731,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত ডালপালা কেটে বোর্ডের পেস্ট (১:১ অনুপাত চুন ও তুঁতে) প্রলেপ দিন। ফল পেপার ব্যাগিং (Fruit Bagging) করুন।",
@@ -644,7 +764,22 @@
           "dosage_bn": "আক্রান্ত ডাল ছাঁটাই করে প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন এবং কাটা অংশে বোর্দো পেস্ট লাগান।",
           "dosage_en": "Prune diseased branches below infection line; spray Copper Oxychloride 2g/L and seal cuts with Bordeaux paste.",
           "pack_size": "100g / 500g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "আক্রান্ত ডাল ছাঁটাইয়ের পর প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "6g per 10L water, spray thoroughly after pruning infected branches.",
+          "pack_size": "৫০ গ্রাম",
+          "approx_price_bdt": 460,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত ডাল সুস্থ অংশের ৪-৫ ইঞ্চি নিচ থেকে কেটে পুড়িয়ে ফেলতে হবে এবং কাটা স্থানে আলকাতরা বা বোর্দো পেস্ট লাগাতে হবে।",
@@ -675,7 +810,10 @@
           "dosage_bn": "শীষ বের হওয়ার সময় প্রতি লিটার পানিতে ০.৬ গ্রাম (বিঘা প্রতি ২০ গ্রাম) ১০ দিন পর পর ২ বার স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water (20g/bigha) applied twice at heading stage at 10-day intervals.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Amistar Top 325 SC",
@@ -684,7 +822,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "ব্লাস্ট প্রতিরোধী জাত (বারি গম ৩৩ / WMRI গম ৩) চাষ করুন। দেরিতে গম বপন পরিহার করুন। বীজ শোধন করুন।",
@@ -716,7 +857,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৪ মিলি হারে গাছের কান্ড ও ঘূর্ণি পাতার ভেতরে স্প্রে করুন।",
           "dosage_en": "0.4 ml per liter directed into the central leaf whorl.",
           "pack_size": "20ml",
-          "approx_price_bdt": 360
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Coragen 20 SC",
@@ -725,7 +869,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৪ মিলি হারে স্প্রে করুন।",
           "dosage_en": "4 ml per 10 liters of water.",
           "pack_size": "30ml",
-          "approx_price_bdt": 480
+          "approx_price_bdt": 580,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "গাছের ঘূর্ণিতে শুকনো ছাই বা বালি গুঁড়া এক চিমটি করে দিন। ট্রাইকোডার্মা ও ফেরোমোন ফাঁদ ব্যবহার করুন।",
@@ -755,7 +902,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি সাথে মিনারেল অয়েল (১%) মিশিয়ে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water combined with agricultural mineral oil.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Nativo 75 WG",
@@ -764,7 +914,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত পাতা সাবধানে কেটে বাগান থেকে দূরে নিয়ে পুড়িয়ে ফেলুন। বাগানে পানি নিষ্কাশনের ভালো ব্যবস্থা রাখুন যাতে স্যাঁতসেঁতে না থাকে।",
@@ -796,7 +949,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ১০ দিন পর পর ২ বার স্প্রে করুন।",
           "dosage_en": "2g per liter of water sprayed twice at 10-day intervals.",
           "pack_size": "100g",
-          "approx_price_bdt": 340
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Indofil M-45",
@@ -805,7 +961,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "500g",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আগাম সরিষা বপন করুন (কার্তিক মাসের শেষ সপ্তাহ)। বীজ শোধন করুন। জমিতে অতিরিক্ত আগাছা পরিষ্কার রাখুন।",
@@ -837,7 +996,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে স্প্রে করুন।",
           "dosage_en": "2 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 180
+          "approx_price_bdt": 210,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Admire 200 SL / Confidor",
@@ -846,7 +1008,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "50ml",
-          "approx_price_bdt": 290
+          "approx_price_bdt": 320,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সাবান মিশ্রিত পানি (৫ গ্রাম ডিটারজেন্ট প্রতি লিটার) স্প্রে করুন। লেডিবার্ড বিটল (লেডিবাগ) পোকা সংরক্ষণ করুন যা জাব পোকা খায়।",
@@ -876,7 +1041,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে কাণ্ডে স্প্রে করুন।",
           "dosage_en": "2g per liter of water directed along stems.",
           "pack_size": "100g",
-          "approx_price_bdt": 210
+          "approx_price_bdt": 240,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Indofil M-45",
@@ -885,7 +1053,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "500g",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "অতিরিক্ত পানি নিষ্কাশন করুন কারণ জলাবদ্ধতায় এই রোগ দ্রুত বাড়ে। পটাশ সার বেশি ও ইউরিয়া পরিমিত ব্যবহার করুন।",
@@ -916,7 +1087,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে মিশিয়ে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 340
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Score 250 EC",
@@ -925,7 +1099,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 460
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         },
         {
           "brand_name": "Indofil M-45",
@@ -934,7 +1111,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "500g",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "পেঁয়াজের পাতা পিচ্ছিল হওয়ায় স্প্রে দ্রবণে ট্রাইটন বা সামান্য ডিটারজেন্ট মিশিয়ে স্প্রে করলে ওষুধ পাতায় লেগে থাকে। ট্রাইকোডার্মা দিয়ে বীজ শোধন করুন।",
@@ -964,7 +1144,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 380
+          "approx_price_bdt": 440,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Ridomil Gold MZ 68 WG",
@@ -973,7 +1156,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "মাচায় বাতাস চলাচলের ব্যবস্থা করুন। আক্রমণ দেখা দিলে কপার অক্সিক্লোরাইড (২ গ্রাম/লিটার) ও ট্রাইকোডার্মা স্প্রে করুন।",
@@ -1004,7 +1190,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Kumulus 80 DF",
@@ -1013,7 +1202,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "1kg",
-          "approx_price_bdt": 350
+          "approx_price_bdt": 420,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "বেকিং সোডা ৫ গ্রাম + আধা চা চামচ তরল সাবান প্রতি লিটার পানিতে মিশিয়ে স্প্রে করুন।",
@@ -1043,7 +1235,10 @@
           "dosage_bn": "বিঘা প্রতি ৪-৫টি মাছি ফাঁদ মাচায় ঝুলিয়ে দিন।",
           "dosage_en": "4-5 sex pheromone traps per bigha suspended on trellises.",
           "pack_size": "Trap kit",
-          "approx_price_bdt": 150
+          "approx_price_bdt": 180,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Proclaim 5 SG",
@@ -1052,7 +1247,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "1g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 390,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "কিউলুর সেক্স ফেরোমোন ফাঁদ ব্যবহার করুন। বিষটোপ ফাঁদ (১০০ গ্রাম পাকা মিষ্টি কুমড়া বাটা + ০.৫ গ্রাম সেভিন) মাটির পাত্রে মাচার নিচে রাখুন।",
@@ -1084,7 +1282,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "500g",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 520,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Amistar Top 325 SC",
@@ -1093,7 +1294,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "গাছের গোড়ায় পানি জমতে দেবেন না। আক্রান্ত পাতা ছিঁড়ে মাটিতে পুঁতে ফেলুন। বোর্দো মিশ্রণ (১%) স্প্রে করুন।",
@@ -1124,7 +1328,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 230
+          "approx_price_bdt": 260,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Sevin 85 SP",
@@ -1133,7 +1340,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১.৫ গ্রাম হারে চারা অবস্থায় স্প্রে করুন।",
           "dosage_en": "1.5g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 210
+          "approx_price_bdt": 240,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সকালে যখন পোকা নিস্তেজ থাকে তখন হাতজাল দিয়ে ধরে মেরে ফেলুন। গাছের পাতায় ছাই ছিটিয়ে দিন।",
@@ -1163,7 +1373,10 @@
           "dosage_bn": "বিঘা প্রতি ৪-৫টি কিউলুর ফাঁদ মাচায় ঝুলিয়ে দিন।",
           "dosage_en": "4-5 traps per bigha.",
           "pack_size": "Trap kit",
-          "approx_price_bdt": 150
+          "approx_price_bdt": 180,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Voliam Flexi 300 SC",
@@ -1172,7 +1385,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "50ml",
-          "approx_price_bdt": 490
+          "approx_price_bdt": 590,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সেক্স ফেরোমোন ফাঁদ ব্যবহার করুন। ফল পলিথিন বা কাগজ দিয়ে ব্যাগিং করুন।",
@@ -1204,7 +1420,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ১০ দিন পর পর ২ বার স্প্রে করুন।",
           "dosage_en": "2g per liter of water applied twice at 10-day intervals.",
           "pack_size": "100g",
-          "approx_price_bdt": 210
+          "approx_price_bdt": 240,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Nativo 75 WG",
@@ -1213,7 +1432,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সুস্থ গাছ থেকে বীজ সংগ্রহ করুন। বীজ শোধন করুন ট্রাইকোডার্মা দিয়ে (৩ গ্রাম/কেজি বীজ)।",
@@ -1245,7 +1467,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে স্প্রে করুন।",
           "dosage_en": "2 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 180
+          "approx_price_bdt": 210,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Admire 200 SL",
@@ -1254,7 +1479,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "50ml",
-          "approx_price_bdt": 290
+          "approx_price_bdt": 320,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সাবান বা গুঁড়া সাবান মিশ্রিত পানি (৫ গ্রাম/লিটার) স্প্রে করুন। ছাই ছিটিয়ে দিন। নিম তেল স্প্রে করুন।",
@@ -1285,7 +1513,10 @@
           "dosage_bn": "বাহক সাদা মাছি দমনে প্রতি লিটার পানিতে ০.২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.2g per liter of water targeting whitefly vectors.",
           "pack_size": "30g",
-          "approx_price_bdt": 280
+          "approx_price_bdt": 350,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Pegasus 500 SC",
@@ -1294,7 +1525,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 480
+          "approx_price_bdt": 820,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "রোগ প্রতিরোধী জাত চাষ করুন। হলুদ আঠালো ফাঁদ প্রতি বিঘায় ১০টি দিন। নিম তেল ৫ মিলি/লিটার স্প্রে করুন।",
@@ -1325,7 +1559,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৪ মিলি হারে স্প্রে করুন।",
           "dosage_en": "4 ml per 10 liters of water.",
           "pack_size": "30ml",
-          "approx_price_bdt": 480
+          "approx_price_bdt": 580,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Proclaim 5 SG",
@@ -1334,7 +1571,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "1g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 390,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত ডগা ও ফল হাত দিয়ে তুলে মাটিতে পুঁতে ফেলুন। ফেরোমোন ফাঁদ ব্যবহার করুন।",
@@ -1366,7 +1606,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Cuproxat 345 SC",
@@ -1375,7 +1618,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে স্প্রে করুন।",
           "dosage_en": "2 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 290
+          "approx_price_bdt": 350,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "গরম পানিতে বীজ শোধন (৫০°C তাপমাত্রায় ২৫ মিনিট)। শস্য পর্যায় মেনে চলুন। কপার মিশ্রণ স্প্রে করুন।",
@@ -1406,7 +1652,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৪ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.4 ml per liter of water.",
           "pack_size": "20ml",
-          "approx_price_bdt": 360
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Proclaim 5 SG",
@@ -1415,7 +1664,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "1g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 390,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "ফেরোমোন ফাঁদ ব্যবহার করুন। বিটি (Bt - Bacillus thuringiensis) জৈব বালাইনাশক ২ গ্রাম/লিটার স্প্রে করুন।",
@@ -1447,7 +1699,22 @@
           "dosage_bn": "বাহক জাব পোকা দমনে প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water targeting aphid vectors.",
           "pack_size": "50ml",
-          "approx_price_bdt": 290
+          "approx_price_bdt": 320,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Actara 25 WG",
+          "generic_name": "Thiamethoxam 25% WG",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "বাহক সাদা মাছি ও জাব পোকা দমনে প্রতি ১০ লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "2.5g per 10 liters of water against vector whiteflies and aphids.",
+          "pack_size": "২০ গ্রাম",
+          "approx_price_bdt": 220,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত গাছ দেখামাত্র তুলে পুড়িয়ে ফেলতে হবে। চারার বয়সকালে মশারি দিয়ে ঢেকে জাব পোকা মুক্ত রাখুন। নিম তেল স্প্রে করুন।",
@@ -1478,7 +1745,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Tilt 250 EC",
@@ -1487,7 +1757,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "ফল কাটার পর ৪৮°C তাপমাত্রার গরম পানিতে ২০ মিনিট শোধন করুন। গাছে অতিরিক্ত পানি জমতে দেবেন না।",
@@ -1519,7 +1792,22 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গাছের গোড়ায় মাটি ভালো করে ভিজিয়ে ড্রেঞ্চিং করুন।",
           "dosage_en": "2g per liter root collar soil drenching.",
           "pack_size": "100g",
-          "approx_price_bdt": 210
+          "approx_price_bdt": 240,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Autostin 50 WDG",
+          "generic_name": "Carbendazim 50% WDG",
+          "company": "Auto Crop Care Ltd.",
+          "dosage_bn": "গাছের গোড়ার মাটি আলগা করে প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে গোড়ায় ঢালুন (ড্রেনচিং)।",
+          "dosage_en": "2g per liter of water, drench root zone thoroughly.",
+          "pack_size": "১০০ গ্রাম",
+          "approx_price_bdt": 240,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "গাছের গোড়ায় ট্রাইকোডার্মা মিশ্রিত ভার্মিকম্পোস্ট ও নিম খৈল (গাছ প্রতি ৫০০ গ্রাম) প্রতি বছর বর্ষার আগে দিন। আক্রান্ত গাছ তুলে চুন দিয়ে মাটি শোধন করুন।",
@@ -1551,7 +1839,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ১০ দিন পর পর ২ বার স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Cupravit 50 WP",
@@ -1560,7 +1851,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত ডালপালা ছেঁটে বোর্দো পেস্ট লাগান। কচি পাতায় পাতা সুরঙ্গকারী পোকা দমন করুন যাতে ক্ষত তৈরি না হয়।",
@@ -1592,7 +1886,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে লতা ও গোড়ায় স্প্রে করুন।",
           "dosage_en": "2g per liter of water sprayed onto vine bases.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Bordeaux Mixture (1:1:100)",
@@ -1601,7 +1898,10 @@
           "dosage_bn": "১০০ গ্রাম তুঁতে + ১০০ গ্রাম চুন ১০ লিটার পানিতে গুলে মাসে ২ বার স্প্রে করুন।",
           "dosage_en": "1% Bordeaux mixture spray twice monthly.",
           "pack_size": "Farm mix",
-          "approx_price_bdt": 120
+          "approx_price_bdt": 140,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "বরজে অতিরিক্ত স্যাঁতসেঁতে ভাব ও পানি জমা বন্ধ করুন। ট্রাইকোডার্মা বরজের মাটির সাথে মিশিয়ে দিন। রোগাক্রান্ত লতা দ্রুত তুলে পুড়িয়ে ফেলুন।",
@@ -1633,7 +1933,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Amistar Top 325 SC",
@@ -1642,7 +1945,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "বীজ শোধন করে বপন করুন। প্লাস্টিক বা খড়ের মালচিং ব্যবহার করে ফল মাটি থেকে উপরে রাখুন।",
@@ -1674,7 +1980,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ১০ দিন পর পর ২ বার স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 340
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Score 250 EC",
@@ -1683,7 +1992,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 460
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "ব্লাইট প্রতিরোধী জাত (বারি মসুর ৬, বারি মসুর ৭, বারি মসুর ৮) চাষ করুন। বীজ শোধন করে বপন করুন।",
@@ -1714,7 +2026,10 @@
           "dosage_bn": "বাহক সাদা মাছি দমনে প্রতি লিটার পানিতে ০.২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.2g per liter of water.",
           "pack_size": "30g",
-          "approx_price_bdt": 280
+          "approx_price_bdt": 350,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Actara 25 WG",
@@ -1723,7 +2038,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৩ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.3g per liter of water.",
           "pack_size": "20g",
-          "approx_price_bdt": 190
+          "approx_price_bdt": 220,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "মোজাইক সহনশীল জাত (বারি মুগ ৬) চাষ করুন। হলুদ আঠালো ফাঁদ ব্যবহার করুন। নিম তেল স্প্রে করুন।",
@@ -1754,7 +2072,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 210
+          "approx_price_bdt": 240,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Tilt 250 EC",
@@ -1763,7 +2084,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "বীজ শোধন করে বপন করুন। শস্য পর্যায় মেনে চলুন। ফসলের অবশিষ্টাংশ পুড়িয়ে ফেলুন।",
@@ -1794,7 +2118,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "500g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Champion 50 WP",
@@ -1803,7 +2130,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "বাগানে পরিমিত ছায়াগাছ ও সুষম পটাশ সার ব্যবহার করুন। মাটির জল নিষ্কাশন উন্নত করুন। আক্রান্ত ডাল ছেঁটে ফেলুন।",
@@ -1834,7 +2164,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৩ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.3g per liter of water.",
           "pack_size": "20g",
-          "approx_price_bdt": 190
+          "approx_price_bdt": 220,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Karate 2.5 EC",
@@ -1843,7 +2176,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 230
+          "approx_price_bdt": 260,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সকালে বা বিকেলে যখন পোকা কচি পাতায় বিচরণ করে তখন নিম তেলের স্প্রে দিন। ছায়ার ভারসাম্য ঠিক রাখুন।",
@@ -1874,7 +2210,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "6g per 10 liters of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Indofil M-45",
@@ -1883,7 +2222,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "500g",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "জমিতে সুষম পটাশ (MOP) ও দস্তা (Zinc) সার প্রয়োগ করুন। মাটির উর্বরতা বাড়াতে জৈব সার দিন।",
@@ -1913,7 +2255,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে ফুল আসার আগে স্প্রে করুন।",
           "dosage_en": "1 ml per liter before flowering.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Champion 50 WP",
@@ -1922,7 +2267,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "অতিরিক্ত নাইট্রোজেন সার পরিহার করুন। আক্রান্ত শীষ সাবধানে কেটে পলিথিনে ভরে নষ্ট করুন।",
@@ -1953,7 +2301,10 @@
           "dosage_bn": "বীজ আদা রোপণের আগে ২ গ্রাম/লিটার পানিতে ৩০ মিনিট ভিজিয়ে শোধন করুন এবং আক্রান্ত গাছের গোড়ায় স্প্রে করুন।",
           "dosage_en": "Rhizome seed treatment at 2g/L for 30 mins; soil drenching at plant base.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Cupravit 50 WP",
@@ -1962,7 +2313,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে মাটিতে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "জমি উঁচু ও সুনিষ্কাশিত হতে হবে যাতে পানি না জমে। রোপণের সময় ট্রাইকোডার্মা মিশ্রিত গোবর সার প্রয়োগ করুন।",
@@ -1992,7 +2346,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Indofil M-45",
@@ -2001,7 +2358,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "500g",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত পাতা কেটে পুড়িয়ে ফেলুন। বীজ হলুদ রোপণের পূর্বে রোদে শুকিয়ে শোধন করুন।",
@@ -2032,7 +2392,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 340
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Score 250 EC",
@@ -2041,7 +2404,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 460
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "স্প্রে দ্রবণে সামান্য আঠা (Triton বা ডিটারজেন্ট) মেশান যাতে রসুনের তেলতেলে পাতায় ওষুধ আটকে থাকে। ট্রাইকোডার্মা দিয়ে কোঁয়া শোধন করুন।",
@@ -2073,7 +2439,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গোড়ায় ও লতায় স্প্রে করুন।",
           "dosage_en": "2g per liter of water targeted at root collar.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Champion 50 WP",
@@ -2082,7 +2451,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "উঁচু বেড তৈরি করে পটল চাষ করুন যাতে গোড়ায় পানি না জমে। কন্দ রোপণের পূর্বে তুঁতের পানিতে (০.৫%) শোধন করুন।",
@@ -2113,7 +2485,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Cupravit 50 WP",
@@ -2122,7 +2497,10 @@
           "dosage_bn": "আক্রান্ত স্থান সাবধানে চেঁছে প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন এবং বোর্দো পেস্ট লাগান।",
           "dosage_en": "Prune/scrape lesions and spray Copper Oxychloride 2.5g/L; apply Bordeaux paste.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "অতিরিক্ত আর্দ্রতা ও অতিরিক্ত পানি সেচ পরিহার করুন। ডালপালা ছাঁটাই করে আলো-বাতাসের ব্যবস্থা করুন।",
@@ -2154,7 +2532,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ১০ দিন পর পর ২ বার স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Bactroban / Streptomycin formulation",
@@ -2163,7 +2544,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per 10 liters of water.",
           "pack_size": "20g",
-          "approx_price_bdt": 160
+          "approx_price_bdt": 190,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত ফল ও পাতা গাছ থেকে তুলে মাটির নিচে পুঁতে ফেলুন। কাটা ডালে বোর্দো পেস্ট লাগান।",
@@ -2194,7 +2578,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে ফুল আসার পর স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Kumulus 80 DF",
@@ -2203,7 +2590,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "1kg",
-          "approx_price_bdt": 350
+          "approx_price_bdt": 420,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "গাছ প্রতি বছর মার্চের মধ্যে শক্ত করে ছাঁটাই করুন যাতে প্রচুর আলো-বাতাস ঢোকে। ছাই ছিটিয়ে দিন।",
@@ -2234,7 +2624,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে গাছে সমভাবে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Secure 600 WG",
@@ -2243,7 +2636,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১.৫ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "1.5g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 220
+          "approx_price_bdt": 260,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         },
         {
           "brand_name": "Indofil M-45",
@@ -2252,7 +2648,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে গুলে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water.",
           "pack_size": "100g / 500g",
-          "approx_price_bdt": 180
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "ফল সংগ্রহের পর শুকনো ও রোগাক্রান্ত ডালপালা ছাঁটাই করে ট্রাইকোডার্মা বায়ো-ফাংগিসাইড স্প্রে করুন। বাগানের মাটিতে পরিষ্কার-পরিচ্ছন্নতা বজায় রাখুন।",
@@ -2283,7 +2682,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ৪ গ্রাম হারে গুলে নারিকেল গাছের মাথায় ও কুঁড়ির গোড়ায় ভালো করে ঢালুন।",
           "dosage_en": "4g per liter of water poured directly into crown bud.",
           "pack_size": "100g",
-          "approx_price_bdt": 340
+          "approx_price_bdt": 360,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Ridomil Gold MZ 68 WG",
@@ -2292,7 +2694,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ৩ গ্রাম হারে গুলে গাছের অগ্রভাগে স্প্রে ও ঢেলে দিন।",
           "dosage_en": "3g per liter of water applied to growing point.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত অংশের পচা অংশ কেটে পরিষ্কার করে কাঠের ছাই ও চুন মিশিয়ে অথবা ১% বোর্দো পেস্ট লেপে দিন। আশেপাশের গাছগুলোতে প্রতিরোধমূলক বোর্দো মিশ্রণ দিন।",
@@ -2323,7 +2728,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে গুলে চারা রোপণের আগে শোধন ও আক্রান্ত জমিতে স্প্রে করুন।",
           "dosage_en": "2.5g per liter of water for seedling dip and foliar drenching.",
           "pack_size": "100g",
-          "approx_price_bdt": 360
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Ridomil Gold MZ 68 WG",
@@ -2332,7 +2740,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে গাছের গোড়া ভিজিয়ে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "উঁচু ও সুনিষ্কাশিত জমিতে আনারস চাষ করুন। রোপণের আগে চারা রৌদ্রে শুকিয়ে ট্রাইকোডার্মা দিয়ে শোধন করুন।",
@@ -2364,7 +2775,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে ১০ দিন পর পর ২ বার স্প্রে করুন।",
           "dosage_en": "2g per liter of water, sprayed twice at 10-day intervals.",
           "pack_size": "100g",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Amistar Top 325 SC",
@@ -2373,7 +2787,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে গুলে ফুল ফোটার শুরুতে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সুষম পটাশ সার ব্যবহার করুন। ফসলের নিচের আক্রান্ত পাতা ছিঁড়ে পুড়িয়ে ফেলুন এবং ট্রাইকোডার্মা স্প্রে করুন।",
@@ -2405,7 +2822,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১.৫ গ্রাম হারে মিশিয়ে স্প্রে করুন।",
           "dosage_en": "1.5g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 190
+          "approx_price_bdt": 240,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Score 250 EC",
@@ -2414,7 +2834,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 460
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "প্রভ্যাক্স ২০০ ডব্লিউপি দিয়ে বীজ শোধন করে বপন করুন এবং জমিতে অতিরিক্ত সেচ বা পানি জমা রোধ করুন।",
@@ -2446,7 +2869,10 @@
           "dosage_bn": "বাহক জাসিড পোকা দমনে প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water to control vector jassid.",
           "pack_size": "50ml",
-          "approx_price_bdt": 350
+          "approx_price_bdt": 320,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Actara 25 WG",
@@ -2455,7 +2881,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ২ গ্রাম গুলে স্প্রে করুন।",
           "dosage_en": "0.2g per liter of water.",
           "pack_size": "10g",
-          "approx_price_bdt": 120
+          "approx_price_bdt": 220,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আক্রান্ত গাছ দেখতে পেলে সাথে সাথে উপড়ে মাটিতে পুঁতে ফেলুন। নিম তেল (প্রতি লিটার পানিতে ৩ মিলি) স্প্রে করে বাহক পোকা নিয়ন্ত্রণে রাখুন।",
@@ -2485,7 +2914,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Acrobat MZ",
@@ -2494,7 +2926,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 350
+          "approx_price_bdt": 440,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "গাছের ঘনত্ব কমাতে পাতলাকরণ করুন এবং ফসলের জমিতে সঠিক আলো-বাতাসের ব্যবস্থা নিশ্চিত করুন।",
@@ -2525,7 +2960,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে গুলে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Nativo 75 WG",
@@ -2534,7 +2972,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "ট্রাইকোডার্মা বায়ো-ফার্টিলাইজার স্প্রে করুন এবং ফসল কাটার পর নাড়া পুড়িয়ে জমি পরিষ্কার রাখুন।",
@@ -2566,7 +3007,10 @@
           "dosage_bn": "বাহক সাইলিড পোকা দমনে প্রতি ৫ লিটার পানিতে ১ গ্রাম গুলে নতুন কুঁড়ি আসার সময় স্প্রে করুন।",
           "dosage_en": "0.2g per liter of water targeting psyllid vectors during flushing.",
           "pack_size": "10g",
-          "approx_price_bdt": 340
+          "approx_price_bdt": 350,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Movento 150 OD",
@@ -2575,7 +3019,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 520
+          "approx_price_bdt": 620,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "অণুখাদ্য (জিংক সালফেট ৫ গ্রাম + বোরন ২ গ্রাম প্রতি লিটার) স্প্রে করে গাছের রোগ প্রতিরোধ শক্তি বাড়ান। অতিরিক্ত আক্রান্ত গাছ কেটে পুড়িয়ে ফেলুন।",
@@ -2606,7 +3053,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Tilt 250 EC",
@@ -2615,7 +3065,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আমড়া গাছে ফল ধরার পর বোর্দো মিশ্রণ (১%) স্প্রে করুন এবং গাছের শুকনো ডাল ছেঁটে ফেলুন।",
@@ -2646,7 +3099,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে পাতার নিচে ও ফলে সমভাবে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 410
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Cabriotop 60 WG",
@@ -2655,7 +3111,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "2g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 380
+          "approx_price_bdt": 450,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "আঙুর মাচায় পর্যাপ্ত সূর্যালোক ও বাতাস চলাচলের ব্যবস্থা রাখুন এবং বোর্দো মিশ্রণ (১%) স্প্রে করুন।",
@@ -2686,7 +3145,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ৩ গ্রাম হারে গুলে ভালো করে স্প্রে করুন।",
           "dosage_en": "3g per liter of water.",
           "pack_size": "100g",
-          "approx_price_bdt": 340
+          "approx_price_bdt": 360,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Nativo 75 WG",
@@ -2695,7 +3157,10 @@
           "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে স্প্রে করুন।",
           "dosage_en": "0.6g per liter of water.",
           "pack_size": "50g",
-          "approx_price_bdt": 420
+          "approx_price_bdt": 460,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "গাছের নিচে ঝরে পড়া রোগাক্রান্ত পাতা সংগ্রহ করে পুড়িয়ে ফেলুন এবং নিয়মিত চুন ও কপার স্প্রে করুন।",
@@ -2726,7 +3191,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে গাছের গোড়ার মাটিতে ভালো করে ঢালুন।",
           "dosage_en": "2g per liter of water applied as soil drench around banana base.",
           "pack_size": "100g",
-          "approx_price_bdt": 190
+          "approx_price_bdt": 240,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Tilt 250 EC",
@@ -2735,7 +3203,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে গুলে গোড়ায় সেচন করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "রোগমুক্ত তেউড় (সাকার) ব্যবহার করুন। আক্রান্ত গাছ তুলে গর্তে ব্লিচিং পাউডার ও চুন প্রয়োগ করুন। ট্রাইকোডার্মা মিশ্রিত গোবর সার গাছের গোড়ায় ব্যবহার করুন।",
@@ -2765,7 +3236,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে গুলে স্প্রে করুন।",
           "dosage_en": "0.5 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 520,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Amistar Top 325 SC",
@@ -2774,7 +3248,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে গুলে স্প্রে করুন।",
           "dosage_en": "1 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 540
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "সুষম নাইট্রোজেন ও পটাশ সার ব্যবহার করুন। ফসলের অবশিষ্টাংশ গভীরভাবে চাষ দিয়ে মাটির নিচে পুঁতে দিন।",
@@ -2804,7 +3281,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ১.২ মিলি হারে মিশিয়ে পাতার নিচের পিঠে স্প্রে করুন।",
           "dosage_en": "1.2 ml per liter of water spraying undersides of foliage.",
           "pack_size": "50ml",
-          "approx_price_bdt": 450
+          "approx_price_bdt": 380,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
         },
         {
           "brand_name": "Omite 57 EC",
@@ -2813,7 +3293,10 @@
           "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে মিশিয়ে স্প্রে করুন।",
           "dosage_en": "2 ml per liter of water.",
           "pack_size": "100ml",
-          "approx_price_bdt": 320
+          "approx_price_bdt": 360,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
         }
       ],
       "organic_remedy_bn": "নিম পাতার নির্যাস বা নিম তেল (প্রতি লিটার পানিতে ৫ মিলি + সামান্য হুইল পাউডার) মিশিয়ে পাতার নিচে স্প্রে করুন। জমিতে সেচ দিলে মাকড়ের উপদ্রব কমে।",
@@ -2821,5 +3304,6 @@
       "phi_days": 7,
       "spray_advice_bn": "খরতাপের সকালে বা বিকালে পাতার উল্টোপিঠে ভালো করে ভিজিয়ে স্প্রে করুন।"
     }
-  ]
+  ],
+  "last_updated": "২০২৬ হালনাগাদ (Recent Bangladesh Agro Retail MRP)"
 }

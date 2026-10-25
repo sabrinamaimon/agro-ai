@@ -335,12 +335,13 @@ async def diagnose_pathology_with_ai(
                 res["commercialMedicines"] = matched_gt.get("commercial_medicines", [])
                 if not res.get("phiDays") or res.get("phiDays") == 0:
                     res["phiDays"] = matched_gt.get("phi_days", 14)
-                if not res.get("chemicalRemedy") or len(str(res.get("chemicalRemedy", ""))) < 15:
-                    med_lines = []
-                    for m in matched_gt.get("commercial_medicines", []):
-                        p_str = f" [খুচরা মূল্য: ~{m.get('approx_price_bdt')} ৳]" if language == "bn" else f" [Approx Price: ~{m.get('approx_price_bdt')} BDT]"
-                        med_lines.append(f"• {m.get('brand_name')} ({m.get('company')}): {m.get('dosage_bn' if language == 'bn' else 'dosage_en')}{p_str}")
-                    res["chemicalRemedy"] = "\n".join(med_lines)
+                med_lines = []
+                for m in matched_gt.get("commercial_medicines", []):
+                    badge = f"[{m.get('badge_bn', 'অনুমোদিত')}] " if language == 'bn' else f"[{m.get('badge_en', 'Approved')}] "
+                    pack = f" ({m.get('pack_size')})" if m.get('pack_size') else ""
+                    p_str = f" [খুচরা মূল্য: ~{m.get('approx_price_bdt')} ৳{pack}]" if language == "bn" else f" [Retail: ~{m.get('approx_price_bdt')} BDT{pack}]"
+                    med_lines.append(f"• {badge}{m.get('brand_name')} ({m.get('company')}): {m.get('dosage_bn' if language == 'bn' else 'dosage_en')}{p_str}")
+                res["chemicalRemedy"] = "\n".join(med_lines)
 
             return res
         except Exception as e:
@@ -383,8 +384,10 @@ async def diagnose_pathology_with_ai(
         comp = m.get("company", "")
         dose = m.get("dosage_bn" if language == "bn" else "dosage_en", "")
         price = m.get("approx_price_bdt")
-        price_str = f" [খুচরা মূল্য: ~{price} ৳]" if (price and language == "bn") else (f" [Approx Price: ~৳{price}]" if price else "")
-        med_lines.append(f"• {b_name} ({comp}): {dose}{price_str}")
+        badge = f"[{m.get('badge_bn', 'অনুমোদিত')}] " if language == 'bn' else f"[{m.get('badge_en', 'Approved')}] "
+        pack = f" ({m.get('pack_size')})" if m.get('pack_size') else ""
+        price_str = f" [খুচরা মূল্য: ~{price} ৳{pack}]" if (price and language == "bn") else (f" [Retail: ~৳{price}{pack}]" if price else "")
+        med_lines.append(f"• {badge}{b_name} ({comp}): {dose}{price_str}")
 
     chem_remedy_text = "\n".join(med_lines) if med_lines else (
         matched.get("chemical_remedy_bn" if language == "bn" else "chemical_remedy_en", "")
