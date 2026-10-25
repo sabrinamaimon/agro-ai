@@ -100,7 +100,7 @@ def analyze_price_anomaly(crop_input: str, offered_price: float, language: str =
         "offeredPrice": float(offered_price),
         "benchmarkPrice": float(benchmark_price),
         "retailPrice": float(crop_info.get("retail_price", benchmark_price * 1.3)),
-        "retailSource": crop_info.get("retail_source", "স্বপ্ন (Shwapno)"),
+        "retailSource": crop_info.get("retail_source", "আধুনিক সুপারশপ ও খুচরা বাজার"),
         "volatility": volatility,
         "isUndercut": bool(is_undercut),
         "undercutPercentage": float(undercut_pct),

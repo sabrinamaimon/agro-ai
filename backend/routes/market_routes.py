@@ -53,7 +53,7 @@ async def get_market_benchmarks(language: str = "bn"):
             "name_bn": v.get("name_bn"),
             "averagePrice": v.get("average_benchmark"),
             "retailPrice": v.get("retail_price"),
-            "retailSource": v.get("retail_source", "স্বপ্ন (Shwapno)"),
+            "retailSource": v.get("retail_source", "আধুনিক সুপারশপ ও খুচরা বাজার"),
             "minPrice": v.get("min_price"),
             "maxPrice": v.get("max_price"),
             "unit": v.get("unit")
