@@ -66,6 +66,12 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
     setDiagnosisResult(null);
   };
 
+  const toBengaliDigits = (num) => {
+    if (num === null || num === undefined) return '';
+    const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    return num.toString().replace(/\d/g, (d) => bengaliDigits[parseInt(d, 10)]);
+  };
+
   // Handle Photo Selection (Does NOT auto-run analysis)
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
@@ -502,12 +508,12 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
 
           {/* Actionable Remedies Grid */}
           {(diagnosisResult.organicRemedy || diagnosisResult.chemicalRemedy) && (
-            <div className="grid-2 mt-4">
+            <div className="grid-2 mt-4 font-serif-bn">
               {diagnosisResult.organicRemedy && (
-                <div className="remedy-card organic p-3 rounded-xl border border-emerald-200 bg-emerald-50/50">
-                  <div className="remedy-title flex items-center gap-2 text-emerald-800 font-bold mb-2">
+                <div className="remedy-card organic p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/50">
+                  <div className="remedy-title flex items-center gap-2 text-emerald-900 font-bold mb-2">
                     <Leaf size={18} className="text-emerald-600" />
-                    <span className="text-sm font-bold">{language === 'bn' ? 'জৈব ও প্রাকৃতিক প্রতিকার' : 'Organic Control'}</span>
+                    <span className="text-base font-bold">{language === 'bn' ? 'জৈব ও প্রাকৃতিক প্রতিকার' : 'Organic Control'}</span>
                   </div>
                   <p className="text-sm text-gray-800 whitespace-pre-line leading-relaxed font-medium">
                     {diagnosisResult.organicRemedy}
@@ -516,29 +522,29 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
               )}
 
               {diagnosisResult.chemicalRemedy && (
-                <div className="remedy-card chemical p-3 rounded-xl border border-blue-200 bg-blue-50/50">
-                  <div className="remedy-title flex items-center justify-between text-blue-800 font-bold mb-2">
+                <div className="remedy-card chemical p-3.5 rounded-xl border border-blue-200 bg-blue-50/50">
+                  <div className="remedy-title flex items-center justify-between text-blue-900 font-bold mb-2.5">
                     <div className="flex items-center gap-2">
                       <FlaskConical size={18} className="text-blue-600" />
-                      <span className="text-sm font-bold">{language === 'bn' ? 'অনুমোদিত রাসায়নিক ও ছত্রাকনাশক' : 'Chemical Control'}</span>
+                      <span className="text-base font-bold">{language === 'bn' ? 'অনুমোদিত রাসায়নিক ও ছত্রাকনাশক' : 'Chemical Control'}</span>
                     </div>
                     {diagnosisResult.phiDays && (
                       <span className="text-xs px-2.5 py-0.5 rounded font-semibold bg-blue-100 text-blue-900 border border-blue-300">
-                        {language === 'bn' ? `নিরাপদ বিরতি (PHI): ${diagnosisResult.phiDays} দিন` : `PHI: ${diagnosisResult.phiDays} Days`}
+                        {language === 'bn' ? `নিরাপদ বিরতি (PHI): ${toBengaliDigits(diagnosisResult.phiDays)} দিন` : `PHI: ${diagnosisResult.phiDays} Days`}
                       </span>
                     )}
                   </div>
 
                   {diagnosisResult.commercialMedicines && diagnosisResult.commercialMedicines.length > 0 ? (
-                    <div className="space-y-2.5">
+                    <div className="space-y-3">
                       {diagnosisResult.commercialMedicines.map((med, idx) => (
                         <div 
                           key={idx} 
-                          className={`p-2.5 rounded-lg border ${med.is_recommended ? 'bg-white border-blue-300 shadow-sm' : 'bg-slate-50 border-slate-200'}`}
+                          className={`p-3 rounded-lg border ${med.is_recommended ? 'bg-white border-blue-300 shadow-sm' : 'bg-slate-50 border-slate-200'}`}
                         >
                           <div className="flex items-start justify-between gap-2 flex-wrap">
                             <div>
-                              <div className="text-sm font-bold text-gray-950">
+                              <div className="text-base font-bold text-gray-950">
                                 {med.brand_name}
                                 <span className="text-xs font-normal text-gray-600 ml-1.5">
                                   ({med.company})
@@ -550,7 +556,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
                               </div>
                             </div>
                             <span 
-                              className={`text-xs px-2 py-0.5 rounded font-bold whitespace-nowrap ${
+                              className={`text-xs px-2.5 py-0.5 rounded font-bold whitespace-nowrap ${
                                 med.is_recommended 
                                   ? 'bg-amber-100 text-amber-900 border border-amber-300' 
                                   : 'bg-slate-200 text-slate-700'
@@ -562,14 +568,16 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
                             </span>
                           </div>
 
-                          <div className="mt-2 pt-1.5 border-t border-gray-100 flex items-center justify-between gap-2 flex-wrap text-xs">
-                            <div className="text-gray-900 font-medium">
+                          <div className="mt-2 pt-2 border-t border-gray-100 flex items-center justify-between gap-2 flex-wrap text-xs">
+                            <div className="text-gray-900 font-medium text-xs leading-relaxed">
                               <span className="text-blue-800 font-bold">{language === 'bn' ? 'প্রয়োগ মাত্রা: ' : 'Dose: '}</span>
                               <span>{language === 'bn' ? med.dosage_bn : (med.dosage_en || med.dosage_bn)}</span>
                             </div>
                             {med.approx_price_bdt && (
-                              <div className="font-bold text-xs text-blue-900 bg-blue-100 px-2 py-0.5 rounded">
-                                {language === 'bn' ? 'বাজারদর: ~৳' : 'Retail: ~৳'}{med.approx_price_bdt} {med.pack_size ? `(${med.pack_size})` : ''}
+                              <div className="font-bold text-xs text-blue-900 bg-blue-100 px-2.5 py-1 rounded">
+                                {language === 'bn' 
+                                  ? `খুচরা বাজারদর: ৳${toBengaliDigits(med.approx_price_bdt)} টাকা` 
+                                  : `Retail: ৳${med.approx_price_bdt}`} {med.pack_size ? `(${med.pack_size})` : ''}
                               </div>
                             )}
                           </div>
@@ -577,7 +585,7 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
                       ))}
                     </div>
                   ) : (
-                    <div className="text-sm text-gray-900 font-medium whitespace-pre-line leading-relaxed">
+                    <div className="text-sm text-gray-900 font-medium whitespace-pre-line leading-relaxed space-y-2">
                       {diagnosisResult.chemicalRemedy}
                     </div>
                   )}

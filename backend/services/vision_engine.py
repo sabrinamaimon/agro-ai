@@ -168,6 +168,9 @@ def analyze_crop_image(
             # Skip full-leaf boxes or huge whole-image boxes
             if bw > w * 0.45 or bh > h * 0.45:
                 continue
+            # Exclude image borders and corner background artifacts
+            if x < int(w * 0.04) or y < int(h * 0.04) or (x + bw) > int(w * 0.96) or (y + bh) > int(h * 0.96):
+                continue
             cx, cy = x + bw // 2, y + bh // 2
             # Strictly enforce: box center MUST be inside the leaf mask!
             if organ_mask[min(h - 1, cy), min(w - 1, cx)] > 0:
@@ -331,7 +334,7 @@ async def diagnose_pathology_with_ai(
                 for m in matched_gt.get("commercial_medicines", []):
                     badge = f"[{m.get('badge_bn', 'অনুমোদিত')}] " if language == 'bn' else f"[{m.get('badge_en', 'Approved')}] "
                     pack = f" ({m.get('pack_size')})" if m.get('pack_size') else ""
-                    p_str = f" [খুচরা মূল্য: ~{m.get('approx_price_bdt')} ৳{pack}]" if language == "bn" else f" [Retail: ~{m.get('approx_price_bdt')} BDT{pack}]"
+                    p_str = f" [খুচরা বাজারদর: {m.get('approx_price_bdt')} টাকা{pack}]" if language == "bn" else f" [Retail: ~{m.get('approx_price_bdt')} BDT{pack}]"
                     dose = m.get('dosage_bn' if language == 'bn' else 'dosage_en')
                     med_lines.append(f"• {badge}{m.get('brand_name')} ({m.get('company')}):\n  প্রয়োগ মাত্রা: {dose}{p_str}")
                 res["chemicalRemedy"] = "\n\n".join(med_lines)
@@ -379,7 +382,7 @@ async def diagnose_pathology_with_ai(
         price = m.get("approx_price_bdt")
         badge = f"[{m.get('badge_bn', 'অনুমোদিত')}] " if language == 'bn' else f"[{m.get('badge_en', 'Approved')}] "
         pack = f" ({m.get('pack_size')})" if m.get('pack_size') else ""
-        price_str = f" [খুচরা মূল্য: ~{price} ৳{pack}]" if (price and language == "bn") else (f" [Retail: ~৳{price}{pack}]" if price else "")
+        p_str = f" [খুচরা বাজারদর: {price} টাকা{pack}]" if (price and language == "bn") else (f" [Retail: ~৳{price}{pack}]" if price else "")
         med_lines.append(f"• {badge}{b_name} ({comp}):\n  প্রয়োগ মাত্রা: {dose}{price_str}")
 
     chem_remedy_text = "\n\n".join(med_lines) if med_lines else (
