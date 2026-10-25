@@ -296,7 +296,7 @@ export default function AdvisoryPanel({
           <div className="agro-advisories-section mt-4">
             <div className="section-header-advisory mb-3">
               <h3 className="section-title">
-                <Sparkles size={20} className="text-emerald" />
+                <Leaf size={20} className="text-emerald" />
                 <span>{language === 'bn' ? 'জরুরি মাঠ পর্যায়ের কৃষি নির্দেশনা' : 'Critical Field Agronomic Advisories'}</span>
               </h3>
               <span className="section-advisory-count">
@@ -554,6 +554,104 @@ export default function AdvisoryPanel({
               })()}
             </div>
           </div>
+
+          {/* Climate Smart Disaster & Extreme Weather Risk Section (Sadia's Hackathon Track) */}
+          {weatherData.disasterRisk && (
+            <div className="disaster-risk-section mt-4">
+              <div className="section-header-advisory mb-3">
+                <h3 className="section-title">
+                  <ShieldAlert size={20} className="text-emerald" />
+                  <span>{language === 'bn' ? 'জলবায়ু ও দুর্যোগ ঝুঁকি আগাম পূর্বাভাস' : 'Climate & Agro-Disaster Early Warning'}</span>
+                </h3>
+                <span className="section-advisory-count">
+                  {language === 'bn' ? 'বন্যা • খরা • কালবৈশাখী' : 'Flood • Drought • Cyclone'}
+                </span>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' }}>
+                {/* 1. Flood Card */}
+                {weatherData.disasterRisk.flood && (() => {
+                  const f = weatherData.disasterRisk.flood;
+                  const isDanger = f.status === 'danger';
+                  const isWarning = f.status === 'warning';
+                  const borderColor = isDanger ? '#EF4444' : isWarning ? '#F59E0B' : '#10B981';
+                  const bgColor = isDanger ? '#FEF2F2' : isWarning ? '#FFFBEB' : '#F0FDF4';
+                  return (
+                    <div style={{ padding: '1rem', borderRadius: '10px', border: `1.5px solid ${borderColor}`, background: bgColor }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <Waves size={20} color={borderColor} />
+                          <strong style={{ fontSize: '0.95rem' }}>{f.title}</strong>
+                        </div>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 700, padding: '0.2rem 0.5rem', borderRadius: '4px', background: borderColor, color: '#FFFFFF' }}>
+                          {f.probability}% {language === 'bn' ? 'ঝুঁকি' : 'Risk'}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '0.85rem', color: '#334155', marginBottom: '0.5rem', lineHeight: '1.4' }}>{f.desc}</p>
+                      <div style={{ fontSize: '0.8rem', background: '#FFFFFF', padding: '0.5rem', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
+                        <strong style={{ color: '#0F172A' }}>{language === 'bn' ? '🚨 সতর্কতামূলক পদক্ষেপ:' : '🚨 Immediate Action:'}</strong>
+                        <p style={{ margin: '0.25rem 0 0', color: '#475569' }}>{f.action}</p>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* 2. Drought & Heat Card */}
+                {weatherData.disasterRisk.drought && (() => {
+                  const d = weatherData.disasterRisk.drought;
+                  const isDanger = d.status === 'danger';
+                  const isWarning = d.status === 'warning';
+                  const borderColor = isDanger ? '#EF4444' : isWarning ? '#F59E0B' : '#10B981';
+                  const bgColor = isDanger ? '#FEF2F2' : isWarning ? '#FFFBEB' : '#F0FDF4';
+                  return (
+                    <div style={{ padding: '1rem', borderRadius: '10px', border: `1.5px solid ${borderColor}`, background: bgColor }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <Sun size={20} color={borderColor} />
+                          <strong style={{ fontSize: '0.95rem' }}>{d.title}</strong>
+                        </div>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 700, padding: '0.2rem 0.5rem', borderRadius: '4px', background: borderColor, color: '#FFFFFF' }}>
+                          {d.probability}% {language === 'bn' ? 'ঝুঁকি' : 'Risk'}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '0.85rem', color: '#334155', marginBottom: '0.5rem', lineHeight: '1.4' }}>{d.desc}</p>
+                      <div style={{ fontSize: '0.8rem', background: '#FFFFFF', padding: '0.5rem', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
+                        <strong style={{ color: '#0F172A' }}>{language === 'bn' ? '💧 খরা ব্যবস্থাপনা:' : '💧 Drought Mitigation:'}</strong>
+                        <p style={{ margin: '0.25rem 0 0', color: '#475569' }}>{d.action}</p>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* 3. Storm / Cyclone Card */}
+                {weatherData.disasterRisk.cyclone && (() => {
+                  const c = weatherData.disasterRisk.cyclone;
+                  const isDanger = c.status === 'danger';
+                  const isWarning = c.status === 'warning';
+                  const borderColor = isDanger ? '#EF4444' : isWarning ? '#F59E0B' : '#10B981';
+                  const bgColor = isDanger ? '#FEF2F2' : isWarning ? '#FFFBEB' : '#F0FDF4';
+                  return (
+                    <div style={{ padding: '1rem', borderRadius: '10px', border: `1.5px solid ${borderColor}`, background: bgColor }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <Wind size={20} color={borderColor} />
+                          <strong style={{ fontSize: '0.95rem' }}>{c.title}</strong>
+                        </div>
+                        <span style={{ fontSize: '0.8rem', fontWeight: 700, padding: '0.2rem 0.5rem', borderRadius: '4px', background: borderColor, color: '#FFFFFF' }}>
+                          {c.probability}% {language === 'bn' ? 'ঝুঁকি' : 'Risk'}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '0.85rem', color: '#334155', marginBottom: '0.5rem', lineHeight: '1.4' }}>{c.desc}</p>
+                      <div style={{ fontSize: '0.8rem', background: '#FFFFFF', padding: '0.5rem', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
+                        <strong style={{ color: '#0F172A' }}>{language === 'bn' ? '🌪️ ঝড় সুরক্ষা পরামর্শ:' : '🌪️ Storm Precaution:'}</strong>
+                        <p style={{ margin: '0.25rem 0 0', color: '#475569' }}>{c.action}</p>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            </div>
+          )}
 
           {/* 24-Hour Hourly Weather Strip */}
           {weatherData.hourlyForecast && weatherData.hourlyForecast.length > 0 && (

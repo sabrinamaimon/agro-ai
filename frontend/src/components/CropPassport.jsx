@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { Volume2, Download, Share2, FileText, CheckCircle, AlertOctagon, Sparkles, ArrowRight } from 'lucide-react';
+import { Volume2, Download, Share2, FileText, CheckCircle, AlertOctagon, ArrowRight, ShieldCheck } from 'lucide-react';
 import html2pdf from 'html2pdf.js';
 import { requestAudioTTS } from '../services/api';
 
-export default function CropPassport({ language, intake, diagnosis, price, setActiveTab, onLoadDemo }) {
+export default function CropPassport({ language, intake, diagnosis, price, gpsLocation, setActiveTab, onLoadDemo }) {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isGeneratingAudio, setIsGeneratingAudio] = useState(false);
   const audioRef = useRef(null);
@@ -32,7 +32,7 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
               style={{ borderColor: '#059669', color: '#059669', background: '#ECFDF5', fontWeight: 600 }}
               onClick={() => onLoadDemo('rice')}
             >
-              <Sparkles size={16} color="#059669" />
+              <ShieldCheck size={16} color="#059669" />
               <span>{language === 'bn' ? '📋 স্যাম্পল ভেরিফাইড পাসপোর্ট দেখুন' : 'View Sample Verified Passport'}</span>
             </button>
           )}
@@ -42,6 +42,7 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
   }
 
   const activeDiagnosis = diagnosis;
+  const farmerLocation = gpsLocation?.areaName || intake?.geographic_union || activeDiagnosis.union || (language === 'bn' ? 'মাঠের স্থানীয় অঞ্চল, বাংলাদেশ' : 'Field Local Hub, Bangladesh');
 
   const fallbackSpeech = (textToSpeak) => {
     if (!('speechSynthesis' in window)) {
@@ -130,8 +131,8 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
 
       <p className="card-desc">
         {language === 'bn'
-          ? 'বাংলা প্রাকৃতিক কণ্ঠে অডিও পরামর্শ শুনুন এবং মাঠে ব্যবহারের জন্য ডিজিটাল ফিল্ড কার্ড ডাউনলোড বা শেয়ার করুন।'
-          : 'Listen to natural Bengali audio briefing and download or share your verified Digital Field Health Card.'}
+          ? 'মাঠের ডিজিটাল স্বাস্থ্য সনদ: কৃষি সম্প্রসারণ অধিদপ্তর (DAE), ব্যাংক ঋণ এবং পাইকারি ক্রেতাদের কাছে ফসলের সঠিক মান ও রোগমুক্ত অবস্থা প্রমাণে এই ভেরিফাইড সনদ ব্যবহৃত হয়।'
+          : 'Official Field Health Certificate: Verified field record for DAE, bank credit, and wholesale grain procurement.'}
       </p>
 
       {/* Audio Briefing Player Widget */}
@@ -142,9 +143,9 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
           disabled={isGeneratingAudio}
         >
           {isGeneratingAudio ? (
-            <Sparkles className="spin" size={20} />
+            <Volume2 className="spin" size={20} />
           ) : (
-            <Volume2 size={20} className={isPlayingAudio ? 'pulse' : ''} />
+            <Volume2 size={20} />
           )}
           <span>
             {isGeneratingAudio 
@@ -190,7 +191,7 @@ export default function CropPassport({ language, intake, diagnosis, price, setAc
         <div className="passport-grid mt-3">
           <div className="p-item">
             <span className="p-label">FARMER / LOCATION</span>
-            <span className="p-val">{intake?.geographic_union || activeDiagnosis.union || 'Rangpur Sadar, Bangladesh'}</span>
+            <span className="p-val">{farmerLocation}</span>
           </div>
 
           <div className="p-item">

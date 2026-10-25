@@ -283,6 +283,7 @@ export default function App() {
             intake={intakeData} 
             diagnosis={diagnosisData} 
             price={priceData} 
+            gpsLocation={gpsLocation}
             setActiveTab={setActiveTab}
             onLoadDemo={handleLoadDemoScenario}
           />

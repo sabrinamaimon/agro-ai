@@ -371,6 +371,129 @@ def fetch_weather(
                     "icon": info_d["icon"]
                 })
 
+            # 5. Climate Smart Disaster & Extreme Weather Risk Predictor (Sadia's Hackathon Track)
+            daily_precip_list = daily.get("precipitation_sum", [])
+            daily_max_t_list = daily.get("temperature_2m_max", [])
+            daily_code_list = daily.get("weather_code", [])
+
+            total_rain_6d = sum(daily_precip_list) if daily_precip_list else 0.0
+            max_single_day_rain = max(daily_precip_list) if daily_precip_list else 0.0
+            max_week_temp = max(daily_max_t_list) if daily_max_t_list else temp
+            dry_days_count = sum(1 for p in daily_precip_list if p < 1.0)
+            has_storm_code = any(c in [95, 96, 99] for c in daily_code_list)
+
+            # Flood Risk
+            if total_rain_6d >= 90.0 or max_single_day_rain >= 45.0:
+                flood_status = "danger"
+                flood_pct = min(96, int(total_rain_6d * 0.6 + max_single_day_rain * 0.5))
+                flood_title = "বন্যা ও অতিরিক্ত জলাবদ্ধতা সতর্কতা" if language == "bn" else "Flood & Severe Waterlogging Alert"
+                flood_desc = (
+                    f"আগামী ৬ দিনে মোট {to_bn_digits(round(total_rain_6d, 1))} মিমি বৃষ্টির পূর্বাভাস। নিচু জমি ও হাওর অববাহিকায় জলাবদ্ধতার উচ্চ ঝুঁকি।"
+                    if language == "bn" else
+                    f"Forecast predicts {round(total_rain_6d, 1)}mm rainfall over 6 days. Elevated risk of waterlogging in low-lying basins."
+                )
+                flood_action = (
+                    "৮০% পাকা ধান দ্রুত কেটে ঘরে তুলুন। ড্রেনেজ নালা পরিষ্কার রাখুন এবং আল বা বাঁধের উচ্চতা বাড়ান।"
+                    if language == "bn" else
+                    "Harvest 80% ripe paddy immediately. Clear field drainage channels and raise bunds."
+                )
+            elif total_rain_6d >= 35.0:
+                flood_status = "warning"
+                flood_pct = 48
+                flood_title = "মাঝারি বৃষ্টিপাত ও পানি জমার ঝুঁকি" if language == "bn" else "Moderate Rain & Water Retention"
+                flood_desc = (
+                    f"৬ দিনে সম্ভাব্য {to_bn_digits(round(total_rain_6d, 1))} মিমি বৃষ্টি হতে পারে। পানি নিষ্কাশনের ব্যবস্থা প্রস্তুত রাখুন।"
+                    if language == "bn" else
+                    f"Possible {round(total_rain_6d, 1)}mm rainfall over 6 days. Maintain clear drainage."
+                )
+                flood_action = "মাঠের ড্রেন খোলা রাখুন।" if language == "bn" else "Keep field drains open."
+            else:
+                flood_status = "safe"
+                flood_pct = 12
+                flood_title = "বন্যার ঝুঁকি নেই (স্বাভাবিক)" if language == "bn" else "Low Flood Risk (Normal)"
+                flood_desc = "আগামী সপ্তাহে কোনো উল্লেখযোগ্য বন্যা বা প্লাবনের ঝুঁকি নেই।" if language == "bn" else "No significant flood risk expected."
+                flood_action = "স্বাভাবিক কৃষি কার্যক্রম বজায় রাখুন।" if language == "bn" else "Maintain normal field operations."
+
+            # Drought & Heatwave Risk
+            if dry_days_count >= 5 and max_week_temp >= 35.0:
+                drought_status = "danger"
+                drought_pct = min(90, int(dry_days_count * 10 + (max_week_temp - 32) * 5))
+                drought_title = "খরা ও তাপদাহ সতর্কতা (Drought Risk)" if language == "bn" else "Drought & Heat Stress Alert"
+                drought_desc = (
+                    f"টানা {to_bn_digits(dry_days_count)} দিন বৃষ্টিহীন এবং সর্বোচ্চ তাপমাত্রা {to_bn_digits(round(max_week_temp, 1))}°C। মাটিতে তীব্র পানিশূন্যতা দেখা দিতে পারে।"
+                    if language == "bn" else
+                    f"{dry_days_count} consecutive dry days with peak temperature of {round(max_week_temp, 1)}°C. High evapotranspiration stress."
+                )
+                drought_action = (
+                    "সবজি ও রবি ফসলে খড় দিয়ে মালচিং (mulching) করুন। সকাল বা সন্ধ্যায় গাছের গোড়ায় সেচ দিন।"
+                    if language == "bn" else
+                    "Apply straw mulch to conserve soil moisture; irrigate during early morning or late afternoon."
+                )
+            elif dry_days_count >= 4 and max_week_temp >= 32.0:
+                drought_status = "warning"
+                drought_pct = 45
+                drought_title = "মাঝারি শুষ্কতা পূর্বাভাস" if language == "bn" else "Moderate Dry Spell Warning"
+                drought_desc = "মাটির আর্দ্রতা কমে যেতে পারে, নিয়মিত মাটির রস পরীক্ষা করুন।" if language == "bn" else "Soil moisture may deplete, monitor moisture levels."
+                drought_action = "প্রয়োজনে হালকা সেচ প্রদান করুন।" if language == "bn" else "Provide light supplemental irrigation as needed."
+            else:
+                drought_status = "safe"
+                drought_pct = 10
+                drought_title = "মাটির আর্দ্রতা সন্তোষজনক" if language == "bn" else "Optimal Soil Moisture"
+                drought_desc = "তাপমাত্রা ও আর্দ্রতার অনুপাত ফসলের জন্য অনুকূল।" if language == "bn" else "Temperature and humidity levels are favorable for crops."
+                drought_action = "পরিমিত সেচ বজায় রাখুন।" if language == "bn" else "Maintain regular irrigation schedule."
+
+            # Cyclone & Severe Storm Risk
+            if wind_speed >= 38.0 or has_storm_code:
+                storm_status = "danger"
+                storm_pct = min(92, int(wind_speed * 1.5 + (20 if has_storm_code else 0)))
+                storm_title = "কালবৈশাখী ঝড় ও দমকা হাওয়া সতর্কতা" if language == "bn" else "Severe Squall & Storm Warning"
+                storm_desc = (
+                    f"বজ্রঝড় ও প্রতি ঘণ্টায় প্রায় {to_bn_digits(round(wind_speed, 1))} কিমি বেগে দমকা বাতাসের সম্ভাবনা।"
+                    if language == "bn" else
+                    f"Risk of thunderstorms and gusts up to {round(wind_speed, 1)} km/h."
+                )
+                storm_action = (
+                    "কলা গাছ ও শাকসবজির মাচায় বাঁশের খুঁটি দিয়ে শক্ত ঠেস দিন। উন্মুক্ত শস্য ঢেকে রাখুন।"
+                    if language == "bn" else
+                    "Prop up banana plants and vegetable trellises with bamboo stakes; secure harvested crops."
+                )
+            elif wind_speed >= 22.0:
+                storm_status = "warning"
+                storm_pct = 40
+                storm_title = "দমকা বাতাস পূর্বাভাস" if language == "bn" else "Gusty Wind Advisory"
+                storm_desc = "মাঝারি বাতাসে স্প্রে ছড়িয়ে যেতে পারে।" if language == "bn" else "Moderate winds may drift foliar sprays."
+                storm_action = "বাতাস কমলে স্প্রে করুন।" if language == "bn" else "Spray during calm morning periods."
+            else:
+                storm_status = "safe"
+                storm_pct = 8
+                storm_title = "শান্ত আবহাওয়া (ঝড়ের ঝুঁকি নেই)" if language == "bn" else "Calm Weather (Low Storm Risk)"
+                storm_desc = "বাতাসের গতি স্বাভাবিক ও শান্ত।" if language == "bn" else "Wind conditions are calm and steady."
+                storm_action = "স্বাভাবিক স্প্রে ও পরিচর্যা চালিয়ে যান।" if language == "bn" else "Safe for spraying and fieldwork."
+
+            disaster_data = {
+                "flood": {
+                    "status": flood_status,
+                    "probability": flood_pct,
+                    "title": flood_title,
+                    "desc": flood_desc,
+                    "action": flood_action
+                },
+                "drought": {
+                    "status": drought_status,
+                    "probability": drought_pct,
+                    "title": drought_title,
+                    "desc": drought_desc,
+                    "action": drought_action
+                },
+                "cyclone": {
+                    "status": storm_status,
+                    "probability": storm_pct,
+                    "title": storm_title,
+                    "desc": storm_desc,
+                    "action": storm_action
+                }
+            }
+
             return {
                 "city": loc["name"],
                 "cityEn": loc.get("nameEn", loc["name"]),
@@ -391,6 +514,7 @@ def fetch_weather(
                 "sprayStatus": spray_status,
                 "windSpeed": wind_speed,
                 "currentPrecip": curr_precip,
+                "disasterRisk": disaster_data,
                 "advisories": {
                     "spray": {
                         "status": spray_status,
@@ -446,6 +570,29 @@ def fetch_weather(
         "sprayStatus": "danger",
         "windSpeed": 9.5,
         "currentPrecip": 0.0,
+        "disasterRisk": {
+            "flood": {
+                "status": "safe",
+                "probability": 15,
+                "title": "বন্যার ঝুঁকি স্বাভাবিক" if language == "bn" else "Flood Risk Normal",
+                "desc": "উল্লেখযোগ্য বন্যার আশঙ্কা নেই।" if language == "bn" else "No flood threat detected.",
+                "action": "স্বাভাবিক নিষ্কাশন বজায় রাখুন।" if language == "bn" else "Maintain regular drainage."
+            },
+            "drought": {
+                "status": "safe",
+                "probability": 10,
+                "title": "মাটির রস স্বাভাবিক" if language == "bn" else "Soil Moisture Optimal",
+                "desc": "আর্দ্রতা সন্তোষজনক রয়েছে।" if language == "bn" else "Soil moisture is adequate.",
+                "action": "পরিমিত সেচ প্রদান করুন।" if language == "bn" else "Regular irrigation advised."
+            },
+            "cyclone": {
+                "status": "safe",
+                "probability": 8,
+                "title": "ঝড়ের ঝুঁকি নেই" if language == "bn" else "Calm Winds",
+                "desc": "বাতাসের গতি শান্ত রয়েছে।" if language == "bn" else "Winds are calm.",
+                "action": "মাঠের পরিচর্যা স্বাভাবিক রাখুন।" if language == "bn" else "Field maintenance as usual."
+            }
+        },
         "advisories": {
             "spray": {
                 "status": "danger",

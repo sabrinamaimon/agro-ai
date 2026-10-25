@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigation, MapPin, X, AlertCircle, CheckCircle2, RefreshCw, Satellite, ShieldCheck, Compass } from 'lucide-react';
 import { fetchWeatherAdvisory } from '../services/api';
+import { findNearestDistrict } from '../data/bangladeshDistricts';
 
 export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, language }) {
   const [isDetecting, setIsDetecting] = useState(false);
@@ -43,47 +44,55 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
     setErrorMsg(null);
 
     navigator.geolocation.getCurrentPosition(
-      async (pos) => {
+      (pos) => {
         const { latitude, longitude, accuracy } = pos.coords;
-        try {
-          // Immediately fetch hyper-local reverse geocode & weather data from backend
-          const weather = await fetchWeatherAdvisory('GPS', language, latitude, longitude);
-          const gpsObj = {
-            lat: latitude,
-            lon: longitude,
-            accuracy: Math.round(accuracy),
-            areaName: weather.city || `${latitude.toFixed(4)}° N, ${longitude.toFixed(4)}° E`,
-            areaNameEn: weather.cityEn || `${latitude.toFixed(4)}° N, ${longitude.toFixed(4)}° E`,
-            union: weather.union || '',
-            upazila: weather.upazila || '',
-            district: weather.district || '',
-            isGps: true,
-            timestamp: Date.now()
-          };
-          setDetectedData(gpsObj);
-          setIsDetecting(false);
-          onGpsDetected(gpsObj);
-          setTimeout(() => {
-            onClose();
-          }, 1200);
-        } catch (err) {
-          console.warn('Backend geocode error:', err);
-          const gpsObj = {
-            lat: latitude,
-            lon: longitude,
-            accuracy: Math.round(accuracy),
-            areaName: `${latitude.toFixed(4)}° N, ${longitude.toFixed(4)}° E`,
-            areaNameEn: `${latitude.toFixed(4)}° N, ${longitude.toFixed(4)}° E`,
-            isGps: true,
-            timestamp: Date.now()
-          };
-          setDetectedData(gpsObj);
-          setIsDetecting(false);
-          onGpsDetected(gpsObj);
-          setTimeout(() => {
-            onClose();
-          }, 1200);
-        }
+        const nearest = findNearestDistrict(latitude, longitude);
+        
+        // Instant resolution via local BD district index (<5ms)
+        const instantAreaName = language === 'bn' 
+          ? `${nearest.nameBn} অঞ্চল` 
+          : `${nearest.nameEn} Hub`;
+        const instantAreaNameEn = `${nearest.nameEn} Hub`;
+
+        const initialGpsObj = {
+          lat: latitude,
+          lon: longitude,
+          accuracy: Math.round(accuracy),
+          areaName: instantAreaName,
+          areaNameEn: instantAreaNameEn,
+          district: nearest.nameBn,
+          isGps: true,
+          timestamp: Date.now()
+        };
+
+        setDetectedData(initialGpsObj);
+        setIsDetecting(false);
+        onGpsDetected(initialGpsObj);
+
+        // Close quickly so user is not trapped waiting
+        setTimeout(() => {
+          onClose();
+        }, 600);
+
+        // Asynchronously enrich with hyperlocal union/upazila if backend responds
+        fetchWeatherAdvisory('GPS', language, latitude, longitude)
+          .then((weather) => {
+            if (weather && (weather.city || weather.upazila)) {
+              const enrichedGps = {
+                ...initialGpsObj,
+                areaName: weather.city || instantAreaName,
+                areaNameEn: weather.cityEn || instantAreaNameEn,
+                union: weather.union || '',
+                upazila: weather.upazila || '',
+                district: weather.district || nearest.nameBn,
+              };
+              setDetectedData(enrichedGps);
+              onGpsDetected(enrichedGps);
+            }
+          })
+          .catch((err) => {
+            console.warn('Background geocode enrichment skipped:', err);
+          });
       },
       (err) => {
         setIsDetecting(false);
@@ -91,25 +100,24 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
         if (err.code === 1) { // PERMISSION_DENIED
           setErrorMsg(
             language === 'bn'
-              ? 'লোকেশন পারমিশন ব্লক করা আছে। ব্রাউজারের অ্যাড্রেস বারের তালা (🔒) আইকনে ক্লিক করে Location ' +
-                '"Allow" বা অনুমোদন করুন।'
-              : 'Location permission denied. Please allow location access from your browser address bar (🔒).'
+              ? 'লোকেশন পারমিশন বন্ধ আছে। অনুগ্রহ করে ব্রাউজারের অ্যাড্রেস বার থেকে Location "Allow" করুন।'
+              : 'Location permission denied. Please allow location access in your browser.'
           );
         } else if (err.code === 2) { // POSITION_UNAVAILABLE
           setErrorMsg(
             language === 'bn'
-              ? 'ডিভাইসের জিপিএস সিগন্যাল পাওয়া যাচ্ছে না। ফোনের লোকেশন/GPS অন আছে কিনা নিশ্চিত করুন।'
-              : 'GPS position unavailable. Please ensure your device GPS/location is turned on.'
+              ? 'ডিভাইসের জিপিএস সিগন্যাল পাওয়া যায়নি। ফোনের বা পিসির লোকেশন অন আছে কিনা দেখুন।'
+              : 'GPS position unavailable. Please ensure location is enabled.'
           );
         } else {
           setErrorMsg(
             language === 'bn'
-              ? 'জিপিএস সংযোগে সময় শেষ হয়ে গেছে। অনুগ্রহ করে পুনরায় চেষ্টা করুন।'
+              ? 'জিপিএস সংযোগে সময় বেশি লেগেছে। অনুগ্রহ করে পুনরায় চেষ্টা করুন।'
               : 'GPS request timed out. Please try again.'
           );
         }
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+      { enableHighAccuracy: false, timeout: 6000, maximumAge: 300000 }
     );
   };
 
@@ -122,7 +130,7 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
         {/* Header */}
         <div className="gps-modal-header">
           <div className="gps-radar-icon-box">
-            <Navigation size={24} className="text-emerald animate-pulse" />
+            <Navigation size={24} className="text-emerald" />
           </div>
           <div className="gps-header-text">
             <h3>

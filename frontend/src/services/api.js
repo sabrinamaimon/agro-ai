@@ -72,7 +72,7 @@ export const requestAudioTTS = async (text, language = 'bn') => {
   return response.data;
 };
 
-export const sendAgroChatPrompt = async (prompt, language = 'bn') => {
-  const response = await api.post('/api/agro-chat', { prompt, language });
+export const sendAgroChatPrompt = async (prompt, language = 'bn', location = null) => {
+  const response = await api.post('/api/agro-chat', { prompt, language, location });
   return response.data;
 };

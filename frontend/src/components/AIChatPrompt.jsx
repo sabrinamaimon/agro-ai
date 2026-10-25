@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Send, Sparkles, Bot, User, Volume2, Copy, Check, CornerDownLeft, Mic, MicOff } from 'lucide-react';
+import { MessageSquare, Send, Bot, User, Volume2, Copy, Check, CornerDownLeft, Mic, MicOff, RefreshCw } from 'lucide-react';
 import { sendAgroChatPrompt } from '../services/api';
 
 export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }) {
@@ -97,7 +97,8 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
     setLoading(true);
 
     try {
-      const data = await sendAgroChatPrompt(query, language);
+      const locParam = gpsLocation?.areaName || (language === 'bn' ? 'বাংলাদেশ' : 'Bangladesh');
+      const data = await sendAgroChatPrompt(query, language, locParam);
       setMessages([...newMsgList, { 
         sender: 'ai', 
         text: data.response,
@@ -217,7 +218,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
             onClick={() => handleSendPrompt(p)}
             disabled={loading}
           >
-            <Sparkles size={14} color="#059669" />
+            <MessageSquare size={13} color="#059669" />
             <span>{p}</span>
           </button>
         ))}
@@ -308,8 +309,8 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
                 </span>
               </div>
               <div className="chat-bubble ai-bubble loading-bubble">
-                <Sparkles className="spin" size={17} />
-                <span>{language === 'bn' ? 'পরামর্শ তৈরি হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...' : 'AI is reasoning with agronomic models...'}</span>
+                <RefreshCw className="spin" size={16} />
+                <span>{language === 'bn' ? 'পরামর্শ তৈরি হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...' : 'Reasoning with agronomic models...'}</span>
               </div>
             </div>
           </div>
@@ -345,7 +346,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
                 ? (language === 'bn' ? 'শোনা বন্ধ করুন' : 'Stop Listening') 
                 : (language === 'bn' ? 'ভয়েসে বাংলায় প্রশ্ন বলুন' : 'Speak your question in voice')}
             >
-              {isListening ? <MicOff size={16} className="text-red animate-pulse" /> : <Mic size={16} />}
+              {isListening ? <MicOff size={16} className="text-red" /> : <Mic size={16} />}
               <span>
                 {isListening 
                   ? (language === 'bn' ? 'শুনছি... বলুন' : 'Listening...') 
@@ -358,7 +359,7 @@ export default function AIChatPrompt({ language, gpsLocation, onIntakeComplete }
               className="btn-chat-send" 
               disabled={loading || !inputPrompt.trim()}
             >
-              {loading ? <Sparkles className="spin" size={16} /> : <Send size={16} />}
+              {loading ? <RefreshCw className="spin" size={16} /> : <Send size={16} />}
               <span>{language === 'bn' ? 'পাঠান' : 'Send'}</span>
             </button>
           </div>

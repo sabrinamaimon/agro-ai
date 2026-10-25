@@ -1,0 +1,946 @@
+{
+  "version": "2.0.0",
+  "verified_by": "DAE / BARI / BRRI Agricultural Extension Protocol",
+  "diseases": [
+    {
+      "id": "rice-blast",
+      "crop_bn": "ধান",
+      "crop_en": "Rice",
+      "name_bn": "ধানের ব্লাস্ট রোগ (পাতা ও শীষ ব্লাস্ট)",
+      "name_en": "Rice Blast (Pyricularia oryzae)",
+      "pathogen": "Pyricularia oryzae (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "stem",
+        "fruit"
+      ],
+      "symptoms_bn": "পাতায় ডিম্বাকৃতি বা চোখের ন্যায় দাগ পড়ে যার কেন্দ্র ধূসর ও প্রান্ত বাদামী। শীষের গোড়ায় আক্রমণ হলে শীষ ভেঙে যায় ও ধান চিটা হয়।",
+      "symptoms_en": "Spindle-shaped or eye-shaped lesions with grey center and brown margin on leaves; neck rot causes lodging and chaffy grains.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম (বিঘা প্রতি ২০ গ্রাম) ১০-১২ দিন অন্তর ২ বার স্প্রে করুন।",
+          "dosage_en": "6g per 10 liters of water (20g/bigha), spray twice at 10-12 days interval.",
+          "pack_size": "50g / 100g",
+          "approx_price_bdt": 420
+        },
+        {
+          "brand_name": "Amistar Top 325 SC",
+          "generic_name": "Azoxystrobin 200 g/l + Difenoconazole 125 g/l",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে গুলে সমভাবে স্প্রে করুন।",
+          "dosage_en": "1 ml per liter of water, sprayed uniformly across foliage.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 540
+        },
+        {
+          "brand_name": "Trooper 75 WP",
+          "generic_name": "Tricyclazole 75% WP",
+          "company": "Auto Crop Care Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৭৫ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "0.75g per liter of water.",
+          "pack_size": "100g",
+          "approx_price_bdt": 380
+        }
+      ],
+      "organic_remedy_bn": "জমিতে পরিমিত ইউরিয়া ও পটাশ সার ব্যবহার করুন। আক্রমণ দেখা দিলে বিঘাপ্রতি ৫ কেজি এমওপি সার উপরিপ্রয়োগ করুন এবং ট্রাইকোডার্মা স্প্রে করুন।",
+      "organic_remedy_en": "Balanced fertilization; apply 5 kg/bigha extra MOP; spray Trichoderma harzianum bio-fungicide.",
+      "phi_days": 14,
+      "spray_advice_bn": "কুয়াশাচ্ছন্ন সকালে বা আসন্ন বৃষ্টির সম্ভাবনা থাকলে স্প্রে বন্ধ রাখুন। বিকালের মিষ্টি রোদে বা পাতা শুষ্ক হলে স্প্রে করুন।"
+    },
+    {
+      "id": "rice-bacterial-leaf-blight",
+      "crop_bn": "ধান",
+      "crop_en": "Rice",
+      "name_bn": "ধানের ব্যাকটেরিয়াজনিত পাতা পোড়া (BLB)",
+      "name_en": "Bacterial Leaf Blight (Xanthomonas oryzae)",
+      "pathogen": "Xanthomonas oryzae pv. oryzae (ব্যাকটেরিয়া)",
+      "category": "Bacterial",
+      "category_bn": "ব্যাকটেরিয়াজনিত",
+      "plant_parts": [
+        "leaf"
+      ],
+      "symptoms_bn": "পাতার ডগা বা কিনারা থেকে ঢেউ খেলানো হলুদ থেকে ধূসর রঙের দাগ নিচের দিকে বাড়ে এবং পাতা শুকিয়ে খড়ের মতো হয়।",
+      "symptoms_en": "Water-soaked to yellowish-white lesions with wavy margins starting from leaf tips moving downwards; leaves dry up like straw.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Champion 50 WP",
+          "generic_name": "Copper Hydroxide 77% (50% Metallic Cu)",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ১০ দিন পর পর ২ বার স্প্রে করুন।",
+          "dosage_en": "2g per liter of water, sprayed twice at 10-day intervals.",
+          "pack_size": "100g",
+          "approx_price_bdt": 320
+        },
+        {
+          "brand_name": "Bactroban / Cuproxat 345 SC",
+          "generic_name": "Basic Copper Sulfate 345 g/l",
+          "company": "Arysta / UPL Bangladesh",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "2 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 290
+        }
+      ],
+      "organic_remedy_bn": "ইউরিয়া সারের উপরিপ্রয়োগ সাময়িক বন্ধ রাখুন। বিঘা প্রতি ৫ কেজি পটাশ (MOP) এবং ৫ কেজি জিপসাম সার উপরিপ্রয়োগ করুন। জমির অতিরিক্ত পানি নিষ্কাশন করুন।",
+      "organic_remedy_en": "Halt urea top-dressing; apply 5 kg MOP and 5 kg Gypsum per bigha; drain standing stagnant water.",
+      "phi_days": 14,
+      "spray_advice_bn": "ঝড়ো বাতাস বা বৃষ্টির পরপর জমিতে প্রবেশ করবেন না, কারণ ব্যাকটেরিয়া ক্ষত দিয়ে দ্রুত ছড়ায়।"
+    },
+    {
+      "id": "rice-sheath-blight",
+      "crop_bn": "ধান",
+      "crop_en": "Rice",
+      "name_bn": "ধানের খোল পচা বা শীথ ব্লাইট রোগ",
+      "name_en": "Sheath Blight (Rhizoctonia solani)",
+      "pathogen": "Rhizoctonia solani (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "stem",
+        "leaf"
+      ],
+      "symptoms_bn": "পানির সমতলে পাতার খোলে সর্পিল বা ডিম্বাকৃতি ধূসর-সবুজ দাগ পড়ে, দাগের কিনারা কালচে বাদামী হয়। পুরো খোল শুকিয়ে গাছ হেলে পড়ে।",
+      "symptoms_en": "Oval to irregular water-soaked greenish-grey lesions on leaf sheaths above water level, causing lodging.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Validacin 3L / Sheathmar 3L",
+          "generic_name": "Validamycin 3%",
+          "company": "Chemtura / Auto Crop Care",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে গাছের গোড়ায় ভিজে স্প্রে করুন।",
+          "dosage_en": "2 ml per liter of water targeted at plant base.",
+          "pack_size": "100ml / 500ml",
+          "approx_price_bdt": 190
+        },
+        {
+          "brand_name": "Tilt 250 EC",
+          "generic_name": "Propiconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 320
+        }
+      ],
+      "organic_remedy_bn": "জমিতে আলোক ও বাতাস চলাচলের ব্যবস্থা করুন। আক্রমণ তীব্র হলে জমির পানি শুকিয়ে ২-৩ দিন পর আবার সেচ দিন।",
+      "organic_remedy_en": "Ensure aeration; alternate wetting and drying of the paddy field.",
+      "phi_days": 15,
+      "spray_advice_bn": "গাছের গোড়ায় পানি স্পর্শ করা স্থানে স্প্রে পৌঁছানো নিশ্চিত করুন।"
+    },
+    {
+      "id": "rice-brown-planthopper",
+      "crop_bn": "ধান",
+      "crop_en": "Rice",
+      "name_bn": "ধানের বাদামী গাছফড়িং (কারেন্ট পোকা / BPH)",
+      "name_en": "Brown Plant Hopper (Nilaparvata lugens)",
+      "pathogen": "Nilaparvata lugens (কীটপতঙ্গ)",
+      "category": "Pest",
+      "category_bn": "কীটপতঙ্গজনিত",
+      "plant_parts": [
+        "stem"
+      ],
+      "symptoms_bn": "গাছের গোড়ায় দলবদ্ধভাবে রস চুষে খায়, ফলে গাছ দ্রুত পুড়ে যাওয়ার মতো শুকিয়ে গোল গোল হয়ে মরে যায় (হপার বার্ন)।",
+      "symptoms_en": "Nymphs and adults suck sap from tiller bases, producing circular drying areas known as hopper burn.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Virtako 40 WG",
+          "generic_name": "Chlorantraniliprole 20% + Thiamethoxam 20%",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি ১০ লিটার পানিতে ১.৫ গ্রাম (বিঘা প্রতি ১৫ গ্রাম) গুলে গাছের গোড়ায় স্প্রে করুন।",
+          "dosage_en": "1.5g per 10 liters of water (15g/bigha) directed at root-sheath collar.",
+          "pack_size": "10g / 25g",
+          "approx_price_bdt": 250
+        },
+        {
+          "brand_name": "Chess 50 WG",
+          "generic_name": "Pymetrozine 50% WG",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "6g per 10 liters of water.",
+          "pack_size": "50g",
+          "approx_price_bdt": 390
+        },
+        {
+          "brand_name": "Confidor 70 WG",
+          "generic_name": "Imidacloprid 70% WG",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.২ গ্রাম হারে মিশিয়ে স্প্রে করুন।",
+          "dosage_en": "0.2g per liter of water.",
+          "pack_size": "30g",
+          "approx_price_bdt": 280
+        }
+      ],
+      "organic_remedy_bn": "জমিতে ৮-১০ হাত পর পর বিলি কেটে (আলি) আলো-বাতাস চলাচলের ব্যবস্থা করুন। জমে থাকা পানি ২-৩ দিনের জন্য বের করে দিন। হাঁস ছেড়ে দিন।",
+      "organic_remedy_en": "Create walking alleys (aeration gaps) every 8-10 cubits; drain standing field water for 3 days; release ducks.",
+      "phi_days": 21,
+      "spray_advice_bn": "স্প্রে নজল সবসময় গাছের গোড়ার দিকে লক্ষ্য করে ধরুন, পাতার উপরে স্প্রে করলে কোনো কাজ হবে না।"
+    },
+    {
+      "id": "potato-late-blight",
+      "crop_bn": "আলু",
+      "crop_en": "Potato",
+      "name_bn": "আলুর নাবি ধসা / লেইট ব্লাইট রোগ",
+      "name_en": "Potato Late Blight (Phytophthora infestans)",
+      "pathogen": "Phytophthora infestans (ছত্রাকসদৃশ ওওমাইসিটিস)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "stem",
+        "fruit"
+      ],
+      "symptoms_bn": "পাতার কিনারা বা ডগায় ভেজা জলছাপ দাগ পড়ে, যা দ্রুত কালচে হয়ে পুরো পাতা পচিয়ে ফেলে। পাতার নিচে সকালে সাদাটে পাউডারের মতো ছত্রাকের আস্তরণ দেখা যায়।",
+      "symptoms_en": "Water-soaked lesions on leaf margins rapidly enlarging into dark necrotic spots with white fungal mycelium underneath during cool humid mornings.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Ridomil Gold MZ 68 WG",
+          "generic_name": "Mefenoxam / Metalaxyl-M 4% + Mancozeb 64%",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে (বিঘা প্রতি ১০০ গ্রাম) পাতা ও কাণ্ড ভিজিয়ে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water (100g/bigha) covering upper and lower leaf surfaces.",
+          "pack_size": "100g / 500g",
+          "approx_price_bdt": 410
+        },
+        {
+          "brand_name": "Indofil M-45",
+          "generic_name": "Mancozeb 80% WP (Contact protectant)",
+          "company": "Indofil Industries Ltd.",
+          "dosage_bn": "রোগের পূর্বে বা হালকা উপসর্গে প্রতি লিটার পানিতে ২.৫ গ্রাম হারে ৭ দিন পরপর স্প্রে করুন।",
+          "dosage_en": "2.5g per liter of water as preventative cover spray every 7 days.",
+          "pack_size": "500g",
+          "approx_price_bdt": 450
+        },
+        {
+          "brand_name": "Revus 250 SC / Acrobat MZ",
+          "generic_name": "Mandipropamid 250 SC / Dimethomorph + Mancozeb",
+          "company": "Syngenta / BASF",
+          "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "1 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 520
+        }
+      ],
+      "organic_remedy_bn": "রোগ দেখা দিলে সেচ বন্ধ রাখুন। আক্রান্ত গাছ তুলে মাটিতে পুঁতে ফেলুন। বোর্দো মিশ্রণ (১:১:১০০) কুয়াশা পড়ার আগেই স্প্রে করুন।",
+      "organic_remedy_en": "Halt irrigation; rogue out severely infected plants; apply Bordeaux mixture preventative.",
+      "phi_days": 10,
+      "spray_advice_bn": "কুয়াশাচ্ছন্ন সকালে স্প্রে না করে সকাল ১০টার পর রোদ উঠলে এবং পাতা শুকনা থাকা অবস্থায় দ্রুত স্প্রে করুন।"
+    },
+    {
+      "id": "potato-early-blight",
+      "crop_bn": "আলু",
+      "crop_en": "Potato",
+      "name_bn": "আলুর আগাম ধসা / আর্লি ব্লাইট",
+      "name_en": "Potato Early Blight (Alternaria solani)",
+      "pathogen": "Alternaria solani (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "stem"
+      ],
+      "symptoms_bn": "পুরোনো পাতায় প্রথমে বাদামী বা কালচে রঙের চক্রাকার বৃত্তযুক্ত (টার্গেট বোর্ডের মতো) গোল দাগ দেখা যায়।",
+      "symptoms_en": "Dark brown concentric rings (target board pattern) starting on older lower leaves, leaf tissue becomes dry and papery.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৬ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "0.6g per liter of water.",
+          "pack_size": "50g",
+          "approx_price_bdt": 420
+        },
+        {
+          "brand_name": "Score 250 EC",
+          "generic_name": "Difenoconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 460
+        }
+      ],
+      "organic_remedy_bn": "ট্রাইকোডার্মা ও নিম খৈল মাটির সাথে মেশান। আক্রান্ত পাতা সাবধানে কেটে ধ্বংস করুন।",
+      "organic_remedy_en": "Soil amendment with Trichoderma and neem cake; rogue diseased lower foliage.",
+      "phi_days": 14,
+      "spray_advice_bn": "মাটির আর্দ্রতা বজায় রাখুন, গাছ যেন খরা বা পুষ্টিহীনতায় দুর্বল না হয়।"
+    },
+    {
+      "id": "potato-bacterial-wilt",
+      "crop_bn": "আলু",
+      "crop_en": "Potato",
+      "name_bn": "আলুর ঢলে পড়া রোগ (ব্যাকটেরিয়াল উইল্ট)",
+      "name_en": "Bacterial Wilt (Ralstonia solanacearum)",
+      "pathogen": "Ralstonia solanacearum (ব্যাকটেরিয়া)",
+      "category": "Bacterial",
+      "category_bn": "ব্যাকটেরিয়াজনিত",
+      "plant_parts": [
+        "stem",
+        "root",
+        "fruit"
+      ],
+      "symptoms_bn": "দুপুরের রোদে গাছের পাতা হঠাৎ নিস্তেজ হয়ে ঢলে পড়ে এবং রাতে কিছুটা সতেজ হয়। কয়েক দিনের মধ্যে পুরো গাছ শুকিয়ে মরে যায়। টিউবার কাটলে রিং বরাবর বাদামী বর্ণ ও পুঁজ দেখা যায়।",
+      "symptoms_en": "Rapid wilting of foliage during daytime heat; vascular ring browning and bacterial ooze from cut tuber stems.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Bleaching Powder / Copper Oxychloride",
+          "generic_name": "Calcium Hypochlorite / Copper Oxychloride 50 WP",
+          "company": "Local / Champion",
+          "dosage_bn": "প্রতি হেক্টরে ১৫-২০ কেজি ব্লিচিং পাউডার শেষ চাষের সময় মাটিতে মিশিয়ে দিন অথবা কপার অক্সিক্লোরাইড ২ গ্রাম/লিটার গোড়ায় ঢালুন।",
+          "dosage_en": "Soil treatment with bleaching powder (15-20 kg/ha) or collar drench with Copper Oxychloride 2g/L.",
+          "pack_size": "1kg",
+          "approx_price_bdt": 250
+        }
+      ],
+      "organic_remedy_bn": "রোগমুক্ত সার্টিফাইড বীজ ব্যবহার করুন। আক্রান্ত জমি থেকে পানি অন্য জমিতে যেতে দেবেন না। শস্য পর্যায় (ধান বা ভুট্টা চাষ) মেনে চলুন।",
+      "organic_remedy_en": "Plant certified disease-free seeds; restrict run-off irrigation; crop rotation with maize/paddy.",
+      "phi_days": 20,
+      "spray_advice_bn": "গাছ আক্রান্ত হয়ে গেলে কোনো রাসায়নিক স্প্রে কাজ করে না, অবিলম্বে গোড়াসহ তুলে পুড়িয়ে ফেলুন।"
+    },
+    {
+      "id": "tomato-late-blight",
+      "crop_bn": "টমেটো",
+      "crop_en": "Tomato",
+      "name_bn": "টমেটোর নাবি ধসা (Late Blight)",
+      "name_en": "Tomato Late Blight (Phytophthora infestans)",
+      "pathogen": "Phytophthora infestans (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "fruit",
+        "stem"
+      ],
+      "symptoms_bn": "পাতায় কালচে জলছাপ দাগ এবং ফলের উপর অমসৃণ তামাটে বাদামী রঙের শক্ত পচন দাগ ধরে।",
+      "symptoms_en": "Dark brown greasy water-soaked lesions on leaves and firm brown leathery rot on green fruits.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Ridomil Gold MZ 68 WG",
+          "generic_name": "Metalaxyl-M 4% + Mancozeb 64%",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water.",
+          "pack_size": "100g",
+          "approx_price_bdt": 410
+        },
+        {
+          "brand_name": "Acrobat MZ",
+          "generic_name": "Dimethomorph 9% + Mancozeb 60%",
+          "company": "BASF Bangladesh",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water.",
+          "pack_size": "100g",
+          "approx_price_bdt": 380
+        }
+      ],
+      "organic_remedy_bn": "গাছ বাঁশের খাঁচা বা খুঁটি দিয়ে মাটি থেকে উপরে রাখুন যাতে পাতা মাটিতে না ঠেকে। ড্রিপ সেচ ব্যবহার করুন।",
+      "organic_remedy_en": "Stake plants above soil line to prevent splash transmission; use drip irrigation.",
+      "phi_days": 7,
+      "spray_advice_bn": "টমেটো তোলার ন্যূনতম ৭ দিন পূর্বে সকল রাসায়নিক স্প্রে অবশ্যই বন্ধ রাখতে হবে।"
+    },
+    {
+      "id": "tomato-leaf-curl",
+      "crop_bn": "টমেটো",
+      "crop_en": "Tomato",
+      "name_bn": "টমেটোর পাতা কোঁকড়ানো ভাইরাস রোগ",
+      "name_en": "Tomato Leaf Curl Virus (ToLCV)",
+      "pathogen": "Tomato leaf curl virus (সাদা মাছি বাহিত ভাইরাস)",
+      "category": "Viral",
+      "category_bn": "ভাইরাসজনিত",
+      "plant_parts": [
+        "leaf"
+      ],
+      "symptoms_bn": "পাতা ছোট হয়ে নৌকার মতো ওপরের দিকে কোঁকড়ে যায়, শিরার রঙ হালকা হলুদ হয়ে পুরু হয়, গাছ খর্বাকৃতি হয় ও ফল ধরে না।",
+      "symptoms_en": "Upward curling and puckering of leaves, vein clearing, stunted growth and failure to fruit.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Confidor 70 WG / Imidagold",
+          "generic_name": "Imidacloprid 70% WG",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "বাহক সাদা মাছি দমনে প্রতি লিটার পানিতে ০.২ গ্রাম হারে ৭-১০ দিন পর পর স্প্রে করুন।",
+          "dosage_en": "0.2g per liter of water targeting whitefly vector.",
+          "pack_size": "30g",
+          "approx_price_bdt": 280
+        },
+        {
+          "brand_name": "Pegasus 500 SC",
+          "generic_name": "Diafenthiuron 500 SC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "1 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 480
+        }
+      ],
+      "organic_remedy_bn": "হলুদ আঠালো ফাঁদ (Yellow Sticky Trap) প্রতি বিঘায় ১০-১২টি স্থাপন করুন। নিম তেল ৫ মিলি + ১ মিলি সাবান পানি প্রতি লিটারে মিশিয়ে স্প্রে করুন।",
+      "organic_remedy_en": "Deploy yellow sticky traps (10-12/bigha); spray neem seed oil 5ml/L emulsified with detergent.",
+      "phi_days": 10,
+      "spray_advice_bn": "ভাইরাস কোনো রাসায়নিক দিয়ে ভালো হয় না, তাই বাহক সাদা মাছি প্রাথমিক অবস্থাতেই দমন করতে হবে।"
+    },
+    {
+      "id": "tomato-blossom-end-rot",
+      "crop_bn": "টমেটো",
+      "crop_en": "Tomato",
+      "name_bn": "টমেটোর ব্লসম এন্ড রট (ক্যালসিয়াম ঘাটতি)",
+      "name_en": "Blossom End Rot (Physiological Calcium Deficiency)",
+      "pathogen": "Physiological (ক্যালসিয়ামের অভাব ও অনিয়মিত সেচ)",
+      "category": "Physiological",
+      "category_bn": "শারীরবৃত্তীয়",
+      "plant_parts": [
+        "fruit"
+      ],
+      "symptoms_bn": "টমেটো ফলের বোঁটার উল্টো প্রান্তে (ফুলের অংশে) কালো চ্যাপ্টা চামড়ার মতো শুকনা পচা দাগ সৃষ্টি হয়।",
+      "symptoms_en": "Flat, dry leathery black necrotic area developing at the blossom end of developing green fruit.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Chelated Calcium / Calbo / Solubor",
+          "generic_name": "Calcium EDTA 10% / Calcium Chloride",
+          "company": "ACI Ltd. / Auto Crop Care",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম কিলেটেড ক্যালসিয়াম মিশিয়ে বিকেলে পাতায় ও ফলে স্প্রে করুন।",
+          "dosage_en": "2g per liter chelated calcium foliar spray in the late afternoon.",
+          "pack_size": "100g",
+          "approx_price_bdt": 180
+        }
+      ],
+      "organic_remedy_bn": "মাটিতে ডলোমাইট বা চুন (বিঘা প্রতি ২০ কেজি) চাষের সময় ব্যবহার করুন। নিয়মিত পরিমিত সেচ দিন যাতে মাটি শুকিয়ে না যায়। খড় দিয়ে মালচিং করুন।",
+      "organic_remedy_en": "Apply agricultural lime/dolomite (20 kg/bigha); maintain steady soil moisture; straw mulching.",
+      "phi_days": 0,
+      "spray_advice_bn": "অতিরিক্ত নাইট্রোজেন সার ব্যবহার পরিহার করুন, কারণ এতে ক্যালসিয়াম শোষণ বাধাগ্রস্ত হয়।"
+    },
+    {
+      "id": "brinjal-shoot-and-fruit-borer",
+      "crop_bn": "বেগুন",
+      "crop_en": "Brinjal / Eggplant",
+      "name_bn": "বেগুনের ডগা ও ফল ছিদ্রকারী পোকা",
+      "name_en": "Brinjal Shoot and Fruit Borer (Leucinodes orbonalis)",
+      "pathogen": "Leucinodes orbonalis (লেপিডোপ্টেরা পোকা)",
+      "category": "Pest",
+      "category_bn": "কীটপতঙ্গজনিত",
+      "plant_parts": [
+        "stem",
+        "fruit"
+      ],
+      "symptoms_bn": "পোকার কীড়া কচি ডগা ছিদ্র করে ভেতরে ঢুকে খায় ফলে ডগা ঢলে পড়ে শুকিয়ে যায়। ফলের গায়ে ছিদ্র করে মল বের করে এবং ফল পচিয়ে ফেলে।",
+      "symptoms_en": "Larvae bore into tender shoots causing terminal drooping and bore inside fruits with visible frass exits.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Voliam Flexi 300 SC",
+          "generic_name": "Chlorantraniliprole 10% + Thiamethoxam 20%",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "50ml",
+          "approx_price_bdt": 490
+        },
+        {
+          "brand_name": "Coragen 20 SC",
+          "generic_name": "Chlorantraniliprole 18.5% SC",
+          "company": "FMC Corporation",
+          "dosage_bn": "প্রতি ১০ লিটার পানিতে ৪ মিলি (বিঘা প্রতি ১৫ মিলি) হারে স্প্রে করুন।",
+          "dosage_en": "4 ml per 10 liters of water.",
+          "pack_size": "30ml",
+          "approx_price_bdt": 480
+        },
+        {
+          "brand_name": "Proclaim 5 SG",
+          "generic_name": "Emamectin Benzoate 5% SG",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ১ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "1g per liter of water.",
+          "pack_size": "50g",
+          "approx_price_bdt": 320
+        }
+      ],
+      "organic_remedy_bn": "সেক্স ফেরোমোন ফাঁদ (Lucinlure Pheromone Trap) প্রতি বিঘায় ১০-১২টি ব্যবহার করুন। আক্রান্ত ডগা ও ফল হাত দিয়ে তুলে নষ্ট করুন। ট্রাইকোগ্রামা পরজীবী ডিম ব্যবহার করুন।",
+      "organic_remedy_en": "Deploy sex pheromone traps (10-12/bigha); mechanical clipping of infested shoots; release Trichogramma.",
+      "phi_days": 5,
+      "spray_advice_bn": "ফল তোলার পর স্প্রে করুন এবং স্প্রে করার পর ৫ দিন পর্যন্ত বেগুন বিক্রি বা খাওয়া যাবে না।"
+    },
+    {
+      "id": "brinjal-phomopsis-blight",
+      "crop_bn": "বেগুন",
+      "crop_en": "Brinjal / Eggplant",
+      "name_bn": "বেগুনের ফোমপসিস ব্লাইট ও ফল পচা",
+      "name_en": "Phomopsis Blight & Fruit Rot (Phomopsis vexans)",
+      "pathogen": "Phomopsis vexans (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "fruit",
+        "stem"
+      ],
+      "symptoms_bn": "পাতায় বাদামী গোল গোল দাগ এবং ফলে জলছাপ দাগ পড়ে যা পরে নরম হয়ে ফলের ভেতর কালো বিন্দুর মতো স্পোর তৈরি করে।",
+      "symptoms_en": "Circular brown leaf spots and sunken soft brownish lesions on fruits covered with black pycnidia.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৬ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "0.6g per liter of water.",
+          "pack_size": "50g",
+          "approx_price_bdt": 420
+        },
+        {
+          "brand_name": "Dithane M-45 / Indofil M-45",
+          "generic_name": "Mancozeb 80% WP",
+          "company": "Indofil Industries Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "2.5g per liter of water.",
+          "pack_size": "500g",
+          "approx_price_bdt": 450
+        }
+      ],
+      "organic_remedy_bn": "বীজ শোধন করুন ট্রাইকোডার্মা দিয়ে (৩ গ্রাম/কেজি বীজ)। আক্রান্ত ডালপালা ও ফল দ্রুত পুড়িয়ে ফেলুন।",
+      "organic_remedy_en": "Seed treatment with Trichoderma (3g/kg seed); sanitize crop debris.",
+      "phi_days": 10,
+      "spray_advice_bn": "ফুল আসা শুরু হলে প্রতি ১০ দিন অন্তর প্রতিরোধক হিসেবে স্প্রে করুন।"
+    },
+    {
+      "id": "chilli-anthracnose-dieback",
+      "crop_bn": "মরিচ",
+      "crop_en": "Chilli",
+      "name_bn": "মরিচের ফল পচা ও ডাইব্যাক (Anthracnose)",
+      "name_en": "Chilli Anthracnose & Dieback (Colletotrichum capsici)",
+      "pathogen": "Colletotrichum capsici (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "fruit",
+        "stem",
+        "leaf"
+      ],
+      "symptoms_bn": "পাকা বা কাঁচা মরিচে ডিম্বাকৃতি বসে যাওয়া দাগ পড়ে, দাগের ভেতর বলয়াকারে কালো বিন্দুর মতো স্পোর থাকে। ডাল উপর থেকে শুকিয়ে নিচের দিকে আসে (ডাইব্যাক)।",
+      "symptoms_en": "Sunken concentric ringed lesions on mature fruit pods with orange-black acervuli; twigs dry from top down.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Amistar Top 325 SC",
+          "generic_name": "Azoxystrobin 200 g/l + Difenoconazole 125 g/l",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "1 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 540
+        },
+        {
+          "brand_name": "Tilt 250 EC",
+          "generic_name": "Propiconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 320
+        }
+      ],
+      "organic_remedy_bn": "অতিরিক্ত নাইট্রোজেন সার পরিহার করুন। বীজ শোধন করে বপন করুন। আক্রমণ দেখা দিলে কপার ছত্রাকনাশক স্প্রে করুন।",
+      "organic_remedy_en": "Avoid excessive nitrogen; seed treatment; spray copper oxychloride bio-barrier.",
+      "phi_days": 7,
+      "spray_advice_bn": "মরিচ তোলার পর স্প্রে করুন এবং মরিচ শুকানোর সময় মাচায় পাতলা করে দিন।"
+    },
+    {
+      "id": "chilli-leaf-curl-thrips",
+      "crop_bn": "মরিচ",
+      "crop_en": "Chilli",
+      "name_bn": "মরিচের পাতা কোঁকড়ানো (মাকড় ও থ্রিপস আক্রমণ)",
+      "name_en": "Chilli Leaf Curl & Murda Disease (Thrips & Mites)",
+      "pathogen": "Scirtothrips dorsalis & Polyphagotarsonemus latus (পোকা ও মাকড়)",
+      "category": "Pest",
+      "category_bn": "কীটপতঙ্গজনিত",
+      "plant_parts": [
+        "leaf"
+      ],
+      "symptoms_bn": "থ্রিপসের আক্রমণে পাতা ওপরের দিকে নৌকার মতো এবং মাকড়ের আক্রমণে পাতা উল্টো নৌকার মতো নিচের দিকে কুঁকড়ে যায়। ডগা বিকৃত হয়।",
+      "symptoms_en": "Upward cupping of leaves caused by thrips and downward curling/bronzing caused by yellow mites.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Pegasus 500 SC",
+          "generic_name": "Diafenthiuron 500 SC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "মাকড় ও থ্রিপস উভয় দমনে প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "1 ml per liter of water controlling both thrips and mites simultaneously.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 480
+        },
+        {
+          "brand_name": "Vertimec 018 EC",
+          "generic_name": "Abamectin 1.8% EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ১.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "1.5 ml per liter of water.",
+          "pack_size": "50ml",
+          "approx_price_bdt": 310
+        }
+      ],
+      "organic_remedy_bn": "নীল আঠালো ফাঁদ (থ্রিপসের জন্য) এবং হলুদ ফাঁদ ব্যবহার করুন। সালফার গুড়া (কুমুলাস) ২ গ্রাম/লিটার স্প্রে করুন।",
+      "organic_remedy_en": "Deploy blue sticky traps for thrips; spray wettable sulfur (Kumulus) 2g/L.",
+      "phi_days": 5,
+      "spray_advice_bn": "পাতার নিচের পিঠে ভালো করে ওষুধ ভিজিয়ে স্প্রে করুন, কারণ মাকড় পাতার নিচে লুকিয়ে থাকে।"
+    },
+    {
+      "id": "mango-anthracnose",
+      "crop_bn": "আম",
+      "crop_en": "Mango",
+      "name_bn": "আমের এ্যানথ্রাকনোজ ও ফল পচা রোগ",
+      "name_en": "Mango Anthracnose (Colletotrichum gloeosporioides)",
+      "pathogen": "Colletotrichum gloeosporioides (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "fruit",
+        "leaf",
+        "stem"
+      ],
+      "symptoms_bn": "মুকুল, পাতা ও ফলের গায়ে কালো কালো দাগ পড়ে। মুকুল পুড়ে কালো হয়ে ঝরে যায়। আম পাকার সময় দাগ বড় হয়ে পচন ধরায়।",
+      "symptoms_en": "Tear stain and black sunken necrotic spots on fruits, leaves, and panicles causing blossom blight and post-harvest fruit rot.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি ১০ লিটার পানিতে ৬ গ্রাম হারে মুকুল আসার আগে ও মটর দানার মতো আম হলে স্প্রে করুন।",
+          "dosage_en": "6g per 10 liters of water sprayed at pre-flowering and pea-sized marble stage.",
+          "pack_size": "50g",
+          "approx_price_bdt": 420
+        },
+        {
+          "brand_name": "Amistar Top 325 SC",
+          "generic_name": "Azoxystrobin 200 g/l + Difenoconazole 125 g/l",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "1 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 540
+        }
+      ],
+      "organic_remedy_bn": "আক্রান্ত ডালপালা কেটে বোর্ডের পেস্ট (১:১ অনুপাত চুন ও তুঁতে) প্রলেপ দিন। ফল পেপার ব্যাগিং (Fruit Bagging) করুন।",
+      "organic_remedy_en": "Prune dead twigs and apply Bordeaux paste on cut wounds; double-layer brown paper bagging.",
+      "phi_days": 15,
+      "spray_advice_bn": "মুকুল ফোটা অবস্থায় (ফুল ফোটার সময়) কখনো কোনো কীটনাশক বা ছত্রাকনাশক স্প্রে করবেন না, এতে পরাগায়নকারী মাছি ও মৌমাছি মারা যায়।"
+    },
+    {
+      "id": "mango-dieback",
+      "crop_bn": "আম",
+      "crop_en": "Mango",
+      "name_bn": "আমের ডাইব্যাক বা ডাল শুকিয়ে যাওয়া",
+      "name_en": "Mango Dieback (Lasiodiplodia theobromae)",
+      "pathogen": "Lasiodiplodia theobromae / Botryosphaeria (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "stem"
+      ],
+      "symptoms_bn": "ডালের ডগা থেকে পাতা শুকিয়ে বাদামী হয়ে যায় এবং ডাল শুকিয়ে নিচের দিকে আসে। বাকল ফেটে আঠা (গামোসিস) বের হতে পারে।",
+      "symptoms_en": "Twig dieback beginning from top margins downwards, drying of leaves adhering to twigs, bark cracking with gum exudation.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Cupravit 50 WP / Autostin 50 WDG",
+          "generic_name": "Copper Oxychloride 50% / Carbendazim 50%",
+          "company": "Bayer CropScience / Auto Crop Care",
+          "dosage_bn": "আক্রান্ত ডাল ছাঁটাই করে প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন এবং কাটা অংশে বোর্দো পেস্ট লাগান।",
+          "dosage_en": "Prune diseased branches below infection line; spray Copper Oxychloride 2g/L and seal cuts with Bordeaux paste.",
+          "pack_size": "100g / 500g",
+          "approx_price_bdt": 320
+        }
+      ],
+      "organic_remedy_bn": "আক্রান্ত ডাল সুস্থ অংশের ৪-৫ ইঞ্চি নিচ থেকে কেটে পুড়িয়ে ফেলতে হবে এবং কাটা স্থানে আলকাতরা বা বোর্দো পেস্ট লাগাতে হবে।",
+      "organic_remedy_en": "Sanitary pruning 10-15 cm below infected tissue; seal cuts with Bordeaux paste or coal tar.",
+      "phi_days": 20,
+      "spray_advice_bn": "বৃষ্টির দিনে ডাল কাটবেন না, শুকনো মৌসুমে ছাঁটাই করুন।"
+    },
+    {
+      "id": "wheat-blast",
+      "crop_bn": "গম",
+      "crop_en": "Wheat",
+      "name_bn": "গমের ব্লাস্ট রোগ (Wheat Blast)",
+      "name_en": "Wheat Blast (Magnaporthe oryzae pathotype Triticum)",
+      "pathogen": "Magnaporthe oryzae Triticum (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "fruit",
+        "leaf"
+      ],
+      "symptoms_bn": "শীষের গোড়ায় বা মাঝখানে কালো দাগ পড়ে এবং দাগের ওপরের অংশ সাদা হয়ে শুকিয়ে যায়। শীষে কোনো দানা হয় না বা চিটা হয়।",
+      "symptoms_en": "Complete or partial bleaching of wheat spikes above the infection point with blackish fungal growth on rachis.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "শীষ বের হওয়ার সময় প্রতি লিটার পানিতে ০.৬ গ্রাম (বিঘা প্রতি ২০ গ্রাম) ১০ দিন পর পর ২ বার স্প্রে করুন।",
+          "dosage_en": "0.6g per liter of water (20g/bigha) applied twice at heading stage at 10-day intervals.",
+          "pack_size": "50g",
+          "approx_price_bdt": 420
+        },
+        {
+          "brand_name": "Amistar Top 325 SC",
+          "generic_name": "Azoxystrobin 200 g/l + Difenoconazole 125 g/l",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "1 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 540
+        }
+      ],
+      "organic_remedy_bn": "ব্লাস্ট প্রতিরোধী জাত (বারি গম ৩৩ / WMRI গম ৩) চাষ করুন। দেরিতে গম বপন পরিহার করুন। বীজ শোধন করুন।",
+      "organic_remedy_en": "Plant resistant varieties like BARI Gom 33; avoid late sowing; treat seed with Provax 200.",
+      "phi_days": 21,
+      "spray_advice_bn": "শীষ সম্পূর্ণ বের হওয়ার আগেই সতর্কতামূলকভাবে প্রথম স্প্রে সম্পন্ন করতে হবে।"
+    },
+    {
+      "id": "maize-fall-armyworm",
+      "crop_bn": "ভুট্টা",
+      "crop_en": "Maize",
+      "name_bn": "ভুট্টার ফল আর্মিওয়ার্ম পোকা",
+      "name_en": "Fall Armyworm (Spodoptera frugiperda)",
+      "pathogen": "Spodoptera frugiperda (লেপিডোপ্টেরা কীড়া)",
+      "category": "Pest",
+      "category_bn": "কীটপতঙ্গজনিত",
+      "plant_parts": [
+        "leaf",
+        "fruit",
+        "stem"
+      ],
+      "symptoms_bn": "কীড়া পাতার মধ্যে বড় বড় অনিয়মিত ছিদ্র করে এবং চারা গাছের ভেতরের কচি পাতা (ঘুঘি) খেয়ে করাত কাটার মতো কুচি করে ফেলে ও প্রচুর মল ত্যাগ করে।",
+      "symptoms_en": "Ragged leaf whorl feeding with prominent sawdust-like frass; inverted Y mark on head of mature caterpillar.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Spinetoram / Delegate 11.7 SC",
+          "generic_name": "Spinetoram 11.7 SC",
+          "company": "Corteva Agriscience",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৪ মিলি হারে গাছের কান্ড ও ঘূর্ণি পাতার ভেতরে স্প্রে করুন।",
+          "dosage_en": "0.4 ml per liter directed into the central leaf whorl.",
+          "pack_size": "20ml",
+          "approx_price_bdt": 360
+        },
+        {
+          "brand_name": "Coragen 20 SC",
+          "generic_name": "Chlorantraniliprole 18.5% SC",
+          "company": "FMC Corporation",
+          "dosage_bn": "প্রতি ১০ লিটার পানিতে ৪ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "4 ml per 10 liters of water.",
+          "pack_size": "30ml",
+          "approx_price_bdt": 480
+        }
+      ],
+      "organic_remedy_bn": "গাছের ঘূর্ণিতে শুকনো ছাই বা বালি গুঁড়া এক চিমটি করে দিন। ট্রাইকোডার্মা ও ফেরোমোন ফাঁদ ব্যবহার করুন।",
+      "organic_remedy_en": "Deposit a pinch of wood ash/fine sand directly inside central leaf whorls; sex pheromone traps.",
+      "phi_days": 14,
+      "spray_advice_bn": "বিকেলের দিকে স্প্রে করতে হবে যখন কীড়া পাতার ভেতর থেকে বেরিয়ে আসে।"
+    },
+    {
+      "id": "banana-sigatoka",
+      "crop_bn": "কলা",
+      "crop_en": "Banana",
+      "name_bn": "কলার সিগাটোকা পাতার দাগ রোগ",
+      "name_en": "Banana Sigatoka Leaf Spot (Pseudocercospora fijiensis)",
+      "pathogen": "Pseudocercospora fijiensis / Mycosphaerella (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf"
+      ],
+      "symptoms_bn": "পাতায় হালকা হলুদ ছোট দাগ দেখা যায় যা দ্রুত লম্বাটে বাদামী ও কালচে হয়ে পাতার পুরো অংশ পুড়িয়ে ফেলে। ফল পরিপুষ্ট হতে পারে না।",
+      "symptoms_en": "Yellow linear streaks running parallel to leaf veins turning dark reddish-brown with sunken grey centers and rapid foliar desiccation.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Tilt 250 EC",
+          "generic_name": "Propiconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি সাথে মিনারেল অয়েল (১%) মিশিয়ে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water combined with agricultural mineral oil.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 320
+        },
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৬ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "0.6g per liter of water.",
+          "pack_size": "50g",
+          "approx_price_bdt": 420
+        }
+      ],
+      "organic_remedy_bn": "আক্রান্ত পাতা সাবধানে কেটে বাগান থেকে দূরে নিয়ে পুড়িয়ে ফেলুন। বাগানে পানি নিষ্কাশনের ভালো ব্যবস্থা রাখুন যাতে স্যাঁতসেঁতে না থাকে।",
+      "organic_remedy_en": "De-leafing and burning infected senescent leaves; improve drainage to lower humidity.",
+      "phi_days": 7,
+      "spray_advice_bn": "কচি পাতার নিচে স্প্রে ভালোভাবে পৌঁছাতে হবে।"
+    },
+    {
+      "id": "mustard-alternaria-blight",
+      "crop_bn": "সরিষা",
+      "crop_en": "Mustard",
+      "name_bn": "সরিষার পাতা ও শুঁটি ঝলসানো রোগ",
+      "name_en": "Mustard Alternaria Blight (Alternaria brassicae)",
+      "pathogen": "Alternaria brassicae (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "fruit",
+        "stem"
+      ],
+      "symptoms_bn": "পাতায় ও শুঁটিতে ছোট ছোট বৃত্তাকার বাদামী বা কালচে দাগ পড়ে। শুঁটি ফেটে বীজ অকালে ঝরে যায় এবং বীজ কুঁচকে যায়।",
+      "symptoms_en": "Circular concentric target-like black spots on leaves, stems and pods causing premature shattering and shrivelled seeds.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Rovral 50 WP",
+          "generic_name": "Iprodione 50 WP",
+          "company": "FMC Corporation",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ১০ দিন পর পর ২ বার স্প্রে করুন।",
+          "dosage_en": "2g per liter of water sprayed twice at 10-day intervals.",
+          "pack_size": "100g",
+          "approx_price_bdt": 340
+        },
+        {
+          "brand_name": "Indofil M-45",
+          "generic_name": "Mancozeb 80% WP",
+          "company": "Indofil Industries Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "2.5g per liter of water.",
+          "pack_size": "500g",
+          "approx_price_bdt": 450
+        }
+      ],
+      "organic_remedy_bn": "আগাম সরিষা বপন করুন (কার্তিক মাসের শেষ সপ্তাহ)। বীজ শোধন করুন। জমিতে অতিরিক্ত আগাছা পরিষ্কার রাখুন।",
+      "organic_remedy_en": "Early sowing (late October / early November) escapes disease; clean weeding.",
+      "phi_days": 15,
+      "spray_advice_bn": "গাছে শুঁটি আসার সময়ে কুয়াশা থাকলে অবিলম্বে প্রতিরোধক স্প্রে দিন।"
+    },
+    {
+      "id": "mustard-aphid",
+      "crop_bn": "সরিষা",
+      "crop_en": "Mustard",
+      "name_bn": "সরিষার জাব পোকা (Mustard Aphid)",
+      "name_en": "Mustard Aphid (Lipaphis erysimi)",
+      "pathogen": "Lipaphis erysimi (কীটপতঙ্গ)",
+      "category": "Pest",
+      "category_bn": "কীটপতঙ্গজনিত",
+      "plant_parts": [
+        "fruit",
+        "stem",
+        "leaf"
+      ],
+      "symptoms_bn": "ছোট ছোট সবুজ-ধূসর পোকা দলবেঁধে ফুল, ডগা ও শুঁটি থেকে রস চুষে খায়। ফলে গাছ দুর্বল হয় এবং আঠালো মিষ্টি মল নিঃসরণ করে যা কালো ছাতা সৃষ্টি করে।",
+      "symptoms_en": "Dense colonies of small greenish-grey aphids congregating on inflorescences and pods causing sooty mold and stunted seed formation.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Malathion 57 EC",
+          "generic_name": "Malathion 57 EC",
+          "company": "Auto Crop Care Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "2 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 180
+        },
+        {
+          "brand_name": "Admire 200 SL / Confidor",
+          "generic_name": "Imidacloprid 200 SL",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "50ml",
+          "approx_price_bdt": 290
+        }
+      ],
+      "organic_remedy_bn": "সাবান মিশ্রিত পানি (৫ গ্রাম ডিটারজেন্ট প্রতি লিটার) স্প্রে করুন। লেডিবার্ড বিটল (লেডিবাগ) পোকা সংরক্ষণ করুন যা জাব পোকা খায়।",
+      "organic_remedy_en": "Spray soap-detergent solution (5g/L); conserve predatory ladybird beetles.",
+      "phi_days": 10,
+      "spray_advice_bn": "ফুল ফোটা অবস্থায় স্প্রে করলে বিকেলের দিকে করুন যাতে মৌমাছির ক্ষতি কম হয়।"
+    },
+    {
+      "id": "jute-stem-rot",
+      "crop_bn": "পাট",
+      "crop_en": "Jute",
+      "name_bn": "পাটের কাণ্ড পচা রোগ (Stem Rot)",
+      "name_en": "Jute Stem Rot (Macrophomina phaseolina)",
+      "pathogen": "Macrophomina phaseolina (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "stem"
+      ],
+      "symptoms_bn": "কাণ্ডের গায়ে প্রথমে কালচে বা তামাটে দাগ পড়ে যা দ্রুত ছড়িয়ে কাণ্ডকে চারপাশ থেকে ঘিরে ফেলে। কাণ্ডের ছাল পচে তন্তু কালো ও দুর্বল হয়ে ভেঙে যায়।",
+      "symptoms_en": "Dark brown to black lesions girdling the stem; bark rots causing fiber disintegration and lodging.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Bavistin 50 WP / Autostin",
+          "generic_name": "Carbendazim 50% WP",
+          "company": "Auto Crop Care Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে কাণ্ডে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water directed along stems.",
+          "pack_size": "100g",
+          "approx_price_bdt": 210
+        },
+        {
+          "brand_name": "Indofil M-45",
+          "generic_name": "Mancozeb 80% WP",
+          "company": "Indofil Industries Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "2.5g per liter of water.",
+          "pack_size": "500g",
+          "approx_price_bdt": 450
+        }
+      ],
+      "organic_remedy_bn": "অতিরিক্ত পানি নিষ্কাশন করুন কারণ জলাবদ্ধতায় এই রোগ দ্রুত বাড়ে। পটাশ সার বেশি ও ইউরিয়া পরিমিত ব্যবহার করুন।",
+      "organic_remedy_en": "Ensure rapid field drainage; balanced high-potash nutrition.",
+      "phi_days": 20,
+      "spray_advice_bn": "আক্রান্ত কাণ্ডের গোড়ায় ওষুধ যেন ভালোভাবে লাগে।"
+    },
+    {
+      "id": "onion-purple-blotch",
+      "crop_bn": "পেঁয়াজ",
+      "crop_en": "Onion",
+      "name_bn": "পেঁয়াজের বেগুনী দাগ রোগ (Purple Blotch)",
+      "name_en": "Onion Purple Blotch (Alternaria porri)",
+      "pathogen": "Alternaria porri (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "stem"
+      ],
+      "symptoms_bn": "পাতায় বা বীজের ডাঁটায় জলছাপ সাদাটে দাগ পড়ে যার কেন্দ্র বেগুনী রঙের হয়। দাগ বড় হয়ে পাতা ও ডাঁটা ভেঙে পড়ে এবং পেঁয়াজের আকার ছোট হয়।",
+      "symptoms_en": "Small water-soaked lesions developing into oval spots with characteristic purple center and yellowish outer ring; stalks collapse.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Rovral 50 WP",
+          "generic_name": "Iprodione 50 WP",
+          "company": "FMC Corporation",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে মিশিয়ে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water.",
+          "pack_size": "100g",
+          "approx_price_bdt": 340
+        },
+        {
+          "brand_name": "Score 250 EC",
+          "generic_name": "Difenoconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "100ml",
+          "approx_price_bdt": 460
+        },
+        {
+          "brand_name": "Indofil M-45",
+          "generic_name": "Mancozeb 80% WP",
+          "company": "Indofil Industries Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২.৫ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "2.5g per liter of water.",
+          "pack_size": "500g",
+          "approx_price_bdt": 450
+        }
+      ],
+      "organic_remedy_bn": "পেঁয়াজের পাতা পিচ্ছিল হওয়ায় স্প্রে দ্রবণে ট্রাইটন বা সামান্য ডিটারজেন্ট মিশিয়ে স্প্রে করলে ওষুধ পাতায় লেগে থাকে। ট্রাইকোডার্মা দিয়ে বীজ শোধন করুন।",
+      "organic_remedy_en": "Add sticker or mild surfactant to ensure adherence on waxy leaves; seed treatment with Trichoderma.",
+      "phi_days": 14,
+      "spray_advice_bn": "সকালে শিশির শুকালে তবেই স্প্রে করুন, অন্যথায় ওষুধ গড়িয়ে নিচে পড়ে যায়।"
+    }
+  ]
+}

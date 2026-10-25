@@ -24,8 +24,8 @@ export default function Navbar({
   ];
 
   const locationDisplay = gpsLocation
-    ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(1)}°N, ${gpsLocation.lon?.toFixed(1)}°E`)
-    : (language === 'bn' ? 'বগুড়া • ২৪°C' : 'Bogura • 24°C');
+    ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(2)}°N, ${gpsLocation.lon?.toFixed(2)}°E`)
+    : (language === 'bn' ? 'মাঠের লোকেশন নির্বাচন' : 'Set Field Location');
 
   const isHome = activeTab === 'home';
 
@@ -66,11 +66,6 @@ export default function Navbar({
                 {gpsLocation ? (language === 'bn' ? 'পরিবর্তন' : 'Edit') : (language === 'bn' ? 'যুক্ত করুন' : 'Add')}
               </span>
             </button>
-
-            <div className="field-ready-badge">
-              <span className="pulse-dot"></span>
-              <span className="field-ready-text">{language === 'bn' ? 'ফিল্ড রেডি' : 'Field Ready'}</span>
-            </div>
           </div>
 
           <div className="navbar-right-actions">

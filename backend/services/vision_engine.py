@@ -8,13 +8,20 @@ from typing import Dict, Any, List, Optional
 from backend.config import DATA_DIR, ANNOTATED_DIR, GROQ_API_KEY, GROQ_LLM_MODEL
 
 logger = logging.getLogger(__name__)
-PATHOLOGY_FILE = DATA_DIR / "crop_pathology_db.json"
+PATHOLOGY_FILE = DATA_DIR / "crop_disease_dataset.json"
+BACKUP_PATHOLOGY_FILE = DATA_DIR / "crop_pathology_db.json"
 
 def load_pathology_db() -> List[Dict[str, Any]]:
-    if PATHOLOGY_FILE.exists():
-        with open(PATHOLOGY_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            return data.get("diseases", [])
+    for target in [PATHOLOGY_FILE, BACKUP_PATHOLOGY_FILE]:
+        if target.exists():
+            try:
+                with open(target, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    diseases = data.get("diseases", [])
+                    if diseases:
+                        return diseases
+            except Exception as e:
+                logger.warning(f"Error reading pathology database from {target}: {e}")
     return []
 
 def classify_severity(damage_pct: float) -> str:
@@ -337,21 +344,87 @@ async def diagnose_pathology_with_ai(
         except Exception as e:
             logger.warning(f"Groq dynamic AI diagnosis error: {e}. Falling back to crop-specific pathology database.")
 
-    # 2. Deterministic Fallback - strictly matched to selected crop
+    # 2. Deterministic Fallback - strictly matched to selected crop & inspected organ
     pathologies = load_pathology_db()
     matched = None
-    if crop_hint:
-        hint_lower = crop_hint.lower()
-        for p in pathologies:
-            if (p["crop_en"].lower() in hint_lower or 
-                hint_lower in p["crop_en"].lower() or 
-                p["crop_bn"] in crop_hint or 
-                crop_hint in p["crop_bn"]):
-                matched = p
-                break
+    if pathologies:
+        # First attempt: match both crop and plant organ
+        if crop_hint:
+            hint_lower = crop_hint.lower()
+            for p in pathologies:
+                crop_match = (
+                    p.get("crop_en", "").lower() in hint_lower or 
+                    hint_lower in p.get("crop_en", "").lower() or 
+                    p.get("crop_bn", "") in crop_hint or 
+                    crop_hint in p.get("crop_bn", "")
+                )
+                if crop_match and part_key in p.get("plant_parts", []):
+                    matched = p
+                    break
 
-    if not matched:
-        matched = pathologies[0]
+            # Second attempt: match crop only
+            if not matched:
+                for p in pathologies:
+                    if (p.get("crop_en", "").lower() in hint_lower or 
+                        hint_lower in p.get("crop_en", "").lower() or 
+                        p.get("crop_bn", "") in crop_hint or 
+                        crop_hint in p.get("crop_bn", "")):
+                        matched = p
+                        break
+
+        if not matched:
+            matched = pathologies[0]
+    else:
+        matched = {
+            "id": "potato-late-blight",
+            "name_bn": "আলুর নাবি ধসা (Late Blight)",
+            "name_en": "Potato Late Blight",
+            "crop_bn": "আলু",
+            "crop_en": "Potato",
+            "pathogen": "Phytophthora infestans (ছত্রাক)",
+            "symptoms_bn": "পাতার কিনারায় কালচে জলছাপ দাগ এবং পচন।",
+            "symptoms_en": "Dark brown greasy water-soaked lesions.",
+            "commercial_medicines": [
+                {
+                    "brand_name": "Ridomil Gold MZ 68 WG",
+                    "generic_name": "Metalaxyl-M 4% + Mancozeb 64%",
+                    "company": "Syngenta Bangladesh Ltd.",
+                    "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে স্প্রে করুন।",
+                    "dosage_en": "2g per liter of water.",
+                    "approx_price_bdt": 410
+                }
+            ],
+            "organic_remedy_bn": "বোর্দো মিশ্রণ (১%) স্প্রে করুন এবং সেচ সাময়িক বন্ধ রাখুন।",
+            "organic_remedy_en": "Spray Bordeaux mixture (1%) and halt irrigation.",
+            "phi_days": 10,
+            "spray_advice_bn": "কুয়াশাচ্ছন্ন সকালে স্প্রে না করে রোদ উঠলে স্প্রে করুন।"
+        }
+
+    # Format commercial medicines with real BD brand, company, dosage, and retail price
+    meds = matched.get("commercial_medicines", [])
+    med_lines = []
+    for m in meds:
+        b_name = m.get("brand_name", "")
+        comp = m.get("company", "")
+        dose = m.get("dosage_bn" if language == "bn" else "dosage_en", "")
+        price = m.get("approx_price_bdt")
+        price_str = f" [খুচরা মূল্য: ~{price} ৳]" if (price and language == "bn") else (f" [Approx Price: ~৳{price}]" if price else "")
+        med_lines.append(f"• {b_name} ({comp}): {dose}{price_str}")
+
+    chem_remedy_text = "\n".join(med_lines) if med_lines else (
+        matched.get("chemical_remedy_bn" if language == "bn" else "chemical_remedy_en", "")
+    )
+
+    desc_text = (
+        matched.get("symptoms_bn" if language == "bn" else "symptoms_en") or 
+        matched.get("description_bn" if language == "bn" else "description_en", "")
+    )
+    organic_text = (
+        matched.get("organic_remedy_bn" if language == "bn" else "organic_remedy_en", "")
+    )
+    spray_text = (
+        matched.get("spray_advice_bn" if language == "bn" else "spray_advice_en", "")
+    )
 
     return {
         "id": matched.get("id"),
@@ -361,10 +434,11 @@ async def diagnose_pathology_with_ai(
         "pathogen": matched.get("pathogen"),
         "severity": severity,
         "damagePercentage": damage_pct,
-        "description": matched.get("description_bn") if language == "bn" else matched.get("description_en", matched.get("description_bn")),
+        "description": desc_text,
         "root_cause": (f"উচ্চ আর্দ্রতা ({humidity}%) এবং অনুকূল তাপমাত্রার ({temp}°C) কারণে {matched.get('pathogen')} রোগ বিস্তার লাভ করেছে।" if language == "bn" else f"High humidity ({humidity}%) and favorable temperature ({temp}°C) accelerated {matched.get('pathogen')} proliferation."),
-        "organicRemedy": matched.get("organic_remedy_bn") if language == "bn" else matched.get("organic_remedy_en", matched.get("organic_remedy_bn")),
-        "chemicalRemedy": matched.get("chemical_remedy_bn") if language == "bn" else matched.get("chemical_remedy_en", matched.get("chemical_remedy_bn")),
+        "organicRemedy": organic_text,
+        "chemicalRemedy": chem_remedy_text,
+        "commercialMedicines": meds,
         "phiDays": matched.get("phi_days", 14),
-        "sprayAdvice": matched.get("spray_advice_bn") if language == "bn" else matched.get("spray_advice_en", matched.get("spray_advice_bn"))
+        "sprayAdvice": spray_text
     }

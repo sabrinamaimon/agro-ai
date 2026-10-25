@@ -2,13 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { 
   Upload, AlertTriangle, ShieldCheck, CheckCircle2, Image as ImageIcon, 
   RefreshCw, ArrowRight, Eye, Trash2, Search, SlidersHorizontal, 
-  Leaf, FlaskConical, CloudRain, Sparkles, AlertCircle 
+  Leaf, FlaskConical, CloudRain, AlertCircle 
 } from 'lucide-react';
 import { diagnoseCropImage } from '../services/api';
 import CropCategoryDropdown from './CropCategoryDropdown';
 import CropSearchDropdown from './CropSearchDropdown';
 import PlantPartDropdown from './PlantPartDropdown';
 import { BANGLADESH_CROPS, CROP_CATEGORIES } from '../data/bangladeshCrops';
+
+const POPULAR_CROPS = [
+  { id: 'rice', nameBn: 'ধান', nameEn: 'Rice (ধান)', category: 'cereal', icon: '🌾' },
+  { id: 'potato', nameBn: 'আলু', nameEn: 'Potato (আলু)', category: 'vegetable', icon: '🥔' },
+  { id: 'tomato', nameBn: 'টমেটো', nameEn: 'Tomato (টমেটো)', category: 'vegetable', icon: '🍅' },
+  { id: 'brinjal', nameBn: 'বেগুন', nameEn: 'Brinjal (বেগুন)', category: 'vegetable', icon: '🍆' },
+  { id: 'chilli', nameBn: 'মরিচ', nameEn: 'Chilli (মরিচ)', category: 'vegetable', icon: '🌶️' },
+  { id: 'mango', nameBn: 'আম', nameEn: 'Mango (আম)', category: 'fruit', icon: '🥭' }
+];
 
 export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagnosisComplete }) {
   // Enforced flow states:
@@ -78,24 +87,34 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
     setDiagnosisResult(null);
   };
 
-  // Check if all steps (1, 2, 3, 4) are satisfied
-  const isFormValid = Boolean(previewUrl && selectedCategory && selectedCrop && selectedPart);
+  // Streamlined 1-Click Validation: Photo is the only strict requirement!
+  const isFormValid = Boolean(previewUrl);
 
-  // Run Diagnosis ONLY when user clicks the active search button
+  // Quick 1-click crop select helper
+  const handleQuickCropSelect = (popCrop) => {
+    setSelectedCategory(popCrop.category);
+    setSelectedCrop(popCrop.nameEn);
+    setDiagnosisResult(null);
+  };
+
+  // Run Diagnosis when user clicks the active search button
   const handleRunSearch = async () => {
     if (!isFormValid || loading) return;
 
     setLoading(true);
     setErrorMessage(null);
     try {
-      const unionParam = intakeUnion || 'Rangpur Sadar';
+      const unionParam = intakeUnion || 'বাংলাদেশ';
+      const effectiveCrop = selectedCrop || 'Auto-Detect';
+      const effectivePart = selectedPart || 'auto';
+
       const result = await diagnoseCropImage(
         selectedImage, 
         null, 
-        selectedCrop, 
+        effectiveCrop, 
         unionParam, 
         language, 
-        selectedPart
+        effectivePart
       );
       setDiagnosisResult(result);
       if (onDiagnosisComplete) onDiagnosisComplete(result);
@@ -224,6 +243,41 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
                 </div>
               )}
             </div>
+
+            {/* Quick 1-Click Popular Crop Selection */}
+            <div className="quick-crops-bar mt-3">
+              <span className="text-xs text-gray font-serif-bn font-bold block mb-1">
+                {language === 'bn' ? 'জনপ্রিয় ফসল (১-ক্লিক নির্বাচন):' : 'Popular Crops (1-Click Select):'}
+              </span>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                {POPULAR_CROPS.map((pop) => {
+                  const isSelected = selectedCrop && selectedCrop.toLowerCase().includes(pop.id);
+                  return (
+                    <button
+                      key={pop.id}
+                      type="button"
+                      onClick={() => handleQuickCropSelect(pop)}
+                      style={{
+                        padding: '0.35rem 0.75rem',
+                        borderRadius: '6px',
+                        border: isSelected ? '1.5px solid #059669' : '1px solid #E2E8F0',
+                        background: isSelected ? '#ECFDF5' : '#FFFFFF',
+                        color: isSelected ? '#065F46' : '#334155',
+                        fontWeight: isSelected ? 600 : 500,
+                        fontSize: '0.85rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.35rem'
+                      }}
+                    >
+                      <span>{pop.icon}</span>
+                      <span>{language === 'bn' ? pop.nameBn : pop.nameEn}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -351,15 +405,9 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
             <div className="action-guidance-pill mt-2">
               <AlertTriangle size={15} />
               <span>
-                {!previewUrl
-                  ? (language === 'bn' ? 'অনুসন্ধান সক্রিয় করতে প্রথমে ১ম ধাপে ছবি আপলোড করুন' : 'Please upload photo in Step 1')
-                  : !selectedCategory
-                  ? (language === 'bn' ? 'অনুসন্ধান সক্রিয় করতে ২য় ধাপে ফসলের ধরন নির্বাচন করুন' : 'Please select crop category in Step 2')
-                  : !selectedCrop
-                  ? (language === 'bn' ? 'অনুসন্ধান সক্রিয় করতে ৩য় ধাপে ফসল নির্বাচন করুন' : 'Please select a crop in Step 3')
-                  : !selectedPart
-                  ? (language === 'bn' ? 'অনুসন্ধান সক্রিয় করতে ৪র্থ ধাপে আক্রান্ত উদ্ভিদাংশ নির্বাচন করুন' : 'Please select plant part in Step 4')
-                  : (language === 'bn' ? 'সকল ধাপ পূরণ করুন' : 'Complete all steps to search')}
+                {language === 'bn' 
+                  ? 'রোগ বিশ্লেষণ শুরু করতে প্রথমে আক্রান্ত পাতা বা গাছের একটি ছবি দিন' 
+                  : 'Please upload a plant photo in Step 1 to diagnose'}
               </span>
             </div>
           )}
