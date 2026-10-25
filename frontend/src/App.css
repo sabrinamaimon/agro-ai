@@ -5656,7 +5656,7 @@ body:has(.app-container-home) {
   height: 100%;
   object-fit: cover;
   transform: scale(1.04);
-  filter: brightness(1.12) contrast(1.05) saturate(1.12);
+  filter: brightness(0.96) contrast(1.04) saturate(1.06);
   transition: transform 7s ease-out;
 }
 
@@ -5664,7 +5664,24 @@ body:has(.app-container-home) {
   transform: scale(1.0);
 }
 
-/* Cinematic Gradient Overlays - Soft, Light & Transparent behind Text */
+/* Cinematic Gradient Overlays - Soft, Light & Anti-Glare Overlays */
+.hero-slide-overlay-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52vh;
+  background: linear-gradient(
+    to bottom, 
+    rgba(8, 22, 15, 0.65) 0%, 
+    rgba(8, 22, 15, 0.35) 30%, 
+    rgba(10, 24, 17, 0.12) 65%, 
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
 .hero-slide-overlay-left {
   position: absolute;
   inset: 0;
@@ -5692,16 +5709,7 @@ body:has(.app-container-home) {
   pointer-events: none;
 }
 
-.hero-sun-glow {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 65vw;
-  height: 65vh;
-  background: radial-gradient(circle at 82% 16%, rgba(255, 235, 175, 0.30) 0%, rgba(16, 185, 129, 0.16) 40%, transparent 70%);
-  pointer-events: none;
-  z-index: 15;
-}
+
 
 /* Hero Stage Content (Spacious, Perfectly Balanced without Overlaps) */
 .hero-stage-content {

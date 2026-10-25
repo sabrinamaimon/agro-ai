@@ -139,14 +139,14 @@ export default function Hero({ language, setActiveTab }) {
               className="hero-slide-img" 
             />
             {/* Cinematic Gradient Overlays */}
+            <div className="hero-slide-overlay-top" />
             <div className="hero-slide-overlay-left" />
             <div className="hero-slide-overlay-bottom" />
           </div>
         ))}
       </div>
 
-      {/* Sunlight Beam & Ambient Atmospheric Light */}
-      <div className="hero-sun-glow" />
+      
 
       {/* Main Spacious Hero Stage */}
       <div className="hero-stage-content">
@@ -243,3 +243,4 @@ export default function Hero({ language, setActiveTab }) {
     </div>
   );
 }
+
