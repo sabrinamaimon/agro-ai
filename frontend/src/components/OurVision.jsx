@@ -32,7 +32,7 @@ export default function OurVision({ language = 'bn' }) {
     >
       {/* Standalone Section Header above the whole card (no box) */}
       <div className="reveal-focus our-vision-section-header">
-        <h3 className="our-vision-standalone-title font-cinzel">
+        <h3 className={`our-vision-standalone-title ${language === 'bn' ? 'our-vision-title-bn font-serif-bn' : 'font-cinzel'}`}>
           {language === 'bn' ? 'আমাদের ভিশন' : 'OUR VISION'}
         </h3>
         <div className="our-vision-title-accent" />

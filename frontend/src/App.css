@@ -7680,39 +7680,61 @@ body:has(.app-container-home) {
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
 }
 
+.our-vision-standalone-title.our-vision-title-bn {
+  font-family: 'Noto Serif Bengali', serif;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: clamp(1.45rem, 2.7vw, 2.1rem);
+  font-weight: 700;
+  color: #E8D3B7;
+  background: linear-gradient(135deg, #FFF9ED 0%, #E8D3B7 50%, #C5A880 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 12px rgba(197, 168, 128, 0.35));
+}
+
 .our-vision-title-accent {
-  width: 60px;
+  width: 70px;
   height: 2px;
   background: linear-gradient(90deg, transparent, #C5A880, transparent);
   margin: 0.85rem auto 0;
+  box-shadow: 0 0 10px rgba(197, 168, 128, 0.4);
 }
 
 .vision-quote {
-  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: clamp(1.4rem, 2.5vw, 1.95rem);
   font-weight: 700;
   color: #FFFFFF;
-  line-height: 1.45;
-  margin-bottom: 1.15rem;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+  line-height: 1.55;
+  letter-spacing: normal;
+  margin-bottom: 1.25rem;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
 }
 
 .vision-manifesto {
   display: flex;
   flex-direction: column;
-  gap: 0.95rem;
+  gap: 1.05rem;
   margin-bottom: 1.65rem;
 }
 
 .vision-p {
-  font-size: 0.93rem;
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 0.98rem;
+  font-weight: 400;
   color: #E2E8F0;
-  line-height: 1.68;
+  line-height: 1.82;
+  letter-spacing: 0.01em;
   margin: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .vision-dream-callout {
-  margin-top: 0.5rem;
-  padding: 1.1rem 1.25rem;
+  margin-top: 0.65rem;
+  padding: 1.15rem 1.35rem;
   border-radius: 14px;
   background: rgba(22, 219, 123, 0.08);
   border-left: 4px solid #16DB7B;
@@ -7723,10 +7745,14 @@ body:has(.app-container-home) {
 }
 
 .vision-dream-text {
-  font-size: 0.95rem;
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 0.98rem;
   color: #FFFFFF;
-  line-height: 1.65;
+  line-height: 1.75;
+  letter-spacing: normal;
   margin: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .vision-dream-text strong {
@@ -7767,16 +7793,20 @@ body:has(.app-container-home) {
 }
 
 .pillar-title {
-  font-size: 0.95rem;
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 0.98rem;
   font-weight: 700;
   color: #FFFFFF;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.35rem;
+  letter-spacing: normal;
 }
 
 .pillar-text {
-  font-size: 0.8rem;
+  font-family: 'Noto Serif Bengali', serif;
+  font-size: 0.84rem;
   color: #CBD5E1;
-  line-height: 1.45;
+  line-height: 1.55;
+  letter-spacing: normal;
 }
 
 /* ========================================================================= */
