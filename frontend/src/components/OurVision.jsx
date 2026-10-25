@@ -9,9 +9,14 @@ export default function OurVision({ language = 'bn' }) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-focus');
+        } else if (entry.boundingClientRect.top > window.innerHeight * 0.75) {
+          entry.target.classList.remove('in-focus');
         }
       });
-    }, { threshold: 0.15 });
+    }, { 
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px' 
+    });
 
     const elements = sectionRef.current?.querySelectorAll('.reveal-focus');
     elements?.forEach((el) => observer.observe(el));

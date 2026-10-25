@@ -5546,8 +5546,7 @@ body:has(.app-container-home) {
   padding: 0 !important;
   margin: 0 !important;
   max-width: 100vw !important;
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
+  overflow: visible !important;
   background-color: #0a1710 !important;
   z-index: 1;
 }
@@ -5564,14 +5563,15 @@ body:has(.app-container-home) {
 
 /* Fullscreen Hero Container */
 .onkur-fullscreen-hero {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
   min-height: 620px;
   overflow: hidden;
-  background-color: #050806;
-  z-index: 10;
+  background-color: #0a1710;
+  z-index: 5;
   user-select: none;
 }
 
@@ -6733,17 +6733,17 @@ body:has(.app-container-home) {
 /* ========================================================================= */
 .reveal-focus {
   opacity: 0;
-  transform: translateY(35px);
-  filter: blur(6px);
-  transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(75px) scale(0.95);
+  filter: blur(8px);
+  transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.0s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.0s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform, filter;
 }
 
 .reveal-focus.in-focus {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   filter: blur(0px);
 }
 
@@ -6779,12 +6779,37 @@ body:has(.app-container-home) {
 /* ========================================================================= */
 .how-it-works-section {
   position: relative;
-  padding: 5rem 1.5rem;
+  z-index: 15;
+  padding: 5.5rem 1.5rem 6rem 1.5rem;
   background-color: #0a1710;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 150, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 50% 0%, rgba(255, 225, 150, 0.22) 0%, transparent 50%),
     radial-gradient(circle at 85% 60%, rgba(16, 185, 129, 0.12) 0%, transparent 45%);
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  border-top: 1px solid rgba(212, 185, 140, 0.45);
+  box-shadow: 0 -35px 80px rgba(0, 0, 0, 0.85), 0 -2px 0 rgba(212, 185, 140, 0.25);
   overflow: hidden;
+}
+
+.hiw-sheet-handle-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.hiw-sheet-handle-bar {
+  width: 52px;
+  height: 5px;
+  border-radius: 9999px;
+  background: rgba(212, 185, 140, 0.45);
+  box-shadow: 0 0 12px rgba(212, 185, 140, 0.35);
 }
 
 .hiw-backdrop-layer {
