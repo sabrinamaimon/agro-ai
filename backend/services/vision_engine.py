@@ -86,108 +86,100 @@ def analyze_crop_image(
         raise ValueError("Could not decode image from provided bytes.")
 
     h, w, _ = img.shape
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
 
     part_key, organ_name_bn = resolve_plant_part_label(plant_part)
 
-    # 1. Segment organ surface
-    if part_key == "leaf":
-        lower_leaf = np.array([15, 20, 20])
-        upper_leaf = np.array([98, 255, 255])
-        organ_mask = cv2.inRange(hsv, lower_leaf, upper_leaf)
-        organ_mask = cv2.morphologyEx(organ_mask, cv2.MORPH_CLOSE, kernel)
-    elif part_key == "stem":
-        lower_bark_1 = np.array([0, 15, 20])
-        upper_bark_1 = np.array([35, 255, 220])
-        lower_bark_2 = np.array([0, 0, 30])
-        upper_bark_2 = np.array([180, 50, 200])
-        mask1 = cv2.inRange(hsv, lower_bark_1, upper_bark_1)
-        mask2 = cv2.inRange(hsv, lower_bark_2, upper_bark_2)
-        organ_mask = cv2.bitwise_or(mask1, mask2)
-        organ_mask = cv2.morphologyEx(organ_mask, cv2.MORPH_CLOSE, kernel)
-    elif part_key == "fruit":
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-        _, organ_mask = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-        border_sum = np.sum(organ_mask[0, :]) + np.sum(organ_mask[-1, :]) + np.sum(organ_mask[:, 0]) + np.sum(organ_mask[:, -1])
-        if border_sum > (2 * (h + w) * 255 * 0.5):
-            organ_mask = cv2.bitwise_not(organ_mask)
-        organ_mask = cv2.morphologyEx(organ_mask, cv2.MORPH_CLOSE, kernel)
-    else: # auto
-        lower_leaf = np.array([15, 20, 20])
-        upper_leaf = np.array([98, 255, 255])
-        leaf_cand = cv2.inRange(hsv, lower_leaf, upper_leaf)
-        leaf_ratio = cv2.countNonZero(leaf_cand) / max(1, (h * w))
+    # 1. Fast, robust leaf/organ foreground segmentation
+    # Downscale for high-speed GrabCut (max 600px dimension)
+    scale = min(1.0, 600.0 / max(h, w))
+    sh, sw = max(20, int(h * scale)), max(20, int(w * scale))
+    small_img = cv2.resize(img, (sw, sh), interpolation=cv2.INTER_AREA)
 
-        if leaf_ratio > 0.15:
-            organ_mask = cv2.morphologyEx(leaf_cand, cv2.MORPH_CLOSE, kernel)
-            organ_name_bn = "পাতা (Leaf)"
-            part_key = "leaf"
-        else:
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-            _, organ_mask = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-            border_sum = np.sum(organ_mask[0, :]) + np.sum(organ_mask[-1, :]) + np.sum(organ_mask[:, 0]) + np.sum(organ_mask[:, -1])
-            if border_sum > (2 * (h + w) * 255 * 0.5):
-                organ_mask = cv2.bitwise_not(organ_mask)
-            organ_mask = cv2.morphologyEx(organ_mask, cv2.MORPH_CLOSE, kernel)
-            mean_s = np.mean(hsv[:, :, 1])
-            if mean_s > 60:
-                organ_name_bn = "ফল বা কন্দ (Fruit / Tuber)"
-                part_key = "fruit"
-            else:
-                organ_name_bn = "গাছের কাণ্ড বা শরীর (Stem / Trunk)"
-                part_key = "stem"
+    mask = np.zeros(small_img.shape[:2], np.uint8)
+    bgdModel = np.zeros((1, 65), np.float64)
+    fgdModel = np.zeros((1, 65), np.float64)
+    # 4% safe inner bounding box for foreground initialization
+    rect = (int(sw * 0.04), int(sh * 0.04), int(sw * 0.92), int(sh * 0.92))
+    cv2.grabCut(small_img, mask, rect, bgdModel, fgdModel, 2, cv2.GC_INIT_WITH_RECT)
+    small_organ_mask = np.where((mask == 1) | (mask == 3), 255, 0).astype('uint8')
+
+    # Fill internal holes to retain solid leaf lamina
+    cnts, _ = cv2.findContours(small_organ_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    solid_organ = np.zeros_like(small_organ_mask)
+    for c in cnts:
+        if cv2.contourArea(c) > (sw * sh * 0.03):
+            cv2.drawContours(solid_organ, [c], -1, 255, -1)
+
+    # Erode border slightly so bounding boxes never land on the image edges or background bokeh
+    solid_organ = cv2.erode(solid_organ, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5)))
+    organ_mask = cv2.resize(solid_organ, (w, h), interpolation=cv2.INTER_NEAREST)
 
     total_organ_pixels = cv2.countNonZero(organ_mask)
-    if total_organ_pixels < 500:
-        total_organ_pixels = max(1000, int(h * w * 0.45))
+    if total_organ_pixels < int(h * w * 0.05):
+        # Fallback: central 85% area
+        organ_mask = np.zeros((h, w), dtype=np.uint8)
+        cv2.rectangle(organ_mask, (int(w * 0.06), int(h * 0.06)), (int(w * 0.94), int(h * 0.94)), 255, -1)
+        total_organ_pixels = cv2.countNonZero(organ_mask)
 
-    # 2. Segment necrotic lesion regions (spots, rot, wounds, bark tears, anthracnose)
-    lower_lesion_1 = np.array([3, 40, 15])
-    upper_lesion_1 = np.array([25, 255, 185])
+    # 2. Multi-feature lesion extraction on leaf surface (Holes, Necrosis, Rust, Spots)
+    k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (13, 13))
+    tophat = cv2.morphologyEx(gray, cv2.MORPH_TOPHAT, k)
+    blackhat = cv2.morphologyEx(gray, cv2.MORPH_BLACKHAT, k)
+    tophat = cv2.bitwise_and(tophat, tophat, mask=organ_mask)
+    blackhat = cv2.bitwise_and(blackhat, blackhat, mask=organ_mask)
 
-    lower_lesion_2 = np.array([0, 0, 10])
-    upper_lesion_2 = np.array([180, 255, 75])
+    leaf_gray = gray[organ_mask > 0]
+    mean_g = float(np.mean(leaf_gray)) if len(leaf_gray) > 0 else 128.0
+    std_g = float(np.std(leaf_gray)) if len(leaf_gray) > 0 else 30.0
 
-    lesion_mask_1 = cv2.inRange(hsv, lower_lesion_1, upper_lesion_1)
-    lesion_mask_2 = cv2.inRange(hsv, lower_lesion_2, upper_lesion_2)
-    
-    if part_key == "stem":
-        lesion_mask_dark = cv2.inRange(hsv, np.array([0, 0, 5]), np.array([180, 255, 60]))
-        lesion_mask = cv2.bitwise_or(lesion_mask_1, lesion_mask_dark)
-    else:
-        lesion_mask = cv2.bitwise_or(lesion_mask_1, lesion_mask_2)
+    # Dark necrotic blights
+    _, blight_dark = cv2.threshold(gray, max(10, int(mean_g - 1.25 * std_g)), 255, cv2.THRESH_BINARY_INV)
+    blight_dark = cv2.bitwise_and(blight_dark, blight_dark, mask=organ_mask)
 
-    if cv2.countNonZero(organ_mask) > 1000:
-        lesion_mask = cv2.bitwise_and(lesion_mask, organ_mask)
+    # Bright translucent holes / flea beetle punctures / powdery spores
+    _, th_top = cv2.threshold(tophat, 16, 255, cv2.THRESH_BINARY)
+    # Dark sunken necrotic spots
+    _, th_black = cv2.threshold(blackhat, 16, 255, cv2.THRESH_BINARY)
 
-    lesion_mask = cv2.morphologyEx(lesion_mask, cv2.MORPH_OPEN, kernel)
+    lesion_mask = cv2.bitwise_or(th_top, th_black)
+    lesion_mask = cv2.bitwise_or(lesion_mask, blight_dark)
+
+    clean_k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2, 2))
+    lesion_mask = cv2.morphologyEx(lesion_mask, cv2.MORPH_OPEN, clean_k)
     lesion_pixels = cv2.countNonZero(lesion_mask)
 
     # 3. Calculate Damage %
-    raw_damage_pct = (lesion_pixels / total_organ_pixels) * 100.0
-    damage_pct = round(float(np.clip(raw_damage_pct, 4.0, 92.0)), 1)
+    raw_damage_pct = (lesion_pixels / max(1, total_organ_pixels)) * 100.0
+    damage_pct = round(float(np.clip(raw_damage_pct, 6.0, 92.0)), 1)
 
-    # 4. Find bounding boxes of infected regions
+    # 4. Extract precision bounding boxes of infected regions on the leaf
     contours, _ = cv2.findContours(lesion_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     annotated_img = img.copy()
     bounding_boxes: List[List[int]] = []
 
-    sorted_contours = sorted(contours, key=cv2.contourArea, reverse=True)
+    min_box_area = max(4, int(w * h * 0.00003))
 
-    for cnt in sorted_contours:
+    for cnt in sorted(contours, key=cv2.contourArea, reverse=True):
         area = cv2.contourArea(cnt)
-        if area > 60:
+        if area >= min_box_area:
             x, y, bw, bh = cv2.boundingRect(cnt)
-            bounding_boxes.append([int(x), int(y), int(bw), int(bh)])
-            cv2.rectangle(annotated_img, (x, y), (x + bw, y + bh), (0, 0, 235), 2)
-            cv2.putText(annotated_img, "Lesion", (x, max(15, y - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1)
+            # Skip full-leaf boxes or huge whole-image boxes
+            if bw > w * 0.45 or bh > h * 0.45:
+                continue
+            cx, cy = x + bw // 2, y + bh // 2
+            # Strictly enforce: box center MUST be inside the leaf mask!
+            if organ_mask[min(h - 1, cy), min(w - 1, cx)] > 0:
+                bounding_boxes.append([int(x), int(y), int(bw), int(bh)])
+                cv2.rectangle(annotated_img, (x, y), (x + bw, y + bh), (0, 0, 235), 2)
+                cv2.putText(annotated_img, "Lesion", (x, max(14, y - 4)), cv2.FONT_HERSHEY_SIMPLEX, 0.38, (0, 0, 255), 1)
+                if len(bounding_boxes) >= 25:
+                    break
 
     if len(bounding_boxes) == 0 and damage_pct > 10:
         cx, cy = int(w * 0.35), int(h * 0.35)
-        bw, bh = int(w * 0.3), int(h * 0.3)
+        bw, bh = int(w * 0.25), int(h * 0.25)
         bounding_boxes.append([cx, cy, bw, bh])
         cv2.rectangle(annotated_img, (cx, cy), (cx + bw, cy + bh), (0, 0, 235), 2)
 
@@ -340,8 +332,9 @@ async def diagnose_pathology_with_ai(
                     badge = f"[{m.get('badge_bn', 'অনুমোদিত')}] " if language == 'bn' else f"[{m.get('badge_en', 'Approved')}] "
                     pack = f" ({m.get('pack_size')})" if m.get('pack_size') else ""
                     p_str = f" [খুচরা মূল্য: ~{m.get('approx_price_bdt')} ৳{pack}]" if language == "bn" else f" [Retail: ~{m.get('approx_price_bdt')} BDT{pack}]"
-                    med_lines.append(f"• {badge}{m.get('brand_name')} ({m.get('company')}): {m.get('dosage_bn' if language == 'bn' else 'dosage_en')}{p_str}")
-                res["chemicalRemedy"] = "\n".join(med_lines)
+                    dose = m.get('dosage_bn' if language == 'bn' else 'dosage_en')
+                    med_lines.append(f"• {badge}{m.get('brand_name')} ({m.get('company')}):\n  প্রয়োগ মাত্রা: {dose}{p_str}")
+                res["chemicalRemedy"] = "\n\n".join(med_lines)
 
             return res
         except Exception as e:
@@ -387,9 +380,9 @@ async def diagnose_pathology_with_ai(
         badge = f"[{m.get('badge_bn', 'অনুমোদিত')}] " if language == 'bn' else f"[{m.get('badge_en', 'Approved')}] "
         pack = f" ({m.get('pack_size')})" if m.get('pack_size') else ""
         price_str = f" [খুচরা মূল্য: ~{price} ৳{pack}]" if (price and language == "bn") else (f" [Retail: ~৳{price}{pack}]" if price else "")
-        med_lines.append(f"• {badge}{b_name} ({comp}): {dose}{price_str}")
+        med_lines.append(f"• {badge}{b_name} ({comp}):\n  প্রয়োগ মাত্রা: {dose}{price_str}")
 
-    chem_remedy_text = "\n".join(med_lines) if med_lines else (
+    chem_remedy_text = "\n\n".join(med_lines) if med_lines else (
         matched.get("chemical_remedy_bn" if language == "bn" else "chemical_remedy_en", "")
     )
 

@@ -507,9 +507,9 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
                 <div className="remedy-card organic p-3 rounded-xl border border-emerald-200 bg-emerald-50/50">
                   <div className="remedy-title flex items-center gap-2 text-emerald-800 font-bold mb-2">
                     <Leaf size={18} className="text-emerald-600" />
-                    <span>{language === 'bn' ? 'জৈব ও প্রাকৃতিক প্রতিকার' : 'Organic Control'}</span>
+                    <span className="text-sm font-bold">{language === 'bn' ? 'জৈব ও প্রাকৃতিক প্রতিকার' : 'Organic Control'}</span>
                   </div>
-                  <p className="text-xs text-gray-700 whitespace-pre-line leading-relaxed">
+                  <p className="text-sm text-gray-800 whitespace-pre-line leading-relaxed font-medium">
                     {diagnosisResult.organicRemedy}
                   </p>
                 </div>
@@ -517,13 +517,70 @@ export default function LeafScanner({ language, intakeCrop, intakeUnion, onDiagn
 
               {diagnosisResult.chemicalRemedy && (
                 <div className="remedy-card chemical p-3 rounded-xl border border-blue-200 bg-blue-50/50">
-                  <div className="remedy-title flex items-center gap-2 text-blue-800 font-bold mb-2">
-                    <FlaskConical size={18} className="text-blue-600" />
-                    <span>{language === 'bn' ? 'অনুমোদিত রাসায়নিক ও ছত্রাকনাশক' : 'Chemical Control'}</span>
+                  <div className="remedy-title flex items-center justify-between text-blue-800 font-bold mb-2">
+                    <div className="flex items-center gap-2">
+                      <FlaskConical size={18} className="text-blue-600" />
+                      <span className="text-sm font-bold">{language === 'bn' ? 'অনুমোদিত রাসায়নিক ও ছত্রাকনাশক' : 'Chemical Control'}</span>
+                    </div>
+                    {diagnosisResult.phiDays && (
+                      <span className="text-xs px-2.5 py-0.5 rounded font-semibold bg-blue-100 text-blue-900 border border-blue-300">
+                        {language === 'bn' ? `নিরাপদ বিরতি (PHI): ${diagnosisResult.phiDays} দিন` : `PHI: ${diagnosisResult.phiDays} Days`}
+                      </span>
+                    )}
                   </div>
-                  <p className="text-xs text-gray-700 whitespace-pre-line leading-relaxed">
-                    {diagnosisResult.chemicalRemedy}
-                  </p>
+
+                  {diagnosisResult.commercialMedicines && diagnosisResult.commercialMedicines.length > 0 ? (
+                    <div className="space-y-2.5">
+                      {diagnosisResult.commercialMedicines.map((med, idx) => (
+                        <div 
+                          key={idx} 
+                          className={`p-2.5 rounded-lg border ${med.is_recommended ? 'bg-white border-blue-300 shadow-sm' : 'bg-slate-50 border-slate-200'}`}
+                        >
+                          <div className="flex items-start justify-between gap-2 flex-wrap">
+                            <div>
+                              <div className="text-sm font-bold text-gray-950">
+                                {med.brand_name}
+                                <span className="text-xs font-normal text-gray-600 ml-1.5">
+                                  ({med.company})
+                                </span>
+                              </div>
+                              <div className="text-xs text-gray-700 mt-0.5">
+                                <span className="font-semibold text-slate-800">{language === 'bn' ? 'সক্রিয় উপাদান: ' : 'Active: '}</span>
+                                <span>{med.generic_name}</span>
+                              </div>
+                            </div>
+                            <span 
+                              className={`text-xs px-2 py-0.5 rounded font-bold whitespace-nowrap ${
+                                med.is_recommended 
+                                  ? 'bg-amber-100 text-amber-900 border border-amber-300' 
+                                  : 'bg-slate-200 text-slate-700'
+                              }`}
+                            >
+                              {language === 'bn' 
+                                ? (med.badge_bn || (med.is_recommended ? 'গোল্ড স্ট্যান্ডার্ড' : 'বিকল্প ব্র্যান্ড')) 
+                                : (med.badge_en || (med.is_recommended ? 'Gold Standard' : 'Alternative'))}
+                            </span>
+                          </div>
+
+                          <div className="mt-2 pt-1.5 border-t border-gray-100 flex items-center justify-between gap-2 flex-wrap text-xs">
+                            <div className="text-gray-900 font-medium">
+                              <span className="text-blue-800 font-bold">{language === 'bn' ? 'প্রয়োগ মাত্রা: ' : 'Dose: '}</span>
+                              <span>{language === 'bn' ? med.dosage_bn : (med.dosage_en || med.dosage_bn)}</span>
+                            </div>
+                            {med.approx_price_bdt && (
+                              <div className="font-bold text-xs text-blue-900 bg-blue-100 px-2 py-0.5 rounded">
+                                {language === 'bn' ? 'বাজারদর: ~৳' : 'Retail: ~৳'}{med.approx_price_bdt} {med.pack_size ? `(${med.pack_size})` : ''}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-sm text-gray-900 font-medium whitespace-pre-line leading-relaxed">
+                      {diagnosisResult.chemicalRemedy}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
