@@ -5530,7 +5530,11 @@ body:has(.app-container-home) {
   padding-bottom: 0 !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
-  background-color: #050806 !important;
+  background-color: #0a1710 !important;
+  background-image: 
+    radial-gradient(circle at 82% 12%, rgba(245, 208, 110, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 18% 48%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(212, 168, 83, 0.12) 0%, transparent 45%);
   scroll-behavior: smooth;
 }
 
@@ -5544,7 +5548,7 @@ body:has(.app-container-home) {
   max-width: 100vw !important;
   overflow-x: hidden !important;
   overflow-y: visible !important;
-  background-color: #050806 !important;
+  background-color: #0a1710 !important;
   z-index: 1;
 }
 
@@ -5595,6 +5599,7 @@ body:has(.app-container-home) {
   height: 100%;
   object-fit: cover;
   transform: scale(1.04);
+  filter: brightness(1.12) contrast(1.05) saturate(1.12);
   transition: transform 7s ease-out;
 }
 
@@ -5602,19 +5607,30 @@ body:has(.app-container-home) {
   transform: scale(1.0);
 }
 
-/* Cinematic Gradient Overlays */
+/* Cinematic Gradient Overlays - Lightened with Sunlight Transmission */
 .hero-slide-overlay-left {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(5,8,6,0.92) 0%, rgba(5,8,6,0.68) 42%, rgba(5,8,6,0.2) 80%, transparent 100%);
+  background: linear-gradient(to right, rgba(8,18,12,0.68) 0%, rgba(8,18,12,0.38) 42%, rgba(8,18,12,0.1) 78%, transparent 100%);
   pointer-events: none;
 }
 
 .hero-slide-overlay-bottom {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #050806 0%, rgba(5,8,6,0.85) 15%, rgba(5,8,6,0.4) 45%, transparent 75%);
+  background: linear-gradient(to top, #0a1710 0%, rgba(10,23,16,0.65) 18%, rgba(10,23,16,0.22) 45%, transparent 75%);
   pointer-events: none;
+}
+
+.hero-sun-glow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65vw;
+  height: 65vh;
+  background: radial-gradient(circle at 82% 16%, rgba(255, 230, 160, 0.22) 0%, rgba(16, 185, 129, 0.12) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 15;
 }
 
 /* Hero Stage Content (Spacious, Perfectly Balanced without Overlaps) */
@@ -6764,7 +6780,10 @@ body:has(.app-container-home) {
 .how-it-works-section {
   position: relative;
   padding: 5rem 1.5rem;
-  background-color: #050806;
+  background-color: #0a1710;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 225, 150, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 85% 60%, rgba(16, 185, 129, 0.12) 0%, transparent 45%);
   overflow: hidden;
 }
 
@@ -6785,14 +6804,14 @@ body:has(.app-container-home) {
   object-fit: cover;
   object-position: center 25%;
   transform: scale(1.06);
-  filter: blur(5px) brightness(0.82) contrast(1.08);
-  opacity: 0.75;
+  filter: blur(4px) brightness(1.06) contrast(1.06) saturate(1.15);
+  opacity: 0.88;
 }
 
 .hiw-backdrop-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 38%, rgba(5, 8, 6, 0.38) 0%, rgba(5, 8, 6, 0.70) 65%, rgba(5, 8, 6, 0.92) 100%);
+  background: radial-gradient(ellipse at 50% 38%, rgba(10, 22, 15, 0.22) 0%, rgba(10, 22, 15, 0.52) 65%, rgba(7, 15, 10, 0.80) 100%);
 }
 
 .hiw-backdrop-fade-top {
@@ -6800,8 +6819,8 @@ body:has(.app-container-home) {
   top: 0;
   left: 0;
   right: 0;
-  height: 140px;
-  background: linear-gradient(to bottom, #050806 0%, rgba(5, 8, 6, 0.75) 45%, transparent 100%);
+  height: 130px;
+  background: linear-gradient(to bottom, #0a1710 0%, rgba(10, 23, 16, 0.6) 45%, transparent 100%);
   pointer-events: none;
 }
 
@@ -6810,8 +6829,8 @@ body:has(.app-container-home) {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 140px;
-  background: linear-gradient(to top, #050806 0%, rgba(5, 8, 6, 0.75) 45%, transparent 100%);
+  height: 130px;
+  background: linear-gradient(to top, #0a1710 0%, rgba(10, 23, 16, 0.6) 45%, transparent 100%);
   pointer-events: none;
 }
 
@@ -6983,17 +7002,17 @@ body:has(.app-container-home) {
   width: 375px;
   height: 520px;
   border-radius: 24px;
-  background: linear-gradient(180deg, rgba(16, 26, 20, 0.96) 0%, rgba(9, 15, 12, 0.99) 100%);
-  border: 1px solid rgba(197, 168, 128, 0.25);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: linear-gradient(180deg, rgba(20, 38, 28, 0.88) 0%, rgba(12, 24, 17, 0.94) 100%);
+  border: 1px solid rgba(212, 185, 140, 0.42);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 1.4rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
   user-select: none;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.18);
   transition: transform 0.75s cubic-bezier(0.25, 1, 0.3, 1),
               opacity 0.75s cubic-bezier(0.25, 1, 0.3, 1),
               box-shadow 0.75s cubic-bezier(0.25, 1, 0.3, 1),
@@ -7005,8 +7024,8 @@ body:has(.app-container-home) {
   transform: translateX(0px) scale(1.08) translateZ(85px) !important;
   opacity: 1 !important;
   z-index: 30 !important;
-  border-color: #E8D3B7 !important;
-  box-shadow: 0 35px 70px -10px rgba(0, 0, 0, 0.95), 0 0 40px rgba(197, 168, 128, 0.35) !important;
+  border-color: #F5E5CF !important;
+  box-shadow: 0 32px 70px -10px rgba(0, 0, 0, 0.75), 0 0 45px rgba(212, 175, 55, 0.38), inset 0 1px 2px rgba(255, 255, 255, 0.28) !important;
   cursor: default;
 }
 
@@ -7120,13 +7139,14 @@ body:has(.app-container-home) {
 .mock-price-box,
 .mock-fertilizer-box,
 .mock-passport-box {
-  background: #050806;
-  border: 1px solid rgba(197, 168, 128, 0.25);
+  background: rgba(12, 26, 18, 0.88);
+  border: 1px solid rgba(212, 185, 140, 0.35);
   border-radius: 14px;
   padding: 0.85rem;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .mock-ui-header,
@@ -7184,12 +7204,13 @@ body:has(.app-container-home) {
   height: 180px;
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  background: #050806;
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  background: rgba(12, 26, 18, 0.88);
   padding: 0.75rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .mock-scanner-img {
@@ -7445,9 +7466,12 @@ body:has(.app-container-home) {
 .our-vision-section {
   position: relative;
   padding: 5rem 1.5rem;
-  background-color: #060A07;
-  border-top: 1px solid rgba(197, 168, 128, 0.2);
-  border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+  background-color: #0a1710;
+  background-image: 
+    radial-gradient(circle at 80% 25%, rgba(245, 208, 110, 0.16) 0%, transparent 50%),
+    radial-gradient(circle at 20% 70%, rgba(16, 185, 129, 0.14) 0%, transparent 50%);
+  border-top: 1px solid rgba(212, 185, 140, 0.3);
+  border-bottom: 1px solid rgba(212, 185, 140, 0.3);
 }
 
 .our-vision-card {
@@ -7455,8 +7479,9 @@ body:has(.app-container-home) {
   margin: 0 auto;
   border-radius: 28px;
   overflow: hidden;
-  border: 1px solid rgba(197, 168, 128, 0.35);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, rgba(22, 40, 29, 0.9) 0%, rgba(13, 25, 18, 0.95) 100%);
+  border: 1px solid rgba(212, 185, 140, 0.45);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.18);
 }
 
 .our-vision-grid {
@@ -7486,6 +7511,7 @@ body:has(.app-container-home) {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  filter: brightness(1.1) contrast(1.04) saturate(1.1);
   transition: transform 0.8s ease-out;
 }
 
@@ -7496,13 +7522,13 @@ body:has(.app-container-home) {
 .our-vision-vignette-bottom {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+  background: linear-gradient(to top, rgba(10, 22, 15, 0.65) 0%, rgba(10, 22, 15, 0.15) 50%, transparent 100%);
 }
 
 .our-vision-vignette-side {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, transparent 0%, rgba(9, 17, 11, 0.95) 100%);
+  background: linear-gradient(to right, transparent 0%, rgba(13, 26, 18, 0.78) 100%);
 }
 
 .our-vision-floating-pill {
@@ -7620,9 +7646,10 @@ body:has(.app-container-home) {
 /* STATIC CONTACT & COMPREHENSIVE FOOTER                                    */
 /* ========================================================================= */
 .app-main-footer {
-  background-color: #040605;
-  border-top: 2px solid rgba(197, 168, 128, 0.35);
+  background: linear-gradient(180deg, #0a1710 0%, #060d09 100%);
+  border-top: 2px solid rgba(212, 185, 140, 0.42);
   padding: 4rem 1.5rem 2rem 1.5rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .footer-inner-container {

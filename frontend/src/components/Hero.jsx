@@ -145,6 +145,9 @@ export default function Hero({ language, setActiveTab }) {
         ))}
       </div>
 
+      {/* Sunlight Beam & Ambient Atmospheric Light */}
+      <div className="hero-sun-glow" />
+
       {/* Main Spacious Hero Stage */}
       <div className="hero-stage-content">
         <div className="hero-stage-left">
