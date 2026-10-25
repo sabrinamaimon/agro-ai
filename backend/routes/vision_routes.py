@@ -126,6 +126,7 @@ async def diagnose_leaf_image_endpoint(
         "weather": weather,
         "organicRemedy": diagnosis.get("organicRemedy"),
         "chemicalRemedy": diagnosis.get("chemicalRemedy"),
+        "commercialMedicines": diagnosis.get("commercialMedicines", []),
         "phiDays": diagnosis.get("phiDays", 14),
         "sprayAdvice": diagnosis.get("sprayAdvice"),
         "market": market

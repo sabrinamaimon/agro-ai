@@ -6,23 +6,14 @@ import numpy as np
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from backend.config import DATA_DIR, ANNOTATED_DIR, GROQ_API_KEY, GROQ_LLM_MODEL
+from backend.services.pathology_service import (
+    load_pathology_db,
+    match_pathologies,
+    format_ground_truth_for_prompt
+)
 
 logger = logging.getLogger(__name__)
-PATHOLOGY_FILE = DATA_DIR / "crop_disease_dataset.json"
-BACKUP_PATHOLOGY_FILE = DATA_DIR / "crop_pathology_db.json"
 
-def load_pathology_db() -> List[Dict[str, Any]]:
-    for target in [PATHOLOGY_FILE, BACKUP_PATHOLOGY_FILE]:
-        if target.exists():
-            try:
-                with open(target, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    diseases = data.get("diseases", [])
-                    if diseases:
-                        return diseases
-            except Exception as e:
-                logger.warning(f"Error reading pathology database from {target}: {e}")
-    return []
 
 def classify_severity(damage_pct: float) -> str:
     if damage_pct < 15.0:
@@ -256,56 +247,45 @@ async def diagnose_pathology_with_ai(
     part_key, organ_name_bn = resolve_plant_part_label(plant_part or cv_metrics.get("plant_part", "auto"))
     target_crop = crop_hint.strip() if (crop_hint and crop_hint.strip() and crop_hint.lower() != "auto") else "Auto-Deduce from Visual Profile"
 
-    # 1. Live AI Diagnosis via Groq 120B
+    # Fetch Ground-Truth Candidates from Authentic Bangladesh Pathology Dataset
+    candidates = match_pathologies(
+        query_or_crop=crop_hint if (crop_hint and crop_hint.lower() != "auto") else target_crop,
+        plant_part=part_key,
+        max_results=4
+    )
+    ground_truth_block = format_ground_truth_for_prompt(candidates) if candidates else "No specific match; use recognized BARI / BRRI guidelines."
+
+    # 1. Live AI Diagnosis via Groq 120B with Ground-Truth RAG Injection
     if GROQ_API_KEY:
         try:
             from groq import Groq
             client = Groq(api_key=GROQ_API_KEY)
 
             system_prompt = (
-                f"You are a Senior Plant Pathologist and Agronomist in Bangladesh.\n"
-                f"The target crop has been explicitly specified by the farmer as: '{target_crop}'.\n"
+                f"You are a Senior Plant Pathologist and Agronomist in Bangladesh (BARI / BRRI / DAE).\n"
+                f"The target crop has been specified as: '{target_crop}'.\n"
                 f"The affected plant part/organ inspected is: '{organ_name_bn}' (Category: {part_key}).\n\n"
-                f"CRITICAL CONSTRAINT:\n"
-                f"You MUST diagnose a scientifically authentic, recognized plant disease or disorder of '{target_crop}' in Bangladesh agriculture affecting this specific plant part ({organ_name_bn}).\n"
-                f"DO NOT diagnose a disease from any other crop.\n"
-                f"Targeted Organ Pathology Rules:\n"
-                f"- If crop is Mango (আম):\n"
-                f"  * When part is Fruit (ফল): diagnose Mango Anthracnose Fruit Rot (Colletotrichum gloeosporioides), Stem-End Rot (Lasiodiplodia theobromae), or Fruit Fly damage.\n"
-                f"  * When part is Stem / Trunk / Branch (কাণ্ড/ডাল/শরীর): diagnose Mango Dieback (Botryosphaeria ribis / Lasiodiplodia), Gummosis / Bark Canker (Ceratocystis fimbriata), or Mango Stem Borer (Batocera rufomaculata).\n"
-                f"  * When part is Leaf (পাতা): diagnose Mango Anthracnose Leaf Spot, Powdery Mildew, or Red Rust.\n"
-                f"- If crop is Banana (কলা):\n"
-                f"  * When part is Fruit (ফল): diagnose Banana Anthracnose or Cigar End Rot.\n"
-                f"  * When part is Leaf (পাতা): diagnose Sigatoka Leaf Spot (Pseudocercospora fijiensis).\n"
-                f"  * When part is Stem/Trunk: diagnose Panama Wilt (Fusarium oxysporum) or Pseudostem Borer.\n"
-                f"- If crop is Tomato (টমেটো):\n"
-                f"  * When part is Fruit (ফল): diagnose Blossom End Rot, Tomato Fruit Rot (Alternaria), or Anthracnose.\n"
-                f"  * When part is Leaf (পাতা): diagnose Early/Late Blight or Tomato Leaf Curl Virus.\n"
-                f"  * When part is Stem: diagnose Bacterial Wilt (Ralstonia) or Timber Rot (Sclerotinia).\n"
-                f"- If crop is Brinjal / Eggplant (বেগুন):\n"
-                f"  * When part is Fruit or Stem: diagnose Brinjal Fruit and Shoot Borer (Leucinodes orbonalis) or Phomopsis Fruit Rot.\n"
-                f"  * When part is Leaf: diagnose Phomopsis Blight or Little Leaf.\n"
-                f"- If crop is Jute (পাট):\n"
-                f"  * When part is Stem: diagnose Jute Stem Rot (Macrophomina phaseolina).\n"
-                f"- If crop is Potato (আলু):\n"
-                f"  * When part is Tuber/Fruit: diagnose Common Scab or Potato Dry Rot / Soft Rot.\n"
-                f"  * When part is Leaf: diagnose Potato Late Blight or Early Blight.\n"
-                f"- If crop is Chilli (মরিচ):\n"
-                f"  * When part is Fruit: diagnose Anthracnose Dieback / Fruit Rot (Colletotrichum capsici).\n"
-                f"  * When part is Leaf: diagnose Chilli Leaf Curl Virus or Thrips damage.\n"
-                f"- For other crops, scientifically match the pathogen and symptoms to '{target_crop}' and the inspected organ '{organ_name_bn}'.\n\n"
-                f"Correlate the physical computer vision measurements with this crop and organ's pathology.\n"
+                f"VERIFIED BANGLADESH GROUND TRUTH KNOWLEDGE REPOSITORY:\n"
+                f"--------------------------------------------------\n"
+                f"{ground_truth_block}\n"
+                f"--------------------------------------------------\n\n"
+                f"STRICT DIAGNOSIS & PRESCRIPTION CONSTRAINTS:\n"
+                f"1. You MUST match the detected lesions with one of the verified candidates above (or the most scientifically accurate recognized Bangladesh pathogen for '{target_crop}').\n"
+                f"2. DO NOT diagnose a disease from an unrelated crop.\n"
+                f"3. In 'chemicalRemedy', you MUST strictly prescribe the genuine commercial brand names, companies, and dilution dosages provided in the ground truth above (e.g. Indofil M-45, Nativo 75 WG, Ridomil Gold, Tilt 250 EC, Amistar Top, Score 250 EC, Confidor, Virtako, etc.). DO NOT invent unapproved trade names, fictitious Indian brands, or arbitrary dosages.\n"
+                f"4. Include retail pack prices in BDT (৳) and safe Pre-Harvest Intervals (PHI) as specified in the ground truth.\n"
+                f"5. Correlate the physical computer vision measurements ({damage_pct}% damage, {lesion_count} lesions) with this crop and organ's pathology.\n\n"
                 f"Provide actionable agronomic guidance in JSON with these exact keys:\n"
-                f"1. 'id': disease slug (e.g. 'mango-fruit-anthracnose', 'mango-dieback', 'tomato-blossom-end-rot')\n"
-                f"2. 'name': Common name in English and Bengali (e.g. 'আমের ডাইব্যাক বা ডাল শুকিয়ে যাওয়া (Mango Dieback)')\n"
+                f"1. 'id': exact disease slug from ground truth (e.g. '{candidates[0]['id'] if candidates else 'potato-late-blight'}')\n"
+                f"2. 'name': Common name in Bengali and English (e.g. '{candidates[0]['name_bn'] if candidates else 'রোগের নাম'} ({candidates[0]['name_en'] if candidates else 'Disease Name'})')\n"
                 f"3. 'cropType': '{target_crop}'\n"
                 f"4. 'plantPart': '{organ_name_bn}'\n"
                 f"5. 'pathogen': Full scientific binomial name or causal agent\n"
                 f"6. 'severity': '{severity}'\n"
                 f"7. 'description': Detailed clinical symptoms in {'Bengali' if language == 'bn' else 'English'} describing the visible physical lesions on this specific plant part ({organ_name_bn}).\n"
                 f"8. 'root_cause': Climate trigger explanation in {'Bengali' if language == 'bn' else 'English'} explaining how current temperature ({temp}°C) and humidity ({humidity}%) caused or accelerated this pathogen.\n"
-                f"9. 'organicRemedy': Specific biological and cultural control measures in {'Bengali' if language == 'bn' else 'English'} (e.g. pruning infected twigs, applying Bordeaux paste on tree trunks/cut surfaces, biocontrol).\n"
-                f"10. 'chemicalRemedy': Specific commercial chemical trade names available in Bangladesh markets with exact dilution dosages (e.g. g/L or ml/L) in {'Bengali' if language == 'bn' else 'English'} (e.g. Cupravit 50 WP, Ridomil Gold, Nativo 75 WG, Tilt 250 EC, Bordeaux paste for trunks).\n"
+                f"9. 'organicRemedy': Specific biological and cultural control measures in {'Bengali' if language == 'bn' else 'English'} (e.g. pruning infected twigs, applying Bordeaux paste on cut surfaces, Trichoderma bio-fungicide).\n"
+                f"10. 'chemicalRemedy': Specific commercial chemical trade names available in Bangladesh markets with exact dilution dosages (e.g. g/L or ml/L) in {'Bengali' if language == 'bn' else 'English'} and retail prices (৳) drawn strictly from ground truth.\n"
                 f"11. 'phiDays': Mandatory Pre-Harvest Interval (integer days).\n"
                 f"12. 'sprayAdvice': Weather-adjusted spraying or paste application advice in {'Bengali' if language == 'bn' else 'English'} taking into account the rain forecast ({rain_in_hours} hours).\n"
                 f"Output ONLY valid JSON."
@@ -340,42 +320,37 @@ async def diagnose_pathology_with_ai(
             res["plantPart"] = organ_name_bn
             if target_crop != "Auto-Deduce from Visual Profile":
                 res["cropType"] = target_crop
+
+            # Cross-verify with authentic ground truth database to guarantee genuine medicines
+            matched_gt = None
+            if res.get("id"):
+                for c in candidates:
+                    if c.get("id") == res.get("id"):
+                        matched_gt = c
+                        break
+            if not matched_gt and candidates:
+                matched_gt = candidates[0]
+
+            if matched_gt:
+                res["commercialMedicines"] = matched_gt.get("commercial_medicines", [])
+                if not res.get("phiDays") or res.get("phiDays") == 0:
+                    res["phiDays"] = matched_gt.get("phi_days", 14)
+                if not res.get("chemicalRemedy") or len(str(res.get("chemicalRemedy", ""))) < 15:
+                    med_lines = []
+                    for m in matched_gt.get("commercial_medicines", []):
+                        p_str = f" [খুচরা মূল্য: ~{m.get('approx_price_bdt')} ৳]" if language == "bn" else f" [Approx Price: ~{m.get('approx_price_bdt')} BDT]"
+                        med_lines.append(f"• {m.get('brand_name')} ({m.get('company')}): {m.get('dosage_bn' if language == 'bn' else 'dosage_en')}{p_str}")
+                    res["chemicalRemedy"] = "\n".join(med_lines)
+
             return res
         except Exception as e:
             logger.warning(f"Groq dynamic AI diagnosis error: {e}. Falling back to crop-specific pathology database.")
 
     # 2. Deterministic Fallback - strictly matched to selected crop & inspected organ
-    pathologies = load_pathology_db()
-    matched = None
-    if pathologies:
-        # First attempt: match both crop and plant organ
-        if crop_hint:
-            hint_lower = crop_hint.lower()
-            for p in pathologies:
-                crop_match = (
-                    p.get("crop_en", "").lower() in hint_lower or 
-                    hint_lower in p.get("crop_en", "").lower() or 
-                    p.get("crop_bn", "") in crop_hint or 
-                    crop_hint in p.get("crop_bn", "")
-                )
-                if crop_match and part_key in p.get("plant_parts", []):
-                    matched = p
-                    break
-
-            # Second attempt: match crop only
-            if not matched:
-                for p in pathologies:
-                    if (p.get("crop_en", "").lower() in hint_lower or 
-                        hint_lower in p.get("crop_en", "").lower() or 
-                        p.get("crop_bn", "") in crop_hint or 
-                        crop_hint in p.get("crop_bn", "")):
-                        matched = p
-                        break
-
-        if not matched:
-            matched = pathologies[0]
-    else:
-        matched = {
+    matched = candidates[0] if candidates else None
+    if not matched:
+        pathologies = load_pathology_db()
+        matched = pathologies[0] if pathologies else {
             "id": "potato-late-blight",
             "name_bn": "আলুর নাবি ধসা (Late Blight)",
             "name_en": "Potato Late Blight",

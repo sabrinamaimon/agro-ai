@@ -79,7 +79,11 @@ async def intake_voice_or_text(
         expert_advisory=expert_advisory
     )
 
-from backend.services.vision_engine import load_pathology_db
+from backend.services.pathology_service import (
+    load_pathology_db,
+    match_pathologies,
+    format_ground_truth_for_prompt
+)
 
 @router.post("/agro-chat")
 async def agro_chat_endpoint(request: Request):
@@ -98,19 +102,36 @@ async def agro_chat_endpoint(request: Request):
 
     loc_str = str(user_location) if isinstance(user_location, str) else str(user_location.get("areaName", "বাংলাদেশ"))
 
+    # RAG Retrieval of verified Bangladesh Crop Pathology Ground Truth
+    matched_candidates = match_pathologies(query_or_crop=prompt, max_results=3)
+    gt_context = format_ground_truth_for_prompt(matched_candidates) if matched_candidates else ""
+
     if GROQ_API_KEY:
         try:
             from groq import Groq
             client = Groq(api_key=GROQ_API_KEY)
+
+            grounding_directive = ""
+            if gt_context:
+                grounding_directive = (
+                    f"\nVERIFIED BANGLADESH GROUND TRUTH REPOSITORY (DAE / BARI / BRRI):\n"
+                    f"--------------------------------------------------\n"
+                    f"{gt_context}\n"
+                    f"--------------------------------------------------\n"
+                    f"STRICT GROUNDING INSTRUCTIONS:\n"
+                    f"1. When the farmer asks about disease diagnosis, pest control, or medicine, you MUST recommend the authentic commercial brand names, companies, exact dilution dosages (e.g. g/L or ml/L), and approximate retail pack prices (৳) provided in the ground truth above.\n"
+                    f"2. DO NOT hallucinate fake chemicals, unregistered trade names, or arbitrary dosages.\n"
+                    f"3. Always mention the Pre-Harvest Interval (PHI) and organic/cultural control alternatives.\n"
+                )
+
             system_prompt = (
                 "You are 'অঙ্কুর (Onkur) কৃষি সহকারী', an expert Senior Agronomist and Plant Pathologist in Bangladesh.\n"
                 f"User Field Location: {loc_str}.\n\n"
                 "CRITICAL CULTURAL & LINGUISTIC RULES:\n"
                 "1. GREETING: If greeting the farmer, use neutral and respectful Bangladeshi agricultural greetings: 'আসসালামু আলাইকুম / শুভদিন! আমি অঙ্কুর কৃষি সহকারী।' NEVER say 'নমস্কার' unless the user specifically used it first.\n"
-                "2. BANGLISH COMPREHENSION: Farmers and agriculture students frequently type in phonetic Banglish (e.g., 'alur patay dag ki osudh dibo', 'dhaner poka marar upay ki', 'jomi te ki sar dibo', 'shorishar jab poka'). You MUST understand Banglish perfectly and respond in fluent, natural Bengali (বাংলা) script with warm, concise, and direct practical instructions.\n"
-                "3. LOCATION RELEVANCE: Explicitly ground your response in the user's location ({loc_str}) and its typical agricultural season (Aman, Boro, Rabi, Kharif).\n"
-                "4. AUTHENTIC MEDICINES & DOSAGES: Recommend genuine commercial chemical brands available in Bangladesh (e.g. Indofil M-45, Ridomil Gold MZ 68 WG, Nativo 75 WG, Tilt 250 EC, Amistar Top, Virtako 40 WG, Confidor 70 WG, Proclaim 5 SG, Score 250 EC) with exact dosages (e.g. ২ গ্রাম/লিটার বা ১০ লিটারে ১.৫ গ্রাম) and approximate retail prices (৳).\n"
-                "5. Always mention safe Pre-Harvest Intervals (PHI) and organic biological alternatives (e.g. নিম তেল, ট্রাইকোডার্মা, ফেরোমোন ফাঁদ, বোর্দো পেস্ট).\n"
+                "2. BANGLISH COMPREHENSION: Farmers and agriculture students frequently type in phonetic Banglish (e.g., 'alur patay dag ki osudh dibo', 'dhaner poka marar upay ki', 'jomi te ki sar dibo', 'shorishar jab poka', 'shosar patay sada dag'). You MUST understand Banglish perfectly and respond in fluent, natural Bengali (বাংলা) script with warm, concise, and direct practical instructions.\n"
+                "3. LOCATION RELEVANCE: Explicitly ground your response in the user's location and its typical agricultural season (Aman, Boro, Rabi, Kharif).\n"
+                f"{grounding_directive}\n"
                 f"Respond in {'Bengali (বাংলা)' if lang == 'bn' else 'English'}."
             )
             chat_completion = client.chat.completions.create(
@@ -119,33 +140,26 @@ async def agro_chat_endpoint(request: Request):
                     {"role": "user", "content": f"Location: {loc_str}\nFarmer Query: {prompt}"}
                 ],
                 model=GROQ_LLM_MODEL,
-                temperature=0.25
+                temperature=0.2
             )
             return {"response": chat_completion.choices[0].message.content}
         except Exception as e:
             logger.warning(f"Groq Chat failed: {e}. Falling back to knowledge-base engine.")
 
-    # Intelligent Fallback matching our authentic Bangladesh Crop Disease Database
-    prompt_lower = prompt.lower()
-    diseases = load_pathology_db()
-    for d in diseases:
-        name_bn = d.get("name_bn", "").lower()
-        name_en = d.get("name_en", "").lower()
-        crop_bn = d.get("crop_bn", "").lower()
-        crop_en = d.get("crop_en", "").lower()
-
-        if (crop_bn in prompt_lower or crop_en in prompt_lower) and any(kw in prompt_lower for kw in ["osudh", "ঔষধ", "ওষুধ", "রোগ", "rog", "spray", "দমন", "প্রতিকার"]):
-            meds = d.get("commercial_medicines", [])
-            med_text = "\n".join([f"• {m['brand_name']} ({m.get('company','')}): {m.get('dosage_bn', '')} [মূল্য: ~{m.get('approx_price_bdt', '')} ৳]" for m in meds])
-            organic = d.get("organic_remedy_bn", "")
-            return {
-                "response": (
-                    f"শুভদিন! {loc_str} অঞ্চলের {d.get('crop_bn')} ফসলে {d.get('name_bn')} দমনে কার্যকরী নির্দেশনা:\n\n"
-                    f"📋 অনুমোদিত আসল ওষুধ ও ডোজ:\n{med_text}\n\n"
-                    f"🌿 জৈব প্রতিকার: {organic}\n\n"
-                    f"⚠️ পরামর্শ: {d.get('spray_advice_bn', '')} ফসল কাটার পূর্বে ন্যূনতম {d.get('phi_days', 10)} দিন স্প্রে বন্ধ রাখুন।"
-                )
-            }
+    # Deterministic Fallback matching our authentic Bangladesh Crop Disease Database
+    if matched_candidates:
+        d = matched_candidates[0]
+        meds = d.get("commercial_medicines", [])
+        med_text = "\n".join([f"• {m['brand_name']} ({m.get('company','')}): {m.get('dosage_bn', '')} [খুচরা মূল্য: ~{m.get('approx_price_bdt', '')} ৳]" for m in meds])
+        organic = d.get("organic_remedy_bn", "")
+        return {
+            "response": (
+                f"শুভদিন! {loc_str} অঞ্চলের {d.get('crop_bn')} ফসলে {d.get('name_bn')} দমনে DAE ও BARI অনুমোদিত সঠিক নির্দেশনা:\n\n"
+                f"📋 অনুমোদিত আসল ওষুধ ও ডোজ:\n{med_text}\n\n"
+                f"🌿 জৈব প্রতিকার: {organic}\n\n"
+                f"⚠️ পরামর্শ: {d.get('spray_advice_bn', '')} ফসল কাটার পূর্বে নিরাপদ বিরতিকাল (PHI) {d.get('phi_days', 10)} দিন মেনে চলুন।"
+            )
+        }
 
     return {
         "response": (
