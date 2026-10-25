@@ -257,18 +257,29 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
 
           {/* Live Market Rates Strip */}
           <div className="dam-strip mb-4">
-            <span className="text-xs text-muted font-bold">
-              {language === 'bn' ? 'সরকারি পাইকারি বাজারদর :' : 'Government Wholesale Benchmarks :'}
-            </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.4rem' }}>
+              <span className="text-xs text-muted font-bold">
+                {language === 'bn' ? 'পাইকারি আড়ত ও স্বপ্ন (Shwapno) সুপারশপ বেঞ্চমার্ক দর :' : 'Wholesale Mandi & Shwapno Retail Rates :'}
+              </span>
+              <span className="text-xs" style={{ color: '#059669', background: '#ECFDF5', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: 600 }}>
+                {language === 'bn' ? 'স্বপ্ন ও কাঁচাবাজারের লাইভ দর' : 'Shwapno & Fresh Market Live'}
+              </span>
+            </div>
             <div className="dam-badge-row mt-1">
               {benchmarks.map(b => (
                 <span
                   key={b.id}
                   className={`badge-crop ${selectedCrop === b.crop ? 'active' : ''}`}
                   onClick={() => setSelectedCrop(b.crop)}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
                 >
-                  {b.crop}: <strong>৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}</strong>
+                  <span>{b.crop}:</span>
+                  <strong>৳{language === 'bn' ? toBengaliDigits(b.averagePrice) : b.averagePrice}</strong>
+                  {b.retailPrice && (
+                    <span style={{ fontSize: '0.75rem', opacity: 0.9, color: selectedCrop === b.crop ? '#FEF08A' : '#0369A1' }}>
+                      (স্বপ্ন ৳{language === 'bn' ? toBengaliDigits(b.retailPrice) : b.retailPrice})
+                    </span>
+                  )}
                 </span>
               ))}
             </div>
@@ -285,7 +296,7 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
               >
                 {benchmarks.map((b) => (
                   <option key={b.id} value={b.crop}>
-                    {b.crop} ({language === 'bn' ? `গড়: ৳${toBengaliDigits(b.averagePrice)}/${b.unit || 'কেজি'}` : `Avg: ৳${b.averagePrice}/${b.unit || 'kg'}`})
+                    {b.crop} (পাইকারি: ৳{toBengaliDigits(b.averagePrice)} | স্বপ্ন সুপারশপ: ৳{toBengaliDigits(b.retailPrice || b.averagePrice)}/{b.unit || 'কেজি'})
                   </option>
                 ))}
               </select>
@@ -340,6 +351,17 @@ export default function PriceChecker({ language, cropType, onPriceCheckComplete 
                     ৳{language === 'bn' ? toBengaliDigits(priceAnalysis.benchmarkPrice) : priceAnalysis.benchmarkPrice} / {language === 'bn' ? 'কেজি' : 'kg'}
                   </span>
                 </div>
+
+                {(priceAnalysis.retailPrice || activeBenchmark?.retailPrice) && (
+                  <div className="data-item">
+                    <span className="data-label">{language === 'bn' ? 'স্বপ্ন (Shwapno) ও সুপারশপ খুচরা দর' : 'Shwapno Retail Benchmark'}</span>
+                    <span className="data-value" style={{ color: '#0284C7' }}>
+                      ৳{language === 'bn' 
+                        ? toBengaliDigits(priceAnalysis.retailPrice || activeBenchmark.retailPrice) 
+                        : (priceAnalysis.retailPrice || activeBenchmark.retailPrice)} / {language === 'bn' ? 'কেজি' : 'kg'}
+                    </span>
+                  </div>
+                )}
 
                 {priceAnalysis.isUndercut && (
                   <div className="data-item">

@@ -32,6 +32,8 @@ async def check_price_anomaly_endpoint(payload: PriceAnomalyRequest, db: Session
         crop=result["crop"],
         offeredPrice=result["offeredPrice"],
         benchmarkPrice=result["benchmarkPrice"],
+        retailPrice=result.get("retailPrice"),
+        retailSource=result.get("retailSource"),
         volatility=result["volatility"],
         isUndercut=result["isUndercut"],
         undercutPercentage=result["undercutPercentage"],
@@ -50,6 +52,8 @@ async def get_market_benchmarks(language: str = "bn"):
             "name_en": v.get("name_en"),
             "name_bn": v.get("name_bn"),
             "averagePrice": v.get("average_benchmark"),
+            "retailPrice": v.get("retail_price"),
+            "retailSource": v.get("retail_source", "স্বপ্ন (Shwapno)"),
             "minPrice": v.get("min_price"),
             "maxPrice": v.get("max_price"),
             "unit": v.get("unit")

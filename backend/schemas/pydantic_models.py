@@ -62,6 +62,8 @@ class PriceAnomalyResponse(BaseModel):
     crop: str
     offeredPrice: float
     benchmarkPrice: float
+    retailPrice: Optional[float] = None
+    retailSource: Optional[str] = None
     volatility: str
     isUndercut: bool
     undercutPercentage: float
