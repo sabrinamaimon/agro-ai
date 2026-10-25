@@ -3303,6 +3303,300 @@
       "organic_remedy_en": "Spray neem seed kernel extract or neem oil (5 ml/L) on leaf undersides.",
       "phi_days": 7,
       "spray_advice_bn": "খরতাপের সকালে বা বিকালে পাতার উল্টোপিঠে ভালো করে ভিজিয়ে স্প্রে করুন।"
+    },
+    {
+      "id": "papaya-powdery-mildew",
+      "crop_bn": "পেঁপে",
+      "crop_en": "Papaya",
+      "name_bn": "পেঁপের পাউডারি মিলডিউ ও ফলের ক্ষত/স্কারিং রোগ",
+      "name_en": "Papaya Powdery Mildew & Fruit Scarring (Oidium caricae)",
+      "pathogen": "Oidium caricae / Podosphaera caricae-papayae (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "fruit",
+        "leaf",
+        "stem"
+      ],
+      "symptoms_bn": "পেঁপের কচি পাতা ও ফলের গায়ে সাদা পাউডারের মতো ছত্রাকের আস্তরণ পড়ে। আক্রান্ত ফল বড় হলে সাদা বা ছাই রঙের খসখসে ক্ষতের দাগ (fruit scarring) তৈরি হয় এবং ফল বিকৃত হয়ে বৃদ্ধি বাধাগ্রস্ত হয়।",
+      "symptoms_en": "White powdery fungal growth on leaves and fruit surface; developing fruits display extensive grayish-white calloused scarring and deformation.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Kumulus 80 DF / Thiovit 80 WG",
+          "generic_name": "Sulphur 80% WG",
+          "company": "BASF / Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে ভালোভাবে গুলে সম্পূর্ণ গাছে ও ফলের গায়ে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water, sprayed thoroughly over foliage and fruits.",
+          "pack_size": "১ কেজি / ৫০০ গ্রাম",
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Tilt 250 EC",
+          "generic_name": "Propiconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "তীব্র সংক্রমণে প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water during severe fungal outbreak.",
+          "pack_size": "১০০ মিলি",
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প প্রণালীগত ছত্রাকনাশক",
+          "badge_en": "Alternative Systemic Fungicide"
+        },
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি ১০ লিটার পানিতে ৫ গ্রাম (প্রতি লিটারে ০.৫ গ্রাম) হারে স্প্রে করুন।",
+          "dosage_en": "5g per 10 liters of water (0.5g/L) for rapid curative action.",
+          "pack_size": "১০ গ্রাম / ৫০ গ্রাম",
+          "approx_price_bdt": 290,
+          "is_recommended": false,
+          "badge_bn": "উন্নত প্রতিরোধক ও নিরাময়ক",
+          "badge_en": "Premium Protectant & Curative"
+        }
+      ],
+      "organic_remedy_bn": "আক্রান্ত পাতা ছাঁটাই করে পুড়িয়ে ফেলুন। নিম তেল (প্রতি লিটারে ৫ মিলি হারে সাবান পানিতে মিশিয়ে) ৭ দিন পরপর স্প্রে করুন অথবা ট্রাইকোডার্মা বায়ো-ফাংগিসাইড ব্যবহার করুন।",
+      "organic_remedy_en": "Prune severely infected foliage; spray neem oil (5 ml/L with mild surfactant) every 7 days or apply Trichoderma bio-fungicide.",
+      "phi_days": 7,
+      "spray_advice_bn": "কুয়াশা বা বৃষ্টি থাকলে স্প্রে করবেন না; সকালের রোদ ওঠার পর শুকনো পাতায় ও ফলে স্প্রে করুন যাতে ওষুধ দীর্ঘক্ষণ লেগে থাকে।"
+    },
+    {
+      "id": "mango-powdery-mildew",
+      "crop_bn": "আম",
+      "crop_en": "Mango",
+      "name_bn": "আমের পাউডারি মিলডিউ রোগ",
+      "name_en": "Mango Powdery Mildew (Oidium mangiferae)",
+      "pathogen": "Oidium mangiferae (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "fruit",
+        "leaf",
+        "stem"
+      ],
+      "symptoms_bn": "আমের মুকুল, কচি পাতা ও কচি গুটিতে সাদা পাউডারের মতো ছত্রাকের আস্তরণ পড়ে। মুকুল ও কচি গুটি ঝরে পড়ে এবং ফল বড় হলে ফলের ত্বকে খসখসে বাদামী-সাদা দাগ পড়ে।",
+      "symptoms_en": "White powdery fungal bloom on inflorescences, tender leaves and fruitlets causing blossom drop and fruit scarring.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Thiovit 80 WG / Kumulus 80 DF",
+          "generic_name": "Sulphur 80% WG",
+          "company": "Syngenta / BASF",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে পুরো গাছে ও মুকুলে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water sprayed over blossoms and leaves.",
+          "pack_size": "১ কেজি",
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Tilt 250 EC",
+          "generic_name": "Propiconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "মুকুল ফোটার পূর্বে প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water before flower opening.",
+          "pack_size": "১০০ মিলি",
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প প্রণালীগত ছত্রাকনাশক",
+          "badge_en": "Alternative Systemic Fungicide"
+        }
+      ],
+      "organic_remedy_bn": "গাছের চারপাশের আগাছা পরিষ্কার রাখুন এবং ফল সংগ্রহের পর মরা ডালপালা ছাঁটাই করুন।",
+      "organic_remedy_en": "Keep orchard clean; prune infested twigs and burn fallen debris.",
+      "phi_days": 14,
+      "spray_advice_bn": "মুকুল আসার পর ফুল ফোটার আগে একবার এবং গুটি বাঁধার পর একবার স্প্রে করুন।"
+    },
+    {
+      "id": "bottlegourd-powdery-mildew",
+      "crop_bn": "লাউ",
+      "crop_en": "Bottle Gourd",
+      "name_bn": "লাউয়ের পাউডারি মিলডিউ রোগ",
+      "name_en": "Bottle Gourd Powdery Mildew (Podosphaera xanthii)",
+      "pathogen": "Podosphaera xanthii / Erysiphe cichoracearum (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "stem",
+        "fruit"
+      ],
+      "symptoms_bn": "লাউয়ের পাতার উপরিভাগে ও কাণ্ডে সাদা বা ধূসর পাউডারের মতো গোল গোল দাগ দেখা যায় যা দ্রুত পুরো পাতায় ছড়িয়ে পড়ে। পাতা শুকিয়ে খড়ের মতো বিবর্ণ হয়ে যায়।",
+      "symptoms_en": "White talcum-powder-like spots on upper leaf surface and stems, expanding rapidly until leaves turn brown and crisp.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Kumulus 80 DF / Thiovit 80 WG",
+          "generic_name": "Sulphur 80% WG",
+          "company": "BASF / Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে পুরো মাচায় স্প্রে করুন।",
+          "dosage_en": "2g per liter of water sprayed evenly on trellis canopy.",
+          "pack_size": "১ কেজি / ৫০০ গ্রাম",
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Tilt 250 EC",
+          "generic_name": "Propiconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "১০০ মিলি",
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প প্রণালীগত ছত্রাকনাশক",
+          "badge_en": "Alternative Systemic Fungicide"
+        }
+      ],
+      "organic_remedy_bn": "বেকিং সোডা (প্রতি লিটারে ৫ গ্রাম) এবং নিম তেল (প্রতি লিটারে ৫ মিলি) মিশিয়ে পাতায় স্প্রে করুন।",
+      "organic_remedy_en": "Spray potassium/sodium bicarbonate solution (5g/L) with neem oil.",
+      "phi_days": 7,
+      "spray_advice_bn": "সকালের রোদ উঠলে মাচার নিচে ও উপরে ভালোভাবে স্প্রে করুন।"
+    },
+    {
+      "id": "watermelon-powdery-mildew",
+      "crop_bn": "তরমুজ",
+      "crop_en": "Watermelon",
+      "name_bn": "তরমুজের পাউডারি মিলডিউ রোগ",
+      "name_en": "Watermelon Powdery Mildew (Podosphaera xanthii)",
+      "pathogen": "Podosphaera xanthii (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "fruit",
+        "stem"
+      ],
+      "symptoms_bn": "তরমুজের পাতার উপরিভাগে সাদা পাউডারের মতো গুঁড়া দেখা যায়। আক্রান্ত পাতা অকালে শুকিয়ে ঝরে যায় এবং ফলের গায়ে রোদ লেগে সানবার্ন বা দাগ পড়ে যায়।",
+      "symptoms_en": "White powdery fungal growth on leaves leading to premature defoliation and sunscald on developing fruits.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Thiovit 80 WG / Kumulus 80 DF",
+          "generic_name": "Sulphur 80% WG",
+          "company": "Syngenta / BASF",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে পুরো জমিতে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water sprayed over canopy.",
+          "pack_size": "১ কেজি",
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Amistar Top 325 SC",
+          "generic_name": "Azoxystrobin + Difenoconazole",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ১ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "1 ml per liter of water.",
+          "pack_size": "১০০ মিলি",
+          "approx_price_bdt": 680,
+          "is_recommended": false,
+          "badge_bn": "উন্নত প্রতিরোধক ও নিরাময়ক",
+          "badge_en": "Premium Protectant & Curative"
+        }
+      ],
+      "organic_remedy_bn": "আক্রান্ত পাতা সংগ্রহ করে ধ্বংস করুন এবং পানি নিষ্কাশনের সুব্যবস্থা রাখুন।",
+      "organic_remedy_en": "Remove infected leaves; ensure good field drainage and air flow.",
+      "phi_days": 7,
+      "spray_advice_bn": "পাতা শুকনা থাকা অবস্থায় স্প্রে করুন।"
+    },
+    {
+      "id": "tomato-early-blight",
+      "crop_bn": "টমেটো",
+      "crop_en": "Tomato",
+      "name_bn": "টমেটোর আগাম ধসা বা আর্লি ব্লাইট রোগ",
+      "name_en": "Tomato Early Blight (Alternaria solani)",
+      "pathogen": "Alternaria solani (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "stem",
+        "fruit"
+      ],
+      "symptoms_bn": "নিচের বয়স্ক পাতায় গাঢ় বাদামী বা কালচে চক্রাকার টার্গেট বোর্ড (concentric rings) দাগ পড়ে। ফলের বোঁটার কাছে ডেবে যাওয়া কালো দাগ তৈরি হয়।",
+      "symptoms_en": "Concentric dark brown rings forming target-board pattern on older leaves; dark sunken lesions near fruit stem.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Score 250 EC",
+          "generic_name": "Difenoconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "১০০ মিলি",
+          "approx_price_bdt": 480,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Nativo 75 WG",
+          "generic_name": "Tebuconazole 50% + Trifloxystrobin 25%",
+          "company": "Bayer CropScience Ltd.",
+          "dosage_bn": "প্রতি ১০ লিটার পানিতে ৫ গ্রাম হারে স্প্রে করুন।",
+          "dosage_en": "5g per 10 liters of water.",
+          "pack_size": "১০ গ্রাম / ৫০ গ্রাম",
+          "approx_price_bdt": 290,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প অনুমোদিত ব্র্যান্ড",
+          "badge_en": "Alternative Approved Brand"
+        }
+      ],
+      "organic_remedy_bn": "গাছের গোড়ার মাটি শুকনো রাখুন এবং নিচের হলুদ বা দাগযুক্ত পাতা ছেঁটে দিন।",
+      "organic_remedy_en": "Mulch soil around plants; prune lower diseased foliage.",
+      "phi_days": 7,
+      "spray_advice_bn": "আক্রান্তের লক্ষণ দেখা দেওয়া মাত্র ৭-১০ দিন পর পর স্প্রে করুন।"
+    },
+    {
+      "id": "chilli-powdery-mildew",
+      "crop_bn": "মরিচ",
+      "crop_en": "Chilli",
+      "name_bn": "মরিচের পাউডারি মিলডিউ রোগ",
+      "name_en": "Chilli Powdery Mildew (Leveillula taurica)",
+      "pathogen": "Leveillula taurica (ছত্রাক)",
+      "category": "Fungal",
+      "category_bn": "ছত্রাকজনিত",
+      "plant_parts": [
+        "leaf",
+        "stem",
+        "fruit"
+      ],
+      "symptoms_bn": "মরিচ পাতার নিচের দিকে সাদা পাউডারের মতো ছত্রাকের আস্তরণ দেখা যায় এবং পাতার উপরের অংশ হলুদ হয়ে নিচের দিকে কুঁকড়ে যায় ও ঝরে পড়ে।",
+      "symptoms_en": "White powdery fungal growth on leaf undersides with corresponding yellow chlorosis on upper surface and curling.",
+      "commercial_medicines": [
+        {
+          "brand_name": "Kumulus 80 DF / Thiovit 80 WG",
+          "generic_name": "Sulphur 80% WG",
+          "company": "BASF / Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ২ গ্রাম হারে গুলে স্প্রে করুন।",
+          "dosage_en": "2g per liter of water.",
+          "pack_size": "১ কেজি",
+          "approx_price_bdt": 420,
+          "is_recommended": true,
+          "badge_bn": "গোল্ড স্ট্যান্ডার্ড (সেরা কার্যকারী)",
+          "badge_en": "Gold Standard (Top Efficacy)"
+        },
+        {
+          "brand_name": "Tilt 250 EC",
+          "generic_name": "Propiconazole 250 EC",
+          "company": "Syngenta Bangladesh Ltd.",
+          "dosage_bn": "প্রতি লিটার পানিতে ০.৫ মিলি হারে স্প্রে করুন।",
+          "dosage_en": "0.5 ml per liter of water.",
+          "pack_size": "১০০ মিলি",
+          "approx_price_bdt": 520,
+          "is_recommended": false,
+          "badge_bn": "বিকল্প প্রণালীগত ছত্রাকনাশক",
+          "badge_en": "Alternative Systemic Fungicide"
+        }
+      ],
+      "organic_remedy_bn": "নিম তেল স্প্রে করুন এবং সুষম সার ব্যবহার করুন।",
+      "organic_remedy_en": "Spray neem oil (5 ml/L) and ensure balanced potash nutrition.",
+      "phi_days": 7,
+      "spray_advice_bn": "পাতার নিচের পিঠ ভিজিয়ে ভালোভাবে স্প্রে করুন।"
     }
   ],
   "last_updated": "২০২৬ হালনাগাদ (Recent Bangladesh Agro Retail MRP)"

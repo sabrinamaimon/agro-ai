@@ -25,7 +25,7 @@ async def test_suite():
     cv2.circle(blank_leaf, (220, 230), 25, (19, 69, 139), -1) # lesion 2
     _, buffer = cv2.imencode('.jpg', blank_leaf)
     cv_res = analyze_leaf_image(buffer.tobytes(), filename="potato_leaf.jpg")
-    print(f"Pathogen: {cv_res['name']}, Damage: {cv_res['damagePercentage']}%, Severity: {cv_res['severity']}")
+    print(f"Damage: {cv_res['damagePercentage']}%, Severity: {cv_res['severity']}")
     print(f"Bounding Boxes: {len(cv_res['bounding_boxes'])} detected")
     assert cv_res["damagePercentage"] > 0
     assert len(cv_res["bounding_boxes"]) > 0
@@ -60,9 +60,9 @@ async def test_suite():
     assert undercut_res["isUndercut"] == True
     assert undercut_res["undercutPercentage"] > 20.0
 
-    # Fair price test
-    fair_res = analyze_price_anomaly("Potato (আলু)", 28.5)
-    print("Fair Price Test (Offered: 28.5 BDT):", fair_res)
+    # Fair price test (benchmark is 32 BDT/kg)
+    fair_res = analyze_price_anomaly("Potato (আলু)", 32.5)
+    print("Fair Price Test (Offered: 32.5 BDT):", fair_res)
     assert fair_res["isUndercut"] == False
     print("✅ Task 4 PASSED!\n")
 

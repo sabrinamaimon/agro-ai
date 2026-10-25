@@ -98,11 +98,13 @@ def stem_banglish(word: str) -> str:
 def match_pathologies(
     query_or_crop: str, 
     plant_part: Optional[str] = None, 
-    max_results: int = 4
+    max_results: int = 4,
+    visual_traits: Optional[str] = None
 ) -> List[Dict[str, Any]]:
     """
     Intelligently retrieves authentic registered diseases matching a crop or user query.
-    Handles Bangla script, English names, and phonetic Banglish with grammatical suffixes.
+    Handles Bangla script, English names, phonetic Banglish with grammatical suffixes,
+    and visual lesion traits (e.g. powdery, scarring, sunken rot).
     """
     diseases = load_pathology_db()
     if not diseases:
@@ -150,6 +152,7 @@ def match_pathologies(
             n_en = d.get("name_en", "").lower()
             n_bn = d.get("name_bn", "").lower()
             symptom_bn = d.get("symptoms_bn", "").lower()
+            symptom_en = d.get("symptoms_en", "").lower()
             d_id = d.get("id", "").lower()
             
             for w in words:
@@ -158,24 +161,57 @@ def match_pathologies(
             for bn_w in query_or_crop.split():
                 if len(bn_w) > 2 and (bn_w in n_bn or bn_w in symptom_bn):
                     score += 3
+                    
+            if visual_traits:
+                vt_lower = visual_traits.lower()
+                if ("powdery" in vt_lower or "ash" in vt_lower) and ("powdery" in d_id or "mildew" in d_id or "powdery" in n_en):
+                    score += 20
+                if "scarring" in vt_lower and ("scarring" in n_en or "scarring" in symptom_en or "ক্ষত" in symptom_bn):
+                    score += 18
+                if "sunken" in vt_lower and ("anthracnose" in d_id or "blight" in d_id or "ডেবে" in symptom_bn):
+                    score += 10
+                if ("mosaic" in vt_lower or "curl" in vt_lower) and ("virus" in d_id or "curl" in d_id or "mosaic" in d_id):
+                    score += 15
+
             scored.append((score, d))
             
         scored.sort(key=lambda x: x[0], reverse=True)
         results = [s[1] for s in scored]
     else:
-        # Match disease name keywords directly
+        # Match disease name keywords directly across all crops
         scored = []
         for d in diseases:
             score = 0
             n_bn = d.get("name_bn", "").lower()
             n_en = d.get("name_en", "").lower()
+            symptom_bn = d.get("symptoms_bn", "").lower()
+            symptom_en = d.get("symptoms_en", "").lower()
             p_id = d.get("id", "").lower()
-            if plant_part and plant_part in d.get("plant_parts", []):
-                score += 2
+            
+            # Organ compatibility
+            if plant_part and plant_part != "auto":
+                if plant_part in d.get("plant_parts", []):
+                    score += 8
+                else:
+                    score -= 8  # Penalize non-matching organs when organ is specified
+                    
+            if visual_traits:
+                vt_lower = visual_traits.lower()
+                if ("powdery" in vt_lower or "ash" in vt_lower) and ("powdery" in p_id or "mildew" in p_id or "powdery" in n_en):
+                    score += 25
+                if "scarring" in vt_lower and ("scarring" in n_en or "scarring" in symptom_en or "ক্ষত" in symptom_bn):
+                    score += 20
+                if "sunken" in vt_lower and ("anthracnose" in p_id or "blight" in p_id or "ডেবে" in symptom_bn):
+                    score += 10
+                if ("mosaic" in vt_lower or "curl" in vt_lower) and ("virus" in p_id or "curl" in p_id or "mosaic" in p_id):
+                    score += 15
+
             if any(term in q_clean for term in [p_id, n_en.split()[0].lower()]):
-                score += 10
+                score += 15
+                
             if score > 0:
                 scored.append((score, d))
+                
         scored.sort(key=lambda x: x[0], reverse=True)
         results = [s[1] for s in scored]
 

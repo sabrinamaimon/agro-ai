@@ -25,10 +25,10 @@ def classify_severity(damage_pct: float) -> str:
     else:
         return "Critical"
 
-def extract_color_profile(hsv_img: np.ndarray, lesion_mask: np.ndarray) -> str:
+def extract_color_profile(hsv_img: np.ndarray, lesion_mask: np.ndarray, plant_part: str = "auto") -> str:
     """Extract physical color and shape profile of detected lesions."""
     if cv2.countNonZero(lesion_mask) == 0:
-        return "Healthy foliage with no visible necrotic lesions."
+        return "Healthy foliage or fruit with no visible necrotic lesions."
 
     lesion_hsv = hsv_img[lesion_mask > 0]
     mean_h = np.mean(lesion_hsv[:, 0])
@@ -36,21 +36,33 @@ def extract_color_profile(hsv_img: np.ndarray, lesion_mask: np.ndarray) -> str:
     mean_v = np.mean(lesion_hsv[:, 2])
 
     traits = []
-    if mean_v < 65:
+
+    # Check for white / grayish / powdery fungal mycelium or fruit scarring (Low saturation, high brightness)
+    white_powdery_mask = (lesion_hsv[:, 1] < 80) & (lesion_hsv[:, 2] > 95)
+    powdery_ratio = np.mean(white_powdery_mask)
+    if powdery_ratio > 0.20:
+        if plant_part == "fruit":
+            traits.append("white powdery fungal mycelium and grayish-white calloused fruit scarring patches (powdery mildew / fruit scarring)")
+        else:
+            traits.append("white powdery fungal coating and grayish ash patches (powdery mildew signature)")
+    elif mean_v < 65:
         traits.append("dark brown/blackish sunken necrotic spots")
     elif mean_h < 22:
         traits.append("water-soaked brownish fungal lesions")
     elif 22 <= mean_h <= 36:
-        traits.append("yellowish chlorotic margin and leaf curl discoloration")
+        if plant_part == "fruit":
+            traits.append("yellowish chlorotic rind discoloration and blemishing")
+        else:
+            traits.append("yellowish chlorotic margin and leaf curl discoloration")
     else:
         traits.append("irregular discolored patches")
 
     if mean_s > 140:
         traits.append("dense mycelial sporulation")
-    elif mean_v > 150:
+    elif mean_v > 150 and powdery_ratio <= 0.20:
         traits.append("bleached grayish/ash centers")
 
-    return ", ".join(traits) if traits else "Brown necrotic lesions with chlorotic borders"
+    return ", ".join(traits) if traits else "Fungal lesions with surface discoloration"
 
 def resolve_plant_part_label(plant_part: Optional[str]) -> tuple[str, str]:
     cleaned = (plant_part or "auto").lower().strip()
@@ -187,7 +199,7 @@ def analyze_crop_image(
         cv2.rectangle(annotated_img, (cx, cy), (cx + bw, cy + bh), (0, 0, 235), 2)
 
     severity = classify_severity(damage_pct)
-    color_profile = extract_color_profile(hsv, lesion_mask)
+    color_profile = extract_color_profile(hsv, lesion_mask, plant_part=part_key)
 
     # Save annotated image
     annotated_filename = f"annotated_{Path(filename).stem}.jpg"
@@ -246,7 +258,8 @@ async def diagnose_pathology_with_ai(
     candidates = match_pathologies(
         query_or_crop=crop_hint if (crop_hint and crop_hint.lower() != "auto") else target_crop,
         plant_part=part_key,
-        max_results=4
+        max_results=6 if target_crop == "Auto-Deduce from Visual Profile" else 4,
+        visual_traits=color_profile
     )
     ground_truth_block = format_ground_truth_for_prompt(candidates) if candidates else "No specific match; use recognized BARI / BRRI guidelines."
 
@@ -318,11 +331,17 @@ async def diagnose_pathology_with_ai(
 
             # Cross-verify with authentic ground truth database to guarantee genuine medicines
             matched_gt = None
+            all_diseases = load_pathology_db()
             if res.get("id"):
                 for c in candidates:
                     if c.get("id") == res.get("id"):
                         matched_gt = c
                         break
+                if not matched_gt:
+                    for d in all_diseases:
+                        if d.get("id") == res.get("id"):
+                            matched_gt = d
+                            break
             if not matched_gt and candidates:
                 matched_gt = candidates[0]
 
@@ -344,7 +363,26 @@ async def diagnose_pathology_with_ai(
             logger.warning(f"Groq dynamic AI diagnosis error: {e}. Falling back to crop-specific pathology database.")
 
     # 2. Deterministic Fallback - strictly matched to selected crop & inspected organ
-    matched = candidates[0] if candidates else None
+    matched = None
+    if candidates:
+        vt_lower = color_profile.lower()
+        if "powdery" in vt_lower or "scarring" in vt_lower or "ash" in vt_lower:
+            for c in candidates:
+                if "mildew" in c.get("id", "").lower() or "powdery" in c.get("name_en", "").lower():
+                    matched = c
+                    break
+        elif "mosaic" in vt_lower or "curl" in vt_lower:
+            for c in candidates:
+                if "virus" in c.get("id", "").lower() or "curl" in c.get("id", "").lower() or "mosaic" in c.get("id", "").lower():
+                    matched = c
+                    break
+        elif "sunken" in vt_lower or "necrotic" in vt_lower:
+            for c in candidates:
+                if "anthracnose" in c.get("id", "").lower() or "blight" in c.get("id", "").lower():
+                    matched = c
+                    break
+        if not matched:
+            matched = candidates[0]
     if not matched:
         pathologies = load_pathology_db()
         matched = pathologies[0] if pathologies else {

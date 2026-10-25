@@ -86,7 +86,7 @@ export const BANGLADESH_CROPS = [
   // ==================== ৪. ফল (Fruits) ====================
   { id: 'mango', nameBn: 'আম', nameEn: 'Mango', category: 'fruit', icon: '🥭', commonDiseases: ['Anthracnose Fruit Rot', 'Powdery Mildew', 'Dieback', 'Bacterial Canker'] },
   { id: 'banana', nameBn: 'কলা', nameEn: 'Banana', category: 'fruit', icon: '🍌', commonDiseases: ['Sigatoka Leaf Spot', 'Panama Wilt (Fusarium)', 'Banana Bunchy Top Virus'] },
-  { id: 'papaya', nameBn: 'পেঁপে', nameEn: 'Papaya', category: 'fruit', icon: '🍈', commonDiseases: ['Papaya Ring Spot Virus', 'Anthracnose Fruit Rot', 'Foot Rot (Damping Off)'] },
+  { id: 'papaya', nameBn: 'পেঁপে', nameEn: 'Papaya', category: 'fruit', icon: '🍈', commonDiseases: ['Powdery Mildew & Fruit Scarring', 'Papaya Ring Spot Virus', 'Anthracnose Fruit Rot', 'Foot Rot (Damping Off)'] },
   { id: 'guava', nameBn: 'পেয়ারা', nameEn: 'Guava', category: 'fruit', icon: '🍐', commonDiseases: ['Guava Wilt (Fusarium)', 'Anthracnose', 'Fruit Canker', 'Stylar End Rot'] },
   { id: 'litchi', nameBn: 'লিচু', nameEn: 'Litchi', category: 'fruit', icon: '🍒', commonDiseases: ['Downy Blight', 'Fruit Rot', 'Leaf Curl Mite', 'Bark Eating Caterpillar'] },
   { id: 'lemon', nameBn: 'লেবু', nameEn: 'Lemon (Lime)', category: 'fruit', icon: '🍋', commonDiseases: ['Citrus Canker (Xanthomonas)', 'Citrus Greening', 'Dieback', 'Gummosis'] },
