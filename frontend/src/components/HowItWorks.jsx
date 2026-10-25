@@ -183,11 +183,9 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
         {/* Section Header (Reveals from Below into Focus) */}
         <div className="reveal-focus hiw-header-block">
           <h2 className="hiw-main-heading font-serif-bn">
-            {language === 'bn' ? (
-              <>কোন সমস্যার জন্য কোথায় ক্লিক করবেন?<br /><span className="text-gold-gradient">অঙ্কুর অ্যাপের পূর্ণাঙ্গ সচিত্র নির্দেশিকা</span></>
-            ) : (
-              <>Where to Click for Which Problem?<br /><span className="text-gold-gradient">Visual Feature Guide to Onkur App</span></>
-            )}
+            {language === 'bn' 
+              ? 'কোন সমস্যার জন্য কোথায় ক্লিক করবেন?' 
+              : 'Where to Click for Which Problem?'}
           </h2>
 
           <p className="hiw-sub-desc font-serif-bn">
