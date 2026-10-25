@@ -251,6 +251,22 @@ export default function Hero({ language, setActiveTab }) {
 
           {/* Right Controls */}
           <div className="footer-slide-controls">
+            {/* Scroll Down Prompt Button */}
+            <button 
+              type="button" 
+              onClick={() => {
+                const target = document.getElementById('how-it-works');
+                if (target) {
+                  target.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="btn-hero-scroll-prompt"
+              title={language === 'bn' ? 'নিচে সচিত্র গাইড দেখুন' : 'Scroll to explore guide'}
+            >
+              <span className="font-serif-bn text-xs">{language === 'bn' ? 'সচিত্র গাইড ও রূপকল্প' : 'Explore Guide'}</span>
+              <span className="scroll-arrow-anim text-xs font-bold text-champagne">↓</span>
+            </button>
+
             <div className="slide-arrow-pair">
               <button 
                 type="button" 

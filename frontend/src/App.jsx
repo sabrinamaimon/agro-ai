@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import HowItWorks from './components/HowItWorks';
+import OurVision from './components/OurVision';
 import VoiceIntake from './components/VoiceIntake';
 import LeafScanner from './components/LeafScanner';
 import AdvisoryPanel from './components/AdvisoryPanel';
@@ -213,10 +215,19 @@ export default function App() {
       <main className="main-layout">
         {/* Home Landing Page Hub */}
         {activeTab === 'home' && (
-          <Hero 
-            language={language} 
-            setActiveTab={setActiveTab} 
-          />
+          <>
+            <Hero 
+              language={language} 
+              setActiveTab={setActiveTab} 
+            />
+            <HowItWorks 
+              language={language}
+              setActiveTab={setActiveTab}
+            />
+            <OurVision 
+              language={language}
+            />
+          </>
         )}
 
         {/* AI Agro Prompt Chat & Voice Intake Tab (Merged) */}
