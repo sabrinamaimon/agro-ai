@@ -12,6 +12,7 @@ import AIChatPrompt from './components/AIChatPrompt';
 import CropPassport from './components/CropPassport';
 import GpsModal from './components/GpsModal';
 import Footer from './components/Footer';
+import { findNearestDistrict } from './data/bangladeshDistricts';
 import './App.css';
 
 export default function App() {
@@ -25,7 +26,25 @@ export default function App() {
   const [gpsLocation, setGpsLocation] = useState(() => {
     try {
       const saved = localStorage.getItem('agro_gps_location');
-      return saved ? JSON.parse(saved) : null;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Auto-sanitize legacy coordinate/placeholder string in areaName
+        if (parsed && parsed.areaName && (parsed.areaName.includes('জিপিএস') || parsed.areaName.includes('GPS') || parsed.areaName.includes('°'))) {
+          if (parsed.lat && parsed.lon) {
+            const nearest = findNearestDistrict(parsed.lat, parsed.lon);
+            parsed.areaName = `${nearest.nameBn} অঞ্চল`;
+            parsed.areaNameEn = `${nearest.nameEn} Hub`;
+            parsed.district = nearest.nameBn;
+            try {
+              localStorage.setItem('agro_gps_location', JSON.stringify(parsed));
+            } catch (e) {
+              console.warn('LocalStorage save error:', e);
+            }
+          }
+        }
+        return parsed;
+      }
+      return null;
     } catch (e) {
       return null;
     }

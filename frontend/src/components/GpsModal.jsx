@@ -78,10 +78,18 @@ export default function GpsModal({ isOpen, onClose, currentGps, onGpsDetected, l
         fetchWeatherAdvisory('GPS', language, latitude, longitude)
           .then((weather) => {
             if (weather && (weather.city || weather.upazila)) {
+              // Ensure we NEVER adopt raw coordinate strings or generic "জিপিএস" labels
+              const cityName = weather.city || '';
+              const isInvalid = !cityName || cityName.includes('জিপিএস') || cityName.includes('GPS') || cityName.includes('°');
+              const resolvedAreaName = !isInvalid ? cityName : instantAreaName;
+              const resolvedAreaNameEn = (weather.cityEn && !weather.cityEn.includes('°') && !weather.cityEn.includes('GPS')) 
+                ? weather.cityEn 
+                : instantAreaNameEn;
+
               const enrichedGps = {
                 ...initialGpsObj,
-                areaName: weather.city || instantAreaName,
-                areaNameEn: weather.cityEn || instantAreaNameEn,
+                areaName: resolvedAreaName,
+                areaNameEn: resolvedAreaNameEn,
                 union: weather.union || '',
                 upazila: weather.upazila || '',
                 district: weather.district || nearest.nameBn,

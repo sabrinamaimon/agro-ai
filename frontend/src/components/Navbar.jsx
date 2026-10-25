@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Home, Camera, CloudRain, TrendingUp, FileText, Calculator, MessageSquare, MapPin, X } from 'lucide-react';
 import onkurLogo from '../assets/onkur-logo.png';
+import { findNearestDistrict } from '../data/bangladeshDistricts';
 
 export default function Navbar({
   language,
@@ -22,9 +23,23 @@ export default function Navbar({
     { id: 'task5', labelBn: 'ডিজিটাল ক্রপ পাসপোর্ট', labelEn: 'Digital Crop Passport', icon: FileText }
   ];
 
-  const locationDisplay = gpsLocation
-    ? (gpsLocation.areaName || `${gpsLocation.lat?.toFixed(2)}°N, ${gpsLocation.lon?.toFixed(2)}°E`)
-    : (language === 'bn' ? 'মাঠের লোকেশন নির্বাচন' : 'Set Field Location');
+  const getLocationDisplay = (gps, lang) => {
+    if (!gps) return lang === 'bn' ? 'মাঠের লোকেশন নির্বাচন' : 'Set Field Location';
+    const name = gps.areaName || '';
+    if (name && !name.includes('জিপিএস') && !name.includes('GPS') && !name.includes('°')) {
+      return name;
+    }
+    if (gps.district && !gps.district.includes('°') && !gps.district.includes('জিপিএস')) {
+      return lang === 'bn' ? `${gps.district} অঞ্চল` : `${gps.district} Hub`;
+    }
+    if (gps.lat && gps.lon) {
+      const nearest = findNearestDistrict(gps.lat, gps.lon);
+      return lang === 'bn' ? `${nearest.nameBn} অঞ্চল` : `${nearest.nameEn} Hub`;
+    }
+    return lang === 'bn' ? 'মাঠের লোকেশন নির্বাচন' : 'Set Field Location';
+  };
+
+  const locationDisplay = getLocationDisplay(gpsLocation, language);
 
   const isHome = activeTab === 'home';
 

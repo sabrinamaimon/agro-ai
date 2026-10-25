@@ -40,14 +40,96 @@ def get_wmo_info(code: int, language: str = "bn") -> Dict[str, str]:
 
 _REVERSE_GEO_CACHE: Dict[str, Dict[str, str]] = {}
 
+BANGLADESH_DISTRICT_CENTROIDS = [
+    {"nameBn": "ঢাকা", "nameEn": "Dhaka", "lat": 23.8103, "lon": 90.4125},
+    {"nameBn": "গাজীপুর", "nameEn": "Gazipur", "lat": 24.0023, "lon": 90.4264},
+    {"nameBn": "নারায়ণগঞ্জ", "nameEn": "Narayanganj", "lat": 23.6238, "lon": 90.5000},
+    {"nameBn": "নরসিংদী", "nameEn": "Narsingdi", "lat": 23.9193, "lon": 90.7176},
+    {"nameBn": "টাঙ্গাইল", "nameEn": "Tangail", "lat": 24.2513, "lon": 89.9167},
+    {"nameBn": "কিশোরগঞ্জ", "nameEn": "Kishoreganj", "lat": 24.4449, "lon": 90.7766},
+    {"nameBn": "মানিকগঞ্জ", "nameEn": "Manikganj", "lat": 23.8644, "lon": 90.0047},
+    {"nameBn": "মুন্সীগঞ্জ", "nameEn": "Munshiganj", "lat": 23.5422, "lon": 90.5305},
+    {"nameBn": "ফরিদপুর", "nameEn": "Faridpur", "lat": 23.6071, "lon": 89.8429},
+    {"nameBn": "গোপালগঞ্জ", "nameEn": "Gopalganj", "lat": 23.0051, "lon": 89.8266},
+    {"nameBn": "মাদারীপুর", "nameEn": "Madaripur", "lat": 23.1641, "lon": 90.1897},
+    {"nameBn": "রাজবাড়ী", "nameEn": "Rajbari", "lat": 23.7574, "lon": 89.6445},
+    {"nameBn": "শরীয়তপুর", "nameEn": "Shariatpur", "lat": 23.2423, "lon": 90.4348},
+    {"nameBn": "চট্টগ্রাম", "nameEn": "Chattogram", "lat": 22.3569, "lon": 91.7832},
+    {"nameBn": "কক্সবাজার", "nameEn": "Cox's Bazar", "lat": 21.4272, "lon": 92.0058},
+    {"nameBn": "কুমিল্লা", "nameEn": "Cumilla", "lat": 23.4682, "lon": 91.1788},
+    {"nameBn": "ফেনী", "nameEn": "Feni", "lat": 23.0159, "lon": 91.3976},
+    {"nameBn": "ব্রাহ্মণবাড়িয়া", "nameEn": "Brahmanbaria", "lat": 23.9571, "lon": 91.1119},
+    {"nameBn": "নোয়াখালী", "nameEn": "Noakhali", "lat": 22.8696, "lon": 91.0994},
+    {"nameBn": "চাঁদপুর", "nameEn": "Chandpur", "lat": 23.2333, "lon": 90.6667},
+    {"nameBn": "লক্ষ্মীপুর", "nameEn": "Lakshmipur", "lat": 22.9425, "lon": 90.8412},
+    {"nameBn": "রাঙ্গামাটি", "nameEn": "Rangamati", "lat": 22.6533, "lon": 92.1753},
+    {"nameBn": "খাগড়াছড়ি", "nameEn": "Khagrachhari", "lat": 23.1193, "lon": 91.9847},
+    {"nameBn": "বান্দরবান", "nameEn": "Bandarban", "lat": 22.1953, "lon": 92.2184},
+    {"nameBn": "রাজশাহী", "nameEn": "Rajshahi", "lat": 24.3636, "lon": 88.6241},
+    {"nameBn": "বগুড়া", "nameEn": "Bogura", "lat": 24.8465, "lon": 89.3777},
+    {"nameBn": "পাবনা", "nameEn": "Pabna", "lat": 24.0064, "lon": 89.2372},
+    {"nameBn": "সিরাজগঞ্জ", "nameEn": "Sirajganj", "lat": 24.4534, "lon": 89.7008},
+    {"nameBn": "নওগাঁ", "nameEn": "Naogaon", "lat": 24.7936, "lon": 88.9318},
+    {"nameBn": "নাটোর", "nameEn": "Natore", "lat": 24.4206, "lon": 89.0003},
+    {"nameBn": "চাঁপাইনবাবগঞ্জ", "nameEn": "Chapainawabganj", "lat": 24.5965, "lon": 88.2775},
+    {"nameBn": "জয়পুরহাট", "nameEn": "Joypurhat", "lat": 25.1015, "lon": 89.0277},
+    {"nameBn": "রংপুর", "nameEn": "Rangpur", "lat": 25.7439, "lon": 89.2752},
+    {"nameBn": "দিনাজপুর", "nameEn": "Dinajpur", "lat": 25.6279, "lon": 88.6332},
+    {"nameBn": "কুড়িগ্রাম", "nameEn": "Kurigram", "lat": 25.8054, "lon": 89.6362},
+    {"nameBn": "গাইবান্ধা", "nameEn": "Gaibandha", "lat": 25.3288, "lon": 89.5430},
+    {"nameBn": "নীলফামারী", "nameEn": "Nilphamari", "lat": 25.9318, "lon": 88.8560},
+    {"nameBn": "লালমনিরহাট", "nameEn": "Lalmonirhat", "lat": 25.9923, "lon": 89.2847},
+    {"nameBn": "ঠাকুরগাঁও", "nameEn": "Thakurgaon", "lat": 26.0337, "lon": 88.4617},
+    {"nameBn": "পঞ্চগড়", "nameEn": "Panchagarh", "lat": 26.3411, "lon": 88.5542},
+    {"nameBn": "খুলনা", "nameEn": "Khulna", "lat": 22.8456, "lon": 89.5403},
+    {"nameBn": "যশোর", "nameEn": "Jashore", "lat": 23.1664, "lon": 89.2081},
+    {"nameBn": "সাতক্ষীরা", "nameEn": "Satkhira", "lat": 22.7185, "lon": 89.0705},
+    {"nameBn": "ঝিনাইদহ", "nameEn": "Jhenaidah", "lat": 23.5448, "lon": 89.1539},
+    {"nameBn": "মাগুরা", "nameEn": "Magura", "lat": 23.4873, "lon": 89.4199},
+    {"nameBn": "নড়াইল", "nameEn": "Narail", "lat": 23.1725, "lon": 89.5127},
+    {"nameBn": "বাগেরহাট", "nameEn": "Bagerhat", "lat": 22.6516, "lon": 89.7859},
+    {"nameBn": "কুষ্টিয়া", "nameEn": "Kushtia", "lat": 23.9013, "lon": 89.1205},
+    {"nameBn": "চুয়াডাঙ্গা", "nameEn": "Chuadanga", "lat": 23.6402, "lon": 88.8418},
+    {"nameBn": "মেহেরপুর", "nameEn": "Meherpur", "lat": 23.7622, "lon": 88.6318},
+    {"nameBn": "বরিশাল", "nameEn": "Barishal", "lat": 22.7010, "lon": 90.3535},
+    {"nameBn": "ভোলা", "nameEn": "Bhola", "lat": 22.6859, "lon": 90.6481},
+    {"nameBn": "পটুয়াখালী", "nameEn": "Patuakhali", "lat": 22.3596, "lon": 90.3299},
+    {"nameBn": "পিরোজপুর", "nameEn": "Pirojpur", "lat": 22.5841, "lon": 89.9720},
+    {"nameBn": "বরগুনা", "nameEn": "Barguna", "lat": 22.0953, "lon": 90.1121},
+    {"nameBn": "ঝালকাঠি", "nameEn": "Jhalokati", "lat": 22.6406, "lon": 90.1987},
+    {"nameBn": "সিলেট", "nameEn": "Sylhet", "lat": 24.8949, "lon": 91.8687},
+    {"nameBn": "মৌলভীবাজার", "nameEn": "Moulvibazar", "lat": 24.4829, "lon": 91.7774},
+    {"nameBn": "হবিগঞ্জ", "nameEn": "Habiganj", "lat": 24.3749, "lon": 91.4155},
+    {"nameBn": "সুনামগঞ্জ", "nameEn": "Sunamganj", "lat": 25.0658, "lon": 91.3950},
+    {"nameBn": "ময়মনসিংহ", "nameEn": "Mymensingh", "lat": 24.7471, "lon": 90.4203},
+    {"nameBn": "জামালপুর", "nameEn": "Jamalpur", "lat": 24.9375, "lon": 89.9378},
+    {"nameBn": "নেত্রকোণা", "nameEn": "Netrokona", "lat": 24.8709, "lon": 90.7279},
+    {"nameBn": "শেরপুর", "nameEn": "Sherpur", "lat": 25.0205, "lon": 90.0153}
+]
+
+def find_nearest_bd_district(lat: float, lon: float) -> Dict[str, Any]:
+    closest = BANGLADESH_DISTRICT_CENTROIDS[0]
+    min_dist_sq = float("inf")
+    for d in BANGLADESH_DISTRICT_CENTROIDS:
+        dist_sq = (d["lat"] - lat) ** 2 + (d["lon"] - lon) ** 2
+        if dist_sq < min_dist_sq:
+            min_dist_sq = dist_sq
+            closest = d
+    return closest
+
 def get_hyperlocal_address(lat: float, lon: float, language: str = "bn") -> Dict[str, str]:
     """
     Resolve exact micro-location (Union / Village / Upazila / District) from GPS coordinates
     using BigDataCloud fast geocoding with Nominatim fallback and in-memory caching.
+    Guarantees human-readable place names and NEVER returns raw coordinate strings.
     """
     cache_key = f"{round(lat, 3)}_{round(lon, 3)}_{language}"
     if cache_key in _REVERSE_GEO_CACHE:
         return _REVERSE_GEO_CACHE[cache_key]
+
+    nearest_fallback = find_nearest_bd_district(lat, lon)
+    fallback_name = f"{nearest_fallback['nameBn']} অঞ্চল" if language == "bn" else f"{nearest_fallback['nameEn']} Hub"
+    fallback_name_en = f"{nearest_fallback['nameEn']} Hub"
 
     # 1. Primary: BigDataCloud fast client API (<200ms, no rate limit)
     try:
@@ -76,15 +158,24 @@ def get_hyperlocal_address(lat: float, lon: float, language: str = "bn") -> Dict
             if not district:
                 district = data.get("principalSubdivision") or ""
 
-            parts = [p for p in [union, upazila, district] if p]
+            # Deduplicate items
+            raw_parts = [union, upazila, district]
+            seen = set()
+            parts = []
+            for p in raw_parts:
+                p_clean = p.strip()
+                if p_clean and p_clean not in seen and "বাংলাদেশ" not in p_clean:
+                    seen.add(p_clean)
+                    parts.append(p_clean)
+
             if parts:
                 full_name = ", ".join(parts)
                 res_obj = {
                     "name": full_name,
                     "nameEn": full_name,
                     "union": union,
-                    "upazila": upazila,
-                    "district": district
+                    "upazila": upazila or nearest_fallback["nameBn"],
+                    "district": district or nearest_fallback["nameBn"]
                 }
                 _REVERSE_GEO_CACHE[cache_key] = res_obj
                 return res_obj
@@ -100,35 +191,50 @@ def get_hyperlocal_address(lat: float, lon: float, language: str = "bn") -> Dict
             data = res.json()
             addr = data.get("address", {})
             local_unit = (
-                addr.get("village") or 
                 addr.get("suburb") or 
+                addr.get("quarter") or 
+                addr.get("village") or 
                 addr.get("neighbourhood") or 
                 addr.get("city_district") or 
-                addr.get("city") or 
                 addr.get("town") or 
+                addr.get("city") or 
                 ""
             )
-            upazila = addr.get("county") or ""
+            upazila = addr.get("county") or addr.get("city") or ""
             district = addr.get("state_district") or addr.get("state") or ""
 
-            parts = [p for p in [local_unit, upazila, district] if p]
+            raw_parts = [local_unit, upazila, district]
+            seen = set()
+            parts = []
+            for p in raw_parts:
+                p_clean = p.strip()
+                if p_clean and p_clean not in seen and "বাংলাদেশ" not in p_clean:
+                    seen.add(p_clean)
+                    parts.append(p_clean)
+
             if parts:
                 name = ", ".join(parts)
                 res_obj = {
                     "name": name, 
                     "nameEn": name,
                     "union": local_unit,
-                    "upazila": upazila,
-                    "district": district
+                    "upazila": upazila or nearest_fallback["nameBn"],
+                    "district": district or nearest_fallback["nameBn"]
                 }
                 _REVERSE_GEO_CACHE[cache_key] = res_obj
                 return res_obj
     except Exception as e:
         logger.warning(f"Nominatim reverse geocoding error: {e}")
 
-    coord_str = f"{round(lat, 4)}° N, {round(lon, 4)}° E"
-    fallback_name = f"মাঠ জিপিএস ({coord_str})" if language == "bn" else f"Field GPS ({coord_str})"
-    fallback_obj = {"name": fallback_name, "nameEn": f"Field GPS ({coord_str})", "union": "", "upazila": "", "district": ""}
+    # 3. Deterministic Geometrical Fallback to Nearest Bangladesh District
+    fallback_obj = {
+        "name": fallback_name,
+        "nameEn": fallback_name_en,
+        "union": "",
+        "upazila": nearest_fallback["nameBn"],
+        "district": nearest_fallback["nameBn"]
+    }
+    _REVERSE_GEO_CACHE[cache_key] = fallback_obj
     return fallback_obj
 
 def get_location_coords(

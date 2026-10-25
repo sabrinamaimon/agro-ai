@@ -8,7 +8,9 @@ const api = axios.create({
 });
 
 export const processVoiceIntake = async (transcript, language = 'bn', gpsLocation = null) => {
-  const gps_location = gpsLocation?.areaName || (gpsLocation ? `${gpsLocation.lat?.toFixed(4)}° N, ${gpsLocation.lon?.toFixed(4)}° E` : null);
+  const gps_location = (gpsLocation?.areaName && !gpsLocation.areaName.includes('°'))
+    ? gpsLocation.areaName
+    : (gpsLocation?.district ? `${gpsLocation.district} অঞ্চল` : (gpsLocation ? 'বাংলাদেশ' : null));
   const response = await api.post('/api/intake-voice', { 
     transcript, 
     language,

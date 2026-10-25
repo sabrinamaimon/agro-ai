@@ -21,6 +21,7 @@ import {
   Navigation
 } from 'lucide-react';
 import { fetchWeatherAdvisory } from '../services/api';
+import { findNearestDistrict } from '../data/bangladeshDistricts';
 
 export default function AdvisoryPanel({ 
   language, 
@@ -61,9 +62,22 @@ export default function AdvisoryPanel({
     loadWeather();
   }, [gpsLocation, language]);
 
-  const locationDisplay = gpsLocation?.areaName 
-    ? gpsLocation.areaName
-    : (weatherData?.city || activeGps.areaName);
+  const locationDisplay = (() => {
+    const raw = gpsLocation?.areaName || weatherData?.city;
+    if (raw && !raw.includes('জিপিএস') && !raw.includes('GPS') && !raw.includes('°')) {
+      return raw;
+    }
+    if (gpsLocation?.district && !gpsLocation.district.includes('°')) {
+      return language === 'bn' ? `${gpsLocation.district} অঞ্চল` : `${gpsLocation.district} Hub`;
+    }
+    const lat = gpsLocation?.lat || weatherData?.lat || activeGps.lat;
+    const lon = gpsLocation?.lon || weatherData?.lon || activeGps.lon;
+    if (lat && lon) {
+      const nearest = findNearestDistrict(lat, lon);
+      return language === 'bn' ? `${nearest.nameBn} অঞ্চল` : `${nearest.nameEn} Hub`;
+    }
+    return activeGps.areaName;
+  })();
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -229,7 +243,7 @@ export default function AdvisoryPanel({
                 {language === 'bn' ? 'বর্তমান অবস্থান:' : 'Current Location:'}
               </span>
               <strong className="badge-coords">
-                {weatherData.lat?.toFixed(4)}° N, {weatherData.lon?.toFixed(4)}° E
+                {locationDisplay}
               </strong>
             </div>
             <span className="badge-subtext">
