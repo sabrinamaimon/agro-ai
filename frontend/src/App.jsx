@@ -15,12 +15,126 @@ import Footer from './components/Footer';
 import { findNearestDistrict } from './data/bangladeshDistricts';
 import './App.css';
 
+const VALID_TABS = ['home', 'aichat', 'task1', 'task2', 'task3', 'task4', 'fertilizer', 'task5'];
+
+function getTabFromUrl() {
+  if (typeof window === 'undefined') return 'home';
+
+  // 1. Check query parameter ?tab=...
+  const params = new URLSearchParams(window.location.search);
+  const paramTab = params.get('tab');
+  if (paramTab && VALID_TABS.includes(paramTab)) {
+    return paramTab === 'task1' ? 'aichat' : paramTab;
+  }
+
+  // 2. Check hash #...
+  const hash = window.location.hash.replace('#', '').trim();
+  if (hash && VALID_TABS.includes(hash)) {
+    return hash === 'task1' ? 'aichat' : hash;
+  }
+
+  // 3. Check pathname
+  const path = window.location.pathname.replace(/^\/+|\/+$/g, '').trim();
+  if (path) {
+    if (VALID_TABS.includes(path)) {
+      return path === 'task1' ? 'aichat' : path;
+    }
+    if (path === 'ai-chat' || path === 'chat' || path === 'voice') return 'aichat';
+    if (path === 'scanner' || path === 'disease' || path === 'leaf') return 'task2';
+    if (path === 'weather' || path === 'advisory' || path === 'spray') return 'task3';
+    if (path === 'price' || path === 'market') return 'task4';
+    if (path === 'crop-passport' || path === 'passport') return 'task5';
+  }
+
+  return 'home';
+}
+
+function getUrlForTab(tab) {
+  if (typeof window === 'undefined') return '/';
+  const url = new URL(window.location.href);
+  if (!tab || tab === 'home') {
+    url.searchParams.delete('tab');
+    const search = url.searchParams.toString();
+    return `${url.pathname}${search ? '?' + search : ''}`;
+  }
+  url.searchParams.set('tab', tab);
+  return `${url.pathname}?${url.searchParams.toString()}`;
+}
+
 export default function App() {
   const [language, setLanguage] = useState('bn'); // Default: Bengali ('bn' or 'en')
-  const [activeTab, setActiveTab] = useState('home'); // Default: 'home'
+  const [activeTab, setActiveTabState] = useState(() => getTabFromUrl());
   const [intakeData, setIntakeData] = useState(null);
   const [diagnosisData, setDiagnosisData] = useState(null);
   const [priceData, setPriceData] = useState(null);
+
+  // Synchronized Tab Navigation with Browser History (HTML5 pushState & popstate)
+  const navigateToTab = (tabOrUpdater, options = {}) => {
+    setActiveTabState((currentTab) => {
+      const rawTab = typeof tabOrUpdater === 'function' ? tabOrUpdater(currentTab) : tabOrUpdater;
+      const targetTab = rawTab === 'task1' ? 'aichat' : rawTab;
+
+      if (!VALID_TABS.includes(targetTab)) return currentTab;
+      if (targetTab === currentTab && !options.force) return currentTab;
+
+      if (typeof window !== 'undefined') {
+        const currentIndex = typeof window.history.state?.index === 'number' ? window.history.state.index : 0;
+        const nextIndex = options.replace ? currentIndex : currentIndex + 1;
+        const newUrl = getUrlForTab(targetTab);
+        const historyState = { tab: targetTab, index: nextIndex };
+
+        try {
+          if (options.replace) {
+            window.history.replaceState(historyState, '', newUrl);
+          } else {
+            window.history.pushState(historyState, '', newUrl);
+          }
+        } catch (e) {
+          console.warn('History pushState error:', e);
+        }
+
+        if (options.scrollToTop !== false) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      return targetTab;
+    });
+  };
+
+  const setActiveTab = navigateToTab;
+
+  // Sync initial history state and listen for Browser Back & Forward buttons
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const initialTab = getTabFromUrl();
+    const currentState = window.history.state;
+    const currentIndex = typeof currentState?.index === 'number' ? currentState.index : 0;
+
+    try {
+      window.history.replaceState(
+        { tab: initialTab, index: currentIndex },
+        '',
+        getUrlForTab(initialTab)
+      );
+    } catch (e) {
+      console.warn('History replaceState error:', e);
+    }
+
+    if (initialTab !== activeTab) {
+      setActiveTabState(initialTab);
+    }
+
+    const handlePopState = (event) => {
+      const poppedTab = event.state?.tab || getTabFromUrl() || 'home';
+      setActiveTabState(poppedTab);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Persistent Hyperlocal GPS Location (saved in browser localStorage)
   const [gpsLocation, setGpsLocation] = useState(() => {

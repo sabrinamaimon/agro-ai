@@ -43,6 +43,19 @@ export default function Navbar({
 
   const isHome = activeTab === 'home';
 
+  const canGoBack = typeof window !== 'undefined' && 
+    window.history.state && 
+    typeof window.history.state.index === 'number' && 
+    window.history.state.index > 0;
+
+  const handleNavBack = () => {
+    if (canGoBack) {
+      window.history.back();
+    } else {
+      setActiveTab('home');
+    }
+  };
+
   // Render Navigation Header + Unified Drawer (Always accessible across Home & inner tabs)
   return (
     <>
@@ -53,11 +66,17 @@ export default function Navbar({
               <button
                 type="button"
                 className="navbar-back-btn font-serif-bn"
-                onClick={() => setActiveTab('home')}
-                title={language === 'bn' ? 'হোমে ফিরে যান' : 'Back to Home'}
+                onClick={handleNavBack}
+                title={canGoBack 
+                  ? (language === 'bn' ? 'পূর্ববর্তী পাতায় ফিরে যান' : 'Go back to previous page')
+                  : (language === 'bn' ? 'হোমে ফিরে যান' : 'Back to Home')}
               >
                 <ArrowLeft size={16} />
-                <span className="navbar-back-label">{language === 'bn' ? 'হোম' : 'Home'}</span>
+                <span className="navbar-back-label">
+                  {canGoBack 
+                    ? (language === 'bn' ? 'পেছনে' : 'Back') 
+                    : (language === 'bn' ? 'হোম' : 'Home')}
+                </span>
               </button>
 
               <div 
