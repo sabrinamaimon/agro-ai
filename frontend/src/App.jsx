@@ -11,7 +11,6 @@ import FertilizerCalculator from './components/FertilizerCalculator';
 import AIChatPrompt from './components/AIChatPrompt';
 import CropPassport from './components/CropPassport';
 import GpsModal from './components/GpsModal';
-import SubpageShell from './components/SubpageShell';
 import Footer from './components/Footer';
 import { findNearestDistrict } from './data/bangladeshDistricts';
 import './App.css';
@@ -220,7 +219,7 @@ export default function App() {
   };
 
   return (
-    <div className={`app-container ${activeTab === 'home' ? 'app-container-home' : 'app-container-subpage'}`}>
+    <div className={`app-container ${activeTab === 'home' ? 'app-container-home' : ''}`}>
       {/* Header & Navbar Tabs */}
       <Navbar 
         language={language} 
@@ -252,73 +251,61 @@ export default function App() {
 
         {/* AI Agro Prompt Chat & Voice Intake Tab (Merged) */}
         {(activeTab === 'aichat' || activeTab === 'task1') && (
-          <SubpageShell activeTab={activeTab} language={language} setActiveTab={setActiveTab}>
-            <AIChatPrompt 
-              language={language} 
-              gpsLocation={gpsLocation}
-              onIntakeComplete={(data) => setIntakeData(data)}
-            />
-          </SubpageShell>
+          <AIChatPrompt 
+            language={language} 
+            gpsLocation={gpsLocation}
+            onIntakeComplete={(data) => setIntakeData(data)}
+          />
         )}
 
         {/* Task 2: Leaf Scanner Tab */}
         {activeTab === 'task2' && (
-          <SubpageShell activeTab={activeTab} language={language} setActiveTab={setActiveTab}>
-            <LeafScanner 
-              language={language} 
-              intakeCrop={intakeData?.crop_type}
-              intakeUnion={gpsLocation?.areaName || intakeData?.geographic_union}
-              onDiagnosisComplete={(data) => setDiagnosisData(data)} 
-            />
-          </SubpageShell>
+          <LeafScanner 
+            language={language} 
+            intakeCrop={intakeData?.crop_type}
+            intakeUnion={gpsLocation?.areaName || intakeData?.geographic_union}
+            onDiagnosisComplete={(data) => setDiagnosisData(data)} 
+          />
         )}
 
         {/* Task 3: Weather & Advisory Tab */}
         {activeTab === 'task3' && (
-          <SubpageShell activeTab={activeTab} language={language} setActiveTab={setActiveTab}>
-            <AdvisoryPanel 
-              language={language} 
-              diagnosis={diagnosisData} 
-              gpsLocation={gpsLocation}
-              onOpenGpsModal={() => setShowGpsModal(true)}
-              setActiveTab={setActiveTab}
-            />
-          </SubpageShell>
+          <AdvisoryPanel 
+            language={language} 
+            diagnosis={diagnosisData} 
+            gpsLocation={gpsLocation}
+            onOpenGpsModal={() => setShowGpsModal(true)}
+            setActiveTab={setActiveTab}
+          />
         )}
 
         {/* Task 4: Market Price Checker Tab */}
         {activeTab === 'task4' && (
-          <SubpageShell activeTab={activeTab} language={language} setActiveTab={setActiveTab}>
-            <PriceChecker 
-              language={language} 
-              cropType={diagnosisData?.cropType || intakeData?.crop_type} 
-              onPriceCheckComplete={(data) => setPriceData(data)} 
-            />
-          </SubpageShell>
+          <PriceChecker 
+            language={language} 
+            cropType={diagnosisData?.cropType || intakeData?.crop_type} 
+            onPriceCheckComplete={(data) => setPriceData(data)} 
+          />
         )}
 
         {/* Fertilizer Calculator Tab */}
         {activeTab === 'fertilizer' && (
-          <SubpageShell activeTab={activeTab} language={language} setActiveTab={setActiveTab}>
-            <FertilizerCalculator 
-              language={language} 
-            />
-          </SubpageShell>
+          <FertilizerCalculator 
+            language={language} 
+          />
         )}
 
         {/* Task 5: Digital Crop Passport Tab */}
         {activeTab === 'task5' && (
-          <SubpageShell activeTab={activeTab} language={language} setActiveTab={setActiveTab}>
-            <CropPassport 
-              language={language} 
-              intake={intakeData} 
-              diagnosis={diagnosisData} 
-              price={priceData} 
-              gpsLocation={gpsLocation}
-              setActiveTab={setActiveTab}
-              onLoadDemo={handleLoadDemoScenario}
-            />
-          </SubpageShell>
+          <CropPassport 
+            language={language} 
+            intake={intakeData} 
+            diagnosis={diagnosisData} 
+            price={priceData} 
+            gpsLocation={gpsLocation}
+            setActiveTab={setActiveTab}
+            onLoadDemo={handleLoadDemoScenario}
+          />
         )}
       </main>
 
