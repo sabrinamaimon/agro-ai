@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CloudSun } from 'lucide-react';
+import { CloudSun, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
 import howItWorksBg from '../assets/how-it-works-bg.png';
 
 export default function HowItWorks({ language = 'bn', setActiveTab }) {
@@ -620,6 +620,56 @@ export default function HowItWorks({ language = 'bn', setActiveTab }) {
             </div>
 
           </div>
+        </div>
+
+        {/* Navigation Controls: Arrows, Dots, Play/Pause */}
+        <div className="reveal-focus hiw-controls-row">
+          <button 
+            type="button" 
+            className="btn-hiw-nav" 
+            onClick={prevStep}
+            aria-label="Previous Feature"
+            title={language === 'bn' ? 'পূর্ববর্তী ফিচার' : 'Previous Feature'}
+          >
+            <ChevronLeft size={18} />
+          </button>
+
+          <div className="hiw-indicators-group">
+            {stepDescriptions.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                className={`hiw-dot-indicator ${idx === currentStep ? 'active' : ''}`}
+                onClick={() => goToStep(idx)}
+                aria-label={`Go to feature ${idx + 1}`}
+                title={language === 'bn' ? `ফিচার ০${idx + 1}` : `Feature 0${idx + 1}`}
+              />
+            ))}
+          </div>
+
+          <button 
+            type="button" 
+            className="btn-hiw-nav" 
+            onClick={nextStep}
+            aria-label="Next Feature"
+            title={language === 'bn' ? 'পরবর্তী ফিচার' : 'Next Feature'}
+          >
+            <ChevronRight size={18} />
+          </button>
+
+          <button 
+            type="button" 
+            className="btn-hiw-auto-toggle font-mono"
+            onClick={toggleAutoSlide}
+            title={isAutoSlideActive ? (language === 'bn' ? 'স্লাইড থামান' : 'Pause Slide') : (language === 'bn' ? 'স্লাইড চালু করুন' : 'Auto Play')}
+          >
+            {isAutoSlideActive ? <Pause size={13} /> : <Play size={13} />}
+            <span className="font-serif-bn text-xs">
+              {isAutoSlideActive 
+                ? (language === 'bn' ? 'স্বয়ংক্রিয়' : 'Auto') 
+                : (language === 'bn' ? 'স্থির' : 'Paused')}
+            </span>
+          </button>
         </div>
 
         {/* Active Step Detail Caption Underneath Stage */}

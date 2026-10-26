@@ -30,11 +30,46 @@ export default function OurVision({ language = 'bn' }) {
       ref={sectionRef} 
       className="our-vision-section"
     >
-      {/* Standalone Section Header above the whole card (no box) */}
+      {/* Grand Typographic Vision Centerpiece (Inspired by Bengali Literary Poster Art) */}
       <div className="reveal-focus our-vision-section-header">
-        <h3 className={`our-vision-standalone-title ${language === 'bn' ? 'our-vision-title-bn font-serif-bn' : 'font-cinzel'}`}>
-          {language === 'bn' ? 'আমাদের ভিশন' : 'OUR VISION'}
-        </h3>
+        <div className="vision-artistic-header-wrap">
+          {/* Luminous Golden Sun Backdrop with Silhouette Birds */}
+          <div className="vision-sun-backdrop" aria-hidden="true">
+            <div className="vision-sun-disk" />
+            <svg 
+              className="vision-birds-svg" 
+              viewBox="0 0 180 130" 
+              fill="currentColor"
+            >
+              {/* Bird 1: Top right soaring high */}
+              <path d="M140 18 C150 11, 158 15, 164 13 C159 18, 154 23, 152 30 C149 25, 145 22, 140 18 Z M152 30 C157 28, 162 26, 167 22 C162 27, 157 32, 153 37 C152 34, 152 32, 152 30 Z" />
+              {/* Bird 2: Center right */}
+              <path d="M118 38 C127 32, 134 36, 139 34 C136 39, 131 43, 129 49 C126 45, 122 42, 118 38 Z M129 49 C133 48, 137 46, 141 43 C137 47, 133 51, 130 55 C129 53, 129 51, 129 49 Z" />
+              {/* Bird 3: Middle rising */}
+              <path d="M96 56 C103 51, 109 54, 113 52 C111 56, 107 59, 105 64 C103 61, 99 59, 96 56 Z" />
+              {/* Bird 4: Smaller distant */}
+              <path d="M115 72 C120 68, 124 70, 127 69 C125 72, 122 75, 120 78 C119 76, 117 74, 115 72 Z" />
+            </svg>
+          </div>
+
+          {/* Large Expressive Typography */}
+          <h2 className={`our-vision-standalone-title ${language === 'bn' ? 'our-vision-title-bn font-artistic-bn' : 'font-cinzel'}`}>
+            {language === 'bn' ? (
+              <span className="vision-calligraphy-title">
+                <span className="vision-calligraphy-word">আমাদের</span>
+                <span className="vision-calligraphy-word">ভিশন</span>
+              </span>
+            ) : (
+              <span className="vision-calligraphy-title en">OUR VISION</span>
+            )}
+          </h2>
+        </div>
+        
+        <p className="vision-tagline font-serif-bn">
+          {language === 'bn' 
+            ? 'মাটি ও মানুষের সার্বভৌম মেলবন্ধনে সমৃদ্ধ ভবিষ্যৎ' 
+            : 'Sovereign Agricultural Intelligence for Soil and Delta Farmers'}
+        </p>
         <div className="our-vision-title-accent" />
       </div>
 

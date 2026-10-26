@@ -196,42 +196,29 @@ export default function Hero({ language, setActiveTab }) {
         {/* Right Corner: Architectural Crop Focus Stamp & Controls */}
         <div className="hero-stage-right-stamp">
           <div className="corner-crop-chip">
-            <div className="corner-crop-title font-serif-bn">
-              {language === 'bn' ? activeCrop.nameBn : activeCrop.nameEn} • {language === 'bn' ? activeCrop.accuracyBn : activeCrop.accuracyEn}
-            </div>
-            <div className="corner-crop-pathology">
-              {language === 'bn' ? activeCrop.diseaseBn : activeCrop.diseaseEn}
-            </div>
-          </div>
-
-          {/* Floating Slide Navigation Controls */}
-          <div className="hero-crop-nav-row">
             <button 
               type="button" 
               onClick={prevSlide} 
-              className="btn-crop-slide" 
+              className="corner-chip-arrow prev" 
               aria-label="Previous Crop"
               title={language === 'bn' ? 'পূর্ববর্তী ফসল' : 'Previous Crop'}
             >
               <ChevronLeft size={16} />
             </button>
-            
-            <div className="hero-crop-dots">
-              {cropsData.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setCurrentSlide(idx)}
-                  className={`crop-nav-dot ${idx === currentSlide ? 'active' : ''}`}
-                  aria-label={`Slide ${idx + 1}`}
-                />
-              ))}
+
+            <div className="corner-chip-content">
+              <div className="corner-crop-title font-serif-bn">
+                {language === 'bn' ? activeCrop.nameBn : activeCrop.nameEn} • {language === 'bn' ? activeCrop.accuracyBn : activeCrop.accuracyEn}
+              </div>
+              <div className="corner-crop-pathology">
+                {language === 'bn' ? activeCrop.diseaseBn : activeCrop.diseaseEn}
+              </div>
             </div>
 
             <button 
               type="button" 
               onClick={nextSlide} 
-              className="btn-crop-slide" 
+              className="corner-chip-arrow next" 
               aria-label="Next Crop"
               title={language === 'bn' ? 'পরবর্তী ফসল' : 'Next Crop'}
             >
