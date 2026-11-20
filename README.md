@@ -5,6 +5,7 @@
 > Combines conversational Bengali symptom intake, OpenCV-driven leaf pathology segmentation, localized weather-gated spray safety windows, middleman syndicate price alerts, and verifiable QR-coded Digital Crop Passports.
 
 [![Live Web App](https://img.shields.io/badge/Live%20Demo-Vercel-emerald?style=for-the-badge&logo=vercel)](https://agro-ai-sooty.vercel.app)
+[![Video Pitch Demo](https://img.shields.io/badge/YouTube-Video%20Demo-FF0000?style=for-the-badge&logo=youtube)](https://youtu.be/3Jpmkqd7Ddc)
 [![Backend API](https://img.shields.io/badge/Backend%20API-Render-46E3B7?style=for-the-badge&logo=render)](https://agro-ai-backend-5uto.onrender.com)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python)](https://python.org)
