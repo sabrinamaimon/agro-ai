@@ -221,7 +221,7 @@ npm run dev
 
 ## 👥 Team Gray Metrics
 
-* **Sabrina Maimon Mihiya** — *Team Lead*
+* **Sabrina Maimon Mihiya** — *Team Lead, Product Architect & Frontend Engineer*
 * **Md. Shifat Reza** — *AI Systems & Full-Stack Engineer*
 * **Muntakim Fuad Mahi** — *Agronomic Logic & Research*
 * **Sadia Binte Alam** — *UI/UX & Product Design*
